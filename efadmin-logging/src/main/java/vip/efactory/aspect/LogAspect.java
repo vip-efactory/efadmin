@@ -9,12 +9,14 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import vip.efactory.entity.Log;
+import vip.efactory.entity.SysLog;
 import vip.efactory.service.LogService;
 import vip.efactory.utils.RequestHolder;
 import vip.efactory.utils.SecurityUtils;
 import vip.efactory.utils.StringUtils;
 import vip.efactory.utils.ThrowableUtil;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Description: 日志注解的实现
@@ -27,10 +29,13 @@ import vip.efactory.utils.ThrowableUtil;
 @Slf4j
 public class LogAspect {
 
-    @Autowired
-    private LogService logService;
+    private final LogService logService;
 
-    private long currentTime = 0L;
+    ThreadLocal<Long> currentTime = new ThreadLocal<>();
+
+    public LogAspect(LogService logService) {
+        this.logService = logService;
+    }
 
     /**
      * 配置切入点
@@ -47,11 +52,13 @@ public class LogAspect {
      */
     @Around("logPointcut()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
-        Object result = null;
-        currentTime = System.currentTimeMillis();
+        Object result;
+        currentTime.set(System.currentTimeMillis());
         result = joinPoint.proceed();
-        Log log = new Log("INFO", System.currentTimeMillis() - currentTime);
-        logService.save(getUsername(), StringUtils.getIP(RequestHolder.getHttpServletRequest()), joinPoint, log);
+        SysLog log = new SysLog("INFO",System.currentTimeMillis() - currentTime.get());
+        currentTime.remove();
+        HttpServletRequest request = RequestHolder.getHttpServletRequest();
+        logService.save(getUsername(), StringUtils.getBrowser(request), StringUtils.getIp(request),joinPoint, log);
         return result;
     }
 
@@ -63,15 +70,17 @@ public class LogAspect {
      */
     @AfterThrowing(pointcut = "logPointcut()", throwing = "e")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
-        Log log = new Log("ERROR", System.currentTimeMillis() - currentTime);
+        SysLog log = new SysLog("ERROR",System.currentTimeMillis() - currentTime.get());
+        currentTime.remove();
         log.setExceptionDetail(ThrowableUtil.getStackTrace(e).getBytes());
-        logService.save(getUsername(), StringUtils.getIP(RequestHolder.getHttpServletRequest()), (ProceedingJoinPoint) joinPoint, log);
+        HttpServletRequest request = RequestHolder.getHttpServletRequest();
+        logService.save(getUsername(), StringUtils.getBrowser(request), StringUtils.getIp(request), (ProceedingJoinPoint)joinPoint, log);
     }
 
     public String getUsername() {
         try {
             return SecurityUtils.getUsername();
-        } catch (Exception e) {
+        }catch (Exception e){
             return "";
         }
     }

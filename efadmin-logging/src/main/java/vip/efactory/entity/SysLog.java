@@ -2,12 +2,14 @@ package vip.efactory.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 import vip.efactory.ejpa.base.valid.Update;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * Description: 日志记录表
@@ -19,7 +21,7 @@ import java.io.Serializable;
 @Data
 @Table(name = "sys_log")
 @NoArgsConstructor
-public class Log extends BaseEntity<Long> implements Serializable {
+public class SysLog extends BaseEntity<Long> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,18 +61,26 @@ public class Log extends BaseEntity<Long> implements Serializable {
     @Column(name = "request_ip")
     private String requestIp;
 
-    /**
-     * 请求耗时
-     */
+    /** 地址 */
+    @Column(name = "address")
+    private String address;
+
+    /** 浏览器  */
+    private String browser;
+
+    /** 请求耗时 */
     private Long time;
 
-    /**
-     * 异常详细
-     */
+    /** 异常详细  */
     @Column(name = "exception_detail", columnDefinition = "text")
     private byte[] exceptionDetail;
 
-    public Log(String logType, Long time) {
+    /** 创建日期 */
+    @CreationTimestamp
+    @Column(name = "create_time")
+    private Timestamp createTime;
+
+    public SysLog(String logType, Long time) {
         this.logType = logType;
         this.time = time;
     }

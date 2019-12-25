@@ -2,6 +2,8 @@ package vip.efactory.service.dto;
 
 import lombok.Data;
 import vip.efactory.annotation.Query;
+import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * 日志查询类
@@ -9,12 +11,12 @@ import vip.efactory.annotation.Query;
 @Data
 public class LogQueryCriteria {
 
-    @Query(type = Query.Type.INNER_LIKE)
-    private String username;
+    @Query(blurry = "username,description,address,requestIp,method,params")
+    private String blurry;
 
     @Query
     private String logType;
 
-    @Query(type = Query.Type.INNER_LIKE)
-    private String description;
+    @Query(type = Query.Type.BETWEEN)
+    private List<Timestamp> createTime;
 }
