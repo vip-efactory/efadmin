@@ -13,7 +13,7 @@ import vip.efactory.utils.RequestHolder;
 
 @RestController
 @RequestMapping("api")
-public class VisitsController extends BaseController<Visits, VisitsService> {
+public class VisitsController extends BaseController<Visits, VisitsService, Long> {
 
     @PostMapping(value = "/visits")
     public ResponseEntity create() {

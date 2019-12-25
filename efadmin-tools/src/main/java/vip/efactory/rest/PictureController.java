@@ -18,7 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-public class PictureController extends BaseController<Picture, PictureService> {
+public class PictureController extends BaseController<Picture, PictureService, Long> {
 
     @Log("查询图片")
     @PreAuthorize("hasAnyRole('ADMIN','PICTURE_ALL','PICTURE_SELECT')")

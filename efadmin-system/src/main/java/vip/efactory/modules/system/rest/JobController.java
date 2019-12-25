@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
 import vip.efactory.config.DataScope;
 import vip.efactory.ejpa.base.controller.BaseController;
+import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.entity.Job;
 import vip.efactory.modules.system.service.JobService;
@@ -17,7 +18,7 @@ import vip.efactory.modules.system.service.dto.JobQueryCriteria;
 
 @RestController
 @RequestMapping("api")
-public class JobController extends BaseController<Job, JobService> {
+public class JobController extends BaseController<Job, JobService, Long> {
 
     @Autowired
     private DataScope dataScope;
@@ -47,7 +48,7 @@ public class JobController extends BaseController<Job, JobService> {
     @Log("修改岗位")
     @PutMapping(value = "/job")
     @PreAuthorize("hasAnyRole('ADMIN','USERJOB_ALL','USERJOB_EDIT')")
-    public ResponseEntity update(@Validated(Job.Update.class) @RequestBody Job resources) {
+    public ResponseEntity update(@Validated(Update.class) @RequestBody Job resources) {
         entityService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

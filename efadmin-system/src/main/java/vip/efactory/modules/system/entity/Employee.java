@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import vip.efactory.ejpa.base.entity.BaseEntity;
+import vip.efactory.ejpa.base.valid.Update;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -23,11 +24,11 @@ import java.util.Date;
 @Getter
 @Setter
 @Table(name = "tbl_employee")
-public class Employee extends BaseEntity implements Serializable {
+public class Employee extends BaseEntity<Long> implements Serializable {
 
-    //    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(groups = Update.class)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull(message = "id {property.not.allow.empty}", groups = Update.class)  // 意味着，updateById更新时id不允许为空
     private Long id;
 
     /**
@@ -110,9 +111,6 @@ public class Employee extends BaseEntity implements Serializable {
                 ", status=" + status +
                 ", birthday='" + birthday + '\'' +
                 '}';
-    }
-
-    public @interface Update {
     }
 
     public void copy(Employee source) {

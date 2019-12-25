@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
+import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.entity.Role;
 import vip.efactory.modules.system.service.RoleService;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api")
-public class RoleController extends BaseController<Role, RoleService> {
+public class RoleController extends BaseController<Role, RoleService,Long> {
 
     private static final String ENTITY_NAME = "role";
 
@@ -77,7 +78,7 @@ public class RoleController extends BaseController<Role, RoleService> {
     @Log("修改角色")
     @PutMapping(value = "/roles")
     @PreAuthorize("hasAnyRole('ADMIN','ROLES_ALL','ROLES_EDIT')")
-    public ResponseEntity update(@Validated(Role.Update.class) @RequestBody Role resources) {
+    public ResponseEntity update(@Validated(Update.class) @RequestBody Role resources) {
         entityService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

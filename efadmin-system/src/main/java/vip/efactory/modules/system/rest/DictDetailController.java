@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
+import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.entity.DictDetail;
 import vip.efactory.modules.system.service.DictDetailService;
@@ -20,7 +21,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("api")
-public class DictDetailController extends BaseController<DictDetail, DictDetailService> {
+public class DictDetailController extends BaseController<DictDetail, DictDetailService,Long> {
 
     private static final String ENTITY_NAME = "dictDetail";
 
@@ -58,7 +59,7 @@ public class DictDetailController extends BaseController<DictDetail, DictDetailS
     @Log("修改字典详情")
     @PutMapping(value = "/dictDetail")
     @PreAuthorize("hasAnyRole('ADMIN','DICT_ALL','DICT_EDIT')")
-    public ResponseEntity update(@Validated(DictDetail.Update.class) @RequestBody DictDetail resources) {
+    public ResponseEntity update(@Validated(Update.class) @RequestBody DictDetail resources) {
         entityService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

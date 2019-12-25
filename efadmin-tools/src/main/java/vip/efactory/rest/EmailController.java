@@ -17,7 +17,7 @@ import vip.efactory.service.EmailService;
 @Slf4j
 @RestController
 @RequestMapping("api")
-public class EmailController extends BaseController<EmailConfig, EmailService> {
+public class EmailController extends BaseController<EmailConfig, EmailService, Long> {
 
     @GetMapping(value = "/email")
     public ResponseEntity get() {

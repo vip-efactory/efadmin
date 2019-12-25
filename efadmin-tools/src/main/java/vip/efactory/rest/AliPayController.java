@@ -23,7 +23,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/api")
-public class AliPayController extends BaseController<AlipayConfig, AlipayService> {
+public class AliPayController extends BaseController<AlipayConfig, AlipayService, Long> {
 
     @Autowired
     AlipayUtils alipayUtils;

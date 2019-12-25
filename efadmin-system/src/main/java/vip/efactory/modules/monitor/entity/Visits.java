@@ -2,10 +2,10 @@ package vip.efactory.modules.monitor.entity;
 
 import lombok.Data;
 import vip.efactory.ejpa.base.entity.BaseEntity;
+import vip.efactory.ejpa.base.valid.Update;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * pv 与 ip 统计
@@ -13,11 +13,12 @@ import javax.persistence.Table;
 @Entity
 @Data
 @Table(name = "sys_visits")
-public class Visits extends BaseEntity {
+public class Visits extends BaseEntity<Long> {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull(message = "id {property.not.allow.empty}", groups = Update.class)  // 意味着，updateById更新时id不允许为空
+    private Long id;
 
     @Column(unique = true)
     private String date;

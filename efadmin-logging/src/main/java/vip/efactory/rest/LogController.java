@@ -22,7 +22,7 @@ import vip.efactory.utils.SecurityUtils;
  */
 @RestController
 @RequestMapping("api")
-public class LogController extends BaseController<Log, LogService> {
+public class LogController extends BaseController<Log, LogService, Long> {
 
     @GetMapping(value = "/logs")
     @PreAuthorize("hasAnyRole('ADMIN')")

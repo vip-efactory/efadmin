@@ -10,7 +10,7 @@ import vip.efactory.service.GenConfigService;
 
 @RestController
 @RequestMapping("api")
-public class GenConfigController extends BaseController<GenConfig, GenConfigService> {
+public class GenConfigController extends BaseController<GenConfig, GenConfigService, Long> {
 
     /**
      * 查询生成器配置

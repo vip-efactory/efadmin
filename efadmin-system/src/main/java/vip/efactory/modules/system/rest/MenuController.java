@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
+import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.entity.Menu;
 import vip.efactory.modules.system.service.MenuService;
@@ -22,7 +23,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api")
-public class MenuController extends BaseController<Menu, MenuService> {
+public class MenuController extends BaseController<Menu, MenuService, Long> {
 
     @Autowired
     private UserService userService;
@@ -77,7 +78,7 @@ public class MenuController extends BaseController<Menu, MenuService> {
     @Log("修改菜单")
     @PutMapping(value = "/menus")
     @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_EDIT')")
-    public ResponseEntity update(@Validated(Menu.Update.class) @RequestBody Menu resources) {
+    public ResponseEntity update(@Validated(Update.class) @RequestBody Menu resources) {
         entityService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
+import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.entity.Dict;
 import vip.efactory.modules.system.service.DictService;
@@ -15,7 +16,7 @@ import vip.efactory.modules.system.service.dto.DictDTO;
 
 @RestController
 @RequestMapping("api")
-public class DictController extends BaseController<Dict, DictService> {
+public class DictController extends BaseController<Dict, DictService, Long> {
 
     private static final String ENTITY_NAME = "dict";
 
@@ -39,7 +40,7 @@ public class DictController extends BaseController<Dict, DictService> {
     @Log("修改字典")
     @PutMapping(value = "/dict")
     @PreAuthorize("hasAnyRole('ADMIN','DICT_ALL','DICT_EDIT')")
-    public ResponseEntity update(@Validated(Dict.Update.class) @RequestBody Dict resources) {
+    public ResponseEntity update(@Validated(Update.class) @RequestBody Dict resources) {
         entityService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
 import vip.efactory.config.DataScope;
 import vip.efactory.ejpa.base.controller.BaseController;
+import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.entity.Dept;
 import vip.efactory.modules.system.service.DeptService;
@@ -19,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api")
-public class DeptController extends BaseController<Dept, DeptService> {
+public class DeptController extends BaseController<Dept, DeptService, Long> {
 
     @Autowired
     private DataScope dataScope;
@@ -49,7 +50,7 @@ public class DeptController extends BaseController<Dept, DeptService> {
     @Log("修改部门")
     @PutMapping(value = "/dept")
     @PreAuthorize("hasAnyRole('ADMIN','DEPT_ALL','DEPT_EDIT')")
-    public ResponseEntity update(@Validated(Dept.Update.class) @RequestBody Dept resources) {
+    public ResponseEntity update(@Validated(Update.class) @RequestBody Dept resources) {
         entityService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

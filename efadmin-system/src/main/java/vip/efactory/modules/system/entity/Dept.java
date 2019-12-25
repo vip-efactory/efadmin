@@ -3,11 +3,9 @@ package vip.efactory.modules.system.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import vip.efactory.ejpa.base.entity.BaseEntity;
+import vip.efactory.ejpa.base.valid.Update;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -16,15 +14,11 @@ import java.util.Set;
 @Entity
 @Data
 @Table(name = "sys_dept")
-public class Dept extends BaseEntity implements Serializable {
+public class Dept extends BaseEntity<Long> implements Serializable {
 
-    /**
-     * ID
-     */
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id")
-    @NotNull(groups = Update.class)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull(message = "id {property.not.allow.empty}", groups = Update.class)  // 意味着，updateById更新时id不允许为空
     private Long id;
 
     /**
@@ -51,7 +45,4 @@ public class Dept extends BaseEntity implements Serializable {
 //    @Column(name = "create_time")
 //    @CreationTimestamp
 //    private Timestamp createTime;
-
-    public @interface Update {
-    }
 }

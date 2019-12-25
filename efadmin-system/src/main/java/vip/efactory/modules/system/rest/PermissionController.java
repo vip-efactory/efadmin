@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
+import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.entity.Permission;
 import vip.efactory.modules.system.service.PermissionService;
@@ -18,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api")
-public class PermissionController extends BaseController<Permission, PermissionService> {
+public class PermissionController extends BaseController<Permission, PermissionService, Long> {
 
     private static final String ENTITY_NAME = "permission";
 
@@ -54,7 +55,7 @@ public class PermissionController extends BaseController<Permission, PermissionS
     @Log("修改权限")
     @PutMapping(value = "/permissions")
     @PreAuthorize("hasAnyRole('ADMIN','PERMISSION_ALL','PERMISSION_EDIT')")
-    public ResponseEntity update(@Validated(Permission.Update.class) @RequestBody Permission resources) {
+    public ResponseEntity update(@Validated(Update.class) @RequestBody Permission resources) {
         entityService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

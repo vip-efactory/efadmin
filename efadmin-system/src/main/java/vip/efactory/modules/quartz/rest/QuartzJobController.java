@@ -17,7 +17,7 @@ import vip.efactory.modules.quartz.service.dto.JobQueryCriteria;
 @Slf4j
 @RestController
 @RequestMapping("/api")
-public class QuartzJobController extends BaseController<QuartzJob, QuartzJobService> {
+public class QuartzJobController extends BaseController<QuartzJob, QuartzJobService, Long> {
 
     private static final String ENTITY_NAME = "quartzJob";
 

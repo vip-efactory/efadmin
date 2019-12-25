@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.aop.log.Log;
 import vip.efactory.config.DataScope;
 import vip.efactory.ejpa.base.controller.BaseController;
+import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.entity.Picture;
 import vip.efactory.entity.VerificationCode;
 import vip.efactory.exception.BadRequestException;
@@ -37,7 +38,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api")
-public class UserController extends BaseController<User, UserService> {
+public class UserController extends BaseController<User, UserService, Long> {
 
     @Autowired
     private PictureService pictureService;
@@ -101,7 +102,7 @@ public class UserController extends BaseController<User, UserService> {
     @Log("修改用户")
     @PutMapping(value = "/users")
     @PreAuthorize("hasAnyRole('ADMIN','USER_ALL','USER_EDIT')")
-    public ResponseEntity update(@Validated(User.Update.class) @RequestBody User resources) {
+    public ResponseEntity update(@Validated(Update.class) @RequestBody User resources) {
         checkLevel(resources);
         entityService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);

@@ -2,11 +2,11 @@ package vip.efactory.entity;
 
 import lombok.Data;
 import vip.efactory.ejpa.base.entity.BaseEntity;
+import vip.efactory.ejpa.base.valid.Update;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -15,10 +15,12 @@ import java.io.Serializable;
 @Data
 @Entity
 @Table(name = "sys_alipay_config")
-public class AlipayConfig extends BaseEntity implements Serializable {
+public class AlipayConfig extends BaseEntity<Long> implements Serializable {
 
-//    @Id
-//    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull(message = "id {property.not.allow.empty}", groups = Update.class)  // 意味着，updateById更新时id不允许为空
+    private Long id;
 
     /**
      * 应用ID,APPID，收款账号既是APPID对应支付宝账号

@@ -3,19 +3,19 @@ package vip.efactory.modules.quartz.entity;
 import lombok.Data;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
 @Data
 @Table(name = "sys_quartz_log")
-public class QuartzLog extends BaseEntity implements Serializable {
+public class QuartzLog extends BaseEntity<Long> implements Serializable {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull(message = "id {property.not.allow.empty}", groups = vip.efactory.ejpa.base.valid.Update.class)  // 意味着，updateById更新时id不允许为空
+    private Long id;
 
     /**
      * 任务名称

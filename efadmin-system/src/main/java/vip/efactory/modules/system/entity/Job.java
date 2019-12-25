@@ -2,6 +2,7 @@ package vip.efactory.modules.system.entity;
 
 import lombok.Data;
 import vip.efactory.ejpa.base.entity.BaseEntity;
+import vip.efactory.ejpa.base.valid.Update;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -11,15 +12,11 @@ import java.io.Serializable;
 @Entity
 @Data
 @Table(name = "sys_job")
-public class Job extends BaseEntity implements Serializable {
+public class Job extends BaseEntity<Long> implements Serializable {
 
-    /**
-     * ID
-     */
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id")
-    @NotNull(groups = Update.class)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull(message = "id {property.not.allow.empty}", groups = Update.class)  // 意味着，updateById更新时id不允许为空
     private Long id;
 
     /**
@@ -51,6 +48,4 @@ public class Job extends BaseEntity implements Serializable {
 //    @CreationTimestamp
 //    private Timestamp createTime;
 
-    public @interface Update {
-    }
 }

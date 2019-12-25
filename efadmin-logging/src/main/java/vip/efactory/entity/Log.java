@@ -3,10 +3,10 @@ package vip.efactory.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import vip.efactory.ejpa.base.entity.BaseEntity;
+import vip.efactory.ejpa.base.valid.Update;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -19,7 +19,12 @@ import java.io.Serializable;
 @Data
 @Table(name = "sys_log")
 @NoArgsConstructor
-public class Log extends BaseEntity implements Serializable {
+public class Log extends BaseEntity<Long> implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull(message = "id {property.not.allow.empty}", groups = Update.class)  // 意味着，updateById更新时id不允许为空
+    private Long id;
 
     /**
      * 操作用户

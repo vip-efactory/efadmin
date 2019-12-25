@@ -4,11 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import vip.efactory.ejpa.base.entity.BaseEntity;
+import vip.efactory.ejpa.base.valid.Update;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -24,11 +22,11 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "sys_permission")
-public class Permission extends BaseEntity implements Serializable {
+public class Permission extends BaseEntity<Long> implements Serializable {
 
-    //    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(groups = {Update.class})
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull(message = "id {property.not.allow.empty}", groups = Update.class)  // 意味着，updateById更新时id不允许为空
     private Long id;
 
     @NotBlank
@@ -60,8 +58,5 @@ public class Permission extends BaseEntity implements Serializable {
                 ", pid=" + pid +
                 ", alias='" + alias + '\'' +
                 '}';
-    }
-
-    public interface Update {
     }
 }

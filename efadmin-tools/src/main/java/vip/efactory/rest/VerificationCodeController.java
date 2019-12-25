@@ -15,7 +15,7 @@ import vip.efactory.utils.EfAdminConstant;
 
 @RestController
 @RequestMapping("api")
-public class VerificationCodeController extends BaseController<VerificationCode, VerificationCodeService> {
+public class VerificationCodeController extends BaseController<VerificationCode, VerificationCodeService, Long> {
 
     @Autowired
     @Qualifier("jwtUserDetailsService")

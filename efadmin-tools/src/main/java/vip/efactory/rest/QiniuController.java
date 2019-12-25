@@ -23,7 +23,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("api")
-public class QiniuController extends BaseController<QiniuConfig, QiNiuService> {
+public class QiniuController extends BaseController<QiniuConfig, QiNiuService, Long> {
 
     @GetMapping(value = "/qiNiuConfig")
     public ResponseEntity get() {

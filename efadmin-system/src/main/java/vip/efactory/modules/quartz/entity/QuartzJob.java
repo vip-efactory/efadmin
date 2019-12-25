@@ -3,9 +3,7 @@ package vip.efactory.modules.quartz.entity;
 import lombok.Data;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -13,13 +11,13 @@ import java.io.Serializable;
 @Data
 @Entity
 @Table(name = "sys_quartz_job")
-public class QuartzJob extends BaseEntity implements Serializable {
+public class QuartzJob extends BaseEntity<Long> implements Serializable {
 
     public static final String JOB_KEY = "JOB_KEY";
 
-    //    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(groups = {Update.class})
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull(message = "id {property.not.allow.empty}", groups = vip.efactory.ejpa.base.valid.Update.class)  // 意味着，updateById更新时id不允许为空
     private Long id;
 
     /**

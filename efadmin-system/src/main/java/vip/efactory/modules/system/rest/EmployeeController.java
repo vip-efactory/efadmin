@@ -14,8 +14,6 @@ import vip.efactory.modules.system.entity.Employee;
 import vip.efactory.modules.system.service.EmployeeService;
 import vip.efactory.modules.system.service.dto.EmployeeQueryCriteria;
 
-import javax.validation.Valid;
-
 
 /**
  * @author dbdu
@@ -24,7 +22,7 @@ import javax.validation.Valid;
 @Api(tags = "Employee管理")
 @RestController
 @RequestMapping("api")
-public class EmployeeController extends BaseController<Employee, EmployeeService> {
+public class EmployeeController extends BaseController<Employee, EmployeeService, Long> {
 
     @Log("查询Employee")
     @ApiOperation(value = "查询Employee")
