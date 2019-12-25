@@ -1,0 +1,22 @@
+package vip.efactory.service;
+
+import vip.efactory.ejpa.base.service.IBaseService;
+import vip.efactory.entity.VerificationCode;
+import vip.efactory.entity.vo.EmailVo;
+
+public interface VerificationCodeService extends IBaseService<VerificationCode, Long> {
+
+    /**
+     * 发送邮件验证码
+     *
+     * @param code
+     */
+    EmailVo sendEmail(VerificationCode code);
+
+    /**
+     * 验证
+     *
+     * @param code
+     */
+    void validated(VerificationCode code);
+}

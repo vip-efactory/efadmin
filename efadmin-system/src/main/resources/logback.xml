@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <contextName>efAdmin</contextName>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <logger name="org.springframework.web" level="INFO"/>
+
+    <!--    <springProperty scop="context" name="spring.application.name" source="spring.application.name"-->
+    <!--                    defaultValue="efadmin"/>-->
+    <!--    <property name="log.path" value="logs/${spring.application.name}"/>-->
+    <property name="log.path" value="logs"/>
+
+    <!--输出到控制台-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%black(%contextName-) %red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level)
+                %boldMagenta(%logger{36}) - %gray(%msg%n)
+            </pattern>
+            <charset>utf-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 输出到Log file 文件 -->
+    <appender name="logFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/efadmin.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/%d{yyyy-MM, aux}/efadmin.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>50MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date [%thread] %-5level [%logger{50}] %file:%line - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- 开发环境-->
+    <springProfile name="dev">
+        <logger name="org.springframework.web" level="INFO"/>
+        <logger name="org.springboot.sample" level="INFO"/>
+        <logger name="vip.efactory" level="INFO"/>
+
+        <!--监控sql日志输出 -->
+        <logger name="jdbc.sqlonly" level="INFO" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
+
+        <logger name="jdbc.resultset" level="ERROR" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
+
+        <logger name="jdbc.resultsettable" level="INFO" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
+
+        <logger name="jdbc.connection" level="OFF" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
+
+        <logger name="jdbc.sqltiming" level="OFF" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
+
+        <logger name="jdbc.audit" level="OFF" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
+
+        <!--普通日志输出到控制台-->
+        <root level="info">
+            <appender-ref ref="console"/>
+            <appender-ref ref="logFile"/>
+        </root>
+    </springProfile>
+
+    <!-- 生产环境. -->
+    <springProfile name="prod">
+        <logger name="org.springframework.web" level="ERROR"/>
+        <logger name="org.springboot.sample" level="ERROR"/>
+        <logger name="vip.efactory" level="WARN"/>
+        <root level="warn">
+            <appender-ref ref="logFile"/>
+        </root>
+    </springProfile>
+
+</configuration>
