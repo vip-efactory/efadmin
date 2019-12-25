@@ -1,10 +1,12 @@
 package vip.efactory.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 import vip.efactory.ejpa.base.valid.Update;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -12,13 +14,26 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "sys_gen_config")
 public class GenConfig extends BaseEntity<Long> {
+
+    public GenConfig(String tableName) {
+        this.cover = false;
+        this.moduleName = "eladmin-system";
+        this.tableName = tableName;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(message = "id {property.not.allow.empty}", groups = Update.class)  // 意味着，updateById更新时id不允许为空
     private Long id;
+
+    @NotBlank
+    private String tableName;
+
+    /** 接口名称 **/
+    private String apiAlias;
 
     /**
      * 包路径

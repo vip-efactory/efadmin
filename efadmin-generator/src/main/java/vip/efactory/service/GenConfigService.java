@@ -7,23 +7,20 @@ import vip.efactory.ejpa.base.service.IBaseService;
 import vip.efactory.entity.GenConfig;
 
 
-@CacheConfig(cacheNames = "genConfig")
 public interface GenConfigService extends IBaseService<GenConfig, Long> {
 
     /**
-     * find
-     *
-     * @return
+     * 查询表配置
+     * @param tableName 表名
+     * @return 表配置
      */
-    @Cacheable(key = "'1'")
-    GenConfig find();
+    GenConfig find(String tableName);
 
     /**
-     * update
-     *
-     * @param genConfig
-     * @return
+     * 更新表配置
+     * @param tableName 表名
+     * @param genConfig 表配置
+     * @return 表配置
      */
-    @CacheEvict(allEntries = true)
-    GenConfig update(GenConfig genConfig);
+    GenConfig update(String tableName, GenConfig genConfig);
 }
