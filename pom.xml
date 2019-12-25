@@ -154,6 +154,13 @@
             <version>${lombok.version}</version>
         </dependency>
 
+        <!--https://gitee.com/lionsoul/ip2region/tree/v1.4-release/-->
+        <dependency>
+            <groupId>org.lionsoul</groupId>
+            <artifactId>ip2region</artifactId>
+            <version>1.7.2</version>
+        </dependency>
+
         <!--工具包-->
         <dependency>
             <groupId>cn.hutool</groupId>
@@ -184,6 +191,12 @@
             <artifactId>javax.inject</artifactId>
             <version>1</version>
         </dependency>
+        <dependency>
+            <groupId>eu.bitwalker</groupId>
+            <artifactId>UserAgentUtils</artifactId>
+            <version>1.20</version>
+        </dependency>
+
     </dependencies>
 
     <!-- 管理可被子模块集成的依赖 -->
