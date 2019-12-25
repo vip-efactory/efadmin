@@ -2,6 +2,9 @@ package vip.efactory.service.impl;
 
 import cn.hutool.extra.mail.Mail;
 import cn.hutool.extra.mail.MailAccount;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,14 +19,16 @@ import vip.efactory.utils.EncryptUtils;
 import java.util.Optional;
 
 @Service
+@CacheConfig(cacheNames = "email")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class EmailServiceImpl extends BaseServiceImpl<EmailConfig, Long, EmailRepository> implements EmailService {
 
     @Override
+    @CachePut(key = "'1'")
     @Transactional(rollbackFor = Exception.class)
     public EmailConfig update(EmailConfig emailConfig, EmailConfig old) {
         try {
-            if (!emailConfig.getPass().equals(old.getPass())) {
+            if(!emailConfig.getPass().equals(old.getPass())){
                 // 对称加密
                 emailConfig.setPass(EncryptUtils.desEncrypt(emailConfig.getPass()));
             }
@@ -34,24 +39,19 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfig, Long, EmailRe
     }
 
     @Override
+    @Cacheable(key = "'1'")
     public EmailConfig find() {
         Optional<EmailConfig> emailConfig = br.findById(1L);
-        if (emailConfig.isPresent()) {
-            return emailConfig.get();
-        } else {
-            return new EmailConfig();
-        }
+        return emailConfig.orElseGet(EmailConfig::new);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void send(EmailVo emailVo, EmailConfig emailConfig) {
-        if (emailConfig == null) {
+    public void send(EmailVo emailVo, EmailConfig emailConfig){
+        if(emailConfig == null){
             throw new BadRequestException("请先配置，再操作");
         }
-        /**
-         * 封装
-         */
+        // 封装
         MailAccount account = new MailAccount();
         account.setHost(emailConfig.getHost());
         account.setPort(Integer.parseInt(emailConfig.getPort()));
@@ -62,23 +62,22 @@ public class EmailServiceImpl extends BaseServiceImpl<EmailConfig, Long, EmailRe
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage());
         }
-        account.setFrom(emailConfig.getUser() + "<" + emailConfig.getFromUser() + ">");
-        //ssl方式发送
-        account.setStarttlsEnable(true);
+        account.setFrom(emailConfig.getUser()+"<"+emailConfig.getFromUser()+">");
+        // ssl方式发送
+        account.setSslEnable(true);
         String content = emailVo.getContent();
-        /**
-         * 发送
-         */
+        // 发送
         try {
+            int size = emailVo.getTos().size();
             Mail.create(account)
-                    .setTos(emailVo.getTos().toArray(new String[emailVo.getTos().size()]))
+                    .setTos(emailVo.getTos().toArray(new String[size]))
                     .setTitle(emailVo.getSubject())
                     .setContent(content)
                     .setHtml(true)
                     //关闭session
                     .setUseGlobalSession(false)
                     .send();
-        } catch (Exception e) {
+        }catch (Exception e){
             throw new BadRequestException(e.getMessage());
         }
     }

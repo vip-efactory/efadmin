@@ -1,61 +1,64 @@
 package vip.efactory.service;
 
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.ejpa.base.service.IBaseService;
 import vip.efactory.entity.Picture;
 import vip.efactory.service.dto.PictureQueryCriteria;
 
-import java.util.Optional;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 
-@CacheConfig(cacheNames = "picture")
 public interface PictureService extends IBaseService<Picture, Long> {
 
     /**
-     * 查询图片
-     *
-     * @param criteria
-     * @param pageable
-     * @return
+     * 分页查询
+     * @param criteria 条件
+     * @param pageable 分页参数
+     * @return /
      */
-    @Cacheable(keyGenerator = "keyGenerator")
     Object queryAll(PictureQueryCriteria criteria, Pageable pageable);
 
     /**
-     * 上传图片
-     *
-     * @param file
-     * @param username
-     * @return
+     * 查询全部数据
+     * @param criteria 条件
+     * @return /
      */
-    @CacheEvict(allEntries = true)
+    List<Picture> queryAll(PictureQueryCriteria criteria);
+
+    /**
+     * 上传文件
+     * @param file /
+     * @param username /
+     * @return /
+     */
     Picture upload(MultipartFile file, String username);
 
     /**
      * 根据ID查询
-     *
-     * @param id
-     * @return
+     * @param id /
+     * @return /
      */
-    @Cacheable(key = "#p0")
-    Optional<Picture> findById(Long id);
+    Picture findById2(Long id);
 
     /**
-     * 删除图片
-     *
-     * @param picture
+     * 多选删除
+     * @param ids /
      */
-    @CacheEvict(allEntries = true)
-    void delete(Picture picture);
-
-    /**
-     * 删除图片
-     *
-     * @param ids
-     */
-    @CacheEvict(allEntries = true)
     void deleteAll(Long[] ids);
+
+    /**
+     * 导出
+     * @param queryAll 待导出的数据
+     * @param response /
+     * @throws IOException /
+     */
+    void download(List<Picture> queryAll, HttpServletResponse response) throws IOException;
+
+    /**
+     * 同步数据
+     */
+    void synchronize();
 }

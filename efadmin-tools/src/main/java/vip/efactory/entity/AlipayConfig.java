@@ -27,7 +27,7 @@ public class AlipayConfig extends BaseEntity<Long> implements Serializable {
      */
     @NotBlank
     @Column(name = "app_id")
-    private String appID;
+    private String appId;
 
     /**
      * 商户私钥，您的PKCS8格式RSA2私钥

@@ -18,6 +18,7 @@ import vip.efactory.repository.VerificationCodeRepository;
 import vip.efactory.service.VerificationCodeService;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -32,29 +33,29 @@ public class VerificationCodeServiceImpl extends BaseServiceImpl<VerificationCod
     @Override
     @Transactional(rollbackFor = Exception.class)
     public EmailVo sendEmail(VerificationCode code) {
-        EmailVo emailVo = null;
-        String content = "";
-        VerificationCode verificationCode = br.findByScenesAndTypeAndValueAndStatusIsTrue(code.getScenes(), code.getType(), code.getValue());
+        EmailVo emailVo;
+        String content;
+        VerificationCode verificationCode = br.findByScenesAndTypeAndValueAndStatusIsTrue(code.getScenes(),code.getType(),code.getValue());
         // 如果不存在有效的验证码，就创建一个新的
         TemplateEngine engine = TemplateUtil.createEngine(new TemplateConfig("template", TemplateConfig.ResourceMode.CLASSPATH));
         Template template = engine.getTemplate("email/email.ftl");
-        if (verificationCode == null) {
-            code.setCode(RandomUtil.randomNumbers(6));
-            content = template.render(Dict.create().set("code", code.getCode()));
-            emailVo = new EmailVo(Arrays.asList(code.getValue()), "efadmin后台管理系统", content);
+        if(verificationCode == null){
+            code.setCode(RandomUtil.randomNumbers (6));
+            content = template.render(Dict.create().set("code",code.getCode()));
+            emailVo = new EmailVo(Collections.singletonList(code.getValue()),"eladmin后台管理系统",content);
             timedDestruction(br.save(code));
-            // 存在就再次发送原来的验证码
+        // 存在就再次发送原来的验证码
         } else {
-            content = template.render(Dict.create().set("code", verificationCode.getCode()));
-            emailVo = new EmailVo(Arrays.asList(verificationCode.getValue()), "efadmin后台管理系统", content);
+            content = template.render(Dict.create().set("code",verificationCode.getCode()));
+            emailVo = new EmailVo(Collections.singletonList(verificationCode.getValue()),"eladmin后台管理系统",content);
         }
         return emailVo;
     }
 
     @Override
     public void validated(VerificationCode code) {
-        VerificationCode verificationCode = br.findByScenesAndTypeAndValueAndStatusIsTrue(code.getScenes(), code.getType(), code.getValue());
-        if (verificationCode == null || !verificationCode.getCode().equals(code.getCode())) {
+        VerificationCode verificationCode = br.findByScenesAndTypeAndValueAndStatusIsTrue(code.getScenes(),code.getType(),code.getValue());
+        if(verificationCode == null || !verificationCode.getCode().equals(code.getCode())){
             throw new BadRequestException("无效验证码");
         } else {
             verificationCode.setStatus(false);
@@ -64,8 +65,7 @@ public class VerificationCodeServiceImpl extends BaseServiceImpl<VerificationCod
 
     /**
      * 定时任务，指定分钟后改变验证码状态
-     *
-     * @param verifyCode
+     * @param verifyCode 验证码
      */
     private void timedDestruction(VerificationCode verifyCode) {
         //以下示例为程序调用结束继续运行
@@ -75,7 +75,7 @@ public class VerificationCodeServiceImpl extends BaseServiceImpl<VerificationCod
                 verifyCode.setStatus(false);
                 br.save(verifyCode);
             }, expiration * 60 * 1000L, TimeUnit.MILLISECONDS);
-        } catch (Exception e) {
+        }catch (Exception e){
             e.printStackTrace();
         }
     }

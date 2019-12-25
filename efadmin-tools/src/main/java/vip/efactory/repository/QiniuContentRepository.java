@@ -8,9 +8,8 @@ public interface QiniuContentRepository extends BaseRepository<QiniuContent, Lon
 
     /**
      * 根据key查询
-     *
-     * @param key
-     * @return
+     * @param key 文件名
+     * @return QiniuContent
      */
     QiniuContent findByKey(String key);
 }

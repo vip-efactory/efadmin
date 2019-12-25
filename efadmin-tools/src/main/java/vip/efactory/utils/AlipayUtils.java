@@ -21,12 +21,11 @@ public class AlipayUtils {
 
     /**
      * 生成订单号
-     *
-     * @return
+     * @return String
      */
     public String getOrderCode() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        int a = (int) (Math.random() * 9000.0D) + 1000;
+        int a = (int)(Math.random() * 9000.0D) + 1000;
         System.out.println(a);
         Date date = new Date();
         String str = sdf.format(date);
@@ -35,25 +34,22 @@ public class AlipayUtils {
         String[] split1 = s.split(" ");
         String s1 = split1[0] + split1[1];
         String[] split2 = s1.split(":");
-        String s2 = split2[0] + split2[1] + split2[2] + a;
-        return s2;
+        return split2[0] + split2[1] + split2[2] + a;
     }
 
     /**
      * 校验签名
-     *
-     * @param request
-     * @return
+     * @param request HttpServletRequest
+     * @param alipay 阿里云配置
+     * @return boolean
      */
-    public boolean rsaCheck(HttpServletRequest request, AlipayConfig alipay) {
+    public boolean rsaCheck(HttpServletRequest request, AlipayConfig alipay){
 
-        /**
-         *  获取支付宝POST过来反馈信息
-         */
-        Map<String, String> params = new HashMap<>(1);
+        // 获取支付宝POST过来反馈信息
+        Map<String,String> params = new HashMap<>(1);
         Map requestParams = request.getParameterMap();
-        for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext(); ) {
-            String name = (String) iter.next();
+        for (Object o : requestParams.keySet()) {
+            String name = (String) o;
             String[] values = (String[]) requestParams.get(name);
             String valueStr = "";
             for (int i = 0; i < values.length; i++) {
@@ -64,17 +60,12 @@ public class AlipayUtils {
         }
 
         try {
-            boolean verifyResult = AlipaySignature.rsaCheckV1(params,
+            return AlipaySignature.rsaCheckV1(params,
                     alipay.getPublicKey(),
                     alipay.getCharset(),
                     alipay.getSignType());
-            return verifyResult;
         } catch (AlipayApiException e) {
             return false;
         }
-    }
-
-    public boolean isEmpty(String str) {
-        return StrUtil.isEmpty(str);
     }
 }

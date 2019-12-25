@@ -21,10 +21,8 @@ public class QiniuContent extends BaseEntity<Long> implements Serializable {
     @NotNull(message = "id {property.not.allow.empty}", groups = Update.class)  // 意味着，updateById更新时id不允许为空
     private Long id;
 
-    /**
-     * 文件名，如qiniu.jpg
-     */
-    @Column(name = "name", unique = false)
+    /** 文件名 */
+    @Column(name = "name")
     private String key;
 
     /**
@@ -42,9 +40,9 @@ public class QiniuContent extends BaseEntity<Long> implements Serializable {
      */
     private String url;
 
-    /**
-     * 空间类型：公开/私有
-     */
+    private String suffix;
+
+    /** 空间类型：公开/私有 */
     private String type = "公开";
 
 //    /**

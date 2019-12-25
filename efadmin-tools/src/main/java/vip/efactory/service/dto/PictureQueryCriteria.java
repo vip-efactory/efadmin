@@ -3,6 +3,9 @@ package vip.efactory.service.dto;
 import lombok.Data;
 import vip.efactory.annotation.Query;
 
+import java.sql.Timestamp;
+import java.util.List;
+
 /**
  * sm.ms图床
  */
@@ -14,4 +17,7 @@ public class PictureQueryCriteria {
 
     @Query(type = Query.Type.INNER_LIKE)
     private String username;
+
+    @Query(type = Query.Type.BETWEEN)
+    private List<Timestamp> createTime;
 }

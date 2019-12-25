@@ -1,12 +1,14 @@
 package vip.efactory.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 import vip.efactory.ejpa.base.valid.Update;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * sm.ms图床
@@ -38,6 +40,13 @@ public class Picture extends BaseEntity<Long> implements Serializable {
     private String delete;
 
     private String username;
+
+    @CreationTimestamp
+    @Column(name = "create_time")
+    private Timestamp createTime;
+
+    /** 用于检测文件是否重复 */
+    private String md5Code;
 
     @Override
     public String toString() {

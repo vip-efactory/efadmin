@@ -1,5 +1,7 @@
 package vip.efactory.rest;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -14,38 +16,41 @@ import vip.efactory.service.VerificationCodeService;
 import vip.efactory.utils.EfAdminConstant;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("/api/code")
+@Api(tags = "工具：验证码管理")
 public class VerificationCodeController extends BaseController<VerificationCode, VerificationCodeService, Long> {
 
-    @Autowired
-    @Qualifier("jwtUserDetailsService")
-    private UserDetailsService userDetailsService;
+    private final EmailService emailService;
 
-    @Autowired
-    private EmailService emailService;
-
-    @PostMapping(value = "/code/resetEmail")
-    public ResponseEntity resetEmail(@RequestBody VerificationCode code) throws Exception {
-        code.setScenes(EfAdminConstant.RESET_MAIL);
-        EmailVo emailVo = entityService.sendEmail(code);
-        emailService.send(emailVo, emailService.find());
-        return new ResponseEntity(HttpStatus.OK);
+    public VerificationCodeController(EmailService emailService) {
+        this.emailService = emailService;
     }
 
-    @PostMapping(value = "/code/email/resetPass")
-    public ResponseEntity resetPass(@RequestParam String email) throws Exception {
+    @PostMapping(value = "/resetEmail")
+    @ApiOperation("重置邮箱，发送验证码")
+    public ResponseEntity<Object> resetEmail(@RequestBody VerificationCode code) throws Exception {
+        code.setScenes(EfAdminConstant.RESET_MAIL);
+        EmailVo emailVo = entityService.sendEmail(code);
+        emailService.send(emailVo,emailService.find());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/email/resetPass")
+    @ApiOperation("重置密码，发送验证码")
+    public ResponseEntity<Object> resetPass(@RequestParam String email) throws Exception {
         VerificationCode code = new VerificationCode();
         code.setType("email");
         code.setValue(email);
         code.setScenes(EfAdminConstant.RESET_MAIL);
         EmailVo emailVo = entityService.sendEmail(code);
-        emailService.send(emailVo, emailService.find());
-        return new ResponseEntity(HttpStatus.OK);
+        emailService.send(emailVo,emailService.find());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/code/validated")
-    public ResponseEntity validated(VerificationCode code) {
+    @GetMapping(value = "/validated")
+    @ApiOperation("验证码验证")
+    public ResponseEntity<Object> validated(VerificationCode code){
         entityService.validated(code);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
