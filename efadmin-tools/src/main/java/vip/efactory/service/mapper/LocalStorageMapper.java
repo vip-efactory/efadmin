@@ -3,7 +3,7 @@ package vip.efactory.service.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import vip.efactory.base.BaseMapper;
-import vip.efactory.entity.LocalStorage;
+import vip.efactory.domain.LocalStorage;
 import vip.efactory.service.dto.LocalStorageDto;
 
 /**

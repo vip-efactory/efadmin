@@ -1,7 +1,7 @@
 package vip.efactory.repository;
 
 import vip.efactory.ejpa.base.repository.BaseRepository;
-import vip.efactory.entity.VerificationCode;
+import vip.efactory.domain.VerificationCode;
 
 public interface VerificationCodeRepository extends BaseRepository<VerificationCode, Long> {
 

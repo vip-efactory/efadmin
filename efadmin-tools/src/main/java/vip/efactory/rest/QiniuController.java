@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
-import vip.efactory.entity.QiniuConfig;
-import vip.efactory.entity.QiniuContent;
+import vip.efactory.domain.QiniuConfig;
+import vip.efactory.domain.QiniuContent;
 import vip.efactory.service.QiNiuService;
 import vip.efactory.service.dto.QiniuQueryCriteria;
 

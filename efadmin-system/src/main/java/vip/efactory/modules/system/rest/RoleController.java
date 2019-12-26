@@ -15,7 +15,7 @@ import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.exception.BadRequestException;
-import vip.efactory.modules.system.entity.Role;
+import vip.efactory.modules.system.domain.Role;
 import vip.efactory.modules.system.service.RoleService;
 import vip.efactory.modules.system.service.UserService;
 import vip.efactory.modules.system.service.dto.RoleDto;
@@ -47,7 +47,7 @@ public class RoleController extends BaseController<Role, RoleService,Long> {
 
     @ApiOperation("获取单个role")
     @GetMapping(value = "/{id}")
-    @PreAuthorize("@el.check('roles:list')")
+    @PreAuthorize("@p.check('roles:list')")
     public ResponseEntity<Object> getRoles(@PathVariable Long id){
         return new ResponseEntity<>(entityService.findById(id), HttpStatus.OK);
     }
@@ -55,14 +55,14 @@ public class RoleController extends BaseController<Role, RoleService,Long> {
     @Log("导出角色数据")
     @ApiOperation("导出角色数据")
     @GetMapping(value = "/download")
-    @PreAuthorize("@el.check('role:list')")
+    @PreAuthorize("@p.check('role:list')")
     public void download(HttpServletResponse response, RoleQueryCriteria criteria) throws IOException {
         entityService.download(entityService.queryAll(criteria), response);
     }
 
     @ApiOperation("返回全部的角色")
     @GetMapping(value = "/all")
-    @PreAuthorize("@el.check('roles:list','user:add','user:edit')")
+    @PreAuthorize("@p.check('roles:list','user:add','user:edit')")
     public ResponseEntity<Object> getAll(@PageableDefault(value = 2000, sort = {"level"}, direction = Sort.Direction.ASC) Pageable pageable){
         return new ResponseEntity<>(entityService.queryAll(pageable),HttpStatus.OK);
     }
@@ -70,7 +70,7 @@ public class RoleController extends BaseController<Role, RoleService,Long> {
     @Log("查询角色")
     @ApiOperation("查询角色")
     @GetMapping
-    @PreAuthorize("@el.check('roles:list')")
+    @PreAuthorize("@p.check('roles:list')")
     public ResponseEntity<Object> getRoles(RoleQueryCriteria criteria, Pageable pageable){
         return new ResponseEntity<>(entityService.queryAll(criteria,pageable),HttpStatus.OK);
     }
@@ -84,7 +84,7 @@ public class RoleController extends BaseController<Role, RoleService,Long> {
     @Log("新增角色")
     @ApiOperation("新增角色")
     @PostMapping
-    @PreAuthorize("@el.check('roles:add')")
+    @PreAuthorize("@p.check('roles:add')")
     public ResponseEntity<Object> create(@Validated @RequestBody Role resources){
         if (resources.getId() != null) {
             throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
@@ -96,7 +96,7 @@ public class RoleController extends BaseController<Role, RoleService,Long> {
     @Log("修改角色")
     @ApiOperation("修改角色")
     @PutMapping
-    @PreAuthorize("@el.check('roles:edit')")
+    @PreAuthorize("@p.check('roles:edit')")
     public ResponseEntity<Object> update(@Validated(Update.class) @RequestBody Role resources){
         getLevels(resources.getLevel());
         entityService.update(resources);
@@ -106,7 +106,7 @@ public class RoleController extends BaseController<Role, RoleService,Long> {
     @Log("修改角色菜单")
     @ApiOperation("修改角色菜单")
     @PutMapping(value = "/menu")
-    @PreAuthorize("@el.check('roles:edit')")
+    @PreAuthorize("@p.check('roles:edit')")
     public ResponseEntity<Object> updateMenu(@RequestBody Role resources){
         RoleDto role = entityService.findDtoById(resources.getId());
         getLevels(role.getLevel());
@@ -117,7 +117,7 @@ public class RoleController extends BaseController<Role, RoleService,Long> {
     @Log("删除角色")
     @ApiOperation("删除角色")
     @DeleteMapping
-    @PreAuthorize("@el.check('roles:del')")
+    @PreAuthorize("@p.check('roles:del')")
     public ResponseEntity<Object> delete(@RequestBody Set<Long> ids){
         for (Long id : ids) {
             RoleDto role = entityService.findDtoById(id);

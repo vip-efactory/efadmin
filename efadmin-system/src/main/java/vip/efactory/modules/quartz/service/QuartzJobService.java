@@ -3,8 +3,8 @@ package vip.efactory.modules.quartz.service;
 
 import org.springframework.data.domain.Pageable;
 import vip.efactory.ejpa.base.service.IBaseService;
-import vip.efactory.modules.quartz.entity.QuartzJob;
-import vip.efactory.modules.quartz.entity.QuartzLog;
+import vip.efactory.modules.quartz.domain.QuartzJob;
+import vip.efactory.modules.quartz.domain.QuartzLog;
 import vip.efactory.modules.quartz.service.dto.JobQueryCriteria;
 
 import javax.servlet.http.HttpServletResponse;

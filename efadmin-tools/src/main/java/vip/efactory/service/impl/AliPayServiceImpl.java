@@ -4,7 +4,6 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -12,12 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
-import vip.efactory.entity.AlipayConfig;
-import vip.efactory.entity.vo.TradeVo;
+import vip.efactory.domain.AlipayConfig;
+import vip.efactory.domain.vo.TradeVo;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.repository.AliPayRepository;
 import vip.efactory.service.AliPayService;
-import vip.efactory.utils.AlipayUtils;
 
 import java.util.Optional;
 

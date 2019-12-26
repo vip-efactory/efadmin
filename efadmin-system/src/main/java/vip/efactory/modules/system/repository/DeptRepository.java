@@ -3,7 +3,7 @@ package vip.efactory.modules.system.repository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import vip.efactory.ejpa.base.repository.BaseRepository;
-import vip.efactory.modules.system.entity.Dept;
+import vip.efactory.modules.system.domain.Dept;
 
 import java.util.List;
 import java.util.Set;

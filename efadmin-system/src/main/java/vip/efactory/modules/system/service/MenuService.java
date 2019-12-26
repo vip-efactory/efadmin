@@ -2,7 +2,7 @@ package vip.efactory.modules.system.service;
 
 
 import vip.efactory.ejpa.base.service.IBaseService;
-import vip.efactory.modules.system.entity.Menu;
+import vip.efactory.modules.system.domain.Menu;
 import vip.efactory.modules.system.service.dto.MenuDto;
 import vip.efactory.modules.system.service.dto.MenuQueryCriteria;
 import vip.efactory.modules.system.service.dto.RoleSmallDto;

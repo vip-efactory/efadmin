@@ -10,15 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
-import vip.efactory.entity.Picture;
+import vip.efactory.domain.Picture;
 import vip.efactory.service.PictureService;
 import vip.efactory.service.dto.PictureQueryCriteria;
 import vip.efactory.utils.SecurityUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/pictures")
@@ -26,7 +24,7 @@ import java.util.Map;
 public class PictureController extends BaseController<Picture, PictureService, Long> {
 
     @Log("查询图片")
-    @PreAuthorize("@el.check('pictures:list')")
+    @PreAuthorize("@p.check('pictures:list')")
     @GetMapping
     @ApiOperation("查询图片")
     public ResponseEntity<Object> getRoles(PictureQueryCriteria criteria, Pageable pageable){
@@ -36,13 +34,13 @@ public class PictureController extends BaseController<Picture, PictureService, L
     @Log("导出数据")
     @ApiOperation("导出数据")
     @GetMapping(value = "/download")
-    @PreAuthorize("@el.check('pictures:list')")
+    @PreAuthorize("@p.check('pictures:list')")
     public void download(HttpServletResponse response, PictureQueryCriteria criteria) throws IOException {
         entityService.download(entityService.queryAll(criteria), response);
     }
 
     @Log("上传图片")
-    @PreAuthorize("@el.check('pictures:add')")
+    @PreAuthorize("@p.check('pictures:add')")
     @PostMapping
     @ApiOperation("上传图片")
     public ResponseEntity<Object> upload(@RequestParam MultipartFile file){
@@ -61,7 +59,7 @@ public class PictureController extends BaseController<Picture, PictureService, L
 
     @Log("多选删除图片")
     @ApiOperation("多选删除图片")
-    @PreAuthorize("@el.check('pictures:del')")
+    @PreAuthorize("@p.check('pictures:del')")
     @DeleteMapping
     public ResponseEntity<Object> deleteAll(@RequestBody Long[] ids) {
         entityService.deleteAll(ids);

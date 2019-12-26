@@ -1,8 +1,8 @@
 package vip.efactory.service;
 
 import vip.efactory.ejpa.base.service.IBaseService;
-import vip.efactory.entity.VerificationCode;
-import vip.efactory.entity.vo.EmailVo;
+import vip.efactory.domain.VerificationCode;
+import vip.efactory.domain.vo.EmailVo;
 
 public interface VerificationCodeService extends IBaseService<VerificationCode, Long> {
 

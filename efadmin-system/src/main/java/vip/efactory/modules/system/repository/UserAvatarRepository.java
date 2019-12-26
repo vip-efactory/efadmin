@@ -2,7 +2,7 @@ package vip.efactory.modules.system.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import vip.efactory.modules.system.entity.UserAvatar;
+import vip.efactory.modules.system.domain.UserAvatar;
 
 /**
  * @author Zheng Jie

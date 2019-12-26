@@ -9,7 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
-import vip.efactory.modules.monitor.entity.Server;
+import vip.efactory.modules.monitor.domain.Server;
 import vip.efactory.modules.monitor.service.ServerService;
 import vip.efactory.modules.monitor.service.dto.ServerQueryCriteria;
 
@@ -33,7 +33,7 @@ public class ServerController {
     @GetMapping
     @Log("查询服务监控")
     @ApiOperation("查询服务监控")
-    @PreAuthorize("@el.check('server:list')")
+    @PreAuthorize("@p.check('server:list')")
     public ResponseEntity<Object> getServers(ServerQueryCriteria criteria, Pageable pageable) {
         return new ResponseEntity<>(serverService.queryAll(criteria, pageable), HttpStatus.OK);
     }
@@ -41,7 +41,7 @@ public class ServerController {
     @PostMapping
     @Log("新增服务监控")
     @ApiOperation("新增服务监控")
-    @PreAuthorize("@el.check('server:add')")
+    @PreAuthorize("@p.check('server:add')")
     public ResponseEntity<Object> create(@Validated @RequestBody Server resources) {
         return new ResponseEntity<>(serverService.create(resources), HttpStatus.CREATED);
     }
@@ -49,7 +49,7 @@ public class ServerController {
     @PutMapping
     @Log("修改服务监控")
     @ApiOperation("修改服务监控")
-    @PreAuthorize("@el.check('server:edit')")
+    @PreAuthorize("@p.check('server:edit')")
     public ResponseEntity<Object> update(@Validated @RequestBody Server resources) {
         serverService.update(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -58,7 +58,7 @@ public class ServerController {
     @DeleteMapping
     @Log("删除服务监控")
     @ApiOperation("删除服务监控")
-    @PreAuthorize("@el.check('server:del')")
+    @PreAuthorize("@p.check('server:del')")
     public ResponseEntity<Object> delete(@RequestBody Set<Integer> ids) {
         serverService.delete(ids);
         return new ResponseEntity<>(HttpStatus.OK);

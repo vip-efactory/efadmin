@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vip.efactory.ejpa.base.controller.BaseController;
-import vip.efactory.modules.monitor.entity.Visits;
+import vip.efactory.modules.monitor.domain.Visits;
 import vip.efactory.modules.monitor.service.VisitsService;
 import vip.efactory.utils.RequestHolder;
 

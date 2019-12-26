@@ -1,16 +1,14 @@
 package vip.efactory.utils;
 
-import cn.hutool.core.util.StrUtil;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import org.springframework.stereotype.Component;
-import vip.efactory.entity.AlipayConfig;
+import vip.efactory.domain.AlipayConfig;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**

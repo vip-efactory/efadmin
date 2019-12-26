@@ -13,7 +13,7 @@ import vip.efactory.config.DataScope;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.exception.BadRequestException;
-import vip.efactory.modules.system.entity.Dept;
+import vip.efactory.modules.system.domain.Dept;
 import vip.efactory.modules.system.service.DeptService;
 import vip.efactory.modules.system.service.dto.DeptDto;
 import vip.efactory.modules.system.service.dto.DeptQueryCriteria;
@@ -41,7 +41,7 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
     @Log("导出部门数据")
     @ApiOperation("导出部门数据")
     @GetMapping(value = "/download")
-    @PreAuthorize("@el.check('dept:list')")
+    @PreAuthorize("@p.check('dept:list')")
     public void download(HttpServletResponse response, DeptQueryCriteria criteria) throws IOException {
         entityService.download(entityService.queryAll(criteria), response);
     }
@@ -49,7 +49,7 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
     @Log("查询部门")
     @ApiOperation("查询部门")
     @GetMapping
-    @PreAuthorize("@el.check('user:list','dept:list')")
+    @PreAuthorize("@p.check('user:list','dept:list')")
     public ResponseEntity<Object> getDepts(DeptQueryCriteria criteria){
         // 数据权限
         criteria.setIds(dataScope.getDeptIds());
@@ -60,7 +60,7 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
     @Log("新增部门")
     @ApiOperation("新增部门")
     @PostMapping
-    @PreAuthorize("@el.check('dept:add')")
+    @PreAuthorize("@p.check('dept:add')")
     public ResponseEntity<Object> create(@Validated @RequestBody Dept resources){
         if (resources.getId() != null) {
             throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
@@ -71,7 +71,7 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
     @Log("修改部门")
     @ApiOperation("修改部门")
     @PutMapping
-    @PreAuthorize("@el.check('dept:edit')")
+    @PreAuthorize("@p.check('dept:edit')")
     public ResponseEntity<Object> update(@Validated(Update.class) @RequestBody Dept resources){
         entityService.update(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -80,7 +80,7 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
     @Log("删除部门")
     @ApiOperation("删除部门")
     @DeleteMapping
-    @PreAuthorize("@el.check('dept:del')")
+    @PreAuthorize("@p.check('dept:del')")
     public ResponseEntity<Object> delete(@RequestBody Set<Long> ids){
         Set<DeptDto> deptDtos = new HashSet<>();
         for (Long id : ids) {

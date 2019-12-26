@@ -4,13 +4,11 @@ import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -21,21 +19,18 @@ import vip.efactory.aop.log.Log;
 import vip.efactory.config.DataScope;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.ejpa.base.valid.Update;
-import vip.efactory.entity.Picture;
-import vip.efactory.entity.VerificationCode;
+import vip.efactory.domain.VerificationCode;
 import vip.efactory.exception.BadRequestException;
-import vip.efactory.modules.system.entity.User;
-import vip.efactory.modules.system.entity.vo.UserPassVo;
+import vip.efactory.modules.system.domain.User;
+import vip.efactory.modules.system.domain.vo.UserPassVo;
 import vip.efactory.modules.system.service.DeptService;
 import vip.efactory.modules.system.service.RoleService;
 import vip.efactory.modules.system.service.UserService;
 import vip.efactory.modules.system.service.dto.RoleSmallDto;
 import vip.efactory.modules.system.service.dto.UserDto;
 import vip.efactory.modules.system.service.dto.UserQueryCriteria;
-import vip.efactory.service.PictureService;
 import vip.efactory.service.VerificationCodeService;
 import vip.efactory.utils.EfAdminConstant;
-import vip.efactory.utils.EncryptUtils;
 import vip.efactory.utils.PageUtil;
 import vip.efactory.utils.SecurityUtils;
 
@@ -70,7 +65,7 @@ public class UserController extends BaseController<User, UserService, Long> {
     @Log("导出用户数据")
     @ApiOperation("导出用户数据")
     @GetMapping(value = "/download")
-    @PreAuthorize("@el.check('user:list')")
+    @PreAuthorize("@p.check('user:list')")
     public void download(HttpServletResponse response, UserQueryCriteria criteria) throws IOException {
         entityService.download(entityService.queryAll(criteria), response);
     }
@@ -78,7 +73,7 @@ public class UserController extends BaseController<User, UserService, Long> {
     @Log("查询用户")
     @ApiOperation("查询用户")
     @GetMapping
-    @PreAuthorize("@el.check('user:list')")
+    @PreAuthorize("@p.check('user:list')")
     public ResponseEntity<Object> getUsers(UserQueryCriteria criteria, Pageable pageable){
         Set<Long> deptSet = new HashSet<>();
         Set<Long> result = new HashSet<>();
@@ -112,7 +107,7 @@ public class UserController extends BaseController<User, UserService, Long> {
     @Log("新增用户")
     @ApiOperation("新增用户")
     @PostMapping
-    @PreAuthorize("@el.check('user:add')")
+    @PreAuthorize("@p.check('user:add')")
     public ResponseEntity<Object> create(@Validated @RequestBody User resources){
         checkLevel(resources);
         // 默认密码 123456
@@ -123,7 +118,7 @@ public class UserController extends BaseController<User, UserService, Long> {
     @Log("修改用户")
     @ApiOperation("修改用户")
     @PutMapping
-    @PreAuthorize("@el.check('user:edit')")
+    @PreAuthorize("@p.check('user:edit')")
     public ResponseEntity<Object> update(@Validated(Update.class) @RequestBody User resources){
         checkLevel(resources);
         entityService.update(resources);
@@ -145,7 +140,7 @@ public class UserController extends BaseController<User, UserService, Long> {
     @Log("删除用户")
     @ApiOperation("删除用户")
     @DeleteMapping
-    @PreAuthorize("@el.check('user:del')")
+    @PreAuthorize("@p.check('user:del')")
     public ResponseEntity<Object> delete(@RequestBody Set<Long> ids){
         UserDto user = entityService.findByName(SecurityUtils.getUsername());
         for (Long id : ids) {

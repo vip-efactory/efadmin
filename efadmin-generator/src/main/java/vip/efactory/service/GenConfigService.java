@@ -1,10 +1,7 @@
 package vip.efactory.service;
 
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import vip.efactory.ejpa.base.service.IBaseService;
-import vip.efactory.entity.GenConfig;
+import vip.efactory.domain.GenConfig;
 
 
 public interface GenConfigService extends IBaseService<GenConfig, Long> {

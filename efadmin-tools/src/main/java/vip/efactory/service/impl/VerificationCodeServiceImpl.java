@@ -11,13 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
-import vip.efactory.entity.VerificationCode;
-import vip.efactory.entity.vo.EmailVo;
+import vip.efactory.domain.VerificationCode;
+import vip.efactory.domain.vo.EmailVo;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.repository.VerificationCodeRepository;
 import vip.efactory.service.VerificationCodeService;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

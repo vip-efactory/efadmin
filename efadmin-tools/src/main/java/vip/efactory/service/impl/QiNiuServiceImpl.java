@@ -1,7 +1,6 @@
 package vip.efactory.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.google.gson.Gson;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import com.qiniu.storage.BucketManager;
@@ -10,7 +9,6 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.storage.model.FileInfo;
 import com.qiniu.util.Auth;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -22,8 +20,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
-import vip.efactory.entity.QiniuConfig;
-import vip.efactory.entity.QiniuContent;
+import vip.efactory.domain.QiniuConfig;
+import vip.efactory.domain.QiniuContent;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.repository.QiNiuConfigRepository;
 import vip.efactory.repository.QiniuContentRepository;

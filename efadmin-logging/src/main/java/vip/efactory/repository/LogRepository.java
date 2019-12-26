@@ -4,9 +4,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import vip.efactory.ejpa.base.repository.BaseRepository;
-import vip.efactory.entity.SysLog;
-
-import javax.transaction.Transactional;
+import vip.efactory.domain.SysLog;
 
 /**
  * Description: 日志持久化层

@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.ejpa.base.controller.BaseController;
-import vip.efactory.entity.GenConfig;
+import vip.efactory.domain.GenConfig;
 import vip.efactory.service.GenConfigService;
 
 @RestController

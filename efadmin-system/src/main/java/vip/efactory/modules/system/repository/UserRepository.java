@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import vip.efactory.ejpa.base.repository.BaseRepository;
-import vip.efactory.modules.system.entity.User;
+import vip.efactory.modules.system.domain.User;
 
 import java.util.Date;
 

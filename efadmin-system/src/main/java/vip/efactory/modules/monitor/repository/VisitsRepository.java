@@ -3,7 +3,7 @@ package vip.efactory.modules.monitor.repository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import vip.efactory.ejpa.base.repository.BaseRepository;
-import vip.efactory.modules.monitor.entity.Visits;
+import vip.efactory.modules.monitor.domain.Visits;
 
 import java.util.List;
 

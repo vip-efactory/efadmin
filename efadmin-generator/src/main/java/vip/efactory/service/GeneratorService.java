@@ -2,8 +2,8 @@ package vip.efactory.service;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
-import vip.efactory.entity.ColumnInfo;
-import vip.efactory.entity.GenConfig;
+import vip.efactory.domain.ColumnInfo;
+import vip.efactory.domain.GenConfig;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

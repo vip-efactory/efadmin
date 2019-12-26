@@ -14,7 +14,7 @@ import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.exception.BadRequestException;
-import vip.efactory.modules.system.entity.DictDetail;
+import vip.efactory.modules.system.domain.DictDetail;
 import vip.efactory.modules.system.service.DictDetailService;
 import vip.efactory.modules.system.service.dto.DictDetailQueryCriteria;
 
@@ -53,7 +53,7 @@ public class DictDetailController extends BaseController<DictDetail, DictDetailS
     @Log("新增字典详情")
     @ApiOperation("新增字典详情")
     @PostMapping
-    @PreAuthorize("@el.check('dict:add')")
+    @PreAuthorize("@p.check('dict:add')")
     public ResponseEntity<Object> create(@Validated @RequestBody DictDetail resources){
         if (resources.getId() != null) {
             throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
@@ -64,7 +64,7 @@ public class DictDetailController extends BaseController<DictDetail, DictDetailS
     @Log("修改字典详情")
     @ApiOperation("修改字典详情")
     @PutMapping
-    @PreAuthorize("@el.check('dict:edit')")
+    @PreAuthorize("@p.check('dict:edit')")
     public ResponseEntity<Object> update(@Validated(Update.class) @RequestBody DictDetail resources){
         entityService.update(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -73,7 +73,7 @@ public class DictDetailController extends BaseController<DictDetail, DictDetailS
     @Log("删除字典详情")
     @ApiOperation("删除字典详情")
     @DeleteMapping(value = "/{id}")
-    @PreAuthorize("@el.check('dict:del')")
+    @PreAuthorize("@p.check('dict:del')")
     public ResponseEntity<Object> delete(@PathVariable Long id){
         entityService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

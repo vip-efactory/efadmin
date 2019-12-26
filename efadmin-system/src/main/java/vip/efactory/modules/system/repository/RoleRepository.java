@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import vip.efactory.ejpa.base.repository.BaseRepository;
-import vip.efactory.modules.system.entity.Role;
+import vip.efactory.modules.system.domain.Role;
 
 import java.util.Set;
 

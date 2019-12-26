@@ -1,14 +1,10 @@
 package vip.efactory.service;
 
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.ejpa.base.service.IBaseService;
-import vip.efactory.entity.QiniuConfig;
-import vip.efactory.entity.QiniuContent;
+import vip.efactory.domain.QiniuConfig;
+import vip.efactory.domain.QiniuContent;
 import vip.efactory.service.dto.QiniuQueryCriteria;
 
 import javax.servlet.http.HttpServletResponse;

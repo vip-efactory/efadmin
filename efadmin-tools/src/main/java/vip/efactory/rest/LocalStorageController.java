@@ -10,7 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.aop.log.Log;
-import vip.efactory.entity.LocalStorage;
+import vip.efactory.domain.LocalStorage;
 import vip.efactory.service.LocalStorageService;
 import vip.efactory.service.dto.LocalStorageQueryCriteria;
 
@@ -34,7 +34,7 @@ public class LocalStorageController {
 
     @ApiOperation("查询文件")
     @GetMapping
-    @PreAuthorize("@el.check('storage:list')")
+    @PreAuthorize("@p.check('storage:list')")
     public ResponseEntity<Object> getLocalStorages(LocalStorageQueryCriteria criteria, Pageable pageable){
         return new ResponseEntity<>(localStorageService.queryAll(criteria,pageable), HttpStatus.OK);
     }
@@ -42,21 +42,21 @@ public class LocalStorageController {
     @Log("导出数据")
     @ApiOperation("导出数据")
     @GetMapping(value = "/download")
-    @PreAuthorize("@el.check('storage:list')")
+    @PreAuthorize("@p.check('storage:list')")
     public void download(HttpServletResponse response, LocalStorageQueryCriteria criteria) throws IOException {
         localStorageService.download(localStorageService.queryAll(criteria), response);
     }
 
     @ApiOperation("上传文件")
     @PostMapping
-    @PreAuthorize("@el.check('storage:add')")
+    @PreAuthorize("@p.check('storage:add')")
     public ResponseEntity<Object> create(@RequestParam String name, @RequestParam("file") MultipartFile file){
         return new ResponseEntity<>(localStorageService.create(name, file), HttpStatus.CREATED);
     }
 
     @ApiOperation("修改文件")
     @PutMapping
-    @PreAuthorize("@el.check('storage:edit')")
+    @PreAuthorize("@p.check('storage:edit')")
     public ResponseEntity<Object> update(@Validated @RequestBody LocalStorage resources){
         localStorageService.update(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

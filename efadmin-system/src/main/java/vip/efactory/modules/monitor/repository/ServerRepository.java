@@ -3,7 +3,7 @@ package vip.efactory.modules.monitor.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import vip.efactory.modules.monitor.entity.Server;
+import vip.efactory.modules.monitor.domain.Server;
 
 /**
 * @author Zhang houying

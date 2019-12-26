@@ -1,7 +1,7 @@
 package vip.efactory.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import vip.efactory.entity.ColumnInfo;
+import vip.efactory.domain.ColumnInfo;
 
 import java.util.List;
 

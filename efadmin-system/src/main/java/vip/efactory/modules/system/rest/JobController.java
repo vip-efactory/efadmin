@@ -13,7 +13,7 @@ import vip.efactory.config.DataScope;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.exception.BadRequestException;
-import vip.efactory.modules.system.entity.Job;
+import vip.efactory.modules.system.domain.Job;
 import vip.efactory.modules.system.service.JobService;
 import vip.efactory.modules.system.service.dto.JobQueryCriteria;
 import vip.efactory.utils.ThrowableUtil;
@@ -39,7 +39,7 @@ public class JobController extends BaseController<Job, JobService, Long> {
     @Log("导出岗位数据")
     @ApiOperation("导出岗位数据")
     @GetMapping(value = "/download")
-    @PreAuthorize("@el.check('job:list')")
+    @PreAuthorize("@p.check('job:list')")
     public void download(HttpServletResponse response, JobQueryCriteria criteria) throws IOException {
         entityService.download(entityService.queryAll(criteria), response);
     }
@@ -47,7 +47,7 @@ public class JobController extends BaseController<Job, JobService, Long> {
     @Log("查询岗位")
     @ApiOperation("查询岗位")
     @GetMapping
-    @PreAuthorize("@el.check('job:list','user:list')")
+    @PreAuthorize("@p.check('job:list','user:list')")
     public ResponseEntity<Object> getJobs(JobQueryCriteria criteria, Pageable pageable){
         // 数据权限
         criteria.setDeptIds(dataScope.getDeptIds());
@@ -57,7 +57,7 @@ public class JobController extends BaseController<Job, JobService, Long> {
     @Log("新增岗位")
     @ApiOperation("新增岗位")
     @PostMapping
-    @PreAuthorize("@el.check('job:add')")
+    @PreAuthorize("@p.check('job:add')")
     public ResponseEntity<Object> create(@Validated @RequestBody Job resources){
         if (resources.getId() != null) {
             throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
@@ -68,7 +68,7 @@ public class JobController extends BaseController<Job, JobService, Long> {
     @Log("修改岗位")
     @ApiOperation("修改岗位")
     @PutMapping
-    @PreAuthorize("@el.check('job:edit')")
+    @PreAuthorize("@p.check('job:edit')")
     public ResponseEntity<Object> update(@Validated(Update.class) @RequestBody Job resources){
         entityService.update(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -77,7 +77,7 @@ public class JobController extends BaseController<Job, JobService, Long> {
     @Log("删除岗位")
     @ApiOperation("删除岗位")
     @DeleteMapping
-    @PreAuthorize("@el.check('job:del')")
+    @PreAuthorize("@p.check('job:del')")
     public ResponseEntity<Object> delete(@RequestBody Set<Long> ids){
         try {
             entityService.delete(ids);

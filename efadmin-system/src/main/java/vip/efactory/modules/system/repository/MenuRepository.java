@@ -2,7 +2,7 @@ package vip.efactory.modules.system.repository;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import vip.efactory.ejpa.base.repository.BaseRepository;
-import vip.efactory.modules.system.entity.Menu;
+import vip.efactory.modules.system.domain.Menu;
 
 import java.util.LinkedHashSet;
 import java.util.List;

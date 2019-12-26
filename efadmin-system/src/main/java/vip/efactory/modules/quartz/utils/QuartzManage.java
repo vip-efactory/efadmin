@@ -5,7 +5,7 @@ import org.quartz.*;
 import org.quartz.impl.triggers.CronTriggerImpl;
 import org.springframework.stereotype.Component;
 import vip.efactory.exception.BadRequestException;
-import vip.efactory.modules.quartz.entity.QuartzJob;
+import vip.efactory.modules.quartz.domain.QuartzJob;
 
 import javax.annotation.Resource;
 import java.util.Date;

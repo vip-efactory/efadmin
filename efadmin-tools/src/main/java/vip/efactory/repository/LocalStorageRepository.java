@@ -2,7 +2,7 @@ package vip.efactory.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import vip.efactory.entity.LocalStorage;
+import vip.efactory.domain.LocalStorage;
 
 /**
 * @author Zheng Jie

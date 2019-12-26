@@ -2,7 +2,7 @@ package vip.efactory.modules.quartz.repository;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import vip.efactory.ejpa.base.repository.BaseRepository;
-import vip.efactory.modules.quartz.entity.QuartzJob;
+import vip.efactory.modules.quartz.domain.QuartzJob;
 
 import java.util.List;
 

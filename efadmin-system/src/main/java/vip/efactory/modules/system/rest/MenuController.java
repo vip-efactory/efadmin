@@ -11,7 +11,7 @@ import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.exception.BadRequestException;
-import vip.efactory.modules.system.entity.Menu;
+import vip.efactory.modules.system.domain.Menu;
 import vip.efactory.modules.system.service.MenuService;
 import vip.efactory.modules.system.service.RoleService;
 import vip.efactory.modules.system.service.UserService;
@@ -46,7 +46,7 @@ public class MenuController extends BaseController<Menu, MenuService, Long> {
     @Log("导出菜单数据")
     @ApiOperation("导出菜单数据")
     @GetMapping(value = "/download")
-    @PreAuthorize("@el.check('menu:list')")
+    @PreAuthorize("@p.check('menu:list')")
     public void download(HttpServletResponse response, MenuQueryCriteria criteria) throws IOException {
         entityService.download(entityService.queryAll(criteria), response);
     }
@@ -62,7 +62,7 @@ public class MenuController extends BaseController<Menu, MenuService, Long> {
 
     @ApiOperation("返回全部的菜单")
     @GetMapping(value = "/tree")
-    @PreAuthorize("@el.check('menu:list','roles:list')")
+    @PreAuthorize("@p.check('menu:list','roles:list')")
     public ResponseEntity<Object> getMenuTree(){
         return new ResponseEntity<>(entityService.getMenuTree(entityService.findByPid(0L)),HttpStatus.OK);
     }
@@ -70,7 +70,7 @@ public class MenuController extends BaseController<Menu, MenuService, Long> {
     @Log("查询菜单")
     @ApiOperation("查询菜单")
     @GetMapping
-    @PreAuthorize("@el.check('menu:list')")
+    @PreAuthorize("@p.check('menu:list')")
     public ResponseEntity<Object> getMenus(MenuQueryCriteria criteria){
         List<MenuDto> menuDtoList = entityService.queryAll(criteria);
         return new ResponseEntity<>(entityService.buildTree(menuDtoList),HttpStatus.OK);
@@ -79,7 +79,7 @@ public class MenuController extends BaseController<Menu, MenuService, Long> {
     @Log("新增菜单")
     @ApiOperation("新增菜单")
     @PostMapping
-    @PreAuthorize("@el.check('menu:add')")
+    @PreAuthorize("@p.check('menu:add')")
     public ResponseEntity<Object> create(@Validated @RequestBody Menu resources){
         if (resources.getId() != null) {
             throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
@@ -90,7 +90,7 @@ public class MenuController extends BaseController<Menu, MenuService, Long> {
     @Log("修改菜单")
     @ApiOperation("修改菜单")
     @PutMapping
-    @PreAuthorize("@el.check('menu:edit')")
+    @PreAuthorize("@p.check('menu:edit')")
     public ResponseEntity<Object> update(@Validated(Update.class) @RequestBody Menu resources){
         entityService.update(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -99,7 +99,7 @@ public class MenuController extends BaseController<Menu, MenuService, Long> {
     @Log("删除菜单")
     @ApiOperation("删除菜单")
     @DeleteMapping
-    @PreAuthorize("@el.check('menu:del')")
+    @PreAuthorize("@p.check('menu:del')")
     public ResponseEntity<Object> delete(@RequestBody Set<Long> ids){
         Set<Menu> menuSet = new HashSet<>();
         for (Long id : ids) {

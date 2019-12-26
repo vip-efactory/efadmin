@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import vip.efactory.entity.LocalStorage;
+import vip.efactory.domain.LocalStorage;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.repository.LocalStorageRepository;
 import vip.efactory.service.LocalStorageService;

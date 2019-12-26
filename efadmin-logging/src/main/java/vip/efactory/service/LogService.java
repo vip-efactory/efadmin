@@ -4,7 +4,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import vip.efactory.ejpa.base.service.IBaseService;
-import vip.efactory.entity.SysLog;
+import vip.efactory.domain.SysLog;
 import vip.efactory.service.dto.LogQueryCriteria;
 
 import javax.servlet.http.HttpServletResponse;

@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
-import vip.efactory.entity.Picture;
+import vip.efactory.domain.Picture;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.repository.PictureRepository;
 import vip.efactory.service.PictureService;

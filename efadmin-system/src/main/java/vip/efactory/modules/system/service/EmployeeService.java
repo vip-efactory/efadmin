@@ -2,7 +2,7 @@ package vip.efactory.modules.system.service;
 
 import org.springframework.data.domain.Pageable;
 import vip.efactory.ejpa.base.service.IBaseService;
-import vip.efactory.modules.system.entity.Employee;
+import vip.efactory.modules.system.domain.Employee;
 import vip.efactory.modules.system.service.dto.EmployeeDto;
 import vip.efactory.modules.system.service.dto.EmployeeQueryCriteria;
 

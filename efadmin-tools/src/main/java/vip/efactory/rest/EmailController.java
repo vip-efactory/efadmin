@@ -9,8 +9,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
-import vip.efactory.entity.EmailConfig;
-import vip.efactory.entity.vo.EmailVo;
+import vip.efactory.domain.EmailConfig;
+import vip.efactory.domain.vo.EmailVo;
 import vip.efactory.service.EmailService;
 
 /**

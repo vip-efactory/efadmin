@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import vip.efactory.modules.monitor.entity.Server;
+import vip.efactory.modules.monitor.domain.Server;
 import vip.efactory.modules.monitor.repository.ServerRepository;
 import vip.efactory.modules.monitor.service.ServerService;
 import vip.efactory.modules.monitor.service.dto.ServerDTO;

@@ -1,7 +1,6 @@
 package vip.efactory.modules.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
-import vip.efactory.modules.system.entity.Dict;
+import vip.efactory.modules.system.domain.Dict;
 import vip.efactory.modules.system.repository.DictRepository;
 import vip.efactory.modules.system.service.DictService;
 import vip.efactory.modules.system.service.dto.DictDetailDto;

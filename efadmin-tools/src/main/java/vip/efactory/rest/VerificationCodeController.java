@@ -2,15 +2,12 @@ package vip.efactory.rest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.ejpa.base.controller.BaseController;
-import vip.efactory.entity.VerificationCode;
-import vip.efactory.entity.vo.EmailVo;
+import vip.efactory.domain.VerificationCode;
+import vip.efactory.domain.vo.EmailVo;
 import vip.efactory.service.EmailService;
 import vip.efactory.service.VerificationCodeService;
 import vip.efactory.utils.EfAdminConstant;

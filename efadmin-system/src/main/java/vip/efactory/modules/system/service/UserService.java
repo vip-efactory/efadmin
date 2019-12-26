@@ -3,7 +3,7 @@ package vip.efactory.modules.system.service;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.ejpa.base.service.IBaseService;
-import vip.efactory.modules.system.entity.User;
+import vip.efactory.modules.system.domain.User;
 import vip.efactory.modules.system.service.dto.UserDto;
 import vip.efactory.modules.system.service.dto.UserQueryCriteria;
 

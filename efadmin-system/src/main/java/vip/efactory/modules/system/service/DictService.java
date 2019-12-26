@@ -3,7 +3,7 @@ package vip.efactory.modules.system.service;
 
 import org.springframework.data.domain.Pageable;
 import vip.efactory.ejpa.base.service.IBaseService;
-import vip.efactory.modules.system.entity.Dict;
+import vip.efactory.modules.system.domain.Dict;
 import vip.efactory.modules.system.service.dto.DictDto;
 import vip.efactory.modules.system.service.dto.DictQueryCriteria;
 

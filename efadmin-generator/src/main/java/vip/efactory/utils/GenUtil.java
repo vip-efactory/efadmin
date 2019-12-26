@@ -4,9 +4,8 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.template.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
-import vip.efactory.entity.ColumnInfo;
-import vip.efactory.entity.GenConfig;
-import vip.efactory.entity.vo.TableInfo;
+import vip.efactory.domain.ColumnInfo;
+import vip.efactory.domain.GenConfig;
 
 import java.io.File;
 import java.io.FileWriter;

@@ -4,7 +4,7 @@ package vip.efactory.modules.system.service.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import vip.efactory.base.BaseMapper;
-import vip.efactory.modules.system.entity.Dict;
+import vip.efactory.modules.system.domain.Dict;
 import vip.efactory.modules.system.service.dto.DictSmallDto;
 
 /**

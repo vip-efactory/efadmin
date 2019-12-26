@@ -5,7 +5,7 @@ package vip.efactory.modules.system.service;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import vip.efactory.ejpa.base.service.IBaseService;
-import vip.efactory.modules.system.entity.Role;
+import vip.efactory.modules.system.domain.Role;
 import vip.efactory.modules.system.service.dto.RoleDto;
 import vip.efactory.modules.system.service.dto.RoleQueryCriteria;
 import vip.efactory.modules.system.service.dto.RoleSmallDto;

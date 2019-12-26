@@ -1,6 +1,5 @@
 package vip.efactory.modules.system.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -9,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.exception.BadRequestException;
-import vip.efactory.modules.system.entity.Dept;
+import vip.efactory.modules.system.domain.Dept;
 import vip.efactory.modules.system.repository.DeptRepository;
 import vip.efactory.modules.system.service.DeptService;
 import vip.efactory.modules.system.service.dto.DeptDto;

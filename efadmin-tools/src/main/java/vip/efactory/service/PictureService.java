@@ -4,7 +4,7 @@ package vip.efactory.service;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.ejpa.base.service.IBaseService;
-import vip.efactory.entity.Picture;
+import vip.efactory.domain.Picture;
 import vip.efactory.service.dto.PictureQueryCriteria;
 
 import javax.servlet.http.HttpServletResponse;

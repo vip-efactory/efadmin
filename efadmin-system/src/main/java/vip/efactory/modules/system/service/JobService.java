@@ -3,7 +3,7 @@ package vip.efactory.modules.system.service;
 
 import org.springframework.data.domain.Pageable;
 import vip.efactory.ejpa.base.service.IBaseService;
-import vip.efactory.modules.system.entity.Job;
+import vip.efactory.modules.system.domain.Job;
 import vip.efactory.modules.system.service.dto.JobDto;
 import vip.efactory.modules.system.service.dto.JobQueryCriteria;
 

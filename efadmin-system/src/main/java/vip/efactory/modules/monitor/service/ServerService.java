@@ -2,7 +2,7 @@ package vip.efactory.modules.monitor.service;
 
 
 import org.springframework.data.domain.Pageable;
-import vip.efactory.modules.monitor.entity.Server;
+import vip.efactory.modules.monitor.domain.Server;
 import vip.efactory.modules.monitor.service.dto.ServerDTO;
 import vip.efactory.modules.monitor.service.dto.ServerQueryCriteria;
 

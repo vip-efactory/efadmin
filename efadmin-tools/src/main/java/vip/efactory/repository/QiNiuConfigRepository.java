@@ -3,7 +3,7 @@ package vip.efactory.repository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import vip.efactory.ejpa.base.repository.BaseRepository;
-import vip.efactory.entity.QiniuConfig;
+import vip.efactory.domain.QiniuConfig;
 
 public interface QiNiuConfigRepository extends BaseRepository<QiniuConfig, Long> {
 

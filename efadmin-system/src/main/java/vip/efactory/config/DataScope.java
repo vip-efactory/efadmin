@@ -1,7 +1,7 @@
 package vip.efactory.config;
 
 import org.springframework.stereotype.Component;
-import vip.efactory.modules.system.entity.Dept;
+import vip.efactory.modules.system.domain.Dept;
 import vip.efactory.modules.system.service.DeptService;
 import vip.efactory.modules.system.service.RoleService;
 import vip.efactory.modules.system.service.UserService;

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
-import vip.efactory.entity.SysLog;
+import vip.efactory.domain.SysLog;
 import vip.efactory.repository.LogRepository;
 import vip.efactory.service.LogService;
 import vip.efactory.service.dto.LogQueryCriteria;

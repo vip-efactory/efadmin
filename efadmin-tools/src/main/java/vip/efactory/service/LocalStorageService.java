@@ -3,7 +3,7 @@ package vip.efactory.service;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
-import vip.efactory.entity.LocalStorage;
+import vip.efactory.domain.LocalStorage;
 import vip.efactory.service.dto.LocalStorageDto;
 import vip.efactory.service.dto.LocalStorageQueryCriteria;
 

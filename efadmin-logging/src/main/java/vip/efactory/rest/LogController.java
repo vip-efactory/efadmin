@@ -9,7 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
-import vip.efactory.entity.SysLog;
+import vip.efactory.domain.SysLog;
 import vip.efactory.service.LogService;
 import vip.efactory.service.dto.LogQueryCriteria;
 import vip.efactory.utils.SecurityUtils;
@@ -31,7 +31,7 @@ public class LogController extends BaseController<SysLog, LogService, Long> {
     @Log("导出数据")
     @ApiOperation("导出数据")
     @GetMapping(value = "/download")
-    @PreAuthorize("@el.check()")
+    @PreAuthorize("@p.check()")
     public void download(HttpServletResponse response, LogQueryCriteria criteria) throws IOException {
         criteria.setLogType("INFO");
         entityService.download(entityService.queryAll(criteria), response);
@@ -40,7 +40,7 @@ public class LogController extends BaseController<SysLog, LogService, Long> {
     @Log("导出错误数据")
     @ApiOperation("导出错误数据")
     @GetMapping(value = "/error/download")
-    @PreAuthorize("@el.check()")
+    @PreAuthorize("@p.check()")
     public void errorDownload(HttpServletResponse response, LogQueryCriteria criteria) throws IOException {
         criteria.setLogType("ERROR");
         entityService.download(entityService.queryAll(criteria), response);
@@ -48,7 +48,7 @@ public class LogController extends BaseController<SysLog, LogService, Long> {
 
     @GetMapping
     @ApiOperation("日志查询")
-    @PreAuthorize("@el.check()")
+    @PreAuthorize("@p.check()")
     public ResponseEntity<Object> getLogs(LogQueryCriteria criteria, Pageable pageable) {
         criteria.setLogType("INFO");
         return new ResponseEntity<>(entityService.queryAll(criteria, pageable), HttpStatus.OK);
@@ -64,7 +64,7 @@ public class LogController extends BaseController<SysLog, LogService, Long> {
 
     @GetMapping(value = "/error")
     @ApiOperation("错误日志查询")
-    @PreAuthorize("@el.check()")
+    @PreAuthorize("@p.check()")
     public ResponseEntity<Object> getErrorLogs(LogQueryCriteria criteria, Pageable pageable) {
         criteria.setLogType("ERROR");
         return new ResponseEntity<>(entityService.queryAll(criteria, pageable), HttpStatus.OK);
@@ -72,7 +72,7 @@ public class LogController extends BaseController<SysLog, LogService, Long> {
 
     @GetMapping(value = "/error/{id}")
     @ApiOperation("日志异常详情查询")
-    @PreAuthorize("@el.check()")
+    @PreAuthorize("@p.check()")
     public ResponseEntity<Object> getErrorLogs(@PathVariable Long id) {
         return new ResponseEntity<>(entityService.findByErrDetail(id), HttpStatus.OK);
     }
@@ -80,7 +80,7 @@ public class LogController extends BaseController<SysLog, LogService, Long> {
     @DeleteMapping(value = "/del/error")
     @Log("删除所有ERROR日志")
     @ApiOperation("删除所有ERROR日志")
-    @PreAuthorize("@el.check()")
+    @PreAuthorize("@p.check()")
     public ResponseEntity<Object> delAllByError() {
         entityService.delAllByError();
         return new ResponseEntity<>(HttpStatus.OK);
@@ -89,7 +89,7 @@ public class LogController extends BaseController<SysLog, LogService, Long> {
     @DeleteMapping(value = "/del/info")
     @Log("删除所有INFO日志")
     @ApiOperation("删除所有INFO日志")
-    @PreAuthorize("@el.check()")
+    @PreAuthorize("@p.check()")
     public ResponseEntity<Object> delAllByInfo() {
         entityService.delAllByInfo();
         return new ResponseEntity<>(HttpStatus.OK);

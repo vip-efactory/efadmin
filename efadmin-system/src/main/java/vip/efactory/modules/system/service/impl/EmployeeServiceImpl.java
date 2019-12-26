@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.exception.EntityExistException;
-import vip.efactory.modules.system.entity.Employee;
+import vip.efactory.modules.system.domain.Employee;
 import vip.efactory.modules.system.repository.EmployeeRepository;
 import vip.efactory.modules.system.service.EmployeeService;
 import vip.efactory.modules.system.service.dto.EmployeeDto;

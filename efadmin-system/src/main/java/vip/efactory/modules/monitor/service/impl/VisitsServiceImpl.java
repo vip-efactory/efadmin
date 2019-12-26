@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
-import vip.efactory.modules.monitor.entity.Visits;
+import vip.efactory.modules.monitor.domain.Visits;
 import vip.efactory.modules.monitor.repository.VisitsRepository;
 import vip.efactory.modules.monitor.service.VisitsService;
 import vip.efactory.repository.LogRepository;

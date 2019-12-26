@@ -3,7 +3,7 @@ package vip.efactory.modules.monitor.service.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import vip.efactory.base.BaseMapper;
-import vip.efactory.modules.monitor.entity.Server;
+import vip.efactory.modules.monitor.domain.Server;
 import vip.efactory.modules.monitor.service.dto.ServerDTO;
 
 /**

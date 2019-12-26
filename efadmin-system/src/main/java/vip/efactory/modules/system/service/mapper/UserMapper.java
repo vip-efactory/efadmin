@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import vip.efactory.base.BaseMapper;
-import vip.efactory.modules.system.entity.User;
+import vip.efactory.modules.system.domain.User;
 import vip.efactory.modules.system.service.dto.UserDto;
 
 /**

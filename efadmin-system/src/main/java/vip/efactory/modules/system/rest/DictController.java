@@ -12,7 +12,7 @@ import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.exception.BadRequestException;
-import vip.efactory.modules.system.entity.Dict;
+import vip.efactory.modules.system.domain.Dict;
 import vip.efactory.modules.system.service.DictService;
 import vip.efactory.modules.system.service.dto.DictQueryCriteria;
 
@@ -30,7 +30,7 @@ public class DictController extends BaseController<Dict, DictService, Long> {
     @Log("导出字典数据")
     @ApiOperation("导出字典数据")
     @GetMapping(value = "/download")
-    @PreAuthorize("@el.check('dict:list')")
+    @PreAuthorize("@p.check('dict:list')")
     public void download(HttpServletResponse response, DictQueryCriteria criteria) throws IOException {
         entityService.download(entityService.queryAll(criteria), response);
     }
@@ -38,7 +38,7 @@ public class DictController extends BaseController<Dict, DictService, Long> {
     @Log("查询字典")
     @ApiOperation("查询字典")
     @GetMapping(value = "/all")
-    @PreAuthorize("@el.check('dict:list')")
+    @PreAuthorize("@p.check('dict:list')")
     public ResponseEntity<Object> all(){
         return new ResponseEntity<>(entityService.queryAll(new DictQueryCriteria()),HttpStatus.OK);
     }
@@ -46,7 +46,7 @@ public class DictController extends BaseController<Dict, DictService, Long> {
     @Log("查询字典")
     @ApiOperation("查询字典")
     @GetMapping
-    @PreAuthorize("@el.check('dict:list')")
+    @PreAuthorize("@p.check('dict:list')")
     public ResponseEntity<Object> getDicts(DictQueryCriteria resources, Pageable pageable){
         return new ResponseEntity<>(entityService.queryAll(resources,pageable),HttpStatus.OK);
     }
@@ -54,7 +54,7 @@ public class DictController extends BaseController<Dict, DictService, Long> {
     @Log("新增字典")
     @ApiOperation("新增字典")
     @PostMapping
-    @PreAuthorize("@el.check('dict:add')")
+    @PreAuthorize("@p.check('dict:add')")
     public ResponseEntity<Object> create(@Validated @RequestBody Dict resources){
         if (resources.getId() != null) {
             throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
@@ -65,7 +65,7 @@ public class DictController extends BaseController<Dict, DictService, Long> {
     @Log("修改字典")
     @ApiOperation("修改字典")
     @PutMapping
-    @PreAuthorize("@el.check('dict:edit')")
+    @PreAuthorize("@p.check('dict:edit')")
     public ResponseEntity<Object> update(@Validated(Update.class) @RequestBody Dict resources){
         entityService.update(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -74,7 +74,7 @@ public class DictController extends BaseController<Dict, DictService, Long> {
     @Log("删除字典")
     @ApiOperation("删除字典")
     @DeleteMapping(value = "/{id}")
-    @PreAuthorize("@el.check('dict:del')")
+    @PreAuthorize("@p.check('dict:del')")
     public ResponseEntity<Object> delete(@PathVariable Long id){
         entityService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

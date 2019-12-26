@@ -5,7 +5,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
-import vip.efactory.entity.GenConfig;
+import vip.efactory.domain.GenConfig;
 import vip.efactory.repository.GenConfigRepository;
 import vip.efactory.service.GenConfigService;
 import vip.efactory.utils.StringUtils;

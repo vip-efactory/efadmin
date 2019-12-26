@@ -3,8 +3,8 @@ package vip.efactory.service;
 
 import org.springframework.scheduling.annotation.Async;
 import vip.efactory.ejpa.base.service.IBaseService;
-import vip.efactory.entity.EmailConfig;
-import vip.efactory.entity.vo.EmailVo;
+import vip.efactory.domain.EmailConfig;
+import vip.efactory.domain.vo.EmailVo;
 
 public interface EmailService extends IBaseService<EmailConfig, Long> {
 

@@ -2,8 +2,8 @@ package vip.efactory.service;
 
 
 import vip.efactory.ejpa.base.service.IBaseService;
-import vip.efactory.entity.AlipayConfig;
-import vip.efactory.entity.vo.TradeVo;
+import vip.efactory.domain.AlipayConfig;
+import vip.efactory.domain.vo.TradeVo;
 
 public interface AliPayService extends IBaseService<AlipayConfig, Long> {
 
