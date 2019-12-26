@@ -41,12 +41,12 @@ public class Picture extends BaseEntity<Long> implements Serializable {
 
     private String username;
 
-    @CreationTimestamp
-    @Column(name = "create_time")
-    private Timestamp createTime;
-
     /** 用于检测文件是否重复 */
     private String md5Code;
+
+//    @CreationTimestamp
+//    @Column(name = "create_time")
+//    private Timestamp createTime;
 
     @Override
     public String toString() {

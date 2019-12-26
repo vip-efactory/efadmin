@@ -2,6 +2,7 @@ package vip.efactory.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import vip.efactory.ejpa.base.entity.BaseEntity;
 import vip.efactory.utils.GenUtil;
 
 
@@ -16,7 +17,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Table(name = "column_config")
-public class ColumnInfo {
+public class ColumnInfo extends BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

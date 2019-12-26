@@ -75,10 +75,10 @@ public class SysLog extends BaseEntity<Long> implements Serializable {
     @Column(name = "exception_detail", columnDefinition = "text")
     private byte[] exceptionDetail;
 
-    /** 创建日期 */
-    @CreationTimestamp
-    @Column(name = "create_time")
-    private Timestamp createTime;
+//    /** 创建日期 */
+//    @CreationTimestamp
+//    @Column(name = "create_time")
+//    private Timestamp createTime;
 
     public SysLog(String logType, Long time) {
         this.logType = logType;
