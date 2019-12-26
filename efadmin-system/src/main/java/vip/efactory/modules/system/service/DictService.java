@@ -1,57 +1,65 @@
 package vip.efactory.modules.system.service;
 
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
+
 import org.springframework.data.domain.Pageable;
 import vip.efactory.ejpa.base.service.IBaseService;
 import vip.efactory.modules.system.entity.Dict;
-import vip.efactory.modules.system.service.dto.DictDTO;
+import vip.efactory.modules.system.service.dto.DictDto;
+import vip.efactory.modules.system.service.dto.DictQueryCriteria;
 
-@CacheConfig(cacheNames = "dict")
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
 public interface DictService extends IBaseService<Dict, Long> {
 
     /**
-     * 查询
-     *
-     * @param dict
-     * @param pageable
-     * @return
+     * 分页查询
+     * @param criteria 条件
+     * @param pageable 分页参数
+     * @return /
      */
-    @Cacheable(keyGenerator = "keyGenerator")
-    Object queryAll(DictDTO dict, Pageable pageable);
+    Map<String,Object> queryAll(DictQueryCriteria criteria, Pageable pageable);
 
     /**
-     * findJobDTOById
-     *
-     * @param id
-     * @return
+     * 查询全部数据
+     * @param dict /
+     * @return /
      */
-    @Cacheable(key = "#p0")
-    DictDTO findDictDTOById(Long id);
+    List<DictDto> queryAll(DictQueryCriteria dict);
 
     /**
-     * create
-     *
-     * @param resources
-     * @return
+     * 根据ID查询
+     * @param id /
+     * @return /
      */
-    @CacheEvict(allEntries = true)
-    DictDTO create(Dict resources);
+    DictDto findDtoById(Long id);
 
     /**
-     * update
-     *
-     * @param resources
+     * 创建
+     * @param resources /
+     * @return /
      */
-    @CacheEvict(allEntries = true)
-    Dict update(Dict resources);
+    DictDto create(Dict resources);
 
     /**
-     * delete
-     *
-     * @param id
+     * 编辑
+     * @param resources /
      */
-    @CacheEvict(allEntries = true)
+    void update2(Dict resources);
+
+    /**
+     * 删除
+     * @param id /
+     */
     void delete(Long id);
+
+    /**
+     * 导出数据
+     * @param queryAll 待导出的数据
+     * @param response /
+     * @throws IOException /
+     */
+    void download(List<DictDto> queryAll, HttpServletResponse response) throws IOException;
 }

@@ -3,6 +3,9 @@ package vip.efactory.modules.quartz.service.dto;
 import lombok.Data;
 import vip.efactory.annotation.Query;
 
+import java.sql.Timestamp;
+import java.util.List;
+
 @Data
 public class JobQueryCriteria {
 
@@ -11,4 +14,7 @@ public class JobQueryCriteria {
 
     @Query
     private Boolean isSuccess;
+
+    @Query(type = Query.Type.BETWEEN)
+    private List<Timestamp> createTime;
 }

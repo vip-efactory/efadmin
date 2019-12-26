@@ -1,7 +1,6 @@
 package vip.efactory.modules.monitor.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +23,11 @@ import java.util.stream.Collectors;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class VisitsServiceImpl extends BaseServiceImpl<Visits, Long, VisitsRepository> implements VisitsService {
 
-    @Autowired
-    private LogRepository logRepository;
+    private final LogRepository logRepository;
+
+    public VisitsServiceImpl( LogRepository logRepository) {
+        this.logRepository = logRepository;
+    }
 
     @Override
     public void save() {
@@ -53,7 +55,7 @@ public class VisitsServiceImpl extends BaseServiceImpl<Visits, Long, VisitsRepos
 
     @Override
     public Object get() {
-        Map map = new HashMap();
+        Map<String,Object> map = new HashMap<>(4);
         LocalDate localDate = LocalDate.now();
         Visits visits = br.findByDate(localDate.toString());
         List<Visits> list = br.findAllVisits(localDate.minusDays(6).toString(), localDate.plusDays(1).toString());
@@ -72,7 +74,7 @@ public class VisitsServiceImpl extends BaseServiceImpl<Visits, Long, VisitsRepos
 
     @Override
     public Object getChartData() {
-        Map map = new HashMap();
+        Map<String,Object> map = new HashMap<>(3);
         LocalDate localDate = LocalDate.now();
         List<Visits> list = br.findAllVisits(localDate.minusDays(6).toString(), localDate.plusDays(1).toString());
         map.put("weekDays", list.stream().map(Visits::getWeekDay).collect(Collectors.toList()));

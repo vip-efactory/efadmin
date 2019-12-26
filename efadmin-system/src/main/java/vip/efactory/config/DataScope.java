@@ -1,13 +1,12 @@
 package vip.efactory.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import vip.efactory.modules.system.entity.Dept;
 import vip.efactory.modules.system.service.DeptService;
 import vip.efactory.modules.system.service.RoleService;
 import vip.efactory.modules.system.service.UserService;
-import vip.efactory.modules.system.service.dto.RoleSmallDTO;
-import vip.efactory.modules.system.service.dto.UserDTO;
+import vip.efactory.modules.system.service.dto.RoleSmallDto;
+import vip.efactory.modules.system.service.dto.UserDto;
 import vip.efactory.utils.SecurityUtils;
 
 import java.util.ArrayList;
@@ -21,31 +20,34 @@ import java.util.Set;
 @Component
 public class DataScope {
 
-    private final String[] scopeType = {"全部", "本级", "自定义"};
+    private final String[] scopeType = {"全部","本级","自定义"};
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private RoleService roleService;
+    private final RoleService roleService;
 
-    @Autowired
-    private DeptService deptService;
+    private final DeptService deptService;
+
+    public DataScope(UserService userService, RoleService roleService, DeptService deptService) {
+        this.userService = userService;
+        this.roleService = roleService;
+        this.deptService = deptService;
+    }
 
     public Set<Long> getDeptIds() {
 
-        UserDTO user = userService.findByName(SecurityUtils.getUsername());
+        UserDto user = userService.findByName(SecurityUtils.getUsername());
 
         // 用于存储部门id
         Set<Long> deptIds = new HashSet<>();
 
         // 查询用户角色
-        List<RoleSmallDTO> roleSet = roleService.findByUsers_Id(user.getId());
+        List<RoleSmallDto> roleSet = roleService.findByUsersId(user.getId());
 
-        for (RoleSmallDTO role : roleSet) {
+        for (RoleSmallDto role : roleSet) {
 
             if (scopeType[0].equals(role.getDataScope())) {
-                return new HashSet<>();
+                return new HashSet<>() ;
             }
 
             // 存储本级的数据权限
@@ -72,9 +74,9 @@ public class DataScope {
     public List<Long> getDeptChildren(List<Dept> deptList) {
         List<Long> list = new ArrayList<>();
         deptList.forEach(dept -> {
-                    if (dept != null && dept.getEnabled()) {
+                    if (dept!=null && dept.getEnabled()){
                         List<Dept> depts = deptService.findByPid(dept.getId());
-                        if (deptList != null && deptList.size() != 0) {
+                        if(deptList.size() != 0){
                             list.addAll(getDeptChildren(depts));
                         }
                         list.add(dept.getId());

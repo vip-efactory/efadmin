@@ -2,11 +2,15 @@ package vip.efactory.modules.system.service.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
-import vip.efactory.mapper.EntityMapper;
+import vip.efactory.base.BaseMapper;
 import vip.efactory.modules.system.entity.Dept;
-import vip.efactory.modules.system.service.dto.DeptSmallDTO;
+import vip.efactory.modules.system.service.dto.DeptSmallDto;
 
-@Mapper(componentModel = "spring", uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface DeptSmallMapper extends EntityMapper<DeptSmallDTO, Dept> {
+/**
+* @author Zheng Jie
+* @date 2019-03-25
+*/
+@Mapper(componentModel = "spring",unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface DeptSmallMapper extends BaseMapper<DeptSmallDto, Dept> {
 
 }

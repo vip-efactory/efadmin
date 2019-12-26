@@ -6,12 +6,11 @@ import vip.efactory.modules.quartz.entity.QuartzJob;
 
 import java.util.List;
 
-public interface QuartzJobRepository extends BaseRepository<QuartzJob, Long>, JpaSpecificationExecutor {
+public interface QuartzJobRepository extends BaseRepository<QuartzJob, Long>, JpaSpecificationExecutor<QuartzJob> {
 
     /**
      * 查询启用的任务
-     *
-     * @return
+     * @return List
      */
     List<QuartzJob> findByIsPauseIsFalse();
 }

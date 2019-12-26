@@ -2,12 +2,15 @@ package vip.efactory.modules.system.service.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
-import vip.efactory.mapper.EntityMapper;
+import vip.efactory.base.BaseMapper;
 import vip.efactory.modules.system.entity.Menu;
-import vip.efactory.modules.system.service.dto.MenuDTO;
+import vip.efactory.modules.system.service.dto.MenuDto;
 
-
-@Mapper(componentModel = "spring", uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface MenuMapper extends EntityMapper<MenuDTO, Menu> {
+/**
+ * @author Zheng Jie
+ * @date 2018-12-17
+ */
+@Mapper(componentModel = "spring",unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface MenuMapper extends BaseMapper<MenuDto, Menu> {
 
 }

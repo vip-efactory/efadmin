@@ -1,6 +1,7 @@
 package vip.efactory.modules.system.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,88 +15,99 @@ import vip.efactory.modules.system.entity.Menu;
 import vip.efactory.modules.system.service.MenuService;
 import vip.efactory.modules.system.service.RoleService;
 import vip.efactory.modules.system.service.UserService;
-import vip.efactory.modules.system.service.dto.CommonQueryCriteria;
-import vip.efactory.modules.system.service.dto.MenuDTO;
-import vip.efactory.modules.system.service.dto.UserDTO;
+import vip.efactory.modules.system.service.dto.MenuDto;
+import vip.efactory.modules.system.service.dto.MenuQueryCriteria;
+import vip.efactory.modules.system.service.dto.UserDto;
 import vip.efactory.utils.SecurityUtils;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+@Api(tags = "系统：菜单管理")
 @RestController
-@RequestMapping("api")
+@RequestMapping("/api/menus")
+@SuppressWarnings("unchecked")
 public class MenuController extends BaseController<Menu, MenuService, Long> {
+    
+    private final UserService userService;
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private RoleService roleService;
+    private final RoleService roleService;
 
     private static final String ENTITY_NAME = "menu";
 
-    /**
-     * 构建前端路由所需要的菜单
-     *
-     * @return
-     */
-    @GetMapping(value = "/menus/build")
-    public ResponseEntity buildMenus() {
-        UserDTO user = userService.findByName(SecurityUtils.getUsername());
-        List<MenuDTO> menuDTOList = entityService.findByRoles(roleService.findByUsers_Id(user.getId()));
-        List<MenuDTO> menuDTOTree = (List<MenuDTO>) entityService.buildTree(menuDTOList).get("content");
-        return new ResponseEntity(entityService.buildMenus(menuDTOTree), HttpStatus.OK);
+    public MenuController(UserService userService, RoleService roleService) {
+        this.userService = userService;
+        this.roleService = roleService;
     }
 
-    /**
-     * 返回全部的菜单
-     *
-     * @return
-     */
-    @GetMapping(value = "/menus/tree")
-    @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_CREATE','MENU_EDIT','ROLES_SELECT','ROLES_ALL')")
-    public ResponseEntity getMenuTree() {
-        return new ResponseEntity(entityService.getMenuTree(entityService.findByPid(0L)), HttpStatus.OK);
+    @Log("导出菜单数据")
+    @ApiOperation("导出菜单数据")
+    @GetMapping(value = "/download")
+    @PreAuthorize("@el.check('menu:list')")
+    public void download(HttpServletResponse response, MenuQueryCriteria criteria) throws IOException {
+        entityService.download(entityService.queryAll(criteria), response);
+    }
+
+    @ApiOperation("获取前端所需菜单")
+    @GetMapping(value = "/build")
+    public ResponseEntity<Object> buildMenus(){
+        UserDto user = userService.findByName(SecurityUtils.getUsername());
+        List<MenuDto> menuDtoList = entityService.findByRoles(roleService.findByUsersId(user.getId()));
+        List<MenuDto> menuDtos = (List<MenuDto>) entityService.buildTree(menuDtoList).get("content");
+        return new ResponseEntity<>(entityService.buildMenus(menuDtos),HttpStatus.OK);
+    }
+
+    @ApiOperation("返回全部的菜单")
+    @GetMapping(value = "/tree")
+    @PreAuthorize("@el.check('menu:list','roles:list')")
+    public ResponseEntity<Object> getMenuTree(){
+        return new ResponseEntity<>(entityService.getMenuTree(entityService.findByPid(0L)),HttpStatus.OK);
     }
 
     @Log("查询菜单")
-    @GetMapping(value = "/menus")
-    @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_SELECT')")
-    public ResponseEntity getMenus(CommonQueryCriteria criteria) {
-        List<MenuDTO> menuDTOList = entityService.queryAll(criteria);
-        return new ResponseEntity(entityService.buildTree(menuDTOList), HttpStatus.OK);
+    @ApiOperation("查询菜单")
+    @GetMapping
+    @PreAuthorize("@el.check('menu:list')")
+    public ResponseEntity<Object> getMenus(MenuQueryCriteria criteria){
+        List<MenuDto> menuDtoList = entityService.queryAll(criteria);
+        return new ResponseEntity<>(entityService.buildTree(menuDtoList),HttpStatus.OK);
     }
 
     @Log("新增菜单")
-    @PostMapping(value = "/menus")
-    @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_CREATE')")
-    public ResponseEntity create(@Validated @RequestBody Menu resources) {
+    @ApiOperation("新增菜单")
+    @PostMapping
+    @PreAuthorize("@el.check('menu:add')")
+    public ResponseEntity<Object> create(@Validated @RequestBody Menu resources){
         if (resources.getId() != null) {
-            throw new BadRequestException("A new " + ENTITY_NAME + " cannot already have an ID");
+            throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
         }
-        return new ResponseEntity(entityService.create(resources), HttpStatus.CREATED);
+        return new ResponseEntity<>(entityService.create(resources),HttpStatus.CREATED);
     }
 
     @Log("修改菜单")
-    @PutMapping(value = "/menus")
-    @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_EDIT')")
-    public ResponseEntity update(@Validated(Update.class) @RequestBody Menu resources) {
+    @ApiOperation("修改菜单")
+    @PutMapping
+    @PreAuthorize("@el.check('menu:edit')")
+    public ResponseEntity<Object> update(@Validated(Update.class) @RequestBody Menu resources){
         entityService.update(resources);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Log("删除菜单")
-    @DeleteMapping(value = "/menus/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_DELETE')")
-    public ResponseEntity delete(@PathVariable Long id) {
-        List<Menu> menuList = entityService.findByPid(id);
-
-        // 特殊情况，对级联删除进行处理
-        for (Menu menu : menuList) {
-            roleService.untiedMenu(menu);
-            entityService.delete(menu.getId());
+    @ApiOperation("删除菜单")
+    @DeleteMapping
+    @PreAuthorize("@el.check('menu:del')")
+    public ResponseEntity<Object> delete(@RequestBody Set<Long> ids){
+        Set<Menu> menuSet = new HashSet<>();
+        for (Long id : ids) {
+            List<Menu> menuList = entityService.findByPid(id);
+            menuSet.add(entityService.findOne(id));
+            menuSet = entityService.getDeleteMenus(menuList, menuSet);
         }
-        roleService.untiedMenu(entityService.findOne(id));
-        entityService.delete(id);
-        return new ResponseEntity(HttpStatus.OK);
+        entityService.delete(menuSet);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

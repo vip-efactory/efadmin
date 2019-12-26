@@ -8,7 +8,7 @@ import vip.efactory.modules.system.entity.Employee;
  * @author dbdu
  * @date 2019-07-21
  */
-public interface EmployeeRepository extends BaseRepository<Employee, Long>, JpaSpecificationExecutor {
+public interface EmployeeRepository extends BaseRepository<Employee, Long>, JpaSpecificationExecutor<Employee> {
 
     /**
      * findByCode

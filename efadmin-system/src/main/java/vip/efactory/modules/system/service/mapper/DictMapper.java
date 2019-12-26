@@ -2,11 +2,15 @@ package vip.efactory.modules.system.service.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
-import vip.efactory.mapper.EntityMapper;
+import vip.efactory.base.BaseMapper;
 import vip.efactory.modules.system.entity.Dict;
-import vip.efactory.modules.system.service.dto.DictDTO;
+import vip.efactory.modules.system.service.dto.DictDto;
 
-@Mapper(componentModel = "spring", uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface DictMapper extends EntityMapper<DictDTO, Dict> {
+/**
+* @author Zheng Jie
+* @date 2019-04-10
+*/
+@Mapper(componentModel = "spring",unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface DictMapper extends BaseMapper<DictDto, Dict> {
 
 }

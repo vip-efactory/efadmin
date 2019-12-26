@@ -1,8 +1,13 @@
 package vip.efactory.modules.system.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,120 +17,161 @@ import vip.efactory.modules.system.entity.Menu;
 import vip.efactory.modules.system.entity.Role;
 import vip.efactory.modules.system.repository.RoleRepository;
 import vip.efactory.modules.system.service.RoleService;
-import vip.efactory.modules.system.service.dto.CommonQueryCriteria;
-import vip.efactory.modules.system.service.dto.RoleDTO;
-import vip.efactory.modules.system.service.dto.RoleSmallDTO;
+import vip.efactory.modules.system.service.dto.RoleDto;
+import vip.efactory.modules.system.service.dto.RoleQueryCriteria;
+import vip.efactory.modules.system.service.dto.RoleSmallDto;
+import vip.efactory.modules.system.service.dto.UserDto;
 import vip.efactory.modules.system.service.mapper.RoleMapper;
 import vip.efactory.modules.system.service.mapper.RoleSmallMapper;
-import vip.efactory.utils.PageUtil;
-import vip.efactory.utils.QueryHelp;
-import vip.efactory.utils.ValidationUtil;
+import vip.efactory.utils.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@CacheConfig(cacheNames = "role")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class RoleServiceImpl extends BaseServiceImpl<Role, Long, RoleRepository> implements RoleService {
 
-    @Autowired
-    private RoleMapper roleMapper;
+    private final RoleMapper roleMapper;
 
-    @Autowired
-    private RoleSmallMapper roleSmallMapper;
+    private final RoleSmallMapper roleSmallMapper;
+
+    public RoleServiceImpl(RoleMapper roleMapper, RoleSmallMapper roleSmallMapper) {
+        this.roleMapper = roleMapper;
+        this.roleSmallMapper = roleSmallMapper;
+    }
 
     @Override
+    @Cacheable
     public Object queryAll(Pageable pageable) {
         return roleMapper.toDto(br.findAll(pageable).getContent());
     }
 
     @Override
-    public Object queryAll(CommonQueryCriteria criteria, Pageable pageable) {
-        Page<Role> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
+    @Cacheable
+    public List<RoleDto> queryAll(RoleQueryCriteria criteria) {
+        return roleMapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+    }
+
+    @Override
+    @Cacheable
+    public Object queryAll(RoleQueryCriteria criteria, Pageable pageable) {
+        Page<Role> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(roleMapper::toDto));
     }
 
     @Override
-    public RoleDTO findRoleDTOById(long id) {
-        Optional<Role> role = br.findById(id);
-        ValidationUtil.isNull(role, "Role", "id", id);
-        return roleMapper.toDto(role.get());
+    @Cacheable(key = "#p0")
+    public RoleDto findDtoById(long id) {
+        Role role = br.findById(id).orElseGet(Role::new);
+        ValidationUtil.isNull(role.getId(),"Role","id",id);
+        return roleMapper.toDto(role);
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
-    public RoleDTO create(Role resources) {
-        if (br.findByName(resources.getName()) != null) {
-            throw new EntityExistException(Role.class, "username", resources.getName());
+    public RoleDto create(Role resources) {
+        if(br.findByName(resources.getName()) != null){
+            throw new EntityExistException(Role.class,"username",resources.getName());
         }
         return roleMapper.toDto(br.save(resources));
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
-    public Role update(Role resources) {
-
-        Optional<Role> optionalRole = br.findById(resources.getId());
-        ValidationUtil.isNull(optionalRole, "Role", "id", resources.getId());
-
-        Role role = optionalRole.get();
+    public void update2(Role resources) {
+        Role role = br.findById(resources.getId()).orElseGet(Role::new);
+        ValidationUtil.isNull(role.getId(),"Role","id",resources.getId());
 
         Role role1 = br.findByName(resources.getName());
 
-        if (role1 != null && !role1.getId().equals(role.getId())) {
-            throw new EntityExistException(Role.class, "username", resources.getName());
+        if(role1 != null && !role1.getId().equals(role.getId())){
+            throw new EntityExistException(Role.class,"username",resources.getName());
         }
-
+        role1 = br.findByPermission(resources.getPermission());
+        if(role1 != null && !role1.getId().equals(role.getId())){
+            throw new EntityExistException(Role.class,"permission",resources.getPermission());
+        }
         role.setName(resources.getName());
         role.setRemark(resources.getRemark());
         role.setDataScope(resources.getDataScope());
         role.setDepts(resources.getDepts());
         role.setLevel(resources.getLevel());
-        br.save(role);
-        return resources;
-    }
-
-    @Override
-    public void updatePermission(Role resources, RoleDTO roleDTO) {
-        Role role = roleMapper.toEntity(roleDTO);
-        role.setPermissions(resources.getPermissions());
+        role.setPermission(resources.getPermission());
         br.save(role);
     }
 
     @Override
-    public void updateMenu(Role resources, RoleDTO roleDTO) {
+    @CacheEvict(allEntries = true)
+    public void updateMenu(Role resources, RoleDto roleDTO) {
         Role role = roleMapper.toEntity(roleDTO);
         role.setMenus(resources.getMenus());
         br.save(role);
     }
 
     @Override
-    public void untiedMenu(Menu menu) {
-        Set<Role> roles = br.findByMenus_Id(menu.getId());
-        for (Role role : roles) {
-            menu.getRoles().remove(role);
-            role.getMenus().remove(menu);
-            br.save(role);
-        }
-    }
-
-    @Override
+    @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Long id) {
-        br.deleteById(id);
+    public void untiedMenu(Long id) {
+        br.untiedMenu(id);
     }
 
     @Override
-    public List<RoleSmallDTO> findByUsers_Id(Long id) {
-        return roleSmallMapper.toDto(br.findByUsers_Id(id).stream().collect(Collectors.toList()));
-    }
-
-    @Override
-    public Integer findByRoles(Set<Role> roles) {
-        Set<RoleDTO> roleDTOS = new HashSet<>();
-        for (Role role : roles) {
-            roleDTOS.add(findRoleDTOById(role.getId()));
+    @CacheEvict(allEntries = true)
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(Set<Long> ids) {
+        for (Long id : ids) {
+            br.deleteById(id);
         }
-        return Collections.min(roleDTOS.stream().map(RoleDTO::getLevel).collect(Collectors.toList()));
+    }
+
+    @Override
+    @Cacheable(key = "'findByUsers_Id:' + #p0")
+    public List<RoleSmallDto> findByUsersId(Long id) {
+        return roleSmallMapper.toDto(new ArrayList<>(br.findByUsers_Id(id)));
+    }
+
+    @Override
+    @Cacheable
+    public Integer findByRoles(Set<Role> roles) {
+        Set<RoleDto> roleDtos = new HashSet<>();
+        for (Role role : roles) {
+            roleDtos.add(findDtoById(role.getId()));
+        }
+        return Collections.min(roleDtos.stream().map(RoleDto::getLevel).collect(Collectors.toList()));
+    }
+
+    @Override
+    @Cacheable(key = "'loadPermissionByUser:' + #p0.username")
+    public Collection<GrantedAuthority> mapToGrantedAuthorities(UserDto user) {
+        Set<Role> roles = br.findByUsers_Id(user.getId());
+        Set<String> permissions = roles.stream().filter(role -> StringUtils.isNotBlank(role.getPermission())).map(Role::getPermission).collect(Collectors.toSet());
+        permissions.addAll(
+                roles.stream().flatMap(role -> role.getMenus().stream())
+                        .filter(menu -> StringUtils.isNotBlank(menu.getPermission()))
+                        .map(Menu::getPermission).collect(Collectors.toSet())
+        );
+        return permissions.stream().map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void download(List<RoleDto> roles, HttpServletResponse response) throws IOException {
+        List<Map<String, Object>> list = new ArrayList<>();
+        for (RoleDto role : roles) {
+            Map<String,Object> map = new LinkedHashMap<>();
+            map.put("角色名称", role.getName());
+            map.put("默认权限", role.getPermission());
+            map.put("角色级别", role.getLevel());
+            map.put("描述", role.getRemark());
+            map.put("创建日期", role.getCreateTime());
+            list.add(map);
+        }
+        FileUtil.downloadExcel(list, response);
     }
 }

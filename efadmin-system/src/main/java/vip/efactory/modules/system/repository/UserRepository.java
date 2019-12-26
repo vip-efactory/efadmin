@@ -11,18 +11,16 @@ import java.util.Date;
 public interface UserRepository extends BaseRepository<User, Long>, JpaSpecificationExecutor {
 
     /**
-     * findByUsername
-     *
-     * @param username
-     * @return
+     * 根据用户名查询
+     * @param username 用户名
+     * @return /
      */
     User findByUsername(String username);
 
     /**
-     * findByEmail
-     *
-     * @param email
-     * @return
+     * 根据邮箱查询
+     * @param email 邮箱
+     * @return /
      */
     User findByEmail(String email);
 
@@ -35,29 +33,18 @@ public interface UserRepository extends BaseRepository<User, Long>, JpaSpecifica
 
     /**
      * 修改密码
-     *
-     * @param username
-     * @param pass
+     * @param username 用户名
+     * @param pass 密码
+     * @param lastPasswordResetTime /
      */
     @Modifying
     @Query(value = "update sys_user set password = ?2 , last_password_reset_time = ?3 where username = ?1", nativeQuery = true)
     void updatePass(String username, String pass, Date lastPasswordResetTime);
 
     /**
-     * 修改头像
-     *
-     * @param username
-     * @param url
-     */
-    @Modifying
-    @Query(value = "update sys_user set avatar = ?2 where username = ?1", nativeQuery = true)
-    void updateAvatar(String username, String url);
-
-    /**
      * 修改邮箱
-     *
-     * @param username
-     * @param email
+     * @param username 用户名
+     * @param email 邮箱
      */
     @Modifying
     @Query(value = "update sys_user set email = ?2 where username = ?1", nativeQuery = true)

@@ -17,6 +17,8 @@ public class MenuVo implements Serializable {
 
     private String path;
 
+    private Boolean hidden;
+
     private String redirect;
 
     private String component;

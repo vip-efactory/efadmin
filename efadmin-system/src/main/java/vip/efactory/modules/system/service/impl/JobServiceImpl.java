@@ -1,6 +1,9 @@
 package vip.efactory.modules.system.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,65 +14,95 @@ import vip.efactory.modules.system.entity.Job;
 import vip.efactory.modules.system.repository.DeptRepository;
 import vip.efactory.modules.system.repository.JobRepository;
 import vip.efactory.modules.system.service.JobService;
-import vip.efactory.modules.system.service.dto.JobDTO;
+import vip.efactory.modules.system.service.dto.JobDto;
 import vip.efactory.modules.system.service.dto.JobQueryCriteria;
 import vip.efactory.modules.system.service.mapper.JobMapper;
+import vip.efactory.utils.FileUtil;
 import vip.efactory.utils.PageUtil;
 import vip.efactory.utils.QueryHelp;
 import vip.efactory.utils.ValidationUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.*;
 
 @Service
+@CacheConfig(cacheNames = "job")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class JobServiceImpl extends BaseServiceImpl<Job, Long, JobRepository> implements JobService {
 
-    @Autowired
-    private JobMapper jobMapper;
+    private final JobMapper jobMapper;
 
-    @Autowired
-    private DeptRepository deptRepository;
+    private final DeptRepository deptRepository;
+
+    public JobServiceImpl(JobMapper jobMapper, DeptRepository deptRepository) {
+        this.jobMapper = jobMapper;
+        this.deptRepository = deptRepository;
+    }
 
     @Override
-    public Object queryAll(JobQueryCriteria criteria, Pageable pageable) {
-        Page<Job> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
-        List<JobDTO> jobs = new ArrayList<>();
+    @Cacheable
+    public Map<String,Object> queryAll(JobQueryCriteria criteria, Pageable pageable) {
+        Page<Job> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+        List<JobDto> jobs = new ArrayList<>();
         for (Job job : page.getContent()) {
-            jobs.add(jobMapper.toDto(job, deptRepository.findNameById(job.getDept().getPid())));
+            jobs.add(jobMapper.toDto(job,deptRepository.findNameById(job.getDept().getPid())));
         }
-        return PageUtil.toPage(jobs, page.getTotalElements());
+        return PageUtil.toPage(jobs,page.getTotalElements());
     }
 
     @Override
-    public JobDTO findJobDTOById(Long id) {
-        Optional<Job> job = br.findById(id);
-        ValidationUtil.isNull(job, "Job", "id", id);
-        return jobMapper.toDto(job.get());
+    @Cacheable
+    public List<JobDto> queryAll(JobQueryCriteria criteria) {
+        List<Job> list = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder));
+        return jobMapper.toDto(list);
     }
 
     @Override
+    @Cacheable(key = "#p0")
+    public JobDto findDtoById(Long id) {
+        Job job = br.findById(id).orElseGet(Job::new);
+        ValidationUtil.isNull(job.getId(),"Job","id",id);
+        return jobMapper.toDto(job);
+    }
+
+    @Override
+    @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
-    public JobDTO create(Job resources) {
+    public JobDto create(Job resources) {
         return jobMapper.toDto(br.save(resources));
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
-    public Job update(Job resources) {
-        Optional<Job> optionalJob = br.findById(resources.getId());
-        ValidationUtil.isNull(optionalJob, "Job", "id", resources.getId());
-
-        Job job = optionalJob.get();
+    public void update2(Job resources) {
+        Job job = br.findById(resources.getId()).orElseGet(Job::new);
+        ValidationUtil.isNull( job.getId(),"Job","id",resources.getId());
         resources.setId(job.getId());
         br.save(resources);
-        return resources;
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Long id) {
-        br.deleteById(id);
+    public void delete(Set<Long> ids) {
+        for (Long id : ids) {
+            br.deleteById(id);
+        }
+    }
+
+    @Override
+    public void download(List<JobDto> jobDtos, HttpServletResponse response) throws IOException {
+        List<Map<String, Object>> list = new ArrayList<>();
+        for (JobDto jobDTO : jobDtos) {
+            Map<String,Object> map = new LinkedHashMap<>();
+            map.put("岗位名称", jobDTO.getName());
+            map.put("所属部门", jobDTO.getDept().getName());
+            map.put("岗位状态", jobDTO.getEnabled() ? "启用" : "停用");
+            map.put("创建日期", jobDTO.getCreateTime());
+            list.add(map);
+        }
+        FileUtil.downloadExcel(list, response);
     }
 }

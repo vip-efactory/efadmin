@@ -21,7 +21,7 @@
     <div style="padding: 10px;padding-bottom: 0px;">
         <p style="margin-bottom: 10px;padding-bottom: 0px;">尊敬的用户，您好：</p>
         <p style="text-indent: 2em; margin-bottom: 10px;">您正在申请邮箱验证，您的验证码为：</p>
-        <p style="text-align: center;
+            <p style="text-align: center;
 			font-family: Times New Roman;
 			font-size: 22px;
 			color: #C60024;
@@ -34,9 +34,7 @@
 			maigin-bottom: 10px;
 			font-size: 14px;
             color: #555;">
-            <p style="line-height: 12px;">Github：<a hover="color: #DA251D;" style="color: #999;"
-                                                    href="https://github.com/elunez/eladmin" target="_blank">https://github.com/elunez/eladmin</a>
-            </p>
+            <p style="line-height: 12px;">Github：<a hover="color: #DA251D;" style="color: #999;" href="https://github.com/elunez/eladmin" target="_blank">https://github.com/elunez/eladmin</a></p>
         </div>
         <div class="foot-hr hr" style="margin: 0 auto;
 			z-index: 111;
@@ -48,7 +46,7 @@
 			font-size: 12px;
 			padding: 20px 0px;
 			font-family: Microsoft YaHei;">
-            Copyright &copy;${.now?string("yyyy")} EL-ADMIN 后台管理系统 All Rights Reserved.
+                Copyright &copy;${.now?string("yyyy")} EL-ADMIN 后台管理系统 All Rights Reserved.
         </div>
 
     </div>

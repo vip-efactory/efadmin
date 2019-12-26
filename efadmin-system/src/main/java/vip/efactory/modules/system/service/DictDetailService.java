@@ -1,53 +1,46 @@
 package vip.efactory.modules.system.service;
 
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import vip.efactory.ejpa.base.service.IBaseService;
 import vip.efactory.modules.system.entity.DictDetail;
-import vip.efactory.modules.system.service.dto.DictDetailDTO;
+import vip.efactory.modules.system.service.dto.DictDetailDto;
 import vip.efactory.modules.system.service.dto.DictDetailQueryCriteria;
 
 import java.util.Map;
 
-@CacheConfig(cacheNames = "dictDetail")
 public interface DictDetailService extends IBaseService<DictDetail, Long> {
 
     /**
-     * findJobDTOById
-     *
-     * @param id
-     * @return
+     * 根据ID查询
+     * @param id /
+     * @return /
      */
-    @Cacheable(key = "#p0")
-    DictDetailDTO findDictDeatilDTOById(Long id);
+    DictDetailDto findDtoById(Long id);
 
     /**
-     * create
-     *
-     * @param resources
-     * @return
+     * 创建
+     * @param resources /
+     * @return /
      */
-    @CacheEvict(allEntries = true)
-    DictDetailDTO create(DictDetail resources);
+    DictDetailDto create(DictDetail resources);
 
     /**
-     * update
-     *
-     * @param resources
+     * 编辑
+     * @param resources /
      */
-    @CacheEvict(allEntries = true)
-    DictDetail update(DictDetail resources);
+    void update2(DictDetail resources);
 
     /**
-     * delete
-     *
-     * @param id
+     * 删除
+     * @param id /
      */
-    @CacheEvict(allEntries = true)
     void delete(Long id);
 
-    @Cacheable(keyGenerator = "keyGenerator")
-    Map queryAll(DictDetailQueryCriteria criteria, Pageable pageable);
+    /**
+     * 分页查询
+     * @param criteria 条件
+     * @param pageable 分页参数
+     * @return /
+     */
+    Map<String,Object> queryAll(DictDetailQueryCriteria criteria, Pageable pageable);
 }

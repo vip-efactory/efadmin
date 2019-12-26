@@ -1,103 +1,108 @@
 package vip.efactory.modules.system.service;
 
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
+
 import vip.efactory.ejpa.base.service.IBaseService;
 import vip.efactory.modules.system.entity.Menu;
-import vip.efactory.modules.system.service.dto.CommonQueryCriteria;
-import vip.efactory.modules.system.service.dto.MenuDTO;
-import vip.efactory.modules.system.service.dto.RoleSmallDTO;
+import vip.efactory.modules.system.service.dto.MenuDto;
+import vip.efactory.modules.system.service.dto.MenuQueryCriteria;
+import vip.efactory.modules.system.service.dto.RoleSmallDto;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-@CacheConfig(cacheNames = "menu")
 public interface MenuService extends IBaseService<Menu, Long> {
 
     /**
-     * queryAll
-     *
-     * @param criteria
-     * @return
+     * 查询全部数据
+     * @param criteria 条件
+     * @return /
      */
-    @Cacheable(keyGenerator = "keyGenerator")
-    List<MenuDTO> queryAll(CommonQueryCriteria criteria);
+    List<MenuDto> queryAll(MenuQueryCriteria criteria);
 
     /**
-     * get
-     *
-     * @param id
-     * @return
+     * 根据ID查询
+     * @param id /
+     * @return /
      */
-    @Cacheable(key = "#p0")
-    MenuDTO findMenuDTOById(long id);
+    MenuDto findDtoById(long id);
 
     /**
-     * create
-     *
-     * @param resources
-     * @return
+     * 创建
+     * @param resources /
+     * @return /
      */
-    @CacheEvict(allEntries = true)
-    MenuDTO create(Menu resources);
+    MenuDto create(Menu resources);
 
     /**
-     * update
-     *
-     * @param resources
+     * 编辑
+     * @param resources /
      */
-    @CacheEvict(allEntries = true)
-    Menu update(Menu resources);
+    void update2(Menu resources);
 
     /**
-     * delete
-     *
-     * @param id
+     * 获取待删除的菜单
+     * @param menuList /
+     * @param menuSet /
+     * @return /
      */
-    @CacheEvict(allEntries = true)
-    void delete(Long id);
+    Set<Menu> getDeleteMenus(List<Menu> menuList, Set<Menu> menuSet);
 
     /**
-     * permission tree
-     *
-     * @return
+     * 获取菜单树
+     * @param menus /
+     * @return /
      */
-    @Cacheable(key = "'tree'")
     Object getMenuTree(List<Menu> menus);
 
     /**
-     * findByPid
-     *
-     * @param pid
-     * @return
+     * 根据pid查询
+     * @param pid /
+     * @return /
      */
-    @Cacheable(key = "'pid:'+#p0")
     List<Menu> findByPid(long pid);
 
     /**
-     * build Tree
-     *
-     * @param menuDTOS
-     * @return
+     * 构建菜单树
+     * @param menuDtos 原始数据
+     * @return /
      */
-    Map buildTree(List<MenuDTO> menuDTOS);
+    Map<String,Object> buildTree(List<MenuDto> menuDtos);
 
     /**
-     * findByRoles
-     *
-     * @param roles
-     * @return
+     * 根据角色查询
+     * @param roles /
+     * @return /
      */
-    List<MenuDTO> findByRoles(List<RoleSmallDTO> roles);
+    List<MenuDto> findByRoles(List<RoleSmallDto> roles);
 
     /**
-     * buildMenus
-     *
-     * @param byRoles
-     * @return
+     * 构建菜单树
+     * @param menuDtos /
+     * @return /
      */
-    Object buildMenus(List<MenuDTO> byRoles);
+    Object buildMenus(List<MenuDto> menuDtos);
 
+    /**
+     * 根据ID查询
+     * @param id /
+     * @return /
+     */
     Menu findOne(Long id);
+
+    /**
+     * 删除
+     * @param menuSet /
+     */
+    void delete(Set<Menu> menuSet);
+
+    /**
+     * 导出
+     * @param queryAll 待导出的数据
+     * @param response /
+     * @throws IOException /
+     */
+    void download(List<MenuDto> queryAll, HttpServletResponse response) throws IOException;
 }

@@ -1,7 +1,8 @@
 package vip.efactory.modules.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 import vip.efactory.ejpa.base.valid.Update;
 
@@ -9,10 +10,12 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "sys_dept")
 public class Dept extends BaseEntity<Long> implements Serializable {
 
@@ -45,4 +48,22 @@ public class Dept extends BaseEntity<Long> implements Serializable {
 //    @Column(name = "create_time")
 //    @CreationTimestamp
 //    private Timestamp createTime;
+
+@Override
+public boolean equals(Object o) {
+    if (this == o) {
+        return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+        return false;
+    }
+    Dept dept = (Dept) o;
+    return Objects.equals(id, dept.id) &&
+            Objects.equals(name, dept.name);
+}
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
 }

@@ -1,13 +1,13 @@
 package vip.efactory.modules.system.service;
 
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import vip.efactory.ejpa.base.service.IBaseService;
 import vip.efactory.modules.system.entity.Dept;
-import vip.efactory.modules.system.service.dto.DeptDTO;
+import vip.efactory.modules.system.service.dto.DeptDto;
 import vip.efactory.modules.system.service.dto.DeptQueryCriteria;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -15,65 +15,73 @@ import java.util.Set;
 public interface DeptService extends IBaseService<Dept, Long> {
 
     /**
-     * queryAll
-     *
-     * @param criteria
-     * @return
+     * 查询所有数据
+     * @param criteria 条件
+     * @return /
      */
-    @Cacheable(keyGenerator = "keyGenerator")
-    List<DeptDTO> queryAll(DeptQueryCriteria criteria);
+    List<DeptDto> queryAll(DeptQueryCriteria criteria);
 
     /**
-     * findJobDTOById
-     *
-     * @param id
-     * @return
+     * 根据ID查询
+     * @param id /
+     * @return /
      */
-    @Cacheable(key = "#p0")
-    DeptDTO findDeptDTOById(Long id);
+    DeptDto findDtoById(Long id);
 
     /**
-     * create
-     *
-     * @param resources
-     * @return
+     * 创建
+     * @param resources /
+     * @return /
      */
-    @CacheEvict(allEntries = true)
-    DeptDTO create(Dept resources);
+    DeptDto create(Dept resources);
 
     /**
-     * update
-     *
-     * @param resources
+     * 编辑
+     * @param resources /
      */
-    @CacheEvict(allEntries = true)
-    Dept update(Dept resources);
+    void update2(Dept resources);
 
     /**
-     * delete
+     * 删除
+     * @param deptDtos /
      *
-     * @param id
      */
-    @CacheEvict(allEntries = true)
-    void delete(Long id);
+    void delete(Set<DeptDto> deptDtos);
 
     /**
-     * buildTree
-     *
-     * @param deptDTOS
-     * @return
+     * 构建树形数据
+     * @param deptDtos 原始数据
+     * @return /
      */
-    @Cacheable(keyGenerator = "keyGenerator")
-    Object buildTree(List<DeptDTO> deptDTOS);
+    Object buildTree(List<DeptDto> deptDtos);
 
     /**
-     * findByPid
-     *
-     * @param pid
-     * @return
+     * 根据PID查询
+     * @param pid /
+     * @return /
      */
-    @Cacheable(keyGenerator = "keyGenerator")
     List<Dept> findByPid(long pid);
 
+    /**
+     * 根据角色ID查询
+     * @param id /
+     * @return /
+     */
     Set<Dept> findByRoleIds(Long id);
+
+    /**
+     * 导出数据
+     * @param queryAll 待导出的数据
+     * @param response /
+     * @throws IOException /
+     */
+    void download(List<DeptDto> queryAll, HttpServletResponse response) throws IOException;
+
+    /**
+     * 获取待删除的部门
+     * @param deptList /
+     * @param deptDtos /
+     * @return /
+     */
+    Set<DeptDto> getDeleteDepts(List<Dept> deptList, Set<DeptDto> deptDtos);
 }

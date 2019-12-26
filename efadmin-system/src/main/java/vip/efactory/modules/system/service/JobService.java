@@ -1,57 +1,67 @@
 package vip.efactory.modules.system.service;
 
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
+
 import org.springframework.data.domain.Pageable;
 import vip.efactory.ejpa.base.service.IBaseService;
 import vip.efactory.modules.system.entity.Job;
-import vip.efactory.modules.system.service.dto.JobDTO;
+import vip.efactory.modules.system.service.dto.JobDto;
 import vip.efactory.modules.system.service.dto.JobQueryCriteria;
 
-@CacheConfig(cacheNames = "job")
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+
 public interface JobService extends IBaseService<Job, Long> {
 
     /**
-     * findJobDTOById
-     *
-     * @param id
-     * @return
+     * 根据ID查询
+     * @param id /
+     * @return /
      */
-    @Cacheable(key = "#p0")
-    JobDTO findJobDTOById(Long id);
+    JobDto findDtoById(Long id);
 
     /**
-     * create
-     *
-     * @param resources
-     * @return
+     * 创建
+     * @param resources /
+     * @return /
      */
-    @CacheEvict(allEntries = true)
-    JobDTO create(Job resources);
+    JobDto create(Job resources);
 
     /**
-     * update
-     *
-     * @param resources
+     * 编辑
+     * @param resources /
      */
-    @CacheEvict(allEntries = true)
-    Job update(Job resources);
+    void update2(Job resources);
 
     /**
-     * delete
-     *
-     * @param id
+     * 删除
+     * @param ids /
      */
-    @CacheEvict(allEntries = true)
-    void delete(Long id);
+    void delete(Set<Long> ids);
 
     /**
-     * queryAll
-     *
-     * @param criteria
-     * @param pageable
-     * @return
+     * 分页查询
+     * @param criteria 条件
+     * @param pageable 分页参数
+     * @return /
      */
-    Object queryAll(JobQueryCriteria criteria, Pageable pageable);
+    Map<String,Object> queryAll(JobQueryCriteria criteria, Pageable pageable);
+
+    /**
+     * 查询全部数据
+     * @param criteria /
+     * @return /
+     */
+    List<JobDto> queryAll(JobQueryCriteria criteria);
+
+    /**
+     * 导出数据
+     * @param queryAll 待导出的数据
+     * @param response /
+     * @throws IOException /
+     */
+    void download(List<JobDto> queryAll, HttpServletResponse response) throws IOException;
 }

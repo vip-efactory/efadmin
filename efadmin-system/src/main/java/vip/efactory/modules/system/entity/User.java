@@ -6,11 +6,13 @@ import vip.efactory.ejpa.base.entity.BaseEntity;
 import vip.efactory.ejpa.base.valid.Update;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -34,6 +36,10 @@ public class User extends BaseEntity<Long> implements Serializable {
     @Column(unique = true)
     private String username;
 
+    /** 用户昵称 */
+    @NotBlank
+    private String nickName;
+
     /**
      * 用户工号---公司;用户编码---非公司场景,例如族谱管理等
      */
@@ -41,10 +47,15 @@ public class User extends BaseEntity<Long> implements Serializable {
     @Column(unique = true)
     private String usercode;
 
-    private String avatar;
+    /** 性别 */
+    private String sex;
+
+    @OneToOne
+    @JoinColumn(name = "avatar_id")
+    private UserAvatar userAvatar;
 
     @NotBlank
-    @Pattern(regexp = "([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}", message = "格式错误")
+    @Email
     private String email;
 
     @NotBlank
@@ -54,11 +65,6 @@ public class User extends BaseEntity<Long> implements Serializable {
     private Boolean enabled;
 
     private String password;
-    /**
-     * 旧的密码,仅修改密码时使用
-     */
-    @Transient
-    private String oldPassword;
 
     @Column(name = "last_password_reset_time")
     private Date lastPasswordResetTime;
@@ -76,17 +82,20 @@ public class User extends BaseEntity<Long> implements Serializable {
     private Dept dept;
 
     @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", email='" + email + '\'' +
-                ", enabled=" + enabled +
-                ", password='" + password + '\'' +
-                ", oldPassword='" + oldPassword + '\'' +
-                ", lastPasswordResetTime=" + lastPasswordResetTime +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return Objects.equals(id, user.id) &&
+                Objects.equals(username, user.username);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username);
+    }
 }

@@ -11,9 +11,10 @@ import vip.efactory.exception.EntityExistException;
     </#list>
 </#if>
 import vip.efactory.utils.ValidationUtil;
+import vip.efactory.utils.FileUtil;
 import ${package}.repository.${className}Repository;
 import ${package}.service.${className}Service;
-import ${package}.service.dto.${className}DTO;
+import ${package}.service.dto.${className}Dto;
 import ${package}.service.dto.${className}QueryCriteria;
 import ${package}.service.mapper.${className}Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,44 +29,63 @@ import cn.hutool.core.util.IdUtil;
 <#if !auto && pkColumnType = 'String'>
 import cn.hutool.core.util.IdUtil;
 </#if>
+// 默认不使用缓存
+//import org.springframework.cache.annotation.CacheConfig;
+//import org.springframework.cache.annotation.CacheEvict;
+//import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import vip.efactory.utils.PageUtil;
 import vip.efactory.utils.QueryHelp;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
+import java.util.List;
+import java.util.Map;
+import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 /**
 * ${tableRemark}
 * @author ${author}
+* @date ${date}
 */
 @Service
+//@CacheConfig(cacheNames = "${changeClassName}")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${pkColumnType}, ${className}Repository> implements ${className}Service {
 
-    @Autowired
-    private ${className}Mapper ${changeClassName}Mapper;
+    private final ${className}Mapper ${changeClassName}Mapper;
+
+    public ${className}ServiceImpl(${className}Mapper ${changeClassName}Mapper) {
+        this.${changeClassName}Mapper = ${changeClassName}Mapper;
+    }
 
     @Override
-    public Object queryAll(${className}QueryCriteria criteria, Pageable pageable){
+    //@Cacheable
+    public Map<String,Object> queryAll(${className}QueryCriteria criteria, Pageable pageable){
         Page<${className}> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(${changeClassName}Mapper::toDto));
     }
 
     @Override
-    public Object queryAll(${className}QueryCriteria criteria){
+    //@Cacheable
+    public List<${className}Dto> queryAll(${className}QueryCriteria criteria){
         return ${changeClassName}Mapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }
 
     @Override
-    public ${className}DTO findById(${pkColumnType} ${pkChangeColName}) {
-        Optional<${className}> ${changeClassName} = br.findById(${pkChangeColName});
-        ValidationUtil.isNull(${changeClassName},"${className}","${pkChangeColName}",${pkChangeColName});
-        return ${changeClassName}Mapper.toDto(${changeClassName}.get());
+    //@Cacheable(key = "#p0")
+    public ${className}Dto findById(${pkColumnType} ${pkChangeColName}) {
+        ${className} ${changeClassName} = br.findById(${pkChangeColName}).orElseGet(${className}::new);
+        ValidationUtil.isNull(${changeClassName}.get${pkCapitalColName}(),"${className}","${pkChangeColName}",${pkChangeColName});
+        return ${changeClassName}Mapper.toDto(${changeClassName});
     }
 
     @Override
+    //@CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
-    public ${className}DTO create(${className} resources) {
+    public ${className}Dto create(${className} resources) {
 <#if !auto && pkColumnType = 'Long'>
         Snowflake snowflake = IdUtil.createSnowflake(1, 1);
         resources.set${pkCapitalColName}(snowflake.nextId());
@@ -86,11 +106,11 @@ public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${pkC
     }
 
     @Override
+    //@CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     public void update(${className} resources) {
-        Optional<${className}> optional${className} = br.findById(resources.get${pkCapitalColName}());
-        ValidationUtil.isNull( optional${className},"${className}","id",resources.get${pkCapitalColName}());
-        ${className} ${changeClassName} = optional${className}.get();
+        ${className} ${changeClassName} = br.findById(resources.get${pkCapitalColName}()).orElseGet(${className}::new);
+        ValidationUtil.isNull( ${changeClassName}.get${pkCapitalColName}(),"${className}","id",resources.get${pkCapitalColName}());
 <#if columns??>
     <#list columns as column>
         <#if column.columnKey = 'UNI'>
@@ -109,8 +129,29 @@ public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${pkC
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void delete(${pkColumnType} ${pkChangeColName}) {
-        br.deleteById(${pkChangeColName});
+    //@CacheEvict(allEntries = true)
+    public void deleteAll(${pkColumnType}[] ids) {
+        for (${pkColumnType} id : ids) {
+            br.deleteById(${pkChangeColName});
+        }
+    }
+
+    @Override
+    public void download(List<${className}Dto> all, HttpServletResponse response) throws IOException {
+        List<Map<String, Object>> list = new ArrayList<>();
+        for (${className}Dto ${changeClassName} : all) {
+            Map<String,Object> map = new LinkedHashMap<>();
+        <#list columns as column>
+            <#if column.columnKey != 'PRI'>
+            <#if column.remark != ''>
+            map.put("${column.remark}", ${changeClassName}.get${column.capitalColumnName}());
+            <#else>
+            map.put(" ${column.changeColumnName}",  ${changeClassName}.get${column.capitalColumnName}());
+            </#if>
+            </#if>
+        </#list>
+            list.add(map);
+        }
+        FileUtil.downloadExcel(list, response);
     }
 }

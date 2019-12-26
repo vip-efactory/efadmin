@@ -3,7 +3,7 @@ package vip.efactory.modules.system.service;
 import org.springframework.data.domain.Pageable;
 import vip.efactory.ejpa.base.service.IBaseService;
 import vip.efactory.modules.system.entity.Employee;
-import vip.efactory.modules.system.service.dto.EmployeeDTO;
+import vip.efactory.modules.system.service.dto.EmployeeDto;
 import vip.efactory.modules.system.service.dto.EmployeeQueryCriteria;
 
 //import org.springframework.cache.annotation.CacheConfig;
@@ -43,7 +43,7 @@ public interface EmployeeService extends IBaseService<Employee, Long> {
      * @return
      */
     //@Cacheable(key = "#p0")
-    EmployeeDTO findDTOById(Long id);
+    EmployeeDto findDTOById(Long id);
 
     /**
      * create
@@ -52,7 +52,7 @@ public interface EmployeeService extends IBaseService<Employee, Long> {
      * @return
      */
     //@CacheEvict(allEntries = true)
-    EmployeeDTO create(Employee resources);
+    EmployeeDto create(Employee resources);
 
     /**
      * update

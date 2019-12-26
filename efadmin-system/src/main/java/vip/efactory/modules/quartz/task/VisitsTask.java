@@ -7,8 +7,11 @@ import vip.efactory.modules.monitor.service.VisitsService;
 @Component
 public class VisitsTask {
 
-    @Autowired
-    private VisitsService visitsService;
+    private final VisitsService visitsService;
+
+    public VisitsTask(VisitsService visitsService) {
+        this.visitsService = visitsService;
+    }
 
     public void run() {
         visitsService.save();

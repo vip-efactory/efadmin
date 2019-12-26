@@ -1,6 +1,8 @@
 package vip.efactory.modules.system.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,12 +12,15 @@ import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.entity.Dept;
 import vip.efactory.modules.system.repository.DeptRepository;
 import vip.efactory.modules.system.service.DeptService;
-import vip.efactory.modules.system.service.dto.DeptDTO;
+import vip.efactory.modules.system.service.dto.DeptDto;
 import vip.efactory.modules.system.service.dto.DeptQueryCriteria;
 import vip.efactory.modules.system.service.mapper.DeptMapper;
+import vip.efactory.utils.FileUtil;
 import vip.efactory.utils.QueryHelp;
 import vip.efactory.utils.ValidationUtil;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -23,22 +28,28 @@ import java.util.stream.Collectors;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class DeptServiceImpl extends BaseServiceImpl<Dept, Long, DeptRepository> implements DeptService {
 
-    @Autowired
-    private DeptMapper deptMapper;
+    private final DeptMapper deptMapper;
+
+    public DeptServiceImpl(DeptMapper deptMapper) {
+        this.deptMapper = deptMapper;
+    }
 
     @Override
-    public List<DeptDTO> queryAll(DeptQueryCriteria criteria) {
+    @Cacheable
+    public List<DeptDto> queryAll(DeptQueryCriteria criteria) {
         return deptMapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
     }
 
     @Override
-    public DeptDTO findDeptDTOById(Long id) {
-        Optional<Dept> dept = br.findById(id);
-        ValidationUtil.isNull(dept, "Dept", "id", id);
-        return deptMapper.toDto(dept.get());
+    @Cacheable(key = "#p0")
+    public DeptDto findDtoById(Long id) {
+        Dept dept = br.findById(id).orElseGet(Dept::new);
+        ValidationUtil.isNull(dept.getId(),"Dept","id",id);
+        return deptMapper.toDto(dept);
     }
 
     @Override
+    @Cacheable
     public List<Dept> findByPid(long pid) {
         return br.findByPid(pid);
     }
@@ -49,67 +60,96 @@ public class DeptServiceImpl extends BaseServiceImpl<Dept, Long, DeptRepository>
     }
 
     @Override
-    public Object buildTree(List<DeptDTO> deptDTOS) {
-        Set<DeptDTO> trees = new LinkedHashSet<>();
-        Set<DeptDTO> depts = new LinkedHashSet<>();
-        List<String> deptNames = deptDTOS.stream().map(DeptDTO::getName).collect(Collectors.toList());
-        Boolean isChild;
-        for (DeptDTO deptDTO : deptDTOS) {
+    @Cacheable
+    public Object buildTree(List<DeptDto> deptDtos) {
+        Set<DeptDto> trees = new LinkedHashSet<>();
+        Set<DeptDto> depts = new LinkedHashSet<>();
+        List<String> deptNames = deptDtos.stream().map(DeptDto::getName).collect(Collectors.toList());
+        boolean isChild;
+        for (DeptDto deptDTO : deptDtos) {
             isChild = false;
             if ("0".equals(deptDTO.getPid().toString())) {
                 trees.add(deptDTO);
             }
-            for (DeptDTO it : deptDTOS) {
+            for (DeptDto it : deptDtos) {
                 if (it.getPid().equals(deptDTO.getId())) {
                     isChild = true;
                     if (deptDTO.getChildren() == null) {
-                        deptDTO.setChildren(new ArrayList<DeptDTO>());
+                        deptDTO.setChildren(new ArrayList<>());
                     }
                     deptDTO.getChildren().add(it);
                 }
             }
-            if (isChild)
+            if(isChild) {
                 depts.add(deptDTO);
-            else if (!deptNames.contains(br.findNameById(deptDTO.getPid())))
+            } else if(!deptNames.contains(br.findNameById(deptDTO.getPid()))) {
                 depts.add(deptDTO);
+            }
         }
 
         if (CollectionUtils.isEmpty(trees)) {
             trees = depts;
         }
 
-        Integer totalElements = deptDTOS != null ? deptDTOS.size() : 0;
+        Integer totalElements = deptDtos.size();
 
-        Map map = new HashMap();
-        map.put("totalElements", totalElements);
-        map.put("content", CollectionUtils.isEmpty(trees) ? deptDTOS : trees);
+        Map<String,Object> map = new HashMap<>(2);
+        map.put("totalElements",totalElements);
+        map.put("content",CollectionUtils.isEmpty(trees)? deptDtos :trees);
         return map;
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
-    public DeptDTO create(Dept resources) {
+    public DeptDto create(Dept resources) {
         return deptMapper.toDto(br.save(resources));
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
-    public Dept update(Dept resources) {
-        if (resources.getId().equals(resources.getPid())) {
+    public void update2(Dept resources) {
+        if(resources.getId().equals(resources.getPid())) {
             throw new BadRequestException("上级不能为自己");
         }
-        Optional<Dept> optionalDept = br.findById(resources.getId());
-        ValidationUtil.isNull(optionalDept, "Dept", "id", resources.getId());
-        Dept dept = optionalDept.get();
+        Dept dept = br.findById(resources.getId()).orElseGet(Dept::new);
+        ValidationUtil.isNull( dept.getId(),"Dept","id",resources.getId());
         resources.setId(dept.getId());
         br.save(resources);
-
-        return resources;
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Long id) {
-        br.deleteById(id);
+    public void delete(Set<DeptDto> deptDtos) {
+        for (DeptDto deptDto : deptDtos) {
+            br.deleteById(deptDto.getId());
+        }
+    }
+
+    @Override
+    public void download(List<DeptDto> deptDtos, HttpServletResponse response) throws IOException {
+        List<Map<String, Object>> list = new ArrayList<>();
+        for (DeptDto deptDTO : deptDtos) {
+            Map<String,Object> map = new LinkedHashMap<>();
+            map.put("部门名称", deptDTO.getName());
+            map.put("部门状态", deptDTO.getEnabled() ? "启用" : "停用");
+            map.put("创建日期", deptDTO.getCreateTime());
+            list.add(map);
+        }
+        FileUtil.downloadExcel(list, response);
+    }
+
+    @Override
+    public Set<DeptDto> getDeleteDepts(List<Dept> menuList, Set<DeptDto> deptDtos) {
+        for (Dept dept : menuList) {
+            deptDtos.add(deptMapper.toDto(dept));
+            List<Dept> depts = br.findByPid(dept.getId());
+            if(depts!=null && depts.size()!=0){
+                getDeleteDepts(depts, deptDtos);
+            }
+        }
+        return deptDtos;
     }
 }

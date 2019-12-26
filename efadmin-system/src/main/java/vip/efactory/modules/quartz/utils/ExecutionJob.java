@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.quartz.QuartzJobBean;
+import vip.efactory.config.thread.ThreadPoolExecutorUtil;
 import vip.efactory.modules.quartz.entity.QuartzJob;
 import vip.efactory.modules.quartz.entity.QuartzLog;
 import vip.efactory.modules.quartz.repository.QuartzLogRepository;
@@ -15,6 +16,7 @@ import vip.efactory.utils.ThrowableUtil;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 参考人人开源，https://gitee.com/renrenio/renren-security
@@ -24,15 +26,16 @@ public class ExecutionJob extends QuartzJobBean {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private ExecutorService executorService = Executors.newSingleThreadExecutor();
+    /** 该处仅供参考 */
+    private final static ThreadPoolExecutor EXECUTOR = ThreadPoolExecutorUtil.getPoll();
 
     @Override
+    @SuppressWarnings("unchecked")
     protected void executeInternal(JobExecutionContext context) {
         QuartzJob quartzJob = (QuartzJob) context.getMergedJobDataMap().get(QuartzJob.JOB_KEY);
         // 获取spring bean
-        QuartzLogRepository quartzLogRepository = SpringContextHolder.getBean("quartzLogRepository");
-        QuartzJobService quartzJobService = SpringContextHolder.getBean("quartzJobService");
-        QuartzManage quartzManage = SpringContextHolder.getBean("quartzManage");
+        QuartzLogRepository quartzLogRepository = SpringContextHolder.getBean(QuartzLogRepository.class);
+        QuartzJobService quartzJobService = SpringContextHolder.getBean(QuartzJobService.class);
 
         QuartzLog log = new QuartzLog();
         log.setJobName(quartzJob.getJobName());
@@ -46,7 +49,7 @@ public class ExecutionJob extends QuartzJobBean {
             logger.info("任务准备执行，任务名称：{}", quartzJob.getJobName());
             QuartzRunnable task = new QuartzRunnable(quartzJob.getBeanName(), quartzJob.getMethodName(),
                     quartzJob.getParams());
-            Future<?> future = executorService.submit(task);
+            Future<?> future = EXECUTOR.submit(task);
             future.get();
             long times = System.currentTimeMillis() - startTime;
             log.setTime(times);
@@ -60,8 +63,7 @@ public class ExecutionJob extends QuartzJobBean {
             // 任务状态 0：成功 1：失败
             log.setIsSuccess(false);
             log.setExceptionDetail(ThrowableUtil.getStackTrace(e));
-            //出错就暂停任务
-            quartzManage.pauseJob(quartzJob);
+            quartzJob.setIsPause(false);
             //更新状态
             quartzJobService.updateIsPause(quartzJob);
         } finally {

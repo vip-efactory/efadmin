@@ -5,6 +5,14 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 import javax.persistence.*;
+<#if isNotNullColumns??>
+import javax.validation.constraints.*;
+</#if>
+<#if hasDateAnnotation>
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import org.hibernate.annotations.*;
+</#if>
 <#if hasTimestamp>
 import java.sql.Timestamp;
 </#if>
@@ -16,6 +24,7 @@ import java.io.Serializable;
 /**
 * ${tableRemark}
 * @author ${author}
+* @date ${date}
 */
 @Entity
 @Data
@@ -24,8 +33,8 @@ public class ${className} extends BaseEntity implements Serializable {
 <#if columns??>
     <#list columns as column>
 
-    <#if column.columnComment != ''>
-    // ${column.columnComment}
+    <#if column.remark != ''>
+    /** ${column.remark} */
     </#if>
     <#if column.columnKey = 'PRI'>
     @Id
@@ -33,7 +42,21 @@ public class ${className} extends BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     </#if>
     </#if>
-    @Column(name = "${column.columnName}"<#if column.columnKey = 'UNI'>,unique = true</#if><#if column.isNullable = 'NO' && column.columnKey != 'PRI'>,nullable = false</#if>)
+    @Column(name = "${column.columnName}"<#if column.columnKey = 'UNI'>,unique = true</#if><#if column.istNotNull && column.columnKey != 'PRI'>,nullable = false</#if>)
+    <#if column.istNotNull && column.columnKey != 'PRI'>
+        <#if column.columnType = 'String'>
+    @NotBlank
+        <#else>
+    @NotNull
+        </#if>
+    </#if>
+    <#if column.dateAnnotation??>
+    <#if column.dateAnnotation = 'CreationTimestamp'>
+    @CreationTimestamp
+    <#else>
+    @UpdateTimestamp
+    </#if>
+    </#if>
     private ${column.columnType} ${column.changeColumnName};
     </#list>
 </#if>

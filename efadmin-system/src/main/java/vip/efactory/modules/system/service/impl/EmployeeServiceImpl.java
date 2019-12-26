@@ -11,7 +11,7 @@ import vip.efactory.exception.EntityExistException;
 import vip.efactory.modules.system.entity.Employee;
 import vip.efactory.modules.system.repository.EmployeeRepository;
 import vip.efactory.modules.system.service.EmployeeService;
-import vip.efactory.modules.system.service.dto.EmployeeDTO;
+import vip.efactory.modules.system.service.dto.EmployeeDto;
 import vip.efactory.modules.system.service.dto.EmployeeQueryCriteria;
 import vip.efactory.modules.system.service.mapper.EmployeeMapper;
 import vip.efactory.utils.PageUtil;
@@ -43,7 +43,7 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee, Long, Employe
     }
 
     @Override
-    public EmployeeDTO findDTOById(Long id) {
+    public EmployeeDto findDTOById(Long id) {
         Optional<Employee> employee = br.findById(id);
         ValidationUtil.isNull(employee, "Employee", "id", id);
         return employeeMapper.toDto(employee.get());
@@ -51,7 +51,7 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee, Long, Employe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public EmployeeDTO create(Employee resources) {
+    public EmployeeDto create(Employee resources) {
         if (br.findByCode(resources.getCode()) != null) {
             throw new EntityExistException(Employee.class, "code", resources.getCode());
         }
