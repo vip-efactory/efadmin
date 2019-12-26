@@ -1,4 +1,4 @@
-package me.zhengjie.utils;
+package vip.efactory.utils;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.connection.RedisConnection;

@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name = "column_config")
+@Table(name = "sys_column_config")
 public class ColumnInfo extends BaseEntity<Long> {
 
     @Id

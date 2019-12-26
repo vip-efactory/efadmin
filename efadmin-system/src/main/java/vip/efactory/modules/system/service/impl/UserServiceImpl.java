@@ -37,13 +37,13 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
     
     private final UserMapper userMapper;
     private final
-    me.zhengjie.utils.RedisUtils redisUtils;
+    RedisUtils redisUtils;
     private final UserAvatarRepository userAvatarRepository;
 
     @Value("${file.avatar}")
     private String avatar;
 
-    public UserServiceImpl( UserMapper userMapper, me.zhengjie.utils.RedisUtils redisUtils, UserAvatarRepository userAvatarRepository) {
+    public UserServiceImpl( UserMapper userMapper, RedisUtils redisUtils, UserAvatarRepository userAvatarRepository) {
         this.userMapper = userMapper;
         this.redisUtils = redisUtils;
         this.userAvatarRepository = userAvatarRepository;

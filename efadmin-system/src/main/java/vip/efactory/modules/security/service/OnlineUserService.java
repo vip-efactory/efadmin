@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 import vip.efactory.modules.security.config.SecurityProperties;
 import vip.efactory.modules.security.security.vo.JwtUser;
 import vip.efactory.modules.security.security.vo.OnlineUser;
-import vip.efactory.utils.EncryptUtils;
-import vip.efactory.utils.FileUtil;
-import vip.efactory.utils.PageUtil;
-import vip.efactory.utils.StringUtils;
+import vip.efactory.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,9 +23,9 @@ import java.util.*;
 public class OnlineUserService {
 
     private final SecurityProperties properties;
-    private me.zhengjie.utils.RedisUtils redisUtils;
+    private RedisUtils redisUtils;
 
-    public OnlineUserService(SecurityProperties properties, me.zhengjie.utils.RedisUtils redisUtils) {
+    public OnlineUserService(SecurityProperties properties, RedisUtils redisUtils) {
         this.properties = properties;
         this.redisUtils = redisUtils;
     }

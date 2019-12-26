@@ -26,6 +26,7 @@ import vip.efactory.modules.security.security.TokenProvider;
 import vip.efactory.modules.security.security.vo.AuthUser;
 import vip.efactory.modules.security.security.vo.JwtUser;
 import vip.efactory.modules.security.service.OnlineUserService;
+import vip.efactory.utils.RedisUtils;
 import vip.efactory.utils.SecurityUtils;
 import vip.efactory.utils.StringUtils;
 
@@ -52,13 +53,13 @@ public class AuthController {
     @Value("${single.login:false}")
     private Boolean singleLogin;
     private final SecurityProperties properties;
-    private final me.zhengjie.utils.RedisUtils redisUtils;
+    private final RedisUtils redisUtils;
     private final UserDetailsService userDetailsService;
     private final OnlineUserService onlineUserService;
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public AuthController(SecurityProperties properties, me.zhengjie.utils.RedisUtils redisUtils, UserDetailsService userDetailsService, OnlineUserService onlineUserService, TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
+    public AuthController(SecurityProperties properties, RedisUtils redisUtils, UserDetailsService userDetailsService, OnlineUserService onlineUserService, TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.properties = properties;
         this.redisUtils = redisUtils;
         this.userDetailsService = userDetailsService;

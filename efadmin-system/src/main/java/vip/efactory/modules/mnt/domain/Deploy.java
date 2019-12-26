@@ -36,7 +36,7 @@ public class Deploy extends BaseEntity<Long> implements Serializable {
      * 服务器
      */
     @ManyToMany
-    @JoinTable(name = "mnt_deploy_server", joinColumns = {@JoinColumn(name = "deploy_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "server_id", referencedColumnName = "id")})
+    @JoinTable(name = "sys_mnt_deploy_server", joinColumns = {@JoinColumn(name = "deploy_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "server_id", referencedColumnName = "id")})
     private Set<ServerDeploy> deploys;
 
 //	@CreationTimestamp
