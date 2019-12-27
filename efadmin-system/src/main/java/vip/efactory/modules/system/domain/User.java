@@ -42,8 +42,8 @@ public class User extends BaseEntity<Long> implements Serializable {
     /**
      * 用户工号---公司;用户编码---非公司场景,例如族谱管理等
      */
-    @NotBlank
-    @Column(unique = true)
+//    @NotBlank
+//    @Column(unique = true)
     private String usercode;
 
     /** 性别 */
