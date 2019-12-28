@@ -959,18 +959,19 @@ INSERT INTO `sys_visits` (`id`, `date`, `ip_counts`, `pv_counts`, `week_day`, `r
 
 -- 导出  表 db_efadmin.tbl_employee 结构
 CREATE TABLE IF NOT EXISTS `tbl_employee` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `address` varchar(255) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
-  `avatar` varchar(255) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
-  `birthday` datetime(6) DEFAULT NULL,
-  `code` varchar(255) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
-  `id_number` varchar(255) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
-  `phone` varchar(255) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
-  `status` int(11) DEFAULT NULL,
-  `dept_id` bigint(20) DEFAULT NULL,
-  `job_id` bigint(20) DEFAULT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '姓名',
+  `sex` tinyint(4) DEFAULT NULL COMMENT '性别',
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '住址',
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '头像',
+  `birthday` datetime(6) DEFAULT NULL COMMENT '生日',
+  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '编码',
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '邮箱',
+  `id_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '身份证号码',
+  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '手机号',
+  `status` int(11) DEFAULT NULL COMMENT '状态',
+  `dept_id` bigint(20) DEFAULT NULL COMMENT '部门',
+  `job_id` bigint(20) DEFAULT NULL COMMENT '岗位',
   `remark` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `creator_num` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '创建人',
@@ -984,7 +985,7 @@ CREATE TABLE IF NOT EXISTS `tbl_employee` (
   KEY `FKkkanek0iwqokx6xa2wxoipe2t` (`job_id`),
   CONSTRAINT `FKdqery4ustrhu158a70r8jg802` FOREIGN KEY (`dept_id`) REFERENCES `sys_dept` (`id`),
   CONSTRAINT `FKkkanek0iwqokx6xa2wxoipe2t` FOREIGN KEY (`job_id`) REFERENCES `sys_job` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs COMMENT='员工信息';
 
 -- 正在导出表  db_efadmin.tbl_employee 的数据：~0 rows (大约)
 DELETE FROM `tbl_employee`;

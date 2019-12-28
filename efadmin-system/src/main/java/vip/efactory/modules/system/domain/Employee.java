@@ -43,6 +43,12 @@ public class Employee extends BaseEntity<Long> implements Serializable {
     private String idNumber;
 
     /**
+     * 性别，0 未知；1 男性；2女性
+     */
+    @Column(name = "sex", columnDefinition = "tinyint COMMENT '性别' ")
+    private Byte sex;
+
+    /**
      * 用户编码,用虎可以根据关联的编号,查询到用户的所有详细信息
      */
     @NotBlank
