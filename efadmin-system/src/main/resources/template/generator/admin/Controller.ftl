@@ -2,11 +2,10 @@ package ${package}.rest;
 
 import vip.efactory.aop.log.Log;
 import ${package}.domain.${className};
-import ${package}.service.${className}Service;
+import ${package}.service.I${className}Service;
 import ${package}.service.dto.${className}QueryCriteria;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.ejpa.utils.R;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;

@@ -339,7 +339,7 @@ public class GenUtil {
         }
 
         if ("Service".equals(templateName)) {
-            return packagePath + "service" + File.separator + className + "Service.java";
+            return packagePath + "service" + File.separator + "I" + className + "Service.java";
         }
 
         if ("ServiceImpl".equals(templateName)) {
