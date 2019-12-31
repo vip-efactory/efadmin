@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 * @author ${author}
 * @date ${date}
 */
-public interface I${className}Service extend IBaseService<${className}, ${pkColumnType}>{
+public interface I${className}Service extends IBaseService<${className}, ${pkColumnType}>{
 
     /**
     * 查询数据分页
@@ -47,10 +47,10 @@ public interface I${className}Service extend IBaseService<${className}, ${pkColu
     ${className}Dto create(${className} resources);
 
     /**
-    * 编辑
+    * 编辑,为避免和jpa默认实现冲突，方法名update==>edit
     * @param resources /
     */
-    void update(${className} resources);
+    void edit(${className} resources);
 
     /**
     * 多选删除

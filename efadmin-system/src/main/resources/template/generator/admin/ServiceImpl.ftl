@@ -107,7 +107,7 @@ public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${pkC
     @Override
     //@CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
-    public void update(${className} resources) {
+    public void edit(${className} resources) {
         ${className} ${changeClassName} = br.findById(resources.get${pkCapitalColName}()).orElseGet(${className}::new);
         ValidationUtil.isNull( ${changeClassName}.get${pkCapitalColName}(),"${className}","id",resources.get${pkCapitalColName}());
 <#if columns??>

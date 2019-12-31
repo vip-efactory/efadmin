@@ -1,6 +1,6 @@
 package ${package}.service.mapper;
 
-import vip.efactory.mapper.BaseMapper;
+import vip.efactory.base.BaseMapper;
 import ${package}.domain.${className};
 import ${package}.service.dto.${className}Dto;
 import org.mapstruct.Mapper;

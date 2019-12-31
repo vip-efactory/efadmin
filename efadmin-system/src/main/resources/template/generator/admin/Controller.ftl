@@ -5,6 +5,7 @@ import ${package}.domain.${className};
 import ${package}.service.I${className}Service;
 import ${package}.service.dto.${className}QueryCriteria;
 import vip.efactory.ejpa.base.controller.BaseController;
+import vip.efactory.ejpa.base.entity.BaseSearchEntity;
 import vip.efactory.ejpa.utils.R;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -13,6 +14,7 @@ import org.springframework.data.web.PageableDefault;
 // import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
 import java.io.IOException;
@@ -50,7 +52,7 @@ public class ${className}Controller extends BaseController<${className}, I${clas
     @PutMapping(value = "/${changeClassName}")
     @PreAuthorize("@p.check('${changeClassName}:edit')")
     public ResponseEntity update(@Validated @RequestBody ${className} resources){
-        entityService.update(resources);
+        entityService.edit(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
@@ -89,9 +91,9 @@ public class ${className}Controller extends BaseController<${className}, I${clas
     @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,${pkChangeColName}字段降序")
     @RequestMapping(value = "/advanced/query", method = {RequestMethod.POST})
     @PreAuthorize("@p.check('${changeClassName}:list')")
-    public R advancedQuery(@RequestBody BaseEntity baseEntity, @PageableDefault(value = 25, sort = {"${pkChangeColName}"}, direction = Sort.Direction.DESC) Pageable page) {
+    public R advancedQuery(@RequestBody BaseSearchEntity searchEntity, @PageableDefault(value = 25, sort = {"${pkChangeColName}"}, direction = Sort.Direction.DESC) Pageable page) {
         ${className} entity = new ${className}();
-        BeanUtils.copyProperties(baseEntity, entity);
+        BeanUtils.copyProperties(searchEntity, entity);
         return super.advancedQueryByPage(page, entity);
     }
 
