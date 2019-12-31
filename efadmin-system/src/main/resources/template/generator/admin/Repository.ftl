@@ -1,11 +1,11 @@
 package ${package}.repository;
 
-import ${package}.entity.${className};
+import ${package}.domain.${className};
 import vip.efactory.ejpa.base.repository.BaseRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 /**
-* ${tableRemark}
+* ${apiAlias} 持久化层
 * @author ${author}
 * @date ${date}
 */

@@ -1,7 +1,7 @@
 package ${package}.rest;
 
 import vip.efactory.aop.log.Log;
-import ${package}.entity.${className};
+import ${package}.domain.${className};
 import ${package}.service.${className}Service;
 import ${package}.service.dto.${className}QueryCriteria;
 import vip.efactory.ejpa.base.controller.BaseController;
@@ -20,45 +20,45 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 /**
-* ${tableRemark}
+* ${apiAlias} 控制器层
 * @author ${author}
 * @date ${date}
 */
-@Api(tags = "${className}管理")
+@Api(tags = "${apiAlias}管理")
 @RestController
 // @RequestMapping("api")
 @RequestMapping("${changeClassName}")
-public class ${className}Controller extends BaseController<${className}, ${className}Service> {
+public class ${className}Controller extends BaseController<${className}, I${className}Service, ${pkColumnType}> {
 /**
-    @Log("查询${className}")
+    @Log("查询${apiAlias}")
     @ApiOperation(value = "查询${className}")
     @GetMapping(value = "/${changeClassName}")
-    @PreAuthorize("hasAnyRole('ADMIN','${upperCaseClassName}_ALL','${upperCaseClassName}_SELECT')")
+    @PreAuthorize("@p.check('${changeClassName}:list')")
     public ResponseEntity get${className}s(${className}QueryCriteria criteria, Pageable pageable){
         return new ResponseEntity(entityService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 
-    @Log("新增${className}")
+    @Log("新增${apiAlias}")
     @ApiOperation(value = "新增${className}")
     @PostMapping(value = "/${changeClassName}")
-    @PreAuthorize("hasAnyRole('ADMIN','${upperCaseClassName}_ALL','${upperCaseClassName}_CREATE')")
+    @PreAuthorize("@p.check('${changeClassName}:add')")
     public ResponseEntity create(@Validated @RequestBody ${className} resources){
         return new ResponseEntity(entityService.create(resources),HttpStatus.CREATED);
     }
 
-    @Log("修改${className}")
+    @Log("修改${apiAlias}")
     @ApiOperation(value = "修改${className}")
     @PutMapping(value = "/${changeClassName}")
-    @PreAuthorize("hasAnyRole('ADMIN','${upperCaseClassName}_ALL','${upperCaseClassName}_EDIT')")
+    @PreAuthorize("@p.check('${changeClassName}:edit')")
     public ResponseEntity update(@Validated @RequestBody ${className} resources){
         entityService.update(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @Log("删除${className}")
+    @Log("删除${apiAlias}")
     @ApiOperation(value = "删除${className}")
     @DeleteMapping(value = "/${changeClassName}/{${pkChangeColName}}")
-    @PreAuthorize("hasAnyRole('ADMIN','${upperCaseClassName}_ALL','${upperCaseClassName}_DELETE')")
+    @PreAuthorize("@p.check('${changeClassName}:del')")
     public ResponseEntity delete(@PathVariable ${pkColumnType} ${pkChangeColName}){
         entityService.delete(${pkChangeColName});
         return new ResponseEntity(HttpStatus.OK);
@@ -70,12 +70,11 @@ public class ${className}Controller extends BaseController<${className}, ${class
      *
      * @param page 框架默认的分页对象
      * @return R
-     * @author ${author}
      */
-    @Log("分页查询${className}")
+    @Log("分页查询${apiAlias}")
     @ApiOperation(value = "获取分页数据", notes = "默认每页25条记录,${pkChangeColName}字段降序")
     @RequestMapping(value = "/page", method = {RequestMethod.GET})
-    @PreAuthorize("hasAnyRole('ADMIN','${upperCaseClassName}_ALL','${upperCaseClassName}_SELECT')")
+    @PreAuthorize("@p.check('${changeClassName}:list')")
     public R getByPage(@PageableDefault(value = 25, sort = {"${pkChangeColName}"}, direction = Sort.Direction.DESC) Pageable page) {
         return super.getByPage(page);
     }
@@ -86,12 +85,11 @@ public class ${className}Controller extends BaseController<${className}, ${class
      * @param baseEntity 含有高级搜索条件的基础对象
      * @param page 框架默认的分页对象
      * @return R
-     * @author ${author}
      */
-    @Log("高级查询${className}")
+    @Log("高级查询${apiAlias}")
     @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,${pkChangeColName}字段降序")
     @RequestMapping(value = "/advanced/query", method = {RequestMethod.POST})
-    @PreAuthorize("hasAnyRole('ADMIN','${upperCaseClassName}_ALL','${upperCaseClassName}_SELECT')")
+    @PreAuthorize("@p.check('${changeClassName}:list')")
     public R advancedQuery(@RequestBody BaseEntity baseEntity, @PageableDefault(value = 25, sort = {"${pkChangeColName}"}, direction = Sort.Direction.DESC) Pageable page) {
         ${className} entity = new ${className}();
         BeanUtils.copyProperties(baseEntity, entity);
@@ -106,12 +104,11 @@ public class ${className}Controller extends BaseController<${className}, ${class
      * @param fields 要匹配哪些字段
      * @param page 默认的分页对象
      * @return R
-     * @author ${author}
      */
-    @Log("多字段模糊查询${className}")
+    @Log("多字段模糊查询${apiAlias}")
     @ApiOperation(value = "多字段模糊查询,例如:q=abc&fields=name,address,desc", notes = "多个字段模糊匹配")
     @RequestMapping(value = "/fuzzy", method = {RequestMethod.GET})
-    @PreAuthorize("hasAnyRole('ADMIN','${upperCaseClassName}_ALL','${upperCaseClassName}_SELECT')")
+    @PreAuthorize("@p.check('${changeClassName}:list')")
     public R getByPage(@RequestParam String q, @RequestParam String fields, @PageableDefault(value = 25, sort = {"${pkChangeColName}"}, direction = Sort.Direction.DESC) Pageable page) {
         return super.queryMutiField(q, fields, page);
     }
@@ -122,12 +119,11 @@ public class ${className}Controller extends BaseController<${className}, ${class
      *
      * @param ${pkChangeColName} 主键
      * @return R
-     * @author ${author}
      */
-    @Log("依ID查询${className}")
+    @Log("依ID查询${apiAlias}")
     @GetMapping("/{${pkChangeColName}}")
     @ApiOperation(value = "依据${pkChangeColName}来获取对应的记录", notes = "依据${pkChangeColName}来获取对应的记录")
-    @PreAuthorize("hasAnyRole('ADMIN','${upperCaseClassName}_ALL','${upperCaseClassName}_SELECT')")
+    @PreAuthorize("@p.check('${changeClassName}:list')")
     public R getById(@PathVariable("${pkChangeColName}") ${pkColumnType} ${pkChangeColName}) {
         return super.getById(${pkChangeColName});
     }
@@ -138,12 +134,11 @@ public class ${className}Controller extends BaseController<${className}, ${class
      *
      * @param entity 要保存的对象
      * @return R
-     * @author ${author}
      */
-    @Log("新增${className}")
+    @Log("新增${apiAlias}")
     @PostMapping
     @ApiOperation(value = "保存记录", notes = "保存来自json格式对象")
-    @PreAuthorize("hasAnyRole('ADMIN','${upperCaseClassName}_ALL','${upperCaseClassName}_CREATE')")
+    @PreAuthorize("@p.check('${changeClassName}:add')")
     public R save(@RequestBody @ApiParam(name = "entity", value = "Json格式", required = true) ${className} entity) {
         return super.save(entity);
     }
@@ -153,12 +148,11 @@ public class ${className}Controller extends BaseController<${className}, ${class
      *
      * @param entity 将更新的对象
      * @return R
-     * @author ${author}
      */
-    @Log("依ID修改${className}")
+    @Log("依ID修改${apiAlias}")
     @PutMapping
     @ApiOperation(value = "依据${pkChangeColName}来更新对应的记录", notes = "依据${pkChangeColName}来更新对应的记录,属性值为空则不更新数据表中已有的数据")
-    @PreAuthorize("hasAnyRole('ADMIN','${upperCaseClassName}_ALL','${upperCaseClassName}_EDIT')")
+    @PreAuthorize("@p.check('${changeClassName}:edit')")
     public R updateById(@RequestBody @ApiParam(name = "entity", value = "Json格式", required = true) ${className} entity) {
         return super.updateById(entity);
     }
@@ -168,12 +162,11 @@ public class ${className}Controller extends BaseController<${className}, ${class
      *
      * @param ${pkChangeColName} 主键
      * @return R
-     * @author ${author}
      */
-    @Log("依ID删除${className}")
+    @Log("依ID删除${apiAlias}")
     @DeleteMapping("/{${pkChangeColName}}")
     @ApiOperation(value = "依据${pkChangeColName}来删除对应的记录", notes = "依据${pkChangeColName}来删除对应的记录")
-    @PreAuthorize("hasAnyRole('ADMIN','${upperCaseClassName}_ALL','${upperCaseClassName}_DELETE')")
+    @PreAuthorize("@p.check('${changeClassName}:del')")
     public R deleteById(@PathVariable("${pkChangeColName}") ${pkColumnType} ${pkChangeColName}) {
         return super.deleteById(${pkChangeColName});
     }

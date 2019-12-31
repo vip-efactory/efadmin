@@ -1,6 +1,6 @@
 package ${package}.service;
 
-import ${package}.entity.${className};
+import ${package}.domain.${className};
 import ${package}.service.dto.${className}Dto;
 import ${package}.service.dto.${className}QueryCriteria;
 import vip.efactory.ejpa.base.service.IBaseService;
@@ -11,11 +11,11 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 /**
-* ${tableRemark}
+* ${apiAlias} 服务层
 * @author ${author}
 * @date ${date}
 */
-public interface ${className}Service extend IBaseService<${className}, ${pkColumnType}>{
+public interface I${className}Service extend IBaseService<${className}, ${pkColumnType}>{
 
     /**
     * 查询数据分页
@@ -23,7 +23,7 @@ public interface ${className}Service extend IBaseService<${className}, ${pkColum
     * @param pageable 分页参数
     * @return Map<String,Object>
     */
-    Map<String,Object> queryAll(${className}QueryCriteria criteria, Pageable pageable);
+    Map<String, Object> queryAll(${className}QueryCriteria criteria, Pageable pageable);
 
     /**
     * 查询所有数据不分页
@@ -37,7 +37,7 @@ public interface ${className}Service extend IBaseService<${className}, ${pkColum
      * @param ${pkChangeColName} ID
      * @return ${className}Dto
      */
-    ${className}Dto findById(${pkColumnType} ${pkChangeColName});
+    ${className}Dto findDtoById(${pkColumnType} ${pkChangeColName});
 
     /**
     * 创建

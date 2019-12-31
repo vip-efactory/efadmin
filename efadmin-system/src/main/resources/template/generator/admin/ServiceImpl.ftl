@@ -1,6 +1,6 @@
 package ${package}.service.impl;
 
-import ${package}.entity.${className};
+import ${package}.domain.${className};
 <#if columns??>
     <#list columns as column>
         <#if column.columnKey = 'UNI'>
@@ -46,14 +46,14 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 /**
-* ${tableRemark}
+* ${apiAlias} 服务层实现
 * @author ${author}
 * @date ${date}
 */
 @Service
 //@CacheConfig(cacheNames = "${changeClassName}")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
-public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${pkColumnType}, ${className}Repository> implements ${className}Service {
+public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${pkColumnType}, ${className}Repository> implements I${className}Service {
 
     private final ${className}Mapper ${changeClassName}Mapper;
 
@@ -76,7 +76,7 @@ public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${pkC
 
     @Override
     //@Cacheable(key = "#p0")
-    public ${className}Dto findById(${pkColumnType} ${pkChangeColName}) {
+    public ${className}Dto findDtoById(${pkColumnType} ${pkChangeColName}) {
         ${className} ${changeClassName} = br.findById(${pkChangeColName}).orElseGet(${className}::new);
         ValidationUtil.isNull(${changeClassName}.get${pkCapitalColName}(),"${className}","${pkChangeColName}",${pkChangeColName});
         return ${changeClassName}Mapper.toDto(${changeClassName});

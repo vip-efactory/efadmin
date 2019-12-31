@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 
 /**
+* ${apiAlias} DTO
 * @author ${author}
 * @date ${date}
 */

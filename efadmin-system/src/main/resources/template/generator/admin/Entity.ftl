@@ -1,4 +1,4 @@
-package ${package}.entity;
+package ${package}.domain;
 
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
@@ -22,14 +22,14 @@ import java.math.BigDecimal;
 import java.io.Serializable;
 
 /**
-* ${tableRemark}
+* ${apiAlias} 实体
 * @author ${author}
 * @date ${date}
 */
 @Entity
 @Data
 @Table(name="${tableName}")
-public class ${className} extends BaseEntity implements Serializable {
+public class ${className} extends BaseEntity<${pkColumnType}> implements Serializable {
 <#if columns??>
     <#list columns as column>
 

@@ -15,6 +15,7 @@ import vip.efactory.annotation.Query;
 </#if>
 
 /**
+* ${apiAlias} 查询条件
 * @author ${author}
 * @date ${date}
 */

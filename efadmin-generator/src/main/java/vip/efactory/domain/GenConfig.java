@@ -20,7 +20,7 @@ public class GenConfig extends BaseEntity<Long> {
 
     public GenConfig(String tableName) {
         this.cover = false;
-        this.moduleName = "eladmin-system";
+        this.moduleName = "efadmin-system";
         this.tableName = tableName;
     }
 
