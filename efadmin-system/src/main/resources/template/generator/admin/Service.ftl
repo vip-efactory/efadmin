@@ -33,7 +33,7 @@ public interface I${className}Service extend IBaseService<${className}, ${pkColu
     List<${className}Dto> queryAll(${className}QueryCriteria criteria);
 
     /**
-     * 根据ID查询
+     * 根据ID查询${className}Dto
      * @param ${pkChangeColName} ID
      * @return ${className}Dto
      */

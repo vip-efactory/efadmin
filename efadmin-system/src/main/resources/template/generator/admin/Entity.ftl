@@ -4,6 +4,7 @@ import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import vip.efactory.ejpa.base.entity.BaseEntity;
+import vip.efactory.ejpa.base.valid.Update;
 import javax.persistence.*;
 <#if isNotNullColumns??>
 import javax.validation.constraints.*;
@@ -41,6 +42,7 @@ public class ${className} extends BaseEntity<${pkColumnType}> implements Seriali
     <#if auto>
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     </#if>
+    @NotNull(message = "id {property.not.allow.empty}", groups = Update.class)
     </#if>
     @Column(name = "${column.columnName}"<#if column.columnKey = 'UNI'>,unique = true</#if><#if column.istNotNull && column.columnKey != 'PRI'>,nullable = false</#if>)
     <#if column.istNotNull && column.columnKey != 'PRI'>
