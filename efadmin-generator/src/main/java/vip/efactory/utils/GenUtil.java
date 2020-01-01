@@ -56,6 +56,7 @@ public class GenUtil {
         List<String> templateNames = new ArrayList<>();
         templateNames.add("index");
         templateNames.add("api");
+        templateNames.add("MenuSQL");  // 菜单权限模板
         return templateNames;
     }
 
@@ -376,6 +377,10 @@ public class GenUtil {
 
         if ("index".equals(templateName)) {
             return path  + File.separator + "index.vue";
+        }
+
+        if ("MenuSQL".equals(templateName)) {
+            return path  + File.separator + "MenuSQL.sql";  // 权限菜单的sql
         }
 
         return null;
