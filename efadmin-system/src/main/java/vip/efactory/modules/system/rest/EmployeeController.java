@@ -10,6 +10,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
@@ -17,6 +18,7 @@ import vip.efactory.ejpa.base.entity.BaseSearchEntity;
 import vip.efactory.ejpa.utils.R;
 import vip.efactory.modules.system.domain.Employee;
 import vip.efactory.modules.system.service.EmployeeService;
+import vip.efactory.modules.system.service.dto.EmployeeQueryCriteria;
 
 
 /**
@@ -28,36 +30,36 @@ import vip.efactory.modules.system.service.EmployeeService;
 @RequestMapping("api/employee")
 public class EmployeeController extends BaseController<Employee, EmployeeService, Long> {
 
-//    @Log("查询Employee")
+//    @Log("查询员工信息")
 //    @ApiOperation(value = "查询Employee")
 //    @GetMapping
-//    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE_ALL','EMPLOYEE_SELECT')")
-//    public ResponseEntity getEmployees(EmployeeQueryCriteria criteria, Pageable pageable) {
-//        return new ResponseEntity(entityService.queryAll(criteria, pageable), HttpStatus.OK);
+//    @PreAuthorize("@p.check('employee:list')")
+//    public ResponseEntity getEmployees(EmployeeQueryCriteria criteria, Pageable pageable){
+//        return new ResponseEntity(entityService.queryAll(criteria,pageable),HttpStatus.OK);
 //    }
-
-//    @Log("新增Employee")
+//
+//    @Log("新增员工信息")
 //    @ApiOperation(value = "新增Employee")
 //    @PostMapping
-//    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE_ALL','EMPLOYEE_CREATE')")
-//    public ResponseEntity create(@Validated @RequestBody Employee resources) {
-//        return new ResponseEntity(entityService.create(resources), HttpStatus.CREATED);
+//    @PreAuthorize("@p.check('employee:add')")
+//    public ResponseEntity create(@Validated @RequestBody Employee resources){
+//        return new ResponseEntity(entityService.create(resources),HttpStatus.CREATED);
 //    }
-
-//    @Log("修改Employee")
+//
+//    @Log("修改员工信息")
 //    @ApiOperation(value = "修改Employee")
 //    @PutMapping
-//    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE_ALL','EMPLOYEE_EDIT')")
-//    public ResponseEntity update(@Validated @RequestBody Employee resources) {
-//        entityService.update(resources);
+//    @PreAuthorize("@p.check('employee:edit')")
+//    public ResponseEntity update(@Validated @RequestBody Employee resources){
+//        entityService.edit(resources);
 //        return new ResponseEntity(HttpStatus.NO_CONTENT);
 //    }
-
-//    @Log("删除Employee")
+//
+//    @Log("删除员工信息")
 //    @ApiOperation(value = "删除Employee")
 //    @DeleteMapping(value = "/{id}")
-//    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE_ALL','EMPLOYEE_DELETE')")
-//    public ResponseEntity delete(@PathVariable Long id) {
+//    @PreAuthorize("@p.check('employee:del')")
+//    public ResponseEntity delete(@PathVariable Long id){
 //        entityService.delete(id);
 //        return new ResponseEntity(HttpStatus.OK);
 //    }
@@ -73,7 +75,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
     @Log("分页查询Employee")
     @ApiOperation(value = "获取分页数据", notes = "默认每页25条记录,id字段降序")
     @GetMapping("/page")
-    @PreAuthorize("@p.check('EMPLOYEE_SELECT')")
+    @PreAuthorize("@p.check('employee:list')")
     public R getByPage(@PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
         return super.getByPage(page);
     }
@@ -88,7 +90,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
     @Log("分页高级查询Employee")
     @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
     @PostMapping("/advanced/query")
-    @PreAuthorize("@p.check('EMPLOYEE_SELECT')")
+    @PreAuthorize("@p.check('employee:list')")
     public R advancedQuery(@RequestBody BaseSearchEntity baseSearchEntity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
         Employee entity = new Employee();
         BeanUtils.copyProperties(baseSearchEntity, entity);
@@ -107,7 +109,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
     @Log("多字段模糊查询Employee")
     @ApiOperation(value = "多字段模糊查询,例如:q=abc&fields=name,address,desc", notes = "多个字段模糊匹配")
     @GetMapping("/fuzzy")
-    @PreAuthorize("@p.check('EMPLOYEE_SELECT')")
+    @PreAuthorize("@p.check('employee:list')")
     public R getByPage(@RequestParam String q, @RequestParam String fields, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
         return super.queryMutiField(q, fields, page);
     }
@@ -122,7 +124,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
     @Log("使用Id查询Employee")
     @GetMapping("/{id}")
     @ApiOperation(value = "依据Id来获取对应的记录", notes = "依据Id来获取对应的记录")
-    @PreAuthorize("@p.check('EMPLOYEE_SELECT')")
+    @PreAuthorize("@p.check('employee:list')")
     public R getById(@PathVariable("id") Long id) {
         return super.getById(id);
     }
@@ -137,7 +139,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
     @Log("新增Employee")
     @PostMapping
     @ApiOperation(value = "新增Employee", notes = "新增Employee实体")
-    @PreAuthorize("@p.check('EMPLOYEE_CREATE')")
+    @PreAuthorize("@p.check('employee:add')")
     public R save(@RequestBody @ApiParam(name = "entity", value = "Json格式", required = true) Employee entity) {
         return super.save(entity);
     }
@@ -150,7 +152,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
      */
 
     @Log("修改Employee")
-    @PreAuthorize("@p.check('EMPLOYEE_EDIT')")
+    @PreAuthorize("@p.check('employee:edit')")
     @PutMapping
     @ApiOperation(value = "依据Id来更新Employee对应的记录", notes = "依据Id来更新对应的记录,属性值为空则不更新数据表中已有的数据")
     public R updateById(@RequestBody @ApiParam(name = "entity", value = "Json格式", required = true) Employee entity) {
@@ -164,7 +166,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
      * @return vip.efactory.ejpa.utils.R
      */
     @Log("使用Id删除Employee")
-    @PreAuthorize("@p.check('EMPLOYEE_DELETE')")
+    @PreAuthorize("@p.check('employee:del')")
     @DeleteMapping("/{id}")
     @ApiOperation(value = "依据Id来删除Employee对应的记录", notes = "依据Id来删除Employee对应的记录")
     public R deleteById(@PathVariable Long id) {

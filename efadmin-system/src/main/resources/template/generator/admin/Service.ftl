@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 */
 public interface I${className}Service extends IBaseService<${className}, ${pkColumnType}>{
 
+/**
     /**
     * 查询数据分页
     * @param criteria 条件
@@ -51,6 +52,7 @@ public interface I${className}Service extends IBaseService<${className}, ${pkCol
     * @param resources /
     */
     void edit(${className} resources);
+*/
 
     /**
     * 多选删除

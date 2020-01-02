@@ -111,7 +111,8 @@ public class GenUtil {
             Template template = engine.getTemplate("generator/front/"+templateName+".ftl");
             String path = tempPath + "efadmin-ui"  + File.separator;
             String apiPath = path + "src" + File.separator + "api" + File.separator;
-            String srcPath = path + "src" + File.separator + "views" + File.separator + genMap.get("changeClassName").toString() + File.separator;
+            String viewsPath = StringUtils.isNotEmpty(genConfig.getPath()) ? (File.separator + genConfig.getPath()): "";
+            String srcPath = path + "src" + File.separator + "views" + viewsPath + File.separator + genMap.get("changeClassName").toString() + File.separator;
             String filePath = getFrontFilePath(templateName, apiPath, srcPath, genMap.get("changeClassName").toString());
             assert filePath != null;
             File file = new File(filePath);
@@ -149,7 +150,8 @@ public class GenUtil {
         templates = getFrontTemplateNames();
         for (String templateName : templates) {
             Template template = engine.getTemplate("generator/front/"+templateName+".ftl");
-            String filePath = getFrontFilePath(templateName,genConfig.getApiPath(),genConfig.getPath(),genMap.get("changeClassName").toString());
+            String viewsPath = StringUtils.isNotEmpty(genConfig.getPath()) ? (genConfig.getPath() + File.separator + genMap.get("changeClassName").toString() + File.separator):( File.separator + genMap.get("changeClassName").toString() + File.separator);
+            String filePath = getFrontFilePath(templateName,genConfig.getApiPath(),viewsPath,genMap.get("changeClassName").toString());
 
             assert filePath != null;
             File file = new File(filePath);
@@ -169,6 +171,8 @@ public class GenUtil {
         Map<String,Object> genMap = new HashMap<>(16);
         // 接口别名
         genMap.put("apiAlias",genConfig.getApiAlias());
+        // 前端views目录下的与组件之间的路径 --dbdu
+        genMap.put("path",genConfig.getPath());
         // 包名称
         genMap.put("package",genConfig.getPack());
         // 模块名称

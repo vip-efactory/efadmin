@@ -28,12 +28,12 @@ import javax.servlet.http.HttpServletResponse;
 @Api(tags = "${apiAlias}管理")
 @RestController
 // @RequestMapping("api")
-@RequestMapping("${changeClassName}")
+@RequestMapping("api/${changeClassName}")
 public class ${className}Controller extends BaseController<${className}, I${className}Service, ${pkColumnType}> {
 /**
     @Log("查询${apiAlias}")
     @ApiOperation(value = "查询${className}")
-    @GetMapping(value = "/${changeClassName}")
+    @GetMapping
     @PreAuthorize("@p.check('${changeClassName}:list')")
     public ResponseEntity get${className}s(${className}QueryCriteria criteria, Pageable pageable){
         return new ResponseEntity(entityService.queryAll(criteria,pageable),HttpStatus.OK);
@@ -41,7 +41,7 @@ public class ${className}Controller extends BaseController<${className}, I${clas
 
     @Log("新增${apiAlias}")
     @ApiOperation(value = "新增${className}")
-    @PostMapping(value = "/${changeClassName}")
+    @PostMapping
     @PreAuthorize("@p.check('${changeClassName}:add')")
     public ResponseEntity create(@Validated @RequestBody ${className} resources){
         return new ResponseEntity(entityService.create(resources),HttpStatus.CREATED);
@@ -49,7 +49,7 @@ public class ${className}Controller extends BaseController<${className}, I${clas
 
     @Log("修改${apiAlias}")
     @ApiOperation(value = "修改${className}")
-    @PutMapping(value = "/${changeClassName}")
+    @PutMapping
     @PreAuthorize("@p.check('${changeClassName}:edit')")
     public ResponseEntity update(@Validated @RequestBody ${className} resources){
         entityService.edit(resources);
@@ -58,7 +58,7 @@ public class ${className}Controller extends BaseController<${className}, I${clas
 
     @Log("删除${apiAlias}")
     @ApiOperation(value = "删除${className}")
-    @DeleteMapping(value = "/${changeClassName}/{${pkChangeColName}}")
+    @DeleteMapping(value = "/{${pkChangeColName}}")
     @PreAuthorize("@p.check('${changeClassName}:del')")
     public ResponseEntity delete(@PathVariable ${pkColumnType} ${pkChangeColName}){
         entityService.delete(${pkChangeColName});

@@ -44,6 +44,8 @@ public class ${className} extends BaseEntity<${pkColumnType}> implements Seriali
     </#if>
     @NotNull(message = "id {property.not.allow.empty}", groups = Update.class)
     </#if>
+    <#if column.columnName == "create_time" || column.columnName == "update_time" || column.columnName == "creator_num" || column.columnName == "updater_num" || column.columnName == "remark" >
+    <#else>
     @Column(name = "${column.columnName}"<#if column.columnKey = 'UNI'>,unique = true</#if><#if column.istNotNull && column.columnKey != 'PRI'>,nullable = false</#if>)
     <#if column.istNotNull && column.columnKey != 'PRI'>
         <#if column.columnType = 'String'>
@@ -52,6 +54,10 @@ public class ${className} extends BaseEntity<${pkColumnType}> implements Seriali
     @NotNull
         </#if>
     </#if>
+    </#if>
+    <#if column.columnName == "create_time" || column.columnName == "update_time" || column.columnName == "creator_num" || column.columnName == "updater_num" || column.columnName == "remark" >
+    // ${column.changeColumnName} extends from BaseEntity
+    <#else>
     <#if column.dateAnnotation??>
     <#if column.dateAnnotation = 'CreationTimestamp'>
     @CreationTimestamp
@@ -60,6 +66,7 @@ public class ${className} extends BaseEntity<${pkColumnType}> implements Seriali
     </#if>
     </#if>
     private ${column.columnType} ${column.changeColumnName};
+    </#if>
     </#list>
 </#if>
 

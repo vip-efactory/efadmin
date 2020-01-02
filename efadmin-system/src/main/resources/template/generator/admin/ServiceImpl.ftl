@@ -60,6 +60,7 @@ public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${pkC
         this.${changeClassName}Mapper = ${changeClassName}Mapper;
     }
 
+/**
     @Override
     //@Cacheable
     public Map<String,Object> queryAll(${className}QueryCriteria criteria, Pageable pageable){
@@ -126,6 +127,7 @@ public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${pkC
         ${changeClassName}.copy(resources);
         br.save(${changeClassName});
     }
+*/
 
     @Override
     //@CacheEvict(allEntries = true)
