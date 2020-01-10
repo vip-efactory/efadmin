@@ -7,10 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
@@ -18,7 +15,8 @@ import vip.efactory.ejpa.base.entity.BaseSearchEntity;
 import vip.efactory.ejpa.utils.R;
 import vip.efactory.modules.system.domain.Employee;
 import vip.efactory.modules.system.service.EmployeeService;
-import vip.efactory.modules.system.service.dto.EmployeeQueryCriteria;
+
+import java.util.Set;
 
 
 /**
@@ -70,7 +68,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
      * Description: 默认的分页与排序
      *
      * @param page 分页参数对象
-     * @return vip.efactory.ejpa.utils.R
+     * @return R
      */
     @Log("分页查询Employee")
     @ApiOperation(value = "获取分页数据", notes = "默认每页25条记录,id字段降序")
@@ -85,7 +83,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
      *
      * @param baseSearchEntity 含有高级查询条件
      * @param page             分页参数对象
-     * @return vip.efactory.ejpa.utils.R
+     * @return R
      */
     @Log("分页高级查询Employee")
     @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
@@ -104,7 +102,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
      * @param page   分页参数对象
      * @param q      模糊查询的值
      * @param fields 要查询的字段
-     * @return vip.efactory.ejpa.utils.R
+     * @return R
      */
     @Log("多字段模糊查询Employee")
     @ApiOperation(value = "多字段模糊查询,例如:q=abc&fields=name,address,desc", notes = "多个字段模糊匹配")
@@ -119,7 +117,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
      * Description:使用id来获取实体
      *
      * @param id 主键
-     * @return vip.efactory.ejpa.utils.R
+     * @return R
      */
     @Log("使用Id查询Employee")
     @GetMapping("/{id}")
@@ -134,7 +132,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
      * Description:保存实体
      *
      * @param entity 要保存的对象实体
-     * @return vip.efactory.ejpa.utils.R
+     * @return R
      */
     @Log("新增Employee")
     @PostMapping
@@ -148,7 +146,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
      * Description:更新
      *
      * @param entity 更新对象
-     * @return vip.efactory.ejpa.utils.R
+     * @return R
      */
 
     @Log("修改Employee")
@@ -160,17 +158,17 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
     }
 
     /**
-     * Description: 依据id来删除实体
+     * Description: 依据ids集合来批量删除实体
      *
-     * @param id 主键
-     * @return vip.efactory.ejpa.utils.R
+     * @param ids 主键
+     * @return R
      */
-    @Log("使用Id删除Employee")
+    @Log("使用Ids删除Employee")
     @PreAuthorize("@p.check('employee:del')")
-    @DeleteMapping("/{id}")
-    @ApiOperation(value = "依据Id来删除Employee对应的记录", notes = "依据Id来删除Employee对应的记录")
-    public R deleteById(@PathVariable Long id) {
-        return super.deleteById(id);
+    @DeleteMapping
+    @ApiOperation(value = "依据Ids来删除Employee对应的记录", notes = "依据Ids来删除Employee对应的记录")
+    public R deleteByIds(@RequestBody Set<Long> ids) {
+        return super.deleteByIds(ids);
     }
 
 }
