@@ -1,10 +1,14 @@
 package vip.efactory.modules;
 
-import cn.hutool.core.lang.Dict;
 import vip.efactory.common.i18n.enums.Entityi18nUtil;
 
 import vip.efactory.domain.*;
 import vip.efactory.ejpa.base.entity.BaseEntity;
+import vip.efactory.modules.mnt.domain.*;
+import vip.efactory.modules.monitor.domain.Server;
+import vip.efactory.modules.monitor.domain.Visits;
+import vip.efactory.modules.quartz.domain.QuartzJob;
+import vip.efactory.modules.quartz.domain.QuartzLog;
 import vip.efactory.modules.system.domain.*;
 
 import java.util.ArrayList;
@@ -42,6 +46,18 @@ public class GenPropertiesUtil {
         classes.add(Role.class);
         classes.add(User.class);
         classes.add(UserAvatar.class);
+        // 定时任务
+        classes.add(QuartzJob.class);
+        classes.add(QuartzLog.class);
+        // 监控部分
+        classes.add(Server.class);
+        classes.add(Visits.class);
+        // 部署管理部分
+        classes.add(App.class);
+        classes.add(Database.class);
+        classes.add(Deploy.class);
+        classes.add(DeployHistory.class);
+        classes.add(ServerDeploy.class);
 
         Entityi18nUtil.copyToLocale(Entityi18nUtil.geni18nPropertiesFile("messages", classes));
     }
