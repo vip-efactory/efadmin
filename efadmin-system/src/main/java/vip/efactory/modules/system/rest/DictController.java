@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.ejpa.base.valid.Update;
+import vip.efactory.ejpa.utils.R;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.domain.Dict;
 import vip.efactory.modules.system.service.DictService;
@@ -39,44 +40,44 @@ public class DictController extends BaseController<Dict, DictService, Long> {
     @ApiOperation("查询字典")
     @GetMapping(value = "/all")
     @PreAuthorize("@p.check('dict:list')")
-    public ResponseEntity<Object> all(){
-        return new ResponseEntity<>(entityService.queryAll(new DictQueryCriteria()),HttpStatus.OK);
+    public R all(){
+        return R.ok(entityService.queryAll(new DictQueryCriteria()));
     }
 
     @Log("查询字典")
     @ApiOperation("查询字典")
     @GetMapping
     @PreAuthorize("@p.check('dict:list')")
-    public ResponseEntity<Object> getDicts(DictQueryCriteria resources, Pageable pageable){
-        return new ResponseEntity<>(entityService.queryAll(resources,pageable),HttpStatus.OK);
+    public R getDicts(DictQueryCriteria resources, Pageable pageable){
+        return R.ok(entityService.queryAll(resources,pageable));
     }
 
     @Log("新增字典")
     @ApiOperation("新增字典")
     @PostMapping
     @PreAuthorize("@p.check('dict:add')")
-    public ResponseEntity<Object> create(@Validated @RequestBody Dict resources){
+    public R create(@Validated @RequestBody Dict resources){
         if (resources.getId() != null) {
             throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
         }
-        return new ResponseEntity<>(entityService.create(resources),HttpStatus.CREATED);
+        return R.ok(entityService.create(resources));
     }
 
     @Log("修改字典")
     @ApiOperation("修改字典")
     @PutMapping
     @PreAuthorize("@p.check('dict:edit')")
-    public ResponseEntity<Object> update(@Validated(Update.class) @RequestBody Dict resources){
+    public R update(@Validated(Update.class) @RequestBody Dict resources){
         entityService.update(resources);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return R.ok();
     }
 
     @Log("删除字典")
     @ApiOperation("删除字典")
     @DeleteMapping(value = "/{id}")
     @PreAuthorize("@p.check('dict:del')")
-    public ResponseEntity<Object> delete(@PathVariable Long id){
+    public R delete(@PathVariable Long id){
         entityService.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 }

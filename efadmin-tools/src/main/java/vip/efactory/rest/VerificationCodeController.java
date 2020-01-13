@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.domain.VerificationCode;
 import vip.efactory.domain.vo.EmailVo;
+import vip.efactory.ejpa.utils.R;
 import vip.efactory.service.EmailService;
 import vip.efactory.service.VerificationCodeService;
 import vip.efactory.utils.EfAdminConstant;
@@ -25,29 +26,29 @@ public class VerificationCodeController extends BaseController<VerificationCode,
 
     @PostMapping(value = "/resetEmail")
     @ApiOperation("重置邮箱，发送验证码")
-    public ResponseEntity<Object> resetEmail(@RequestBody VerificationCode code) throws Exception {
+    public R resetEmail(@RequestBody VerificationCode code) throws Exception {
         code.setScenes(EfAdminConstant.RESET_MAIL);
         EmailVo emailVo = entityService.sendEmail(code);
         emailService.send(emailVo,emailService.find());
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 
     @PostMapping(value = "/email/resetPass")
     @ApiOperation("重置密码，发送验证码")
-    public ResponseEntity<Object> resetPass(@RequestParam String email) throws Exception {
+    public R resetPass(@RequestParam String email) throws Exception {
         VerificationCode code = new VerificationCode();
         code.setType("email");
         code.setValue(email);
         code.setScenes(EfAdminConstant.RESET_MAIL);
         EmailVo emailVo = entityService.sendEmail(code);
         emailService.send(emailVo,emailService.find());
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 
     @GetMapping(value = "/validated")
     @ApiOperation("验证码验证")
-    public ResponseEntity<Object> validated(VerificationCode code){
+    public R validated(VerificationCode code){
         entityService.validated(code);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
+import vip.efactory.ejpa.utils.R;
 import vip.efactory.modules.security.service.OnlineUserService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -32,8 +33,8 @@ public class OnlineController {
     @ApiOperation("查询在线用户")
     @GetMapping
     @PreAuthorize("@p.check()")
-    public ResponseEntity<Object> getAll(String filter, Pageable pageable){
-        return new ResponseEntity<>(onlineUserService.getAll(filter, pageable), HttpStatus.OK);
+    public R getAll(String filter, Pageable pageable){
+        return R.ok(onlineUserService.getAll(filter, pageable));
     }
 
     @Log("导出数据")
@@ -47,10 +48,10 @@ public class OnlineController {
     @ApiOperation("踢出用户")
     @DeleteMapping
     @PreAuthorize("@p.check()")
-    public ResponseEntity<Object> delete(@RequestBody Set<String> keys) throws Exception {
+    public R delete(@RequestBody Set<String> keys) throws Exception {
         for (String key : keys) {
             onlineUserService.kickOut(key);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 }

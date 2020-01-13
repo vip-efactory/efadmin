@@ -2,12 +2,11 @@ package vip.efactory.rest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.domain.GenConfig;
+import vip.efactory.ejpa.base.controller.BaseController;
+import vip.efactory.ejpa.utils.R;
 import vip.efactory.service.GenConfigService;
 
 @RestController
@@ -17,13 +16,13 @@ public class GenConfigController extends BaseController<GenConfig, GenConfigServ
 
     @ApiOperation("查询")
     @GetMapping(value = "/{tableName}")
-    public ResponseEntity<Object> get(@PathVariable String tableName){
-        return new ResponseEntity<>(entityService.find(tableName), HttpStatus.OK);
+    public R get(@PathVariable String tableName) {
+        return R.ok(entityService.find(tableName));
     }
 
     @ApiOperation("修改")
     @PutMapping
-    public ResponseEntity<Object> emailConfig(@Validated @RequestBody GenConfig genConfig){
-        return new ResponseEntity<>(entityService.update(genConfig.getTableName(), genConfig),HttpStatus.OK);
+    public R emailConfig(@Validated @RequestBody GenConfig genConfig) {
+        return R.ok(entityService.update(genConfig.getTableName(), genConfig));
     }
 }

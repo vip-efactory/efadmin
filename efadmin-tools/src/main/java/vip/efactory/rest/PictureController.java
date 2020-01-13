@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.domain.Picture;
+import vip.efactory.ejpa.utils.R;
 import vip.efactory.service.PictureService;
 import vip.efactory.service.dto.PictureQueryCriteria;
 import vip.efactory.utils.SecurityUtils;
@@ -27,8 +28,8 @@ public class PictureController extends BaseController<Picture, PictureService, L
     @PreAuthorize("@p.check('pictures:list')")
     @GetMapping
     @ApiOperation("查询图片")
-    public ResponseEntity<Object> getRoles(PictureQueryCriteria criteria, Pageable pageable){
-        return new ResponseEntity<>(entityService.queryAll(criteria,pageable),HttpStatus.OK);
+    public R getRoles(PictureQueryCriteria criteria, Pageable pageable){
+        return R.ok(entityService.queryAll(criteria,pageable));
     }
 
     @Log("导出数据")
@@ -43,26 +44,26 @@ public class PictureController extends BaseController<Picture, PictureService, L
     @PreAuthorize("@p.check('pictures:add')")
     @PostMapping
     @ApiOperation("上传图片")
-    public ResponseEntity<Object> upload(@RequestParam MultipartFile file){
+    public R upload(@RequestParam MultipartFile file){
         String userName = SecurityUtils.getUsername();
         Picture picture = entityService.upload(file,userName);
-        return new ResponseEntity<>(picture,HttpStatus.OK);
+        return R.ok(picture);
     }
 
     @Log("同步图床数据")
     @ApiOperation("同步图床数据")
     @PostMapping(value = "/synchronize")
-    public ResponseEntity<Object> synchronize(){
+    public R synchronize(){
         entityService.synchronize();
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 
     @Log("多选删除图片")
     @ApiOperation("多选删除图片")
     @PreAuthorize("@p.check('pictures:del')")
     @DeleteMapping
-    public ResponseEntity<Object> deleteAll(@RequestBody Long[] ids) {
+    public R deleteAll(@RequestBody Long[] ids) {
         entityService.deleteAll(ids);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 }

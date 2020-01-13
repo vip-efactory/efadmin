@@ -12,6 +12,7 @@ import vip.efactory.aop.log.Log;
 import vip.efactory.config.DataScope;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.ejpa.base.valid.Update;
+import vip.efactory.ejpa.utils.R;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.domain.Dept;
 import vip.efactory.modules.system.service.DeptService;
@@ -50,38 +51,38 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
     @ApiOperation("查询部门")
     @GetMapping
     @PreAuthorize("@p.check('user:list','dept:list')")
-    public ResponseEntity<Object> getDepts(DeptQueryCriteria criteria){
+    public R getDepts(DeptQueryCriteria criteria){
         // 数据权限
         criteria.setIds(dataScope.getDeptIds());
         List<DeptDto> deptDtos = entityService.queryAll(criteria);
-        return new ResponseEntity<>(entityService.buildTree(deptDtos),HttpStatus.OK);
+        return R.ok(entityService.buildTree(deptDtos));
     }
 
     @Log("新增部门")
     @ApiOperation("新增部门")
     @PostMapping
     @PreAuthorize("@p.check('dept:add')")
-    public ResponseEntity<Object> create(@Validated @RequestBody Dept resources){
+    public R create(@Validated @RequestBody Dept resources){
         if (resources.getId() != null) {
             throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
         }
-        return new ResponseEntity<>(entityService.create(resources),HttpStatus.CREATED);
+        return R.ok(entityService.create(resources));
     }
 
     @Log("修改部门")
     @ApiOperation("修改部门")
     @PutMapping
     @PreAuthorize("@p.check('dept:edit')")
-    public ResponseEntity<Object> update(@Validated(Update.class) @RequestBody Dept resources){
+    public R update(@Validated(Update.class) @RequestBody Dept resources){
         entityService.update(resources);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return R.ok();
     }
 
     @Log("删除部门")
     @ApiOperation("删除部门")
     @DeleteMapping
     @PreAuthorize("@p.check('dept:del')")
-    public ResponseEntity<Object> delete(@RequestBody Set<Long> ids){
+    public R delete(@RequestBody Set<Long> ids){
         Set<DeptDto> deptDtos = new HashSet<>();
         for (Long id : ids) {
             List<Dept> deptList = entityService.findByPid(id);
@@ -95,6 +96,6 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
         }catch (Throwable e){
             ThrowableUtil.throwForeignKeyException(e, "所选部门中存在岗位或者角色关联，请取消关联后再试");
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 }

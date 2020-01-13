@@ -29,14 +29,14 @@ public class Employee extends BaseEntity<Long> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "{Employee.id} {property.not.allow.empty}", groups = Update.class)  // 意味着，updateById更新时id不允许为空
+    @NotNull(message = "{Employee.id}{property.not.allow.empty}", groups = Update.class)  // 意味着，updateById更新时id不允许为空
     private Long id;
 
     /**
      * 员工姓名, 在中国就是中文全名
      */
-    @Length(min = 2, max = 128, message = "{Employee.name} {property.length.in.between}", groups = {Update.class, Default.class})
-    @NotBlank(message = "{Employee.name} {property.not.allow.empty}", groups = {Update.class, Default.class})
+    @Length(min = 2, max = 128, message = "{Employee.name}{property.length.in.between}", groups = {Update.class, Default.class})
+    @NotBlank(message = "{Employee.name}{property.not.allow.empty}", groups = {Update.class, Default.class})
     private String name;
 
     /**
@@ -47,57 +47,57 @@ public class Employee extends BaseEntity<Long> implements Serializable {
     /**
      * 性别，0 未知；1 男性；2女性
      */
-    @Range(max = 2, message = "{Employee.sex} {property.value.in.range}", groups = {Update.class, Default.class})
+    @Range(max = 2, message = "{Employee.sex}{property.value.in.range}", groups = {Update.class, Default.class})
     @Column(name = "sex", columnDefinition = "tinyint COMMENT '性别' ")
     private Byte sex;
 
     /**
      * 用户编码,用虎可以根据关联的编号,查询到用户的所有详细信息
      */
-    @Length(min = 1, max = 32, message = "{Employee.code} {property.length.in.between}", groups = {Update.class, Default.class})
-    @NotBlank(message = "{Employee.code} {property.not.allow.empty}", groups = {Update.class, Default.class})
+    @Length(min = 1, max = 32, message = "{Employee.code}{property.length.in.between}", groups = {Update.class, Default.class})
+    @NotBlank(message = "{Employee.code}{property.not.allow.empty}", groups = {Update.class, Default.class})
     @Column(unique = true)
     private String code;
 
     /**
      * 员工头像
      */
-    @Length(max = 2048, message = "{Employee.avatar} {property.length.in.between}", groups = {Update.class, Default.class})
+    @Length(max = 2048, message = "{Employee.avatar}{property.length.in.between}", groups = {Update.class, Default.class})
     private String avatar;
 
     /**
      * 邮箱地址,登录用户的邮箱地址可以和这里不一样
      */
-    @NotBlank(message = "{Employee.email} {property.not.allow.empty}", groups = {Update.class, Default.class})
-    @Pattern(regexp = "([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}", message = "{Employee.email} {property.format.error}", groups = {Update.class, Default.class})
+    @NotBlank(message = "{Employee.email}{property.not.allow.empty}", groups = {Update.class, Default.class})
+    @Pattern(regexp = "([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}", message = "{Employee.email}{property.format.error}", groups = {Update.class, Default.class})
     @Column(unique = true)
     private String email;
 
     /**
      * 手机号
      */
-    @Length(min = 3, max = 32, message = "{Employee.phone} {property.length.in.between}", groups = {Update.class, Default.class})
-    @NotBlank(message = "{Employee.phone} {property.not.allow.empty}", groups = {Update.class, Default.class})
+    @Length(min = 3, max = 32, message = "{Employee.phone}{property.length.in.between}", groups = {Update.class, Default.class})
+    @NotBlank(message = "{Employee.phone}{property.not.allow.empty}", groups = {Update.class, Default.class})
     @Column(unique = true)
     private String phone;
 
     /**
      * 员工状态,0--离职;1--在职;
      */
-    @PositiveOrZero(message = "{Employee.status} {property.not.allow.negative}", groups = {Update.class, Default.class})
+    @PositiveOrZero(message = "{Employee.status}{property.not.allow.negative}", groups = {Update.class, Default.class})
     private Integer status;
 
     /**
      * 生日,允许当天
      */
-    @PastOrPresent(message = "{Employee.birthday} {property.value.only.past}", groups = {Update.class, Default.class})
+    @PastOrPresent(message = "{Employee.birthday}{property.value.only.past}", groups = {Update.class, Default.class})
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
 
     /**
      * 员工住址
      */
-    @Length(min = 1, max = 256, message = "{Employee.address} {property.length.in.between}", groups = {Update.class, Default.class})
+    @Length(min = 1, max = 256, message = "{Employee.address}{property.length.in.between}", groups = {Update.class, Default.class})
     private String address;
 
     /**

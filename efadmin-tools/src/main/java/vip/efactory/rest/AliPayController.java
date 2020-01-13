@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 import vip.efactory.annotation.AnonymousAccess;
 import vip.efactory.aop.log.Log;
+import vip.efactory.common.i18n.enums.CommHttpStatusEnum;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.domain.AlipayConfig;
 import vip.efactory.domain.vo.TradeVo;
+import vip.efactory.ejpa.utils.R;
 import vip.efactory.service.AliPayService;
 import vip.efactory.utils.AliPayStatusEnum;
 import vip.efactory.utils.AlipayUtils;
@@ -33,44 +35,44 @@ public class AliPayController extends BaseController<AlipayConfig, AliPayService
     AlipayUtils alipayUtils;
 
     @GetMapping
-    public ResponseEntity<AlipayConfig> get() {
-        return new ResponseEntity<>(entityService.find(), HttpStatus.OK);
+    public R get() {
+        return R.ok(entityService.find());
     }
 
     @Log("配置支付宝")
     @ApiOperation("配置支付宝")
     @PutMapping
-    public ResponseEntity<Object> payConfig(@Validated @RequestBody AlipayConfig alipayConfig){
+    public R payConfig(@Validated @RequestBody AlipayConfig alipayConfig){
         alipayConfig.setId(1L);
         entityService.update(alipayConfig);
-        return new ResponseEntity(HttpStatus.OK);
+        return R.ok();
     }
 
     @Log("支付宝PC网页支付")
     @ApiOperation("PC网页支付")
     @PostMapping(value = "/toPayAsPC")
-    public ResponseEntity<String> toPayAsPc(@Validated@RequestBody TradeVo trade) throws Exception{
+    public R toPayAsPc(@Validated@RequestBody TradeVo trade) throws Exception{
         AlipayConfig aliPay = entityService.find();
         trade.setOutTradeNo(alipayUtils.getOrderCode());
         String payUrl = entityService.toPayAsPc(aliPay,trade);
-        return ResponseEntity.ok(payUrl);
+        return R.ok(payUrl);
     }
 
     @Log("支付宝手机网页支付")
     @ApiOperation(value = "手机网页支付")
     @PostMapping(value = "/toPayAsWeb")
-    public ResponseEntity<String> toPayAsWeb(@Validated @RequestBody TradeVo trade) throws Exception {
+    public R toPayAsWeb(@Validated @RequestBody TradeVo trade) throws Exception {
         AlipayConfig alipay = entityService.find();
         trade.setOutTradeNo(alipayUtils.getOrderCode());
         String payUrl = entityService.toPayAsWeb(alipay, trade);
-        return ResponseEntity.ok(payUrl);
+        return R.ok(payUrl);
     }
 
     @ApiIgnore
     @GetMapping("/return")
     @AnonymousAccess
     @ApiOperation("支付之后跳转的链接")
-    public ResponseEntity<String> returnPage(HttpServletRequest request, HttpServletResponse response){
+    public R returnPage(HttpServletRequest request, HttpServletResponse response){
         AlipayConfig alipay = entityService.find();
         response.setContentType("text/html;charset=" + alipay.getCharset());
         //内容验签，防止黑客篡改参数
@@ -82,10 +84,10 @@ public class AliPayController extends BaseController<AlipayConfig, AliPayService
             System.out.println("商户订单号"+outTradeNo+"  "+"第三方交易号"+tradeNo);
 
             // 根据业务需要返回数据，这里统一返回OK
-            return new ResponseEntity<>("payment successful",HttpStatus.OK);
+            return R.ok("payment successful");
         }else{
             // 根据业务需要返回数据
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return R.error(CommHttpStatusEnum.BAD_REQUEST);
         }
     }
 
@@ -94,7 +96,7 @@ public class AliPayController extends BaseController<AlipayConfig, AliPayService
     @AnonymousAccess
     @SuppressWarnings("all")
     @ApiOperation("支付异步通知(要公网访问)，接收异步通知，检查通知内容app_id、out_trade_no、total_amount是否与请求中的一致，根据trade_status进行后续业务处理")
-    public ResponseEntity<Object> notify(HttpServletRequest request){
+    public R notify(HttpServletRequest request){
         AlipayConfig alipay = entityService.find();
         Map<String, String[]> parameterMap = request.getParameterMap();
         //内容验签，防止黑客篡改参数
@@ -111,8 +113,8 @@ public class AliPayController extends BaseController<AlipayConfig, AliPayService
             if(tradeStatus.equals(AliPayStatusEnum.SUCCESS.getValue())||tradeStatus.equals(AliPayStatusEnum.FINISHED.getValue())){
                // 验证通过后应该根据业务需要处理订单
             }
-            return new ResponseEntity<>(HttpStatus.OK);
+            return R.ok();
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+         return R.error(CommHttpStatusEnum.BAD_REQUEST);
     }
 }

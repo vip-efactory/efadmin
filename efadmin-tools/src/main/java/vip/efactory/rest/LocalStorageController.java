@@ -11,16 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.aop.log.Log;
 import vip.efactory.domain.LocalStorage;
+import vip.efactory.ejpa.utils.R;
 import vip.efactory.service.LocalStorageService;
 import vip.efactory.service.dto.LocalStorageQueryCriteria;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
-* @author Zheng Jie
-* @date 2019-09-05
-*/
 @Api(tags = "工具：本地存储管理")
 @RestController
 @RequestMapping("/api/localStorage")
@@ -35,8 +32,8 @@ public class LocalStorageController {
     @ApiOperation("查询文件")
     @GetMapping
     @PreAuthorize("@p.check('storage:list')")
-    public ResponseEntity<Object> getLocalStorages(LocalStorageQueryCriteria criteria, Pageable pageable){
-        return new ResponseEntity<>(localStorageService.queryAll(criteria,pageable), HttpStatus.OK);
+    public R getLocalStorages(LocalStorageQueryCriteria criteria, Pageable pageable){
+        return R.ok(localStorageService.queryAll(criteria,pageable));
     }
 
     @Log("导出数据")
@@ -50,23 +47,23 @@ public class LocalStorageController {
     @ApiOperation("上传文件")
     @PostMapping
     @PreAuthorize("@p.check('storage:add')")
-    public ResponseEntity<Object> create(@RequestParam String name, @RequestParam("file") MultipartFile file){
-        return new ResponseEntity<>(localStorageService.create(name, file), HttpStatus.CREATED);
+    public R create(@RequestParam String name, @RequestParam("file") MultipartFile file){
+        return R.ok(localStorageService.create(name, file));    // 原http的状态码是已创建！
     }
 
     @ApiOperation("修改文件")
     @PutMapping
     @PreAuthorize("@p.check('storage:edit')")
-    public ResponseEntity<Object> update(@Validated @RequestBody LocalStorage resources){
+    public R update(@Validated @RequestBody LocalStorage resources){
         localStorageService.update(resources);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return R.ok();  // 原HttpStatus.NO_CONTENT
     }
 
     @Log("多选删除")
     @DeleteMapping
     @ApiOperation("多选删除")
-    public ResponseEntity<Object> deleteAll(@RequestBody Long[] ids) {
+    public R deleteAll(@RequestBody Long[] ids) {
         localStorageService.deleteAll(ids);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 }

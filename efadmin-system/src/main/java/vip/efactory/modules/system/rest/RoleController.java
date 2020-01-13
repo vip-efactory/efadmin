@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.ejpa.base.valid.Update;
+import vip.efactory.ejpa.utils.R;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.domain.Role;
 import vip.efactory.modules.system.service.RoleService;
@@ -48,8 +49,8 @@ public class RoleController extends BaseController<Role, RoleService,Long> {
     @ApiOperation("获取单个role")
     @GetMapping(value = "/{id}")
     @PreAuthorize("@p.check('roles:list')")
-    public ResponseEntity<Object> getRoles(@PathVariable Long id){
-        return new ResponseEntity<>(entityService.findById(id), HttpStatus.OK);
+    public R getRoles(@PathVariable Long id){
+        return R.ok(entityService.findById(id));
     }
 
     @Log("导出角色数据")
@@ -63,62 +64,62 @@ public class RoleController extends BaseController<Role, RoleService,Long> {
     @ApiOperation("返回全部的角色")
     @GetMapping(value = "/all")
     @PreAuthorize("@p.check('roles:list','user:add','user:edit')")
-    public ResponseEntity<Object> getAll(@PageableDefault(value = 2000, sort = {"level"}, direction = Sort.Direction.ASC) Pageable pageable){
-        return new ResponseEntity<>(entityService.queryAll(pageable),HttpStatus.OK);
+    public R getAll(@PageableDefault(value = 2000, sort = {"level"}, direction = Sort.Direction.ASC) Pageable pageable){
+        return R.ok(entityService.queryAll(pageable));
     }
 
     @Log("查询角色")
     @ApiOperation("查询角色")
     @GetMapping
     @PreAuthorize("@p.check('roles:list')")
-    public ResponseEntity<Object> getRoles(RoleQueryCriteria criteria, Pageable pageable){
-        return new ResponseEntity<>(entityService.queryAll(criteria,pageable),HttpStatus.OK);
+    public R getRoles(RoleQueryCriteria criteria, Pageable pageable){
+        return R.ok(entityService.queryAll(criteria,pageable));
     }
 
     @ApiOperation("获取用户级别")
     @GetMapping(value = "/level")
-    public ResponseEntity<Object> getLevel(){
-        return new ResponseEntity<>(Dict.create().set("level", getLevels(null)),HttpStatus.OK);
+    public R getLevel(){
+        return R.ok(Dict.create().set("level", getLevels(null)));
     }
 
     @Log("新增角色")
     @ApiOperation("新增角色")
     @PostMapping
     @PreAuthorize("@p.check('roles:add')")
-    public ResponseEntity<Object> create(@Validated @RequestBody Role resources){
+    public R create(@Validated @RequestBody Role resources){
         if (resources.getId() != null) {
             throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
         }
         getLevels(resources.getLevel());
-        return new ResponseEntity<>(entityService.create(resources),HttpStatus.CREATED);
+        return R.ok(entityService.create(resources));
     }
 
     @Log("修改角色")
     @ApiOperation("修改角色")
     @PutMapping
     @PreAuthorize("@p.check('roles:edit')")
-    public ResponseEntity<Object> update(@Validated(Update.class) @RequestBody Role resources){
+    public R update(@Validated(Update.class) @RequestBody Role resources){
         getLevels(resources.getLevel());
         entityService.update(resources);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return R.ok();
     }
 
     @Log("修改角色菜单")
     @ApiOperation("修改角色菜单")
     @PutMapping(value = "/menu")
     @PreAuthorize("@p.check('roles:edit')")
-    public ResponseEntity<Object> updateMenu(@RequestBody Role resources){
+    public R updateMenu(@RequestBody Role resources){
         RoleDto role = entityService.findDtoById(resources.getId());
         getLevels(role.getLevel());
         entityService.updateMenu(resources,role);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return R.ok();
     }
 
     @Log("删除角色")
     @ApiOperation("删除角色")
     @DeleteMapping
     @PreAuthorize("@p.check('roles:del')")
-    public ResponseEntity<Object> delete(@RequestBody Set<Long> ids){
+    public R delete(@RequestBody Set<Long> ids){
         for (Long id : ids) {
             RoleDto role = entityService.findDtoById(id);
             getLevels(role.getLevel());
@@ -128,7 +129,7 @@ public class RoleController extends BaseController<Role, RoleService,Long> {
         } catch (Throwable e){
             ThrowableUtil.throwForeignKeyException(e, "所选角色存在用户关联，请取消关联后再试");
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 
     /**

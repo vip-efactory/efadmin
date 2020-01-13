@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vip.efactory.ejpa.base.controller.BaseController;
+import vip.efactory.ejpa.utils.R;
 import vip.efactory.modules.monitor.domain.Visits;
 import vip.efactory.modules.monitor.service.VisitsService;
 import vip.efactory.utils.RequestHolder;
@@ -20,20 +21,20 @@ public class VisitsController extends BaseController<Visits, VisitsService, Long
 
     @PostMapping
     @ApiOperation("创建访问记录")
-    public ResponseEntity create() {
+    public R create() {
         entityService.count(RequestHolder.getHttpServletRequest());
-        return new ResponseEntity(HttpStatus.CREATED);
+        return R.ok();
     }
 
     @GetMapping
     @ApiOperation("查询")
-    public ResponseEntity<Object> get(){
-        return new ResponseEntity<>(entityService.get(),HttpStatus.OK);
+    public R get(){
+        return R.ok(entityService.get());
     }
 
     @GetMapping(value = "/chartData")
     @ApiOperation("查询图表数据")
-    public ResponseEntity<Object> getChartData() {
-        return new ResponseEntity(entityService.getChartData(), HttpStatus.OK);
+    public R getChartData() {
+        return R.ok(entityService.getChartData());
     }
 }

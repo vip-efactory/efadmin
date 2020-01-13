@@ -13,6 +13,7 @@ import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.domain.QiniuConfig;
 import vip.efactory.domain.QiniuContent;
+import vip.efactory.ejpa.utils.R;
 import vip.efactory.service.QiNiuService;
 import vip.efactory.service.dto.QiniuQueryCriteria;
 
@@ -32,17 +33,17 @@ public class QiniuController extends BaseController<QiniuConfig, QiNiuService, L
 
 
     @GetMapping(value = "/config")
-    public ResponseEntity<Object> get(){
-        return new ResponseEntity<>(entityService.find(), HttpStatus.OK);
+    public R get(){
+        return R.ok(entityService.find());
     }
 
     @Log("配置七牛云存储")
     @ApiOperation("配置七牛云存储")
     @PutMapping(value = "/config")
-    public ResponseEntity<Object> emailConfig(@Validated @RequestBody QiniuConfig qiniuConfig){
+    public R emailConfig(@Validated @RequestBody QiniuConfig qiniuConfig){
         entityService.update(qiniuConfig);
         entityService.update(qiniuConfig.getType());
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 
     @Log("导出数据")
@@ -55,52 +56,52 @@ public class QiniuController extends BaseController<QiniuConfig, QiNiuService, L
     @Log("查询文件")
     @ApiOperation("查询文件")
     @GetMapping
-    public ResponseEntity<Object> getRoles(QiniuQueryCriteria criteria, Pageable pageable){
-        return new ResponseEntity<>(entityService.queryAll(criteria,pageable),HttpStatus.OK);
+    public R getRoles(QiniuQueryCriteria criteria, Pageable pageable){
+        return R.ok(entityService.queryAll(criteria,pageable));
     }
 
     @Log("上传文件")
     @ApiOperation("上传文件")
     @PostMapping
-    public ResponseEntity<Object> upload(@RequestParam MultipartFile file){
+    public R upload(@RequestParam MultipartFile file){
         QiniuContent qiniuContent = entityService.upload(file,entityService.find());
         Map<String,Object> map = new HashMap<>(3);
         map.put("id",qiniuContent.getId());
         map.put("errno",0);
         map.put("data",new String[]{qiniuContent.getUrl()});
-        return new ResponseEntity<>(map,HttpStatus.OK);
+        return R.ok(map);
     }
 
     @Log("同步七牛云数据")
     @ApiOperation("同步七牛云数据")
     @PostMapping(value = "/synchronize")
-    public ResponseEntity<Object> synchronize(){
+    public R synchronize(){
         entityService.synchronize(entityService.find());
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 
     @Log("下载文件")
     @ApiOperation("下载文件")
     @GetMapping(value = "/download/{id}")
-    public ResponseEntity<Object> download(@PathVariable Long id){
+    public R download(@PathVariable Long id){
         Map<String,Object> map = new HashMap<>(1);
         map.put("url", entityService.download(entityService.findByContentId(id),entityService.find()));
-        return new ResponseEntity<>(map,HttpStatus.OK);
+        return R.ok(map);
     }
 
     @Log("删除文件")
     @ApiOperation("删除文件")
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Object> delete(@PathVariable Long id){
+    public R delete(@PathVariable Long id){
         entityService.delete(entityService.findByContentId(id),entityService.find());
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 
     @Log("删除多张图片")
     @ApiOperation("删除多张图片")
     @DeleteMapping
-    public ResponseEntity<Object> deleteAll(@RequestBody Long[] ids) {
+    public R deleteAll(@RequestBody Long[] ids) {
         entityService.deleteAll(ids, entityService.find());
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 }

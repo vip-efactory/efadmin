@@ -11,6 +11,7 @@ import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.domain.EmailConfig;
 import vip.efactory.domain.vo.EmailVo;
+import vip.efactory.ejpa.utils.R;
 import vip.efactory.service.EmailService;
 
 /**
@@ -23,23 +24,23 @@ import vip.efactory.service.EmailService;
 public class EmailController extends BaseController<EmailConfig, EmailService, Long> {
 
     @GetMapping
-    public ResponseEntity<Object> get(){
-        return new ResponseEntity<>(entityService.find(),HttpStatus.OK);
+    public R get(){
+        return R.ok(entityService.find());
     }
 
     @Log("配置邮件")
     @PutMapping
     @ApiOperation("配置邮件")
-    public ResponseEntity<Object> emailConfig(@Validated @RequestBody EmailConfig emailConfig){
+    public R emailConfig(@Validated @RequestBody EmailConfig emailConfig){
         entityService.update(emailConfig,entityService.find());
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 
     @Log("发送邮件")
     @PostMapping
     @ApiOperation("发送邮件")
-    public ResponseEntity<Object> send(@Validated @RequestBody EmailVo emailVo) throws Exception {
+    public R send(@Validated @RequestBody EmailVo emailVo) throws Exception {
         entityService.send(emailVo,entityService.find());
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 }

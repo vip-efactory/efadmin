@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.domain.ColumnInfo;
+import vip.efactory.ejpa.utils.R;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.service.GenConfigService;
 import vip.efactory.service.GeneratorService;
@@ -35,45 +36,45 @@ public class GeneratorController {
 
     @ApiOperation("查询数据库数据")
     @GetMapping(value = "/tables/all")
-    public ResponseEntity<Object> getTables(){
-        return new ResponseEntity<>(generatorService.getTables(), HttpStatus.OK);
+    public R getTables(){
+        return R.ok(generatorService.getTables());
     }
 
     @ApiOperation("查询数据库数据")
     @GetMapping(value = "/tables")
-    public ResponseEntity<Object> getTables(@RequestParam(defaultValue = "") String name,
+    public R getTables(@RequestParam(defaultValue = "") String name,
                                             @RequestParam(defaultValue = "0")Integer page,
                                             @RequestParam(defaultValue = "10")Integer size){
         int[] startEnd = PageUtil.transToStartEnd(page+1, size);
-        return new ResponseEntity<>(generatorService.getTables(name,startEnd), HttpStatus.OK);
+        return R.ok(generatorService.getTables(name,startEnd));
     }
 
     @ApiOperation("查询字段数据")
     @GetMapping(value = "/columns")
-    public ResponseEntity<Object> getTables(@RequestParam String tableName){
+    public R getTables(@RequestParam String tableName){
         List<ColumnInfo> columnInfos = generatorService.getColumns(tableName);
-        return new ResponseEntity<Object>(PageUtil.toPage(columnInfos,columnInfos.size()), HttpStatus.OK);
+        return R.ok(PageUtil.toPage(columnInfos,columnInfos.size()));
     }
 
     @ApiOperation("保存字段数据")
     @PutMapping
-    public ResponseEntity<HttpStatus> save(@RequestBody List<ColumnInfo> columnInfos){
+    public R save(@RequestBody List<ColumnInfo> columnInfos){
         generatorService.save(columnInfos);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 
     @ApiOperation("同步字段数据")
     @PostMapping(value = "sync")
-    public ResponseEntity<HttpStatus> sync(@RequestBody List<String> tables){
+    public R sync(@RequestBody List<String> tables){
         for (String table : tables) {
             generatorService.sync(generatorService.getColumns(table), generatorService.query(table));
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 
     @ApiOperation("生成代码")
     @PostMapping(value = "/{tableName}/{type}")
-    public ResponseEntity<Object> generator(@PathVariable String tableName, @PathVariable Integer type, HttpServletRequest request, HttpServletResponse response){
+    public R generator(@PathVariable String tableName, @PathVariable Integer type, HttpServletRequest request, HttpServletResponse response){
         if(!generatorEnabled && type == 0){
             throw new BadRequestException("此环境不允许生成代码，请选择预览或者下载查看！");
         }
@@ -88,6 +89,6 @@ public class GeneratorController {
                 break;
             default: throw new BadRequestException("没有这个选项");
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 }

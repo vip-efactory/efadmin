@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
+import vip.efactory.ejpa.utils.R;
 import vip.efactory.modules.mnt.domain.App;
 import vip.efactory.modules.mnt.service.AppService;
 import vip.efactory.modules.mnt.service.dto.AppQueryCriteria;
@@ -17,10 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
-/**
-* @author zhanghouying
-* @date 2019-08-24
-*/
 @Api(tags = "应用管理")
 @RestController
 @RequestMapping("/api/app")
@@ -44,33 +41,33 @@ public class AppController {
     @ApiOperation(value = "查询应用")
     @GetMapping
 	@PreAuthorize("@p.check('app:list')")
-    public ResponseEntity<Object> getApps(AppQueryCriteria criteria, Pageable pageable){
-        return new ResponseEntity<>(appService.queryAll(criteria,pageable), HttpStatus.OK);
+    public R getApps(AppQueryCriteria criteria, Pageable pageable){
+        return R.ok(appService.queryAll(criteria,pageable));
     }
 
     @Log("新增应用")
     @ApiOperation(value = "新增应用")
     @PostMapping
 	@PreAuthorize("@p.check('app:add')")
-    public ResponseEntity<Object> create(@Validated @RequestBody App resources){
-        return new ResponseEntity<>(appService.create(resources), HttpStatus.CREATED);
+    public R create(@Validated @RequestBody App resources){
+        return R.ok(appService.create(resources));
     }
 
     @Log("修改应用")
     @ApiOperation(value = "修改应用")
     @PutMapping
 	@PreAuthorize("@p.check('app:edit')")
-    public ResponseEntity<Object> update(@Validated @RequestBody App resources){
+    public R update(@Validated @RequestBody App resources){
         appService.update(resources);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return R.ok();
     }
 
     @Log("删除应用")
     @ApiOperation(value = "删除应用")
 	@DeleteMapping
 	@PreAuthorize("@p.check('app:del')")
-    public ResponseEntity<Object> delete(@RequestBody Set<Long> ids){
+    public R delete(@RequestBody Set<Long> ids){
         appService.delete(ids);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 }

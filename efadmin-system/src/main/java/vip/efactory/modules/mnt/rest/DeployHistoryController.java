@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
+import vip.efactory.ejpa.utils.R;
 import vip.efactory.modules.mnt.service.DeployHistoryService;
 import vip.efactory.modules.mnt.service.dto.DeployHistoryQueryCriteria;
 
@@ -43,16 +44,16 @@ public class DeployHistoryController {
     @ApiOperation(value = "查询部署历史")
     @GetMapping
 	@PreAuthorize("@p.check('deployHistory:list')")
-    public ResponseEntity<Object> getDeployHistorys(DeployHistoryQueryCriteria criteria, Pageable pageable){
-        return new ResponseEntity<>(deployhistoryService.queryAll(criteria,pageable), HttpStatus.OK);
+    public R getDeployHistorys(DeployHistoryQueryCriteria criteria, Pageable pageable){
+        return R.ok(deployhistoryService.queryAll(criteria,pageable));
     }
 
     @Log("删除DeployHistory")
     @ApiOperation(value = "删除部署历史")
 	@DeleteMapping
     @PreAuthorize("@p.check('deployHistory:del')")
-    public ResponseEntity<Object> delete(@RequestBody Set<String> ids){
+    public R delete(@RequestBody Set<String> ids){
         deployhistoryService.delete(ids);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 }

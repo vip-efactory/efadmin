@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.domain.SysLog;
+import vip.efactory.ejpa.utils.R;
 import vip.efactory.service.LogService;
 import vip.efactory.service.dto.LogQueryCriteria;
 import vip.efactory.utils.SecurityUtils;
@@ -49,49 +50,49 @@ public class LogController extends BaseController<SysLog, LogService, Long> {
     @GetMapping
     @ApiOperation("日志查询")
     @PreAuthorize("@p.check()")
-    public ResponseEntity<Object> getLogs(LogQueryCriteria criteria, Pageable pageable) {
+    public R getLogs(LogQueryCriteria criteria, Pageable pageable) {
         criteria.setLogType("INFO");
-        return new ResponseEntity<>(entityService.queryAll(criteria, pageable), HttpStatus.OK);
+        return R.ok(entityService.queryAll(criteria, pageable));
     }
 
     @GetMapping(value = "/user")
     @ApiOperation("用户日志查询")
-    public ResponseEntity<Object> getUserLogs(LogQueryCriteria criteria, Pageable pageable) {
+    public R getUserLogs(LogQueryCriteria criteria, Pageable pageable) {
         criteria.setLogType("INFO");
         criteria.setBlurry(SecurityUtils.getUsername());
-        return new ResponseEntity<>(entityService.queryAllByUser(criteria, pageable), HttpStatus.OK);
+        return R.ok(entityService.queryAllByUser(criteria, pageable));
     }
 
     @GetMapping(value = "/error")
     @ApiOperation("错误日志查询")
     @PreAuthorize("@p.check()")
-    public ResponseEntity<Object> getErrorLogs(LogQueryCriteria criteria, Pageable pageable) {
+    public R getErrorLogs(LogQueryCriteria criteria, Pageable pageable) {
         criteria.setLogType("ERROR");
-        return new ResponseEntity<>(entityService.queryAll(criteria, pageable), HttpStatus.OK);
+        return R.ok(entityService.queryAll(criteria, pageable));
     }
 
     @GetMapping(value = "/error/{id}")
     @ApiOperation("日志异常详情查询")
     @PreAuthorize("@p.check()")
-    public ResponseEntity<Object> getErrorLogs(@PathVariable Long id) {
-        return new ResponseEntity<>(entityService.findByErrDetail(id), HttpStatus.OK);
+    public R getErrorLogs(@PathVariable Long id) {
+        return R.ok(entityService.findByErrDetail(id));
     }
 
     @DeleteMapping(value = "/del/error")
     @Log("删除所有ERROR日志")
     @ApiOperation("删除所有ERROR日志")
     @PreAuthorize("@p.check()")
-    public ResponseEntity<Object> delAllByError() {
+    public R delAllByError() {
         entityService.delAllByError();
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 
     @DeleteMapping(value = "/del/info")
     @Log("删除所有INFO日志")
     @ApiOperation("删除所有INFO日志")
     @PreAuthorize("@p.check()")
-    public ResponseEntity<Object> delAllByInfo() {
+    public R delAllByInfo() {
         entityService.delAllByInfo();
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 }

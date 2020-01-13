@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
+import vip.efactory.ejpa.utils.R;
 import vip.efactory.modules.mnt.domain.ServerDeploy;
 import vip.efactory.modules.mnt.service.ServerDeployService;
 import vip.efactory.modules.mnt.service.dto.ServerDeployQueryCriteria;
@@ -45,41 +46,41 @@ public class ServerDeployController {
     @ApiOperation(value = "查询服务器")
     @GetMapping
 	@PreAuthorize("@p.check('serverDeploy:list')")
-    public ResponseEntity<Object> getServers(ServerDeployQueryCriteria criteria, Pageable pageable){
-    	return new ResponseEntity<>(serverDeployService.queryAll(criteria,pageable), HttpStatus.OK);
+    public R getServers(ServerDeployQueryCriteria criteria, Pageable pageable){
+    	return R.ok(serverDeployService.queryAll(criteria,pageable));
     }
 
     @Log("新增服务器")
     @ApiOperation(value = "新增服务器")
     @PostMapping
 	@PreAuthorize("@p.check('serverDeploy:add')")
-    public ResponseEntity<Object> create(@Validated @RequestBody ServerDeploy resources){
-        return new ResponseEntity<>(serverDeployService.create(resources), HttpStatus.CREATED);
+    public R create(@Validated @RequestBody ServerDeploy resources){
+        return R.ok(serverDeployService.create(resources));
     }
 
     @Log("修改服务器")
     @ApiOperation(value = "修改服务器")
     @PutMapping
 	@PreAuthorize("@p.check('serverDeploy:edit')")
-    public ResponseEntity<Object> update(@Validated @RequestBody ServerDeploy resources){
+    public R update(@Validated @RequestBody ServerDeploy resources){
         serverDeployService.update(resources);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return R.ok();
     }
 
     @Log("删除服务器")
     @ApiOperation(value = "删除Server")
 	@DeleteMapping
 	@PreAuthorize("@p.check('serverDeploy:del')")
-    public ResponseEntity<Object> delete(@RequestBody Set<Long> ids){
+    public R delete(@RequestBody Set<Long> ids){
         serverDeployService.delete(ids);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 
 	@Log("测试连接服务器")
 	@ApiOperation(value = "测试连接服务器")
 	@PostMapping("/testConnect")
 	@PreAuthorize("@p.check('serverDeploy:add')")
-	public ResponseEntity<Object> testConnect(@Validated @RequestBody ServerDeploy resources){
-		return new ResponseEntity<>(serverDeployService.testConnect(resources), HttpStatus.CREATED);
+	public R testConnect(@Validated @RequestBody ServerDeploy resources){
+		return R.ok(serverDeployService.testConnect(resources));
 	}
 }

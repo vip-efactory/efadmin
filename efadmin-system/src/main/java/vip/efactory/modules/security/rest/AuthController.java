@@ -20,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.annotation.AnonymousAccess;
 import vip.efactory.aop.log.Log;
+import vip.efactory.ejpa.utils.R;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.security.config.SecurityProperties;
 import vip.efactory.modules.security.security.TokenProvider;
@@ -72,7 +73,7 @@ public class AuthController {
     @ApiOperation("登录授权")
     @AnonymousAccess
     @PostMapping(value = "/login")
-    public ResponseEntity<Object> login(@Validated @RequestBody AuthUser authUser, HttpServletRequest request){
+    public R login(@Validated @RequestBody AuthUser authUser, HttpServletRequest request){
         // 密码解密
         RSA rsa = new RSA(privateKey, null);
         String password = new String(rsa.decrypt(authUser.getPassword(), KeyType.PrivateKey));
@@ -105,20 +106,20 @@ public class AuthController {
             //踢掉之前已经登录的token
             onlineUserService.checkLoginOnUser(authUser.getUsername(),token);
         }
-        return ResponseEntity.ok(authInfo);
+        return R.ok(authInfo);
     }
 
     @ApiOperation("获取用户信息")
     @GetMapping(value = "/info")
-    public ResponseEntity<Object> getUserInfo(){
+    public R getUserInfo(){
         JwtUser jwtUser = (JwtUser)userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
-        return ResponseEntity.ok(jwtUser);
+        return R.ok(jwtUser);
     }
 
     @AnonymousAccess
     @ApiOperation("获取验证码")
     @GetMapping(value = "/code")
-    public ResponseEntity<Object> getCode(){
+    public R getCode(){
         // 算术类型 https://gitee.com/whvse/EasyCaptcha
         ArithmeticCaptcha captcha = new ArithmeticCaptcha(111, 36);
         // 几位数运算，默认是两位
@@ -133,14 +134,14 @@ public class AuthController {
             put("img", captcha.toBase64());
             put("uuid", uuid);
         }};
-        return ResponseEntity.ok(imgResult);
+        return R.ok(imgResult);
     }
 
     @ApiOperation("退出登录")
     @AnonymousAccess
     @DeleteMapping(value = "/logout")
-    public ResponseEntity<Object> logout(HttpServletRequest request){
+    public R logout(HttpServletRequest request){
         onlineUserService.logout(tokenProvider.getToken(request));
-        return new ResponseEntity<>(HttpStatus.OK);
+        return R.ok();
     }
 }

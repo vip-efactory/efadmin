@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import vip.efactory.domain.ColumnInfo;
 import vip.efactory.domain.GenConfig;
 import vip.efactory.domain.vo.TableInfo;
+import vip.efactory.ejpa.utils.R;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.repository.ColumnInfoRepository;
 import vip.efactory.service.GeneratorService;
@@ -161,12 +162,12 @@ public class GeneratorServiceImpl implements GeneratorService {
     }
 
     @Override
-    public ResponseEntity<Object> preview(GenConfig genConfig, List<ColumnInfo> columns) {
+    public R preview(GenConfig genConfig, List<ColumnInfo> columns) {
         if(genConfig.getId() == null){
             throw new BadRequestException("请先配置生成器");
         }
         List<Map<String,Object>> genList =  GenUtil.preview(columns, genConfig);
-        return new ResponseEntity<>(genList, HttpStatus.OK);
+        return R.ok(genList);
     }
 
     @Override

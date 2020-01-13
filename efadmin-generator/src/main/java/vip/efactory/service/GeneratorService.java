@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import vip.efactory.domain.ColumnInfo;
 import vip.efactory.domain.GenConfig;
+import vip.efactory.ejpa.utils.R;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,7 +61,7 @@ public interface GeneratorService {
      * @param columns 字段信息
      * @return /
      */
-    ResponseEntity<Object> preview(GenConfig genConfig, List<ColumnInfo> columns);
+    R preview(GenConfig genConfig, List<ColumnInfo> columns);
 
     /**
      * 打包下载
