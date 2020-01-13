@@ -31,7 +31,6 @@ import java.util.Map;
 @Api(tags = "工具：七牛云存储管理")
 public class QiniuController extends BaseController<QiniuConfig, QiNiuService, Long> {
 
-
     @GetMapping(value = "/config")
     public R get(){
         return R.ok(entityService.find());

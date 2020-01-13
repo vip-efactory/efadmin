@@ -2,6 +2,7 @@ package vip.efactory.modules.mnt.rest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -23,22 +24,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Set;
 
-/**
- * @author zhanghouying
- * @date 2019-08-24
- */
+@AllArgsConstructor
 @Api(tags = "数据库管理")
 @RestController
 @RequestMapping("/api/database")
 public class DatabaseController {
-
-    private String fileSavePath = System.getProperty("java.io.tmpdir");
-
+    private static String fileSavePath = System.getProperty("java.io.tmpdir");
     private final DatabaseService databaseService;
-
-    public DatabaseController(DatabaseService databaseService) {
-        this.databaseService = databaseService;
-    }
 
     @Log("导出数据库数据")
     @ApiOperation("导出数据库数据")

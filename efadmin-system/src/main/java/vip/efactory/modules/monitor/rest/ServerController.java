@@ -2,9 +2,8 @@ package vip.efactory.modules.monitor.rest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -16,20 +15,13 @@ import vip.efactory.modules.monitor.service.dto.ServerQueryCriteria;
 
 import java.util.Set;
 
-/**
- * @author Zhang houying
- * @date 2019-11-03
- */
+@AllArgsConstructor
 @Api(tags = "服务监控管理")
 @RestController
 @RequestMapping("/api/server")
 public class ServerController {
 
     private final ServerService serverService;
-
-    public ServerController(ServerService serverService) {
-        this.serverService = serverService;
-    }
 
     @GetMapping
     @Log("查询服务监控")

@@ -3,6 +3,7 @@ package vip.efactory.modules.mnt.rest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,20 +18,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
-/**
-* @author zhanghouying
-* @date 2019-08-24
-*/
+@AllArgsConstructor
 @Api(tags = "部署历史管理")
 @RestController
 @RequestMapping("/api/deployHistory")
 public class DeployHistoryController {
-
     private final DeployHistoryService deployhistoryService;
-
-    public DeployHistoryController(DeployHistoryService deployhistoryService) {
-        this.deployhistoryService = deployhistoryService;
-    }
 
     @Log("导出部署历史数据")
     @ApiOperation("导出部署历史数据")

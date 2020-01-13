@@ -2,10 +2,8 @@ package vip.efactory.modules.security.rest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
@@ -16,9 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
-/**
- * @author Zheng Jie
- */
+@AllArgsConstructor
 @RestController
 @RequestMapping("/auth/online")
 @Api(tags = "系统：在线用户管理")
@@ -26,14 +22,10 @@ public class OnlineController {
 
     private final OnlineUserService onlineUserService;
 
-    public OnlineController(OnlineUserService onlineUserService) {
-        this.onlineUserService = onlineUserService;
-    }
-
     @ApiOperation("查询在线用户")
     @GetMapping
     @PreAuthorize("@p.check()")
-    public R getAll(String filter, Pageable pageable){
+    public R getAll(String filter, Pageable pageable) {
         return R.ok(onlineUserService.getAll(filter, pageable));
     }
 

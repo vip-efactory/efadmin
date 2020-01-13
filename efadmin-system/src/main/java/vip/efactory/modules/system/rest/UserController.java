@@ -47,6 +47,7 @@ public class UserController extends BaseController<User, UserService, Long> {
 
     @Value("${rsa.private_key}")
     private String privateKey;
+
     private final PasswordEncoder passwordEncoder;
     private final DataScope dataScope;
     private final DeptService deptService;

@@ -2,6 +2,7 @@ package vip.efactory.rest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,16 +14,13 @@ import vip.efactory.service.EmailService;
 import vip.efactory.service.VerificationCodeService;
 import vip.efactory.utils.EfAdminConstant;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/code")
 @Api(tags = "工具：验证码管理")
 public class VerificationCodeController extends BaseController<VerificationCode, VerificationCodeService, Long> {
 
     private final EmailService emailService;
-
-    public VerificationCodeController(EmailService emailService) {
-        this.emailService = emailService;
-    }
 
     @PostMapping(value = "/resetEmail")
     @ApiOperation("重置邮箱，发送验证码")

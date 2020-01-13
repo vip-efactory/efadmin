@@ -2,8 +2,6 @@ package vip.efactory.modules.monitor.rest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +26,7 @@ public class VisitsController extends BaseController<Visits, VisitsService, Long
 
     @GetMapping
     @ApiOperation("查询")
-    public R get(){
+    public R get() {
         return R.ok(entityService.get());
     }
 

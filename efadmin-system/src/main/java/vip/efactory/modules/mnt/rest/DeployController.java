@@ -3,6 +3,7 @@ package vip.efactory.modules.mnt.rest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,22 +28,13 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-/**
-* @author zhanghouying
-* @date 2019-08-24
-*/
+@AllArgsConstructor
 @Api(tags = "部署管理")
 @RestController
 @RequestMapping("/api/deploy")
 public class DeployController {
-
-	private String fileSavePath = System.getProperty("java.io.tmpdir");
-
+	private static String fileSavePath = System.getProperty("java.io.tmpdir");
     private final DeployService deployService;
-
-	public DeployController(DeployService deployService) {
-		this.deployService = deployService;
-	}
 
 	@Log("导出部署数据")
 	@ApiOperation("导出部署数据")

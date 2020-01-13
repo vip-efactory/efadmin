@@ -2,6 +2,7 @@ package vip.efactory.modules.mnt.rest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,16 +19,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
+@AllArgsConstructor
 @Api(tags = "应用管理")
 @RestController
 @RequestMapping("/api/app")
 public class AppController {
-
     private final AppService appService;
-
-    public AppController(AppService appService){
-        this.appService = appService;
-    }
 
     @Log("导出应用数据")
     @ApiOperation("导出应用数据")

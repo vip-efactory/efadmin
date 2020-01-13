@@ -3,6 +3,7 @@ package vip.efactory.modules.mnt.rest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,20 +20,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
-/**
-* @author zhanghouying
-* @date 2019-08-24
-*/
+@AllArgsConstructor
 @Api(tags = "服务器管理")
 @RestController
 @RequestMapping("/api/serverDeploy")
 public class ServerDeployController {
-
     private final ServerDeployService serverDeployService;
-
-    public ServerDeployController(ServerDeployService serverDeployService) {
-        this.serverDeployService = serverDeployService;
-    }
 
     @Log("导出服务器数据")
     @ApiOperation("导出服务器数据")

@@ -2,6 +2,7 @@ package vip.efactory.rest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,16 +19,13 @@ import vip.efactory.service.dto.LocalStorageQueryCriteria;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@AllArgsConstructor
 @Api(tags = "工具：本地存储管理")
 @RestController
 @RequestMapping("/api/localStorage")
 public class LocalStorageController {
 
     private final LocalStorageService localStorageService;
-
-    public LocalStorageController(LocalStorageService localStorageService) {
-        this.localStorageService = localStorageService;
-    }
 
     @ApiOperation("查询文件")
     @GetMapping

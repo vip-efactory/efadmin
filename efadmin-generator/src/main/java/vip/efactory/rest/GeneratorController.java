@@ -2,6 +2,7 @@ package vip.efactory.rest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +22,7 @@ import java.util.List;
 @RequestMapping("/api/generator")
 @Api(tags = "系统：代码生成管理")
 public class GeneratorController {
-
     private final GeneratorService generatorService;
-
     private final GenConfigService genConfigService;
 
     @Value("${generator.enabled}")

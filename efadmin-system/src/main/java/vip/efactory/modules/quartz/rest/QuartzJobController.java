@@ -4,8 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +32,8 @@ public class QuartzJobController extends BaseController<QuartzJob, QuartzJobServ
     @ApiOperation("查询定时任务")
     @GetMapping
     @PreAuthorize("@p.check('timing:list')")
-    public R getJobs(JobQueryCriteria criteria, Pageable pageable){
-        return R.ok(entityService.queryAll(criteria,pageable));
+    public R getJobs(JobQueryCriteria criteria, Pageable pageable) {
+        return R.ok(entityService.queryAll(criteria, pageable));
     }
 
     @Log("导出任务数据")
@@ -57,17 +55,17 @@ public class QuartzJobController extends BaseController<QuartzJob, QuartzJobServ
     @ApiOperation("查询任务执行日志")
     @GetMapping(value = "/logs")
     @PreAuthorize("@p.check('timing:list')")
-    public R getJobLogs(JobQueryCriteria criteria, Pageable pageable){
-        return R.ok(entityService.queryAllLog(criteria,pageable));
+    public R getJobLogs(JobQueryCriteria criteria, Pageable pageable) {
+        return R.ok(entityService.queryAllLog(criteria, pageable));
     }
 
     @Log("新增定时任务")
     @ApiOperation("新增定时任务")
     @PostMapping
     @PreAuthorize("@p.check('timing:add')")
-    public R create(@Validated @RequestBody QuartzJob resources){
+    public R create(@Validated @RequestBody QuartzJob resources) {
         if (resources.getId() != null) {
-            throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
+            throw new BadRequestException("A new " + ENTITY_NAME + " cannot already have an ID");
         }
         return R.ok(entityService.create(resources));
     }
@@ -76,7 +74,7 @@ public class QuartzJobController extends BaseController<QuartzJob, QuartzJobServ
     @ApiOperation("修改定时任务")
     @PutMapping
     @PreAuthorize("@p.check('timing:edit')")
-    public R update(@Validated(Update.class) @RequestBody QuartzJob resources){
+    public R update(@Validated(Update.class) @RequestBody QuartzJob resources) {
         entityService.update(resources);
         return R.ok();
     }
@@ -85,7 +83,7 @@ public class QuartzJobController extends BaseController<QuartzJob, QuartzJobServ
     @ApiOperation("更改定时任务状态")
     @PutMapping(value = "/{id}")
     @PreAuthorize("@p.check('timing:edit')")
-    public R updateIsPause(@PathVariable Long id){
+    public R updateIsPause(@PathVariable Long id) {
         entityService.updateIsPause(entityService.findById2(id));
         return R.ok();
     }
@@ -103,7 +101,7 @@ public class QuartzJobController extends BaseController<QuartzJob, QuartzJobServ
     @ApiOperation("删除定时任务")
     @DeleteMapping
     @PreAuthorize("@p.check('timing:del')")
-    public R delete(@RequestBody Set<Long> ids){
+    public R delete(@RequestBody Set<Long> ids) {
         entityService.delete(ids);
         return R.ok();
     }

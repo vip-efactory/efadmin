@@ -2,6 +2,7 @@ package vip.efactory.modules.system.rest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -21,19 +22,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
+@AllArgsConstructor
 @Api(tags = "系统：岗位管理")
 @RestController
 @RequestMapping("/api/job")
 public class JobController extends BaseController<Job, JobService, Long> {
+    private static final String ENTITY_NAME = "job";
 
     private final DataScope dataScope;
 
-    private static final String ENTITY_NAME = "job";
-
-    public JobController(JobService entityService, DataScope dataScope) {
-        this.entityService = entityService;
-        this.dataScope = dataScope;
-    }
 
     @Log("导出岗位数据")
     @ApiOperation("导出岗位数据")

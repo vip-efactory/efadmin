@@ -3,8 +3,7 @@ package vip.efactory.modules.system.rest;
 import cn.hutool.core.collection.CollectionUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,18 +25,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@AllArgsConstructor
 @RestController
 @Api(tags = "系统：部门管理")
 @RequestMapping("/api/dept")
 public class DeptController extends BaseController<Dept, DeptService, Long> {
-
-    private final DataScope dataScope;
-
     private static final String ENTITY_NAME = "dept";
 
-    public DeptController(DataScope dataScope) {
-        this.dataScope = dataScope;
-    }
+    private final DataScope dataScope;
 
     @Log("导出部门数据")
     @ApiOperation("导出部门数据")
@@ -51,7 +46,7 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
     @ApiOperation("查询部门")
     @GetMapping
     @PreAuthorize("@p.check('user:list','dept:list')")
-    public R getDepts(DeptQueryCriteria criteria){
+    public R getDepts(DeptQueryCriteria criteria) {
         // 数据权限
         criteria.setIds(dataScope.getDeptIds());
         List<DeptDto> deptDtos = entityService.queryAll(criteria);
@@ -62,9 +57,9 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
     @ApiOperation("新增部门")
     @PostMapping
     @PreAuthorize("@p.check('dept:add')")
-    public R create(@Validated @RequestBody Dept resources){
+    public R create(@Validated @RequestBody Dept resources) {
         if (resources.getId() != null) {
-            throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
+            throw new BadRequestException("A new " + ENTITY_NAME + " cannot already have an ID");
         }
         return R.ok(entityService.create(resources));
     }
@@ -73,7 +68,7 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
     @ApiOperation("修改部门")
     @PutMapping
     @PreAuthorize("@p.check('dept:edit')")
-    public R update(@Validated(Update.class) @RequestBody Dept resources){
+    public R update(@Validated(Update.class) @RequestBody Dept resources) {
         entityService.update(resources);
         return R.ok();
     }
@@ -82,18 +77,18 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
     @ApiOperation("删除部门")
     @DeleteMapping
     @PreAuthorize("@p.check('dept:del')")
-    public R delete(@RequestBody Set<Long> ids){
+    public R delete(@RequestBody Set<Long> ids) {
         Set<DeptDto> deptDtos = new HashSet<>();
         for (Long id : ids) {
             List<Dept> deptList = entityService.findByPid(id);
             deptDtos.add(entityService.findDtoById(id));
-            if(CollectionUtil.isNotEmpty(deptList)){
+            if (CollectionUtil.isNotEmpty(deptList)) {
                 deptDtos = entityService.getDeleteDepts(deptList, deptDtos);
             }
         }
         try {
             entityService.delete(deptDtos);
-        }catch (Throwable e){
+        } catch (Throwable e) {
             ThrowableUtil.throwForeignKeyException(e, "所选部门中存在岗位或者角色关联，请取消关联后再试");
         }
         return R.ok();
