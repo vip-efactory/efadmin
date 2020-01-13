@@ -48,7 +48,7 @@ public interface JobService extends IBaseService<Job, Long> {
      * @param pageable 分页参数
      * @return /
      */
-    Map<String,Object> queryAll(JobQueryCriteria criteria, Pageable pageable);
+    Object queryAll(JobQueryCriteria criteria, Pageable pageable);
 
     /**
      * 查询全部数据

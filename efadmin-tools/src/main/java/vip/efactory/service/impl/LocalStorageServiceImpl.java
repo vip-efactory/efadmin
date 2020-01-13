@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.domain.LocalStorage;
+import vip.efactory.ejpa.base.controller.EPage;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.repository.LocalStorageRepository;
 import vip.efactory.service.LocalStorageService;
@@ -57,7 +58,7 @@ public class LocalStorageServiceImpl implements LocalStorageService {
     @Cacheable
     public Object queryAll(LocalStorageQueryCriteria criteria, Pageable pageable){
         Page<LocalStorage> page = localStorageRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(localStorageMapper::toDto));
+        return new EPage(page.map(localStorageMapper::toDto));
     }
 
     @Override

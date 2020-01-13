@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import vip.efactory.ejpa.base.controller.EPage;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.exception.EntityExistException;
 import vip.efactory.modules.system.domain.Menu;
@@ -59,7 +60,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, Long, RoleRepository>
     @Cacheable
     public Object queryAll(RoleQueryCriteria criteria, Pageable pageable) {
         Page<Role> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(roleMapper::toDto));
+        return new EPage(page.map(roleMapper::toDto));
     }
 
     @Override

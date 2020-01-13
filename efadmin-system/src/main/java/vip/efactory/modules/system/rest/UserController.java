@@ -17,6 +17,7 @@ import vip.efactory.aop.log.Log;
 import vip.efactory.config.DataScope;
 import vip.efactory.domain.VerificationCode;
 import vip.efactory.ejpa.base.controller.BaseController;
+import vip.efactory.ejpa.base.controller.EPage;
 import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.ejpa.utils.R;
 import vip.efactory.exception.BadRequestException;
@@ -30,7 +31,6 @@ import vip.efactory.modules.system.service.dto.UserDto;
 import vip.efactory.modules.system.service.dto.UserQueryCriteria;
 import vip.efactory.service.VerificationCodeService;
 import vip.efactory.utils.EfAdminConstant;
-import vip.efactory.utils.PageUtil;
 import vip.efactory.utils.SecurityUtils;
 
 import javax.servlet.http.HttpServletResponse;
@@ -90,7 +90,9 @@ public class UserController extends BaseController<User, UserService, Long> {
             // 若无交集，则代表无数据权限
             criteria.setDeptIds(result);
             if (result.size() == 0) {
-                return R.ok(PageUtil.toPage(null, 0));
+                EPage epage = EPage.page();
+                epage.setTotalCount(0);
+                return R.ok(epage);
             } else {
                 return R.ok(entityService.queryAll(criteria, pageable));
             }

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import vip.efactory.ejpa.base.controller.EPage;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.quartz.domain.QuartzJob;
@@ -43,12 +44,12 @@ public class QuartzJobServiceImpl extends BaseServiceImpl<QuartzJob, Long, Quart
 
     @Override
     public Object queryAll(JobQueryCriteria criteria, Pageable pageable) {
-        return PageUtil.toPage(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable));
+        return new EPage(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable));
     }
 
     @Override
     public Object queryAllLog(JobQueryCriteria criteria, Pageable pageable) {
-        return PageUtil.toPage(quartzLogRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable));
+        return new EPage(quartzLogRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable));
     }
 
     @Override

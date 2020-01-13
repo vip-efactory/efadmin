@@ -22,7 +22,7 @@ public interface ServerService {
     * @param pageable 分页参数
     * @return Map<String,Object>
     */
-    Map<String,Object> queryAll(ServerQueryCriteria criteria, Pageable pageable);
+    Object queryAll(ServerQueryCriteria criteria, Pageable pageable);
 
     /**
     * 查询所有数据不分页

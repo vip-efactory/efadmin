@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import vip.efactory.ejpa.base.controller.EPage;
 import vip.efactory.modules.mnt.domain.Database;
 import vip.efactory.modules.mnt.repository.DatabaseRepository;
 import vip.efactory.modules.mnt.service.DatabaseService;
@@ -45,7 +46,7 @@ public class DatabaseServiceImpl implements DatabaseService {
     @Override
     public Object queryAll(DatabaseQueryCriteria criteria, Pageable pageable){
         Page<Database> page = databaseRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(databaseMapper::toDto));
+        return new EPage(page.map(databaseMapper::toDto));
     }
 
     @Override

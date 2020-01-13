@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import vip.efactory.ejpa.base.controller.EPage;
 import vip.efactory.modules.security.config.SecurityProperties;
 import vip.efactory.modules.security.security.vo.JwtUser;
 import vip.efactory.modules.security.security.vo.OnlineUser;
@@ -56,12 +57,12 @@ public class OnlineUserService {
      * @param pageable /
      * @return /
      */
-    public Map<String,Object> getAll(String filter, Pageable pageable){
+    public Object getAll(String filter, Pageable pageable){
         List<OnlineUser> onlineUsers = getAll(filter);
-        return PageUtil.toPage(
-                PageUtil.toPage(pageable.getPageNumber(),pageable.getPageSize(),onlineUsers),
-                onlineUsers.size()
-        );
+        EPage page = new EPage();
+        page.setContent(PageUtil.toPage(pageable.getPageNumber(),pageable.getPageSize(),onlineUsers));
+        page.setTotalCount(onlineUsers.size());
+        return page;
     }
 
     /**

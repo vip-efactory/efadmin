@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import vip.efactory.ejpa.base.controller.EPage;
 import vip.efactory.modules.mnt.domain.DeployHistory;
 import vip.efactory.modules.mnt.repository.DeployHistoryRepository;
 import vip.efactory.modules.mnt.service.DeployHistoryService;
@@ -42,7 +43,7 @@ public class DeployHistoryServiceImpl implements DeployHistoryService {
     @Override
     public Object queryAll(DeployHistoryQueryCriteria criteria, Pageable pageable){
         Page<DeployHistory> page = deployhistoryRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(deployhistoryMapper::toDto));
+        return new EPage(page.map(deployhistoryMapper::toDto));
     }
 
     @Override

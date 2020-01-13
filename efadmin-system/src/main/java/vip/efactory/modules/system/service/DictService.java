@@ -20,7 +20,7 @@ public interface DictService extends IBaseService<Dict, Long> {
      * @param pageable 分页参数
      * @return /
      */
-    Map<String,Object> queryAll(DictQueryCriteria criteria, Pageable pageable);
+    Object queryAll(DictQueryCriteria criteria, Pageable pageable);
 
     /**
      * 查询全部数据

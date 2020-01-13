@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import vip.efactory.ejpa.base.controller.EPage;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.exception.EntityExistException;
 import vip.efactory.exception.EntityNotFoundException;
@@ -53,7 +54,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
     @Cacheable
     public Object queryAll(UserQueryCriteria criteria, Pageable pageable) {
         Page<User> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
-        return PageUtil.toPage(page.map(userMapper::toDto));
+        return new EPage(page.map(userMapper::toDto));
     }
 
     @Override

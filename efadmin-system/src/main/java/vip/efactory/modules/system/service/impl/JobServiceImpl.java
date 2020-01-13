@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import vip.efactory.ejpa.base.controller.EPage;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.modules.system.domain.Job;
 import vip.efactory.modules.system.repository.DeptRepository;
@@ -41,13 +42,16 @@ public class JobServiceImpl extends BaseServiceImpl<Job, Long, JobRepository> im
 
     @Override
     @Cacheable
-    public Map<String,Object> queryAll(JobQueryCriteria criteria, Pageable pageable) {
+    public Object queryAll(JobQueryCriteria criteria, Pageable pageable) {
         Page<Job> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         List<JobDto> jobs = new ArrayList<>();
         for (Job job : page.getContent()) {
             jobs.add(jobMapper.toDto(job,deptRepository.findNameById(job.getDept().getPid())));
         }
-        return PageUtil.toPage(jobs,page.getTotalElements());
+        EPage epage = new EPage();
+        epage.setContent(jobs);
+        epage.setTotalCount(page.getTotalElements());
+        return epage;
     }
 
     @Override

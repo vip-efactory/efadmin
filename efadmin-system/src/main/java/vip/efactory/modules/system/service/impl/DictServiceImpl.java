@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import vip.efactory.ejpa.base.controller.EPage;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.modules.system.domain.Dict;
 import vip.efactory.modules.system.repository.DictRepository;
@@ -39,9 +40,9 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, Long, DictRepository>
 
     @Override
     @Cacheable
-    public Map<String, Object> queryAll(DictQueryCriteria dict, Pageable pageable){
+    public Object queryAll(DictQueryCriteria dict, Pageable pageable){
         Page<Dict> page = br.findAll((root, query, cb) -> QueryHelp.getPredicate(root, dict, cb), pageable);
-        return PageUtil.toPage(page.map(dictMapper::toDto));
+        return new EPage(page.map(dictMapper::toDto));
     }
 
     @Override

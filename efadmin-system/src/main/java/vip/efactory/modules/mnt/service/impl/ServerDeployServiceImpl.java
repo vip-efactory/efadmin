@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import vip.efactory.ejpa.base.controller.EPage;
 import vip.efactory.modules.mnt.domain.ServerDeploy;
 import vip.efactory.modules.mnt.repository.ServerDeployRepository;
 import vip.efactory.modules.mnt.service.ServerDeployService;
@@ -42,7 +43,7 @@ public class ServerDeployServiceImpl implements ServerDeployService {
     @Override
     public Object queryAll(ServerDeployQueryCriteria criteria, Pageable pageable){
         Page<ServerDeploy> page = serverDeployRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(serverDeployMapper::toDto));
+        return new EPage(page.map(serverDeployMapper::toDto));
     }
 
     @Override

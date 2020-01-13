@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import vip.efactory.ejpa.base.controller.EPage;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.mnt.domain.App;
 import vip.efactory.modules.mnt.repository.AppRepository;
@@ -42,7 +43,7 @@ public class AppServiceImpl implements AppService {
     @Override
     public Object queryAll(AppQueryCriteria criteria, Pageable pageable){
         Page<App> page = appRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(appMapper::toDto));
+        return new EPage(page.map(appMapper::toDto));
     }
 
     @Override

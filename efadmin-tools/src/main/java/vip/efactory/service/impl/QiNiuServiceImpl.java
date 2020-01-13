@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import vip.efactory.ejpa.base.controller.EPage;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.domain.QiniuConfig;
 import vip.efactory.domain.QiniuContent;
@@ -50,7 +51,7 @@ public class QiNiuServiceImpl extends BaseServiceImpl<QiniuConfig, Long, QiNiuCo
     @Override
     @Cacheable
     public Object queryAll(QiniuQueryCriteria criteria, Pageable pageable){
-        return PageUtil.toPage(qiniuContentRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable));
+        return new EPage(qiniuContentRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable));
     }
 
     @Override

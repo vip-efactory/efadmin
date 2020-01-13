@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import vip.efactory.ejpa.base.controller.EPage;
 import vip.efactory.modules.monitor.domain.Server;
 import vip.efactory.modules.monitor.repository.ServerRepository;
 import vip.efactory.modules.monitor.service.ServerService;
@@ -39,7 +40,7 @@ public class ServerServiceImpl implements ServerService {
     }
 
     @Override
-    public Map<String,Object> queryAll(ServerQueryCriteria criteria, Pageable pageable){
+    public Object queryAll(ServerQueryCriteria criteria, Pageable pageable){
         Page<Server> page = serverRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         page.forEach(server -> {
 			try {
@@ -61,7 +62,7 @@ public class ServerServiceImpl implements ServerService {
 			}
 		});
 
-        return PageUtil.toPage(page.map(serverMapper::toDto));
+        return new EPage(page.map(serverMapper::toDto));
     }
 
     @Override

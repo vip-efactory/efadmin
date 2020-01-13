@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import vip.efactory.ejpa.base.controller.EPage;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.mnt.domain.App;
 import vip.efactory.modules.mnt.domain.Deploy;
@@ -67,7 +68,7 @@ public class DeployServiceImpl implements DeployService {
 	@Override
 	public Object queryAll(DeployQueryCriteria criteria, Pageable pageable) {
 		Page<Deploy> page = deployRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
-		return PageUtil.toPage(page.map(deployMapper::toDto));
+		return new EPage(page.map(deployMapper::toDto));
 	}
 
 	@Override

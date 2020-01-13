@@ -10,8 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.domain.SysLog;
+import vip.efactory.ejpa.base.controller.EPage;
+import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.repository.LogRepository;
 import vip.efactory.service.LogService;
 import vip.efactory.service.dto.LogQueryCriteria;
@@ -45,9 +46,9 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog, Long, LogRepository>
         Page<SysLog> page = br.findAll(((root, criteriaQuery, cb) -> QueryHelp.getPredicate(root, criteria, cb)), pageable);
         String status = "ERROR";
         if (status.equals(criteria.getLogType())) {
-            return PageUtil.toPage(page.map(logErrorMapper::toDto));
+            return new EPage(page.map(logErrorMapper::toDto));
         }
-        return page;
+        return new EPage(page);
     }
 
     @Override
@@ -58,7 +59,7 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog, Long, LogRepository>
     @Override
     public Object queryAllByUser(LogQueryCriteria criteria, Pageable pageable) {
         Page<SysLog> page = br.findAll(((root, criteriaQuery, cb) -> QueryHelp.getPredicate(root, criteria, cb)), pageable);
-        return PageUtil.toPage(page.map(logSmallMapper::toDto));
+        return new EPage(page.map(logSmallMapper::toDto));
     }
 
     @Override
