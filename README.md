@@ -1,36 +1,31 @@
 # efadmin
 - 一个基于eladmin后端项目改造增强的项目
-
     最早基于2019-07-04的[2.1 版本优化，修复定时任务删除后还继续执行的bug]节点！
-- 会阶段性跟进eladmin项目的源码;
+- 会阶段性跟进efadmin项目的源码;
 - 本项目会尽可能兼容原项目的功能.
 
 # 本项目与eladmin的差异
 - 使用ejpa框架
-- 不使用JPA的ResponseEntity及分页，太繁琐了
-- 因为使用ejpa框架，在原来的基础上有如下的新特性：
+- 不使用JPA的ResponseEntity及分页，太繁琐了，用R代替了ResponseEntity，分页数据返回使用EPage简化
+- 因为使用ejpa框架，在原来的基础上有如下的新特性：更多请参见：https://github.com/vip-efactory/ejpa-example
     - 基本的CRUD模板，即增删改查操作，此处的查是指正常的分页、排序及id查询；
     - 较复杂的多条件的高级查询； --比eladmin更加灵活的高级查询
     - 提供对持久化实体属性操作检查功能；--比eladmin更加灵活的高级查询
     - 提供接口的国际化功能；
     - 自动跟踪记录的：创建时间、更新时间、创建人、更新人
+    - 增加员工组件管理
 
-<h1 style="text-align: center">EL-ADMIN 后台管理系统</h1>
+<h1 style="text-align: center">EF-ADMIN 后台管理系统</h1>
 <div style="text-align: center">
 
-[![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/elunez/eladmin/blob/master/LICENSE)
-[![star](https://gitee.com/elunez/eladmin/badge/star.svg?theme=white)](https://gitee.com/elunez/eladmin)
-[![GitHub stars](https://img.shields.io/github/stars/elunez/eladmin.svg?style=social&label=Stars)](https://github.com/elunez/eladmin)
-[![GitHub forks](https://img.shields.io/github/forks/elunez/eladmin.svg?style=social&label=Fork)](https://github.com/elunez/eladmin)
+[![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/vip-efactory/efadmin/blob/master/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/elunez/efadmin.svg?style=social&label=Stars)](https://github.com/vip-efactory/efadmin)
+[![GitHub forks](https://img.shields.io/github/forks/elunez/efadmin.svg?style=social&label=Fork)](https://github.com/vip-efactory/efadmin)
 
 </div>
 
 #### 项目简介
-一个基于 Spring Boot 2.1.0 、 Spring Boot Jpa、 JWT、Spring Security、Redis、Vue的前后端分离的后台管理系统
-
-**开发文档：**  [https://docs.auauz.net/](https://docs.auauz.net)
-
-**体验地址：**  [https://auauz.net/](https://auauz.net/)
+一个基于 Spring Boot 2.2.2 、 Spring Boot Jpa、 JWT、Spring Security、Redis、Vue、ejpa的前后端分离的后台管理系统
 
 **账号密码：** `admin/123456` (默认密码都是123456)
 
@@ -38,8 +33,7 @@
 
 |     |   后端源码  |   前端源码  |
 |---  |--- | --- |
-|  github   |  https://github.com/elunez/eladmin   |  https://github.com/elunez/eladmin-web   |
-|  码云   |  https://gitee.com/elunez/eladmin   |  https://gitee.com/elunez/eladmin-web   |
+|  github   |  https://github.com/vip-efactory/efadmin   |  https://github.com/vip-efactory/efadmin-ui   |
 
 #### 主要特性
 - 使用最新技术栈，社区资源丰富。
@@ -71,20 +65,20 @@
 #### 项目结构
 项目采用按功能分模块开发方式，将通用的配置放在公共模块，```system```模块为系统核心模块也是项目入口模块，```logging``` 模块为系统的日志模块，```tools``` 为第三方工具模块，包含了图床、邮件、七牛云、支付宝，```generator``` 为系统的代码生成模块
 
-- eladmin-common 公共模块
+- efadmin-common 公共模块
     - annotation 为系统自定义注解
     - aspect 自定义注解的切面
     - base 提供了Entity、DTO基类和mapstruct的通用mapper
     - config 自定义权限实现、redis配置、swagger配置
     - exception 项目统一异常的处理
     - utils 系统通用工具类
-- eladmin-system 系统核心模块（系统启动入口）
+- efadmin-system 系统核心模块（系统启动入口）
 	- config 配置跨域与静态资源，与数据权限
 	    - thread 线程池相关
 	- modules 系统相关模块(登录授权、系统监控、定时任务等)
-- eladmin-logging 系统日志模块
-- eladmin-tools 系统第三方工具模块
-- eladmin-generator 系统代码生成模块
+- efadmin-logging 系统日志模块
+- efadmin-tools 系统第三方工具模块
+- efadmin-generator 系统代码生成模块
     
 
 #### 系统预览
@@ -107,9 +101,10 @@
 </table>
 
 #### 项目捐赠
-项目的发展离不开你的支持，请作者喝杯咖啡吧☕  [Donate](https://docs.auauz.net/#/jz)
+
+
 #### 反馈交流
-- QQ交流群：891137268
+- QQ交流群：601693868
 
 
 
