@@ -49,7 +49,7 @@ public class QiNiuServiceImpl extends BaseServiceImpl<QiniuConfig, Long, QiNiuCo
     private Long maxSize;
 
     @Override
-    @Cacheable
+//    @Cacheable
     public Object queryAll(QiniuQueryCriteria criteria, Pageable pageable){
         return new EPage(qiniuContentRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable));
     }

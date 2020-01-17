@@ -55,7 +55,7 @@ public class LocalStorageServiceImpl implements LocalStorageService {
     }
 
     @Override
-    @Cacheable
+//    @Cacheable
     public Object queryAll(LocalStorageQueryCriteria criteria, Pageable pageable){
         Page<LocalStorage> page = localStorageRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return new EPage(page.map(localStorageMapper::toDto));
