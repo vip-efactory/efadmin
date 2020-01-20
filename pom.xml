@@ -62,7 +62,7 @@
         <dependency>
             <groupId>vip.efactory</groupId>
             <artifactId>common-i18n</artifactId>
-            <version>1.1.1</version>
+            <version>1.1.2</version>
         </dependency>
 
         <!--Spring boot start-->
