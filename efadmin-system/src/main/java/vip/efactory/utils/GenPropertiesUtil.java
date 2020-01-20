@@ -1,4 +1,4 @@
-package vip.efactory.modules;
+package vip.efactory.utils;
 
 import vip.efactory.common.i18n.enums.Entityi18nUtil;
 

@@ -67,10 +67,11 @@ public class Menu extends BaseEntity<Long> implements Serializable {
     @JsonIgnore
     private Set<Role> roles;
 
-//    @CreationTimestamp
-//    @Column(name = "create_time")
-//    private Timestamp createTime;
-
+    /**
+     * 国际化的key标识,不允许为空,当国际化环境不是zh_CN时,通过此属性获取对应的国际化值.
+     */
+    @NotBlank
+    private String localeKey;
 
     @Override
     public boolean equals(Object o) {
@@ -83,7 +84,6 @@ public class Menu extends BaseEntity<Long> implements Serializable {
         Menu menu = (Menu) o;
         return Objects.equals(id, menu.id);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(id);

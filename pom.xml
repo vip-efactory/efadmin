@@ -51,7 +51,20 @@
             <artifactId>ejpa-spring-boot-starter</artifactId>
             <version>${ejpa.starter.version}</version>
             <type>pom</type>
+            <exclusions>
+               <exclusion>
+                   <groupId>vip.efactory</groupId>
+                   <artifactId>common-i18n</artifactId>
+               </exclusion>
+            </exclusions>
         </dependency>
+        <!-- 引入国际化的依赖 -->
+        <dependency>
+            <groupId>vip.efactory</groupId>
+            <artifactId>common-i18n</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
         <!--Spring boot start-->
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.boot</groupId>-->
