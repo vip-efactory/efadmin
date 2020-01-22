@@ -9,6 +9,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import vip.efactory.common.i18n.enums.Entityi18nUtil;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.exception.EntityExistException;
@@ -61,7 +62,7 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, Long, MenuRepository>
     @Override
     public List<MenuDto> findByRoles(List<RoleSmallDto> roles) {
         // 测试生成菜单的国际化文件
-//        Entityi18nUtil.copyToLocale(MenuI18nUtil.geni18nPropertiesFile("messages_ui", br.findAll()));
+        Entityi18nUtil.copyToLocale(MenuI18nUtil.geni18nPropertiesFile("messages_ui", br.findAll()));
 
         Set<Long> roleIds = roles.stream().map(RoleSmallDto::getId).collect(Collectors.toSet());
         LinkedHashSet<Menu> menus = br.findByRoles_IdInAndTypeNotOrderBySortAsc(roleIds, 2);
@@ -160,6 +161,8 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, Long, MenuRepository>
     @Override
     @Cacheable(key = "'tree'")
     public Object getMenuTree(List<Menu> menus) {
+        // 菜单国际化
+        MenuI18nUtil.handleLocale(menus);
         List<Map<String, Object>> list = new LinkedList<>();
         menus.forEach(menu -> {
                     if (menu != null) {
