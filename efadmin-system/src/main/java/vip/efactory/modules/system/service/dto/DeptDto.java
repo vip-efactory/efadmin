@@ -30,6 +30,8 @@ public class DeptDto implements Serializable {
      */
     private Long pid;
 
+    private String remark;
+
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<DeptDto> children;
 

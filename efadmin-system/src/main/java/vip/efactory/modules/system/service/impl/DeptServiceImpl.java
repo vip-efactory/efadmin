@@ -34,7 +34,7 @@ public class DeptServiceImpl extends BaseServiceImpl<Dept, Long, DeptRepository>
     }
 
     @Override
-    @Cacheable
+//    @Cacheable
     public List<DeptDto> queryAll(DeptQueryCriteria criteria) {
         return deptMapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
     }
@@ -59,7 +59,7 @@ public class DeptServiceImpl extends BaseServiceImpl<Dept, Long, DeptRepository>
     }
 
     @Override
-    @Cacheable
+//    @Cacheable
     public Object buildTree(List<DeptDto> deptDtos) {
         Set<DeptDto> trees = new LinkedHashSet<>();
         Set<DeptDto> depts = new LinkedHashSet<>();
