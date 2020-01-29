@@ -15,6 +15,7 @@
         <module>efadmin-system</module>
         <module>efadmin-tools</module>
         <module>efadmin-generator</module>
+        <module>efadmin-monitor</module>
     </modules>
 
     <name>ef-admin</name>
