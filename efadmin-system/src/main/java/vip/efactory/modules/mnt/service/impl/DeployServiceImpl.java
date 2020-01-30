@@ -2,6 +2,7 @@ package vip.efactory.modules.mnt.service.impl;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
+import com.jcraft.jsch.JSchException;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.domain.Page;
@@ -107,7 +108,7 @@ public class DeployServiceImpl implements DeployService {
 	}
 
 	@Override
-	public void deploy(String fileSavePath, Long id) {
+	public void deploy(String fileSavePath, Long id) throws JSchException {
 		deployApp(fileSavePath, id);
 	}
 
@@ -115,7 +116,7 @@ public class DeployServiceImpl implements DeployService {
 	 * @param fileSavePath 本机路径
 	 * @param id ID
 	 */
-	private void deployApp(String fileSavePath, Long id) {
+	private void deployApp(String fileSavePath, Long id) throws JSchException {
 
 		DeployDto deploy = findById(id);
 		if (deploy == null) {
@@ -247,7 +248,7 @@ public class DeployServiceImpl implements DeployService {
 	}
 
 	@Override
-	public String serverStatus(Deploy resources) {
+	public String serverStatus(Deploy resources) throws JSchException {
 		Set<ServerDeploy> serverDeploys = resources.getDeploys();
 		App app = resources.getApp();
 		for (ServerDeploy serverDeploy : serverDeploys) {
@@ -279,7 +280,7 @@ public class DeployServiceImpl implements DeployService {
 	 * @return /
 	 */
 	@Override
-	public String startServer(Deploy resources) {
+	public String startServer(Deploy resources) throws JSchException {
 		Set<ServerDeploy> deploys = resources.getDeploys();
 		App app = resources.getApp();
 		for (ServerDeploy deploy : deploys) {
@@ -316,7 +317,7 @@ public class DeployServiceImpl implements DeployService {
 	 * @return /
 	 */
 	@Override
-	public String stopServer(Deploy resources) {
+	public String stopServer(Deploy resources) throws JSchException {
 		Set<ServerDeploy> deploys = resources.getDeploys();
 		App app = resources.getApp();
 		for (ServerDeploy deploy : deploys) {
@@ -342,7 +343,7 @@ public class DeployServiceImpl implements DeployService {
 	}
 
 	@Override
-	public String serverReduction(DeployHistory resources) {
+	public String serverReduction(DeployHistory resources) throws JSchException {
 		Long deployId = resources.getDeployId();
 		Deploy deployInfo = deployRepository.findById(deployId).orElseGet(Deploy::new);
 		String deployDate = DateUtil.format(resources.getDeployDate(), DatePattern.PURE_DATETIME_PATTERN);
@@ -395,7 +396,7 @@ public class DeployServiceImpl implements DeployService {
 		return "";
 	}
 
-	private ExecuteShellUtil getExecuteShellUtil(String ip) {
+	private ExecuteShellUtil getExecuteShellUtil(String ip) throws JSchException {
 		ServerDeployDto serverDeployDTO = serverDeployService.findByIp(ip);
 		if (serverDeployDTO == null) {
 			sendMsg("IP对应服务器信息不存在：" + ip, MsgType.ERROR);

@@ -1,5 +1,6 @@
 package vip.efactory.modules.mnt.service;
 
+import com.jcraft.jsch.JSchException;
 import org.springframework.data.domain.Pageable;
 import vip.efactory.modules.mnt.domain.ServerDeploy;
 import vip.efactory.modules.mnt.service.dto.ServerDeployDto;
@@ -69,7 +70,7 @@ public interface ServerDeployService {
 	 * @param resources /
 	 * @return /
 	 */
-	Boolean testConnect(ServerDeploy resources);
+	Boolean testConnect(ServerDeploy resources) throws JSchException;
 
     /**
      * 导出数据

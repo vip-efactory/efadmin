@@ -1,5 +1,6 @@
 package vip.efactory.modules.mnt.service;
 
+import com.jcraft.jsch.JSchException;
 import org.springframework.data.domain.Pageable;
 import vip.efactory.modules.mnt.domain.Deploy;
 import vip.efactory.modules.mnt.domain.DeployHistory;
@@ -64,33 +65,33 @@ public interface DeployService {
 	 * @param fileSavePath 文件路径
 	 * @param appId 应用ID
      */
-	void deploy(String fileSavePath, Long appId);
+	void deploy(String fileSavePath, Long appId) throws JSchException;
 
     /**
      * 查询部署状态
      * @param resources /
      * @return /
      */
-    String serverStatus(Deploy resources);
+    String serverStatus(Deploy resources) throws JSchException;
     /**
      * 启动服务
      * @param resources /
      * @return /
      */
-    String startServer(Deploy resources);
+    String startServer(Deploy resources) throws JSchException;
     /**
      * 停止服务
      * @param resources /
      * @return /
      */
-    String stopServer(Deploy resources);
+    String stopServer(Deploy resources) throws JSchException;
 
     /**
      * 停止服务
      * @param resources /
      * @return /
      */
-    String serverReduction(DeployHistory resources);
+    String serverReduction(DeployHistory resources) throws JSchException;
 
     /**
      * 导出数据

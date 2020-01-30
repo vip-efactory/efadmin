@@ -1,6 +1,7 @@
 package vip.efactory.modules.mnt.service.impl;
 
 
+import com.jcraft.jsch.JSchException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -65,14 +66,12 @@ public class ServerDeployServiceImpl implements ServerDeployService {
     }
 
 	@Override
-	public Boolean testConnect(ServerDeploy resources) {
+	public Boolean testConnect(ServerDeploy resources) throws JSchException {
 		ExecuteShellUtil executeShellUtil = null;
 		try {
 			executeShellUtil = new ExecuteShellUtil(resources.getIp(), resources.getAccount(), resources.getPassword(),resources.getPort());
 			return executeShellUtil.execute("ls")==0;
-		} catch (Exception e) {
-			return false;
-		}finally {
+		} finally {
 			if (executeShellUtil != null) {
 				executeShellUtil.close();
 			}

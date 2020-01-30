@@ -1,5 +1,6 @@
 package vip.efactory.modules.mnt.rest;
 
+import com.jcraft.jsch.JSchException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -106,31 +107,52 @@ public class DeployController {
 	@PostMapping(value = "/serverReduction")
 	@PreAuthorize("@p.check('deploy:edit')")
 	public R serverReduction(@Validated @RequestBody DeployHistory resources){
-		String result = deployService.serverReduction(resources);
-		return R.ok(result);
+		try {
+			String result = deployService.serverReduction(resources);
+			return R.ok(result);
+		} catch (JSchException e) {
+			e.printStackTrace();
+			return R.error(e);
+		}
 	}
 	@Log("服务运行状态")
 	@ApiOperation(value = "服务运行状态")
 	@PostMapping(value = "/serverStatus")
 	@PreAuthorize("@p.check('deploy:edit')")
 	public R serverStatus(@Validated @RequestBody Deploy resources){
-		String result = deployService.serverStatus(resources);
-    	return R.ok(result);
+		try {
+			String result = deployService.serverStatus(resources);
+			return R.ok(result);
+		} catch (JSchException e) {
+			e.printStackTrace();
+			return R.error(e);
+		}
 	}
 	@Log("启动服务")
 	@ApiOperation(value = "启动服务")
 	@PostMapping(value = "/startServer")
 	@PreAuthorize("@p.check('deploy:edit')")
 	public R startServer(@Validated @RequestBody Deploy resources){
-		String result = deployService.startServer(resources);
-		return R.ok(result);
+		try {
+			String result = deployService.startServer(resources);
+			return R.ok(result);
+		} catch (JSchException e) {
+			e.printStackTrace();
+			return R.error(e);
+		}
+
 	}
 	@Log("停止服务")
 	@ApiOperation(value = "停止服务")
 	@PostMapping(value = "/stopServer")
 	@PreAuthorize("@p.check('deploy:edit')")
 	public R stopServer(@Validated @RequestBody Deploy resources){
-		String result = deployService.stopServer(resources);
-		return R.ok(result);
+		try {
+			String result = deployService.stopServer(resources);
+			return R.ok(result);
+		} catch (JSchException e) {
+			e.printStackTrace();
+			return R.error(e);
+		}
 	}
 }
