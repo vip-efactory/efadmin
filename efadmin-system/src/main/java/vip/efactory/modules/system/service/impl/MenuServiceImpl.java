@@ -62,7 +62,7 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, Long, MenuRepository>
     @Override
     public List<MenuDto> findByRoles(List<RoleSmallDto> roles) {
         // 测试生成菜单的国际化文件
-        Entityi18nUtil.copyToLocale(MenuI18nUtil.geni18nPropertiesFile("messages_ui", br.findAll()));
+//        Entityi18nUtil.copyToLocale(MenuI18nUtil.geni18nPropertiesFile("messages_ui", br.findAll()));
 
         Set<Long> roleIds = roles.stream().map(RoleSmallDto::getId).collect(Collectors.toSet());
         LinkedHashSet<Menu> menus = br.findByRoles_IdInAndTypeNotOrderBySortAsc(roleIds, 2);
