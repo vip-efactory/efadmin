@@ -44,7 +44,7 @@ public class EmailConfig extends BaseEntity<Long> implements Serializable {
     private String pass;
 
     /**
-     * 收件人
+     * 发件人邮箱地址
      */
     @NotBlank
     @Column(name = "from_user")
