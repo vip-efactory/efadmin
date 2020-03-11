@@ -4,6 +4,7 @@ import cn.hutool.core.lang.Dict;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -12,10 +13,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
+import vip.efactory.ejpa.base.entity.BaseSearchEntity;
 import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.ejpa.utils.R;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.domain.Role;
+import vip.efactory.modules.system.domain.User;
 import vip.efactory.modules.system.service.RoleService;
 import vip.efactory.modules.system.service.UserService;
 import vip.efactory.modules.system.service.dto.RoleDto;
@@ -65,10 +68,27 @@ public class RoleController extends BaseController<Role, RoleService, Long> {
 
     @Log("查询角色")
     @ApiOperation("查询角色")
-    @GetMapping
+    @GetMapping("/page")
     @PreAuthorize("@p.check('roles:list')")
     public R getRoles(RoleQueryCriteria criteria, Pageable pageable) {
         return R.ok(entityService.queryAll(criteria, pageable));
+    }
+
+    /**
+     * Description: 高级查询
+     *
+     * @param baseSearchEntity 含有高级查询条件
+     * @param page             分页参数对象
+     * @return R
+     */
+    @Log("分页高级查询Role")
+    @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
+    @PostMapping("/page")
+    @PreAuthorize("@p.check('roles:list')")
+    public R advancedQuery(@RequestBody BaseSearchEntity baseSearchEntity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
+        Role entity = new Role();
+        BeanUtils.copyProperties(baseSearchEntity, entity);
+        return super.advancedQueryByPage(page, entity);
     }
 
     @ApiOperation("获取用户级别")

@@ -4,8 +4,11 @@ import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.CollectionUtils;
@@ -18,6 +21,7 @@ import vip.efactory.config.DataScope;
 import vip.efactory.domain.VerificationCode;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.ejpa.base.controller.EPage;
+import vip.efactory.ejpa.base.entity.BaseSearchEntity;
 import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.ejpa.utils.R;
 import vip.efactory.exception.BadRequestException;
@@ -72,7 +76,7 @@ public class UserController extends BaseController<User, UserService, Long> {
 
     @Log("查询用户")
     @ApiOperation("查询用户")
-    @GetMapping
+    @GetMapping("/page")
     @PreAuthorize("@p.check('user:list')")
     public R getUsers(UserQueryCriteria criteria, Pageable pageable) {
         Set<Long> deptSet = new HashSet<>();
@@ -104,6 +108,23 @@ public class UserController extends BaseController<User, UserService, Long> {
             criteria.setDeptIds(result);
             return R.ok(entityService.queryAll(criteria, pageable));
         }
+    }
+
+    /**
+     * Description: 高级查询
+     *
+     * @param baseSearchEntity 含有高级查询条件
+     * @param page             分页参数对象
+     * @return R
+     */
+    @Log("分页高级查询User")
+    @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
+    @PostMapping("/page")
+    @PreAuthorize("@p.check('user:list')")
+    public R advancedQuery(@RequestBody BaseSearchEntity baseSearchEntity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
+        User entity = new User();
+        BeanUtils.copyProperties(baseSearchEntity, entity);
+        return super.advancedQueryByPage(page, entity);
     }
 
     @Log("新增用户")
