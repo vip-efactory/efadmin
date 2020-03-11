@@ -87,7 +87,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
      */
     @Log("分页高级查询Employee")
     @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
-    @PostMapping("/advanced/query")
+    @PostMapping("/page")
     @PreAuthorize("@p.check('employee:list')")
     public R advancedQuery(@RequestBody BaseSearchEntity baseSearchEntity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
         Employee entity = new Employee();
