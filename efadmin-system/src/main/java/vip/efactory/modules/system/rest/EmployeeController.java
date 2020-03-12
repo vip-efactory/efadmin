@@ -81,7 +81,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
     /**
      * Description: 高级查询
      *
-     * @param baseSearchEntity 含有高级查询条件
+     * @param entity            含有高级查询条件
      * @param page             分页参数对象
      * @return R
      */
@@ -89,9 +89,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
     @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
     @PostMapping("/page")
     @PreAuthorize("@p.check('employee:list')")
-    public R advancedQuery(@RequestBody BaseSearchEntity baseSearchEntity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
-        Employee entity = new Employee();
-        BeanUtils.copyProperties(baseSearchEntity, entity);
+    public R advancedQuery(@RequestBody Employee entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
         return super.advancedQueryByPage(page, entity);
     }
 

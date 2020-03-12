@@ -1,12 +1,8 @@
 package vip.efactory.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import vip.efactory.domain.LocalStorage;
+import vip.efactory.ejpa.base.repository.BaseRepository;
 
-/**
-* @author Zheng Jie
-* @date 2019-09-05
-*/
-public interface LocalStorageRepository extends JpaRepository<LocalStorage, Long>, JpaSpecificationExecutor<LocalStorage> {
+public interface LocalStorageRepository extends BaseRepository<LocalStorage, Long>, JpaSpecificationExecutor<LocalStorage> {
 }

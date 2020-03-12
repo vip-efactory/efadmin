@@ -4,13 +4,17 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.aop.log.Log;
+import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.ejpa.utils.R;
 import vip.efactory.exception.BadRequestException;
+import vip.efactory.modules.mnt.domain.App;
 import vip.efactory.modules.mnt.domain.Database;
 import vip.efactory.modules.mnt.service.DatabaseService;
 import vip.efactory.modules.mnt.service.dto.DatabaseDto;
@@ -28,24 +32,38 @@ import java.util.Set;
 @Api(tags = "数据库管理")
 @RestController
 @RequestMapping("/api/database")
-public class DatabaseController {
+public class DatabaseController extends BaseController<Database, DatabaseService, String> {
     private static String fileSavePath = System.getProperty("java.io.tmpdir");
-    private final DatabaseService databaseService;
 
     @Log("导出数据库数据")
     @ApiOperation("导出数据库数据")
     @GetMapping(value = "/download")
     @PreAuthorize("@p.check('database:list')")
     public void download(HttpServletResponse response, DatabaseQueryCriteria criteria) throws IOException {
-        databaseService.download(databaseService.queryAll(criteria), response);
+        entityService.download(entityService.queryAll(criteria), response);
     }
 
     @Log("查询数据库")
     @ApiOperation(value = "查询数据库")
-    @GetMapping
+    @GetMapping("/page")
     @PreAuthorize("@p.check('database:list')")
     public R getDatabases(DatabaseQueryCriteria criteria, Pageable pageable) {
-        return R.ok(databaseService.queryAll(criteria, pageable));
+        return R.ok(entityService.queryAll(criteria, pageable));
+    }
+
+    /**
+     * Description: 高级查询
+     *
+     * @param entity 含有高级查询条件
+     * @param page   分页参数对象
+     * @return R
+     */
+    @Log("分页高级查询数据库")
+    @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
+    @PostMapping("/page")
+    @PreAuthorize("@p.check('database:list')")
+    public R advancedQuery(@RequestBody Database entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
+        return super.advancedQueryByPage(page, entity);
     }
 
     @Log("新增数据库")
@@ -53,7 +71,7 @@ public class DatabaseController {
     @PostMapping
     @PreAuthorize("@p.check('database:add')")
     public R create(@Validated @RequestBody Database resources) {
-        return R.ok(databaseService.create(resources));
+        return R.ok(entityService.create(resources));
     }
 
     @Log("修改数据库")
@@ -61,7 +79,7 @@ public class DatabaseController {
     @PutMapping
     @PreAuthorize("@p.check('database:edit')")
     public R update(@Validated @RequestBody Database resources) {
-        databaseService.update(resources);
+        entityService.update2(resources);
         return R.ok();
     }
 
@@ -70,7 +88,7 @@ public class DatabaseController {
     @DeleteMapping
     @PreAuthorize("@p.check('database:del')")
     public R delete(@RequestBody Set<String> ids) {
-        databaseService.delete(ids);
+        entityService.delete(ids);
         return R.ok();
     }
 
@@ -79,7 +97,7 @@ public class DatabaseController {
     @PostMapping("/testConnect")
     @PreAuthorize("@p.check('database:testConnect')")
     public R testConnect(@Validated @RequestBody Database resources) {
-        return R.ok(databaseService.testConnection(resources));
+        return R.ok(entityService.testConnection(resources));
     }
 
     @Log("执行SQL脚本")
@@ -88,7 +106,7 @@ public class DatabaseController {
     @PreAuthorize("@p.check('database:add')")
     public R upload(@RequestBody MultipartFile file, HttpServletRequest request) throws Exception {
         String id = request.getParameter("id");
-        DatabaseDto database = databaseService.findById(id);
+        DatabaseDto database = entityService.findDtoById(id);
         String fileName;
         if (database != null) {
             fileName = file.getOriginalFilename();

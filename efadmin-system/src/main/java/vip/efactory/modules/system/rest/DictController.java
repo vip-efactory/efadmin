@@ -3,6 +3,8 @@ package vip.efactory.modules.system.rest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,6 +16,7 @@ import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.ejpa.utils.R;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.domain.Dict;
+import vip.efactory.modules.system.domain.DictDetail;
 import vip.efactory.modules.system.service.DictService;
 import vip.efactory.modules.system.service.dto.DictQueryCriteria;
 
@@ -46,10 +49,25 @@ public class DictController extends BaseController<Dict, DictService, Long> {
 
     @Log("查询字典")
     @ApiOperation("查询字典")
-    @GetMapping
+    @GetMapping("/page")
     @PreAuthorize("@p.check('dict:list')")
     public R getDicts(DictQueryCriteria resources, Pageable pageable){
         return R.ok(entityService.queryAll(resources,pageable));
+    }
+
+    /**
+     * Description: 高级查询
+     *
+     * @param entity            含有高级查询条件
+     * @param page             分页参数对象
+     * @return R
+     */
+    @Log("分页高级查询Dict")
+    @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
+    @PostMapping("/page")
+    @PreAuthorize("@p.check('dict:list')")
+    public R advancedQuery(@RequestBody Dict entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
+        return super.advancedQueryByPage(page, entity);
     }
 
     @Log("新增字典")
@@ -68,7 +86,7 @@ public class DictController extends BaseController<Dict, DictService, Long> {
     @PutMapping
     @PreAuthorize("@p.check('dict:edit')")
     public R update(@Validated(Update.class) @RequestBody Dict resources){
-        entityService.update(resources);
+        entityService.update2(resources);
         return R.ok();
     }
 

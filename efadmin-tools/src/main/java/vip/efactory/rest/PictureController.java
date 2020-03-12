@@ -3,12 +3,15 @@ package vip.efactory.rest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.aop.log.Log;
+import vip.efactory.domain.LocalStorage;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.domain.Picture;
 import vip.efactory.ejpa.utils.R;
@@ -26,10 +29,25 @@ public class PictureController extends BaseController<Picture, PictureService, L
 
     @Log("查询图片")
     @PreAuthorize("@p.check('pictures:list')")
-    @GetMapping
+    @GetMapping("/page")
     @ApiOperation("查询图片")
     public R getRoles(PictureQueryCriteria criteria, Pageable pageable){
         return R.ok(entityService.queryAll(criteria,pageable));
+    }
+
+    /**
+     * Description: 高级查询
+     *
+     * @param entity 含有高级查询条件
+     * @param page   分页参数对象
+     * @return R
+     */
+    @Log("分页高级查询图片")
+    @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
+    @PostMapping("/page")
+    @PreAuthorize("@p.check('pictures:list')")
+    public R advancedQuery(@RequestBody Picture entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
+        return super.advancedQueryByPage(page, entity);
     }
 
     @Log("导出数据")

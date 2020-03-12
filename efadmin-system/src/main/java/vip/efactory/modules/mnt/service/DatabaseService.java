@@ -2,6 +2,7 @@ package vip.efactory.modules.mnt.service;
 
 
 import org.springframework.data.domain.Pageable;
+import vip.efactory.ejpa.base.service.IBaseService;
 import vip.efactory.modules.mnt.domain.Database;
 import vip.efactory.modules.mnt.service.dto.DatabaseDto;
 import vip.efactory.modules.mnt.service.dto.DatabaseQueryCriteria;
@@ -15,10 +16,11 @@ import java.util.Set;
  * @author ZhangHouYing
  * @date 2019-08-24
  */
-public interface DatabaseService {
+public interface DatabaseService extends IBaseService<Database, String> {
 
     /**
      * 分页查询
+     *
      * @param criteria 条件
      * @param pageable 分页参数
      * @return /
@@ -27,6 +29,7 @@ public interface DatabaseService {
 
     /**
      * 查询全部
+     *
      * @param criteria 条件
      * @return /
      */
@@ -34,13 +37,15 @@ public interface DatabaseService {
 
     /**
      * 根据ID查询
+     *
      * @param id /
      * @return /
      */
-    DatabaseDto findById(String id);
+    DatabaseDto findDtoById(String id);
 
     /**
      * 创建
+     *
      * @param resources /
      * @return /
      */
@@ -48,25 +53,29 @@ public interface DatabaseService {
 
     /**
      * 编辑
+     *
      * @param resources /
      */
-    void update(Database resources);
+    void update2(Database resources);
 
     /**
      * 删除
+     *
      * @param ids /
      */
     void delete(Set<String> ids);
 
-	/**
-	 * 测试连接数据库
-	 * @param resources /
-	 * @return /
-	 */
-	boolean testConnection(Database resources);
+    /**
+     * 测试连接数据库
+     *
+     * @param resources /
+     * @return /
+     */
+    boolean testConnection(Database resources);
 
     /**
      * 导出数据
+     *
      * @param queryAll /
      * @param response /
      * @throws IOException e

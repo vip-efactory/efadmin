@@ -2,6 +2,7 @@ package vip.efactory.modules.mnt.service;
 
 import com.jcraft.jsch.JSchException;
 import org.springframework.data.domain.Pageable;
+import vip.efactory.ejpa.base.service.IBaseService;
 import vip.efactory.modules.mnt.domain.Deploy;
 import vip.efactory.modules.mnt.domain.DeployHistory;
 import vip.efactory.modules.mnt.service.dto.DeployDto;
@@ -13,13 +14,14 @@ import java.util.List;
 import java.util.Set;
 
 /**
-* @author zhanghouying
-* @date 2019-08-24
-*/
-public interface DeployService {
+ * @author zhanghouying
+ * @date 2019-08-24
+ */
+public interface DeployService extends IBaseService<Deploy, Long> {
 
     /**
      * 分页查询
+     *
      * @param criteria 条件
      * @param pageable 分页参数
      * @return /
@@ -28,6 +30,7 @@ public interface DeployService {
 
     /**
      * 查询全部数据
+     *
      * @param criteria 条件
      * @return /
      */
@@ -35,13 +38,15 @@ public interface DeployService {
 
     /**
      * 根据ID查询
+     *
      * @param id /
      * @return /
      */
-    DeployDto findById(Long id);
+    DeployDto findDtoById(Long id);
 
     /**
      * 创建
+     *
      * @param resources /
      * @return /
      */
@@ -50,37 +55,45 @@ public interface DeployService {
 
     /**
      * 编辑
+     *
      * @param resources /
      */
-    void update(Deploy resources);
+    void update2(Deploy resources);
 
     /**
      * 删除
+     *
      * @param ids /
      */
     void delete(Set<Long> ids);
 
-	/**
-	 * 部署文件到服务器
-	 * @param fileSavePath 文件路径
-	 * @param appId 应用ID
+    /**
+     * 部署文件到服务器
+     *
+     * @param fileSavePath 文件路径
+     * @param appId        应用ID
      */
-	void deploy(String fileSavePath, Long appId) throws JSchException;
+    void deploy(String fileSavePath, Long appId) throws JSchException;
 
     /**
      * 查询部署状态
+     *
      * @param resources /
      * @return /
      */
     String serverStatus(Deploy resources) throws JSchException;
+
     /**
      * 启动服务
+     *
      * @param resources /
      * @return /
      */
     String startServer(Deploy resources) throws JSchException;
+
     /**
      * 停止服务
+     *
      * @param resources /
      * @return /
      */
@@ -88,6 +101,7 @@ public interface DeployService {
 
     /**
      * 停止服务
+     *
      * @param resources /
      * @return /
      */
@@ -95,6 +109,7 @@ public interface DeployService {
 
     /**
      * 导出数据
+     *
      * @param queryAll /
      * @param response /
      * @throws IOException /

@@ -2,6 +2,7 @@ package vip.efactory.modules.mnt.service;
 
 
 import org.springframework.data.domain.Pageable;
+import vip.efactory.ejpa.base.service.IBaseService;
 import vip.efactory.modules.mnt.domain.DeployHistory;
 import vip.efactory.modules.mnt.service.dto.DeployHistoryDto;
 import vip.efactory.modules.mnt.service.dto.DeployHistoryQueryCriteria;
@@ -14,10 +15,11 @@ import java.util.Set;
 /**
  * @author zhanghouying
  */
-public interface DeployHistoryService {
+public interface DeployHistoryService extends IBaseService<DeployHistory, String> {
 
     /**
      * 分页查询
+     *
      * @param criteria 条件
      * @param pageable 分页参数
      * @return /
@@ -26,6 +28,7 @@ public interface DeployHistoryService {
 
     /**
      * 查询全部
+     *
      * @param criteria 条件
      * @return /
      */
@@ -33,13 +36,15 @@ public interface DeployHistoryService {
 
     /**
      * 根据ID查询
+     *
      * @param id /
      * @return /
      */
-    DeployHistoryDto findById(String id);
+    DeployHistoryDto findDtoById(String id);
 
     /**
      * 创建
+     *
      * @param resources /
      * @return /
      */
@@ -47,12 +52,14 @@ public interface DeployHistoryService {
 
     /**
      * 删除
+     *
      * @param ids /
      */
     void delete(Set<String> ids);
 
     /**
      * 导出数据
+     *
      * @param queryAll /
      * @param response /
      * @throws IOException /

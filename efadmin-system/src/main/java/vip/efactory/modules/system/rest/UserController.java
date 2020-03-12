@@ -113,7 +113,7 @@ public class UserController extends BaseController<User, UserService, Long> {
     /**
      * Description: 高级查询
      *
-     * @param baseSearchEntity 含有高级查询条件
+     * @param entity            含有高级查询条件
      * @param page             分页参数对象
      * @return R
      */
@@ -121,9 +121,7 @@ public class UserController extends BaseController<User, UserService, Long> {
     @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
     @PostMapping("/page")
     @PreAuthorize("@p.check('user:list')")
-    public R advancedQuery(@RequestBody BaseSearchEntity baseSearchEntity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
-        User entity = new User();
-        BeanUtils.copyProperties(baseSearchEntity, entity);
+    public R advancedQuery(@RequestBody User entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
         return super.advancedQueryByPage(page, entity);
     }
 
@@ -144,7 +142,7 @@ public class UserController extends BaseController<User, UserService, Long> {
     @PreAuthorize("@p.check('user:edit')")
     public R update(@Validated(Update.class) @RequestBody User resources) {
         checkLevel(resources);
-        entityService.update(resources);
+        entityService.update2(resources);
         return R.ok();
     }
 

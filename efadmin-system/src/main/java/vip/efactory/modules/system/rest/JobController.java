@@ -4,6 +4,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,7 @@ import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.ejpa.utils.R;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.domain.Job;
+import vip.efactory.modules.system.domain.Role;
 import vip.efactory.modules.system.service.JobService;
 import vip.efactory.modules.system.service.dto.JobQueryCriteria;
 import vip.efactory.utils.ThrowableUtil;
@@ -42,12 +45,27 @@ public class JobController extends BaseController<Job, JobService, Long> {
 
     @Log("查询岗位")
     @ApiOperation("查询岗位")
-    @GetMapping
+    @GetMapping("/page")
     @PreAuthorize("@p.check('job:list','user:list')")
     public R getJobs(JobQueryCriteria criteria, Pageable pageable) {
         // 数据权限
         criteria.setDeptIds(dataScope.getDeptIds());
         return R.ok(entityService.queryAll(criteria, pageable));
+    }
+
+    /**
+     * Description: 高级查询
+     *
+     * @param entity            含有高级查询条件
+     * @param page             分页参数对象
+     * @return R
+     */
+    @Log("分页高级查询岗位")
+    @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
+    @PostMapping("/page")
+    @PreAuthorize("@p.check('job:list','user:list')")
+    public R advancedQuery(@RequestBody Job entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
+        return super.advancedQueryByPage(page, entity);
     }
 
     @Log("新增岗位")
@@ -66,7 +84,7 @@ public class JobController extends BaseController<Job, JobService, Long> {
     @PutMapping
     @PreAuthorize("@p.check('job:edit')")
     public R update(@Validated(Update.class) @RequestBody Job resources) {
-        entityService.update(resources);
+        entityService.update2(resources);
         return R.ok();
     }
 

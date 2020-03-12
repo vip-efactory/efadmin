@@ -70,8 +70,7 @@ public class LogController extends BaseController<SysLog, LogService, Long> {
     @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
     @PostMapping
     @PreAuthorize("@p.check()")
-    public R advancedQuery(@RequestBody BaseSearchEntity baseSearchEntity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
-        SysLog entity = new SysLog();
+    public R advancedQuery(@RequestBody SysLog entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
         BaseSearchField condition = new BaseSearchField();
         condition.setName("logType");
         condition.setSearchType(SearchTypeEnum.EQ.getValue());
@@ -80,8 +79,7 @@ public class LogController extends BaseController<SysLog, LogService, Long> {
         condition.setOrder(999);
         condition.setLogicalTypeGroup(ConditionRelationEnum.AND.getValue());
         condition.setBracketsGroup("INFO_GROUP");
-        baseSearchEntity.getConditions().add(condition);
-        BeanUtils.copyProperties(baseSearchEntity, entity);
+        entity.getConditions().add(condition);
         return super.advancedQueryByPage(page, entity);
     }
 
@@ -111,7 +109,7 @@ public class LogController extends BaseController<SysLog, LogService, Long> {
     @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
     @PostMapping("/error")
     @PreAuthorize("@p.check()")
-    public R advancedQuery4Error(@RequestBody BaseSearchEntity baseSearchEntity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
+    public R advancedQuery4Error(@RequestBody SysLog entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
         BaseSearchField condition = new BaseSearchField();
         condition.setName("logType");
         condition.setSearchType(SearchTypeEnum.EQ.getValue());
@@ -120,9 +118,7 @@ public class LogController extends BaseController<SysLog, LogService, Long> {
         condition.setOrder(999);
         condition.setLogicalTypeGroup(ConditionRelationEnum.AND.getValue());
         condition.setBracketsGroup("ERROR_GROUP");
-        baseSearchEntity.getConditions().add(condition);
-        SysLog entity = new SysLog();
-        BeanUtils.copyProperties(baseSearchEntity, entity);
+        entity.getConditions().add(condition);
         return super.advancedQueryByPage(page, entity);
     }
 

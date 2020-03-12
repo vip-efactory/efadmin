@@ -77,7 +77,7 @@ public class RoleController extends BaseController<Role, RoleService, Long> {
     /**
      * Description: 高级查询
      *
-     * @param baseSearchEntity 含有高级查询条件
+     * @param entity           含有高级查询条件
      * @param page             分页参数对象
      * @return R
      */
@@ -85,9 +85,7 @@ public class RoleController extends BaseController<Role, RoleService, Long> {
     @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
     @PostMapping("/page")
     @PreAuthorize("@p.check('roles:list')")
-    public R advancedQuery(@RequestBody BaseSearchEntity baseSearchEntity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
-        Role entity = new Role();
-        BeanUtils.copyProperties(baseSearchEntity, entity);
+    public R advancedQuery(@RequestBody Role entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
         return super.advancedQueryByPage(page, entity);
     }
 
@@ -115,7 +113,7 @@ public class RoleController extends BaseController<Role, RoleService, Long> {
     @PreAuthorize("@p.check('roles:edit')")
     public R update(@Validated(Update.class) @RequestBody Role resources) {
         getLevels(resources.getLevel());
-        entityService.update(resources);
+        entityService.update2(resources);
         return R.ok();
     }
 

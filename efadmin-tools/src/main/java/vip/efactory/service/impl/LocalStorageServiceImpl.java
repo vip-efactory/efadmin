@@ -1,7 +1,6 @@
 package vip.efactory.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -14,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.domain.LocalStorage;
 import vip.efactory.ejpa.base.controller.EPage;
+import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.repository.LocalStorageRepository;
 import vip.efactory.service.LocalStorageService;
@@ -30,16 +30,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
-* @author Zheng Jie
-* @date 2019-09-05
-*/
 @Service
 @CacheConfig(cacheNames = "localStorage")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
-public class LocalStorageServiceImpl implements LocalStorageService {
-
-    private final LocalStorageRepository localStorageRepository;
+public class LocalStorageServiceImpl extends BaseServiceImpl<LocalStorage, Long, LocalStorageRepository> implements LocalStorageService {
 
     private final LocalStorageMapper localStorageMapper;
 
@@ -49,29 +43,28 @@ public class LocalStorageServiceImpl implements LocalStorageService {
     @Value("${file.maxSize}")
     private long maxSize;
 
-    public LocalStorageServiceImpl(LocalStorageRepository localStorageRepository, LocalStorageMapper localStorageMapper) {
-        this.localStorageRepository = localStorageRepository;
+    public LocalStorageServiceImpl(LocalStorageMapper localStorageMapper) {
         this.localStorageMapper = localStorageMapper;
     }
 
     @Override
 //    @Cacheable
-    public Object queryAll(LocalStorageQueryCriteria criteria, Pageable pageable){
-        Page<LocalStorage> page = localStorageRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+    public Object queryAll(LocalStorageQueryCriteria criteria, Pageable pageable) {
+        Page<LocalStorage> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
         return new EPage(page.map(localStorageMapper::toDto));
     }
 
     @Override
     @Cacheable
-    public List<LocalStorageDto> queryAll(LocalStorageQueryCriteria criteria){
-        return localStorageMapper.toDto(localStorageRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+    public List<LocalStorageDto> queryAll(LocalStorageQueryCriteria criteria) {
+        return localStorageMapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
     }
 
     @Override
     @Cacheable(key = "#p0")
-    public LocalStorageDto findById(Long id){
-        LocalStorage localStorage = localStorageRepository.findById(id).orElseGet(LocalStorage::new);
-        ValidationUtil.isNull(localStorage.getId(),"LocalStorage","id",id);
+    public LocalStorageDto findDtoById(Long id) {
+        LocalStorage localStorage = br.findById(id).orElseGet(LocalStorage::new);
+        ValidationUtil.isNull(localStorage.getId(), "LocalStorage", "id", id);
         return localStorageMapper.toDto(localStorage);
     }
 
@@ -82,8 +75,8 @@ public class LocalStorageServiceImpl implements LocalStorageService {
         FileUtil.checkSize(maxSize, multipartFile.getSize());
         String suffix = FileUtil.getExtensionName(multipartFile.getOriginalFilename());
         String type = FileUtil.getFileType(suffix);
-        File file = FileUtil.upload(multipartFile, path + type +  File.separator);
-        if(ObjectUtil.isNull(file)){
+        File file = FileUtil.upload(multipartFile, path + type + File.separator);
+        if (ObjectUtil.isNull(file)) {
             throw new BadRequestException("上传失败");
         }
         try {
@@ -97,8 +90,8 @@ public class LocalStorageServiceImpl implements LocalStorageService {
                     FileUtil.getSize(multipartFile.getSize()),
                     SecurityUtils.getUsername()
             );
-            return localStorageMapper.toDto(localStorageRepository.save(localStorage));
-        }catch (Exception e){
+            return localStorageMapper.toDto(br.save(localStorage));
+        } catch (Exception e) {
             FileUtil.del(file);
             throw e;
         }
@@ -107,11 +100,11 @@ public class LocalStorageServiceImpl implements LocalStorageService {
     @Override
     @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
-    public void update(LocalStorage resources) {
-        LocalStorage localStorage = localStorageRepository.findById(resources.getId()).orElseGet(LocalStorage::new);
-        ValidationUtil.isNull( localStorage.getId(),"LocalStorage","id",resources.getId());
+    public void update2(LocalStorage resources) {
+        LocalStorage localStorage = br.findById(resources.getId()).orElseGet(LocalStorage::new);
+        ValidationUtil.isNull(localStorage.getId(), "LocalStorage", "id", resources.getId());
         localStorage.copy(resources);
-        localStorageRepository.save(localStorage);
+        br.save(localStorage);
     }
 
     @Override
@@ -119,9 +112,9 @@ public class LocalStorageServiceImpl implements LocalStorageService {
     @Transactional(rollbackFor = Exception.class)
     public void deleteAll(Long[] ids) {
         for (Long id : ids) {
-            LocalStorage storage = localStorageRepository.findById(id).orElseGet(LocalStorage::new);
+            LocalStorage storage = br.findById(id).orElseGet(LocalStorage::new);
             FileUtil.del(storage.getPath());
-            localStorageRepository.delete(storage);
+            br.delete(storage);
         }
     }
 
@@ -129,7 +122,7 @@ public class LocalStorageServiceImpl implements LocalStorageService {
     public void download(List<LocalStorageDto> queryAll, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
         for (LocalStorageDto localStorageDTO : queryAll) {
-            Map<String,Object> map = new LinkedHashMap<>();
+            Map<String, Object> map = new LinkedHashMap<>();
             map.put("文件名", localStorageDTO.getRealName());
             map.put("备注名", localStorageDTO.getName());
             map.put("文件类型", localStorageDTO.getType());

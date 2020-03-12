@@ -16,6 +16,7 @@ import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.ejpa.utils.R;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.domain.DictDetail;
+import vip.efactory.modules.system.domain.Employee;
 import vip.efactory.modules.system.service.DictDetailService;
 import vip.efactory.modules.system.service.dto.DictDetailQueryCriteria;
 
@@ -31,10 +32,24 @@ public class DictDetailController extends BaseController<DictDetail, DictDetailS
 
     @Log("查询字典详情")
     @ApiOperation("查询字典详情")
-    @GetMapping
+    @GetMapping("/page")
     public R getDictDetails(DictDetailQueryCriteria criteria,
                             @PageableDefault(sort = {"sort"}, direction = Sort.Direction.ASC) Pageable pageable) {
         return R.ok(entityService.queryAll(criteria, pageable));
+    }
+
+    /**
+     * Description: 高级查询
+     *
+     * @param entity            含有高级查询条件
+     * @param page             分页参数对象
+     * @return R
+     */
+    @Log("分页高级查询DictDetail")
+    @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
+    @PostMapping("/page")
+    public R advancedQuery(@RequestBody DictDetail entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
+        return super.advancedQueryByPage(page, entity);
     }
 
     @Log("查询多个字典详情")
@@ -67,7 +82,7 @@ public class DictDetailController extends BaseController<DictDetail, DictDetailS
     @PutMapping
     @PreAuthorize("@p.check('dict:edit')")
     public R update(@Validated(Update.class) @RequestBody DictDetail resources) {
-        entityService.update(resources);
+        entityService.update2(resources);
         return R.ok();
     }
 

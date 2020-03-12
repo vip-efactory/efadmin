@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import vip.efactory.ejpa.base.controller.EPage;
+import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.mnt.domain.App;
 import vip.efactory.modules.mnt.repository.AppRepository;
@@ -15,7 +16,6 @@ import vip.efactory.modules.mnt.service.dto.AppDto;
 import vip.efactory.modules.mnt.service.dto.AppQueryCriteria;
 import vip.efactory.modules.mnt.service.mapper.AppMapper;
 import vip.efactory.utils.FileUtil;
-import vip.efactory.utils.PageUtil;
 import vip.efactory.utils.QueryHelp;
 import vip.efactory.utils.ValidationUtil;
 
@@ -24,37 +24,33 @@ import java.io.IOException;
 import java.util.*;
 
 /**
-* @author zhanghouying
-* @date 2019-08-24
-*/
+ * @author zhanghouying
+ * @date 2019-08-24
+ */
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
-public class AppServiceImpl implements AppService {
-
-    private AppRepository appRepository;
-
+public class AppServiceImpl extends BaseServiceImpl<App, Long, AppRepository> implements AppService {
     private AppMapper appMapper;
 
-	public AppServiceImpl(AppRepository appRepository, AppMapper appMapper) {
-		this.appMapper = appMapper;
-		this.appRepository = appRepository;
-	}
+    public AppServiceImpl( AppMapper appMapper) {
+        this.appMapper = appMapper;
+    }
 
     @Override
-    public Object queryAll(AppQueryCriteria criteria, Pageable pageable){
-        Page<App> page = appRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+    public Object queryAll(AppQueryCriteria criteria, Pageable pageable) {
+        Page<App> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
         return new EPage(page.map(appMapper::toDto));
     }
 
     @Override
-    public List<AppDto> queryAll(AppQueryCriteria criteria){
-        return appMapper.toDto(appRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+    public List<AppDto> queryAll(AppQueryCriteria criteria) {
+        return appMapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
     }
 
     @Override
-    public AppDto findById(Long id) {
-		App app = appRepository.findById(id).orElseGet(App::new);
-        ValidationUtil.isNull(app.getId(),"App","id",id);
+    public AppDto findDtoById(Long id) {
+        App app = br.findById(id).orElseGet(App::new);
+        ValidationUtil.isNull(app.getId(), "App", "id", id);
         return appMapper.toDto(app);
     }
 
@@ -62,20 +58,20 @@ public class AppServiceImpl implements AppService {
     @Transactional(rollbackFor = Exception.class)
     public AppDto create(App resources) {
         verification(resources);
-        return appMapper.toDto(appRepository.save(resources));
+        return appMapper.toDto(br.save(resources));
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void update(App resources) {
+    public void update2(App resources) {
         verification(resources);
-        App app = appRepository.findById(resources.getId()).orElseGet(App::new);
-        ValidationUtil.isNull(app.getId(),"App","id",resources.getId());
+        App app = br.findById(resources.getId()).orElseGet(App::new);
+        ValidationUtil.isNull(app.getId(), "App", "id", resources.getId());
         app.copy(resources);
-        appRepository.save(app);
+        br.save(app);
     }
 
-    private void verification(App resources){
+    private void verification(App resources) {
         String opt = "/opt";
         String home = "/home";
         if (!(resources.getUploadPath().startsWith(opt) || resources.getUploadPath().startsWith(home))) {
@@ -93,7 +89,7 @@ public class AppServiceImpl implements AppService {
     @Transactional(rollbackFor = Exception.class)
     public void delete(Set<Long> ids) {
         for (Long id : ids) {
-            appRepository.deleteById(id);
+            br.deleteById(id);
         }
     }
 
@@ -101,7 +97,7 @@ public class AppServiceImpl implements AppService {
     public void download(List<AppDto> queryAll, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
         for (AppDto appDto : queryAll) {
-            Map<String,Object> map = new LinkedHashMap<>();
+            Map<String, Object> map = new LinkedHashMap<>();
             map.put("应用名称", appDto.getName());
             map.put("端口", appDto.getPort());
             map.put("上传目录", appDto.getUploadPath());
