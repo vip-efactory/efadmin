@@ -71,6 +71,8 @@ public interface MenuService extends IBaseService<Menu, Long> {
      */
     Map<String,Object> buildTree(List<MenuDto> menuDtos);
 
+    Map<String,Object> buildTree4Entites(List<Menu> menus);
+
     /**
      * 根据角色查询
      * @param roles /

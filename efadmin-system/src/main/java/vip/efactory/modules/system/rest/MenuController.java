@@ -63,11 +63,26 @@ public class MenuController extends BaseController<Menu, MenuService, Long> {
 
     @Log("查询菜单")
     @ApiOperation("查询菜单")
-    @GetMapping
+    @GetMapping("/all")
     @PreAuthorize("@p.check('menu:list')")
     public R getMenus(MenuQueryCriteria criteria) {
         List<MenuDto> menuDtoList = entityService.queryAll(criteria);
         return R.ok(entityService.buildTree(menuDtoList));
+    }
+
+    /**
+     * Description: 高级查询
+     *
+     * @param entity 含有高级查询条件
+     * @return R
+     */
+    @Log("高级查询菜单")
+    @ApiOperation(value = "多条件组合查询")
+    @PostMapping("/all")
+    @PreAuthorize("@p.check('menu:list')")
+    public R advancedQuery(@RequestBody Menu entity) {
+        List<Menu> entities = entityService.advancedQuery(entity);
+        return R.ok(entityService.buildTree4Entites(entities));
     }
 
     @Log("新增菜单")

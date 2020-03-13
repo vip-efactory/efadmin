@@ -55,6 +55,8 @@ public interface DeptService extends IBaseService<Dept, Long> {
      */
     Object buildTree(List<DeptDto> deptDtos);
 
+    Object buildTree4Entites(List<Dept> depts);
+
     /**
      * 根据PID查询
      * @param pid /

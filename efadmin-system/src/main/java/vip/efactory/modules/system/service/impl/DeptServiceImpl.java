@@ -9,10 +9,12 @@ import org.springframework.util.CollectionUtils;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.domain.Dept;
+import vip.efactory.modules.system.domain.Menu;
 import vip.efactory.modules.system.repository.DeptRepository;
 import vip.efactory.modules.system.service.DeptService;
 import vip.efactory.modules.system.service.dto.DeptDto;
 import vip.efactory.modules.system.service.dto.DeptQueryCriteria;
+import vip.efactory.modules.system.service.dto.MenuDto;
 import vip.efactory.modules.system.service.mapper.DeptMapper;
 import vip.efactory.utils.FileUtil;
 import vip.efactory.utils.QueryHelp;
@@ -95,6 +97,20 @@ public class DeptServiceImpl extends BaseServiceImpl<Dept, Long, DeptRepository>
         Map<String,Object> map = new HashMap<>(2);
         map.put("totalElements",totalElements);
         map.put("content",CollectionUtils.isEmpty(trees)? deptDtos :trees);
+        return map;
+    }
+
+    @Override
+    public Object buildTree4Entites(List<Dept> depts) {
+        if (depts != null && depts.size() > 0) {
+            List<DeptDto> trees = new ArrayList<>();
+            depts.forEach(dept -> {
+                DeptDto dto = deptMapper.toDto(dept); // 转换为DTO对象
+                trees.add(dto);
+            });
+            return buildTree(trees);
+        }
+        Map<String, Object> map = new HashMap<>();
         return map;
     }
 

@@ -14,6 +14,7 @@ import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.ejpa.utils.R;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.domain.Dept;
+import vip.efactory.modules.system.domain.Menu;
 import vip.efactory.modules.system.service.DeptService;
 import vip.efactory.modules.system.service.dto.DeptDto;
 import vip.efactory.modules.system.service.dto.DeptQueryCriteria;
@@ -44,13 +45,28 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
 
     @Log("查询部门")
     @ApiOperation("查询部门")
-    @GetMapping
+    @GetMapping("/all")
     @PreAuthorize("@p.check('user:list','dept:list')")
     public R getDepts(DeptQueryCriteria criteria) {
         // 数据权限
         criteria.setIds(dataScope.getDeptIds());
         List<DeptDto> deptDtos = entityService.queryAll(criteria);
         return R.ok(entityService.buildTree(deptDtos));
+    }
+
+    /**
+     * Description: 高级查询
+     *
+     * @param entity 含有高级查询条件
+     * @return R
+     */
+    @Log("高级查询部门")
+    @ApiOperation(value = "多条件组合查询")
+    @PostMapping("/all")
+    @PreAuthorize("@p.check('user:list','dept:list')")
+    public R advancedQuery(@RequestBody Dept entity) {
+        List<Dept> entities = entityService.advancedQuery(entity);
+        return R.ok(entityService.buildTree4Entites(entities));
     }
 
     @Log("新增部门")

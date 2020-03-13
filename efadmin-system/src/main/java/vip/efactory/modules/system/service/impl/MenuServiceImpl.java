@@ -9,7 +9,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import vip.efactory.common.i18n.enums.Entityi18nUtil;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.exception.EntityExistException;
@@ -210,6 +209,20 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, Long, MenuRepository>
         }
         map.put("content", trees);
         map.put("totalElements", menuDtos.size());
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> buildTree4Entites(List<Menu> menus) {
+        if (menus != null && menus.size() > 0) {
+            List<MenuDto> trees = new ArrayList<>();
+            menus.forEach(menu -> {
+                MenuDto dto = menuMapper.toDto(menu); // 转换为DTO对象
+                trees.add(dto);
+            });
+            return buildTree(trees);
+        }
+        Map<String, Object> map = new HashMap<>();
         return map;
     }
 
