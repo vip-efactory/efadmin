@@ -5,7 +5,7 @@
     <parent>
         <artifactId>efadmin</artifactId>
         <groupId>vip.efactory</groupId>
-        <version>1.0.0</version>
+        <version>2.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>vip.efactory</groupId>
             <artifactId>efadmin-common</artifactId>
-            <version>1.0.0</version>
+            <version>2.0.0</version>
         </dependency>
     </dependencies>
 </project>
