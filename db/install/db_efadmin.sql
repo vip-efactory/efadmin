@@ -6,7 +6,6 @@
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8 */;
 /*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
@@ -19,25 +18,25 @@ USE `db_efadmin`;
 -- 导出  表 db_efadmin.sys_alipay_config 结构
 CREATE TABLE IF NOT EXISTS `sys_alipay_config` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `app_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '应用ID',
-  `charset` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '编码',
-  `format` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '类型 固定格式json',
-  `gateway_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '网关地址',
-  `notify_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '异步回调',
-  `private_key` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '私钥',
-  `public_key` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '公钥',
-  `return_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '回调地址',
-  `sign_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '签名方式',
-  `sys_service_provider_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '商户号',
+  `app_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '应用ID',
+  `charset` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '编码',
+  `format` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '类型 固定格式json',
+  `gateway_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '网关地址',
+  `notify_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '异步回调',
+  `private_key` text CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs COMMENT '私钥',
+  `public_key` text CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs COMMENT '公钥',
+  `return_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '回调地址',
+  `sign_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '签名方式',
+  `sys_service_provider_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '商户号',
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `creator_num` varchar(32) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='支付宝配置类';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='支付宝配置类';
 
--- 正在导出表  db_efadmin.sys_alipay_config 的数据：~0 rows (大约)
+-- 正在导出表  db_efadmin.sys_alipay_config 的数据：~1 rows (大约)
 DELETE FROM `sys_alipay_config`;
 /*!40000 ALTER TABLE `sys_alipay_config` DISABLE KEYS */;
 INSERT INTO `sys_alipay_config` (`id`, `app_id`, `charset`, `format`, `gateway_url`, `notify_url`, `private_key`, `public_key`, `return_url`, `sign_type`, `sys_service_provider_id`, `remark`, `create_time`, `creator_num`, `update_time`, `updater_num`) VALUES
@@ -47,39 +46,102 @@ INSERT INTO `sys_alipay_config` (`id`, `app_id`, `charset`, `format`, `gateway_u
 -- 导出  表 db_efadmin.sys_column_config 结构
 CREATE TABLE IF NOT EXISTS `sys_column_config` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `table_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `column_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `column_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `dict_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `extra` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `table_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
+  `column_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
+  `column_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
+  `dict_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
+  `extra` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
   `form_show` bit(1) DEFAULT NULL,
-  `form_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `key_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `form_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
+  `key_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
   `list_show` bit(1) DEFAULT NULL,
   `not_null` bit(1) DEFAULT NULL,
-  `query_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `date_annotation` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `query_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
+  `date_annotation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `creator_num` varchar(32) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='代码生成字段信息存储';
+) ENGINE=InnoDB AUTO_INCREMENT=202 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='代码生成字段信息存储';
 
--- 正在导出表  db_efadmin.sys_column_config 的数据：~2 rows (大约)
+-- 正在导出表  db_efadmin.sys_column_config 的数据：~66 rows (大约)
 DELETE FROM `sys_column_config`;
 /*!40000 ALTER TABLE `sys_column_config` DISABLE KEYS */;
 INSERT INTO `sys_column_config` (`id`, `table_name`, `column_name`, `column_type`, `dict_name`, `extra`, `form_show`, `form_type`, `key_type`, `list_show`, `not_null`, `query_type`, `remark`, `date_annotation`, `create_time`, `creator_num`, `update_time`, `updater_num`) VALUES
 	(1, 'gen_test', 'id', 'int', NULL, 'auto_increment', b'0', NULL, 'PRI', b'0', b'1', NULL, 'ID', NULL, '2019-12-26 22:01:43', NULL, '2019-12-26 22:01:43', NULL),
 	(2, 'gen_test', 'sex', 'int', NULL, '', b'1', NULL, '', b'1', b'0', 'NotNull', '性别', NULL, '2019-12-26 22:01:43', NULL, '2019-12-26 22:01:43', NULL),
-	(3, 'gen_test', 'create_time', 'datetime', NULL, '', b'0', NULL, '', b'1', b'0', 'BetWeen', '', NULL, '2019-12-26 22:01:43', NULL, '2019-12-26 22:01:43', NULL);
+	(3, 'gen_test', 'create_time', 'datetime', NULL, '', b'0', NULL, '', b'1', b'0', 'BetWeen', '', NULL, '2019-12-26 22:01:43', NULL, '2019-12-26 22:01:43', NULL),
+	(139, 'tbl_employee', 'id', 'bigint', NULL, 'auto_increment', b'1', NULL, 'PRI', b'1', b'0', '=', '主键', NULL, '2019-12-28 18:35:37', 'admin', '2019-12-31 08:59:23', 'admin'),
+	(140, 'tbl_employee', 'address', 'varchar', NULL, '', b'1', 'Input', '', b'1', b'0', NULL, '住址', NULL, '2019-12-28 18:35:37', 'admin', '2019-12-31 08:59:23', 'admin'),
+	(141, 'tbl_employee', 'avatar', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '头像', NULL, '2019-12-28 18:35:37', 'admin', '2019-12-28 18:41:07', 'System'),
+	(142, 'tbl_employee', 'birthday', 'datetime', NULL, '', b'1', 'Date', '', b'1', b'0', NULL, '生日', NULL, '2019-12-28 18:35:37', 'admin', '2019-12-31 08:59:23', 'admin'),
+	(143, 'tbl_employee', 'code', 'varchar', NULL, '', b'1', 'Input', 'UNI', b'1', b'0', NULL, '编码', NULL, '2019-12-28 18:35:37', 'admin', '2019-12-31 08:59:23', 'admin'),
+	(144, 'tbl_employee', 'email', 'varchar', NULL, '', b'1', 'Input', 'UNI', b'1', b'0', NULL, '邮箱', NULL, '2019-12-28 18:35:37', 'admin', '2019-12-31 08:59:23', 'admin'),
+	(145, 'tbl_employee', 'id_number', 'varchar', NULL, '', b'1', 'Input', '', b'1', b'0', NULL, '身份证号码', NULL, '2019-12-28 18:35:37', 'admin', '2019-12-31 08:59:23', 'admin'),
+	(146, 'tbl_employee', 'name', 'varchar', NULL, '', b'1', 'Input', '', b'1', b'1', NULL, '姓名', NULL, '2019-12-28 18:35:37', 'admin', '2019-12-31 08:59:23', 'admin'),
+	(147, 'tbl_employee', 'phone', 'varchar', NULL, '', b'1', 'Input', 'UNI', b'1', b'0', NULL, '手机号', NULL, '2019-12-28 18:35:37', 'admin', '2019-12-31 08:59:23', 'admin'),
+	(148, 'tbl_employee', 'status', 'int', 'user_status', '', b'1', 'Input', '', b'1', b'0', NULL, '状态', NULL, '2019-12-28 18:35:37', 'admin', '2019-12-31 08:59:23', 'admin'),
+	(149, 'tbl_employee', 'dept_id', 'bigint', NULL, '', b'1', 'Input', 'MUL', b'1', b'0', NULL, '部门', NULL, '2019-12-28 18:35:37', 'admin', '2019-12-31 08:59:23', 'admin'),
+	(150, 'tbl_employee', 'job_id', 'bigint', NULL, '', b'1', 'Input', 'MUL', b'1', b'0', NULL, '岗位', NULL, '2019-12-28 18:35:37', 'admin', '2019-12-31 08:59:23', 'admin'),
+	(151, 'tbl_employee', 'remark', 'varchar', NULL, '', b'1', 'Textarea', '', b'1', b'0', NULL, '备注', NULL, '2019-12-28 18:35:37', 'admin', '2019-12-31 08:59:23', 'admin'),
+	(152, 'tbl_employee', 'create_time', 'datetime', NULL, 'DEFAULT_GENERATED', b'1', 'Date', '', b'1', b'0', NULL, '创建时间', '', '2019-12-28 18:35:37', 'admin', '2019-12-31 23:14:45', 'admin'),
+	(153, 'tbl_employee', 'creator_num', 'varchar', NULL, '', b'1', 'Input', '', b'1', b'0', NULL, '创建人', NULL, '2019-12-28 18:35:37', 'admin', '2019-12-31 08:59:23', 'admin'),
+	(154, 'tbl_employee', 'update_time', 'datetime', NULL, 'DEFAULT_GENERATED on update CURRENT_TIMESTAMP', b'1', 'Date', '', b'1', b'0', NULL, '更新时间', '', '2019-12-28 18:35:37', 'admin', '2019-12-31 23:14:45', 'admin'),
+	(155, 'tbl_employee', 'updater_num', 'varchar', NULL, '', b'1', 'Input', '', b'1', b'0', NULL, '更新人', NULL, '2019-12-28 18:35:37', 'admin', '2019-12-31 08:59:23', 'admin'),
+	(156, 'sys_menu', 'id', 'bigint', NULL, 'auto_increment', b'1', NULL, 'PRI', b'1', b'0', NULL, 'ID', NULL, '2020-02-02 15:53:07', 'admin', '2020-02-02 15:53:07', 'System'),
+	(157, 'sys_menu', 'i_frame', 'bit', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '是否外链', NULL, '2020-02-02 15:53:07', 'admin', '2020-02-02 15:53:07', 'System'),
+	(158, 'sys_menu', 'name', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '菜单名称', NULL, '2020-02-02 15:53:07', 'admin', '2020-02-02 15:53:07', 'System'),
+	(159, 'sys_menu', 'component', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '组件', NULL, '2020-02-02 15:53:07', 'admin', '2020-02-02 15:53:07', 'System'),
+	(160, 'sys_menu', 'pid', 'bigint', NULL, '', b'1', NULL, 'MUL', b'1', b'1', NULL, '上级菜单ID', NULL, '2020-02-02 15:53:07', 'admin', '2020-02-02 15:53:07', 'System'),
+	(161, 'sys_menu', 'sort', 'bigint', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '排序', NULL, '2020-02-02 15:53:07', 'admin', '2020-02-02 15:53:07', 'System'),
+	(162, 'sys_menu', 'icon', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '图标', NULL, '2020-02-02 15:53:07', 'admin', '2020-02-02 15:53:07', 'System'),
+	(163, 'sys_menu', 'path', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '链接地址', NULL, '2020-02-02 15:53:07', 'admin', '2020-02-02 15:53:07', 'System'),
+	(164, 'sys_menu', 'cache', 'bit', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '缓存', NULL, '2020-02-02 15:53:07', 'admin', '2020-02-02 15:53:07', 'System'),
+	(165, 'sys_menu', 'hidden', 'bit', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '隐藏', NULL, '2020-02-02 15:53:07', 'admin', '2020-02-02 15:53:07', 'System'),
+	(166, 'sys_menu', 'component_name', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '组件名称', NULL, '2020-02-02 15:53:07', 'admin', '2020-02-02 15:53:07', 'System'),
+	(167, 'sys_menu', 'permission', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '权限', NULL, '2020-02-02 15:53:07', 'admin', '2020-02-02 15:53:07', 'System'),
+	(168, 'sys_menu', 'type', 'int', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '类型', NULL, '2020-02-02 15:53:07', 'admin', '2020-02-02 15:53:08', 'System'),
+	(169, 'sys_menu', 'locale_key', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '国际化key', NULL, '2020-02-02 15:53:07', 'admin', '2020-02-02 15:53:08', 'System'),
+	(170, 'sys_menu', 'remark', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '备注', NULL, '2020-02-02 15:53:07', 'admin', '2020-02-02 15:53:08', 'System'),
+	(171, 'sys_menu', 'create_time', 'datetime', NULL, 'DEFAULT_GENERATED', b'1', NULL, '', b'1', b'0', NULL, '创建日期', NULL, '2020-02-02 15:53:07', 'admin', '2020-02-02 15:53:08', 'System'),
+	(172, 'sys_menu', 'creator_num', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '创建人', NULL, '2020-02-02 15:53:07', 'admin', '2020-02-02 15:53:08', 'System'),
+	(173, 'sys_menu', 'update_time', 'datetime', NULL, 'DEFAULT_GENERATED on update CURRENT_TIMESTAMP', b'1', NULL, '', b'1', b'0', NULL, '更新时间', NULL, '2020-02-02 15:53:07', 'admin', '2020-02-02 15:53:08', 'System'),
+	(174, 'sys_menu', 'updater_num', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '更新人', NULL, '2020-02-02 15:53:07', 'admin', '2020-02-02 15:53:08', 'System'),
+	(175, 'sys_visits', 'id', 'bigint', NULL, 'auto_increment', b'1', NULL, 'PRI', b'1', b'0', NULL, '', NULL, '2020-02-03 15:03:43', 'admin', '2020-02-03 15:03:43', 'admin'),
+	(176, 'sys_visits', 'date', 'varchar', NULL, '', b'1', NULL, 'UNI', b'1', b'0', NULL, '', NULL, '2020-02-03 15:03:43', 'admin', '2020-02-03 15:03:43', 'admin'),
+	(177, 'sys_visits', 'ip_counts', 'bigint', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '', NULL, '2020-02-03 15:03:43', 'admin', '2020-02-03 15:03:43', 'admin'),
+	(178, 'sys_visits', 'pv_counts', 'bigint', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '', NULL, '2020-02-03 15:03:43', 'admin', '2020-02-03 15:03:43', 'admin'),
+	(179, 'sys_visits', 'week_day', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '', NULL, '2020-02-03 15:03:43', 'admin', '2020-02-03 15:03:43', 'admin'),
+	(180, 'sys_visits', 'remark', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '备注', NULL, '2020-02-03 15:03:43', 'admin', '2020-02-03 15:03:43', 'admin'),
+	(181, 'sys_visits', 'create_time', 'datetime', NULL, 'DEFAULT_GENERATED', b'1', NULL, '', b'1', b'0', NULL, '创建时间', NULL, '2020-02-03 15:03:43', 'admin', '2020-02-03 15:03:43', 'admin'),
+	(182, 'sys_visits', 'creator_num', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '创建人', NULL, '2020-02-03 15:03:43', 'admin', '2020-02-03 15:03:43', 'admin'),
+	(183, 'sys_visits', 'update_time', 'datetime', NULL, 'DEFAULT_GENERATED on update CURRENT_TIMESTAMP', b'1', NULL, '', b'1', b'0', NULL, '更新时间', NULL, '2020-02-03 15:03:43', 'admin', '2020-02-03 15:03:43', 'admin'),
+	(184, 'sys_visits', 'updater_num', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '更新人', NULL, '2020-02-03 15:03:43', 'admin', '2020-02-03 15:03:43', 'admin'),
+	(185, 'tbl_employee', 'sex', 'tinyint', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '性别', NULL, '2020-02-03 15:07:15', 'System', '2020-02-03 15:07:15', 'System'),
+	(186, 'sys_log', 'id', 'bigint', NULL, 'auto_increment', b'1', NULL, 'PRI', b'1', b'0', NULL, '', NULL, '2020-02-04 17:25:08', 'admin', '2020-02-04 17:25:08', 'admin'),
+	(187, 'sys_log', 'description', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '', NULL, '2020-02-04 17:25:08', 'admin', '2020-02-04 17:25:08', 'admin'),
+	(188, 'sys_log', 'exception_detail', 'text', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '', NULL, '2020-02-04 17:25:08', 'admin', '2020-02-04 17:25:08', 'admin'),
+	(189, 'sys_log', 'log_type', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '', NULL, '2020-02-04 17:25:08', 'admin', '2020-02-04 17:25:08', 'admin'),
+	(190, 'sys_log', 'method', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '', NULL, '2020-02-04 17:25:08', 'admin', '2020-02-04 17:25:08', 'admin'),
+	(191, 'sys_log', 'params', 'text', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '', NULL, '2020-02-04 17:25:08', 'admin', '2020-02-04 17:25:08', 'admin'),
+	(192, 'sys_log', 'request_ip', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '', NULL, '2020-02-04 17:25:08', 'admin', '2020-02-04 17:25:08', 'admin'),
+	(193, 'sys_log', 'time', 'bigint', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '', NULL, '2020-02-04 17:25:08', 'admin', '2020-02-04 17:25:08', 'admin'),
+	(194, 'sys_log', 'username', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '', NULL, '2020-02-04 17:25:08', 'admin', '2020-02-04 17:25:08', 'admin'),
+	(195, 'sys_log', 'address', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '', NULL, '2020-02-04 17:25:08', 'admin', '2020-02-04 17:25:08', 'admin'),
+	(196, 'sys_log', 'browser', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '', NULL, '2020-02-04 17:25:08', 'admin', '2020-02-04 17:25:08', 'admin'),
+	(197, 'sys_log', 'remark', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '备注', NULL, '2020-02-04 17:25:08', 'admin', '2020-02-04 17:25:08', 'admin'),
+	(198, 'sys_log', 'create_time', 'datetime', NULL, 'DEFAULT_GENERATED', b'1', NULL, '', b'1', b'0', NULL, '创建时间', NULL, '2020-02-04 17:25:08', 'admin', '2020-02-04 17:25:08', 'admin'),
+	(199, 'sys_log', 'creator_num', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '创建人', NULL, '2020-02-04 17:25:08', 'admin', '2020-02-04 17:25:08', 'admin'),
+	(200, 'sys_log', 'update_time', 'datetime', NULL, 'DEFAULT_GENERATED on update CURRENT_TIMESTAMP', b'1', NULL, '', b'1', b'0', NULL, '更新时间', NULL, '2020-02-04 17:25:08', 'admin', '2020-02-04 17:25:08', 'admin'),
+	(201, 'sys_log', 'updater_num', 'varchar', NULL, '', b'1', NULL, '', b'1', b'0', NULL, '更新人', NULL, '2020-02-04 17:25:08', 'admin', '2020-02-04 17:25:08', 'admin');
 /*!40000 ALTER TABLE `sys_column_config` ENABLE KEYS */;
 
 -- 导出  表 db_efadmin.sys_dept 结构
 CREATE TABLE IF NOT EXISTS `sys_dept` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs NOT NULL COMMENT '名称',
   `pid` bigint(20) NOT NULL COMMENT '上级部门',
   `enabled` bit(1) NOT NULL COMMENT '状态',
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
@@ -88,32 +150,32 @@ CREATE TABLE IF NOT EXISTS `sys_dept` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='部门';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='部门';
 
 -- 正在导出表  db_efadmin.sys_dept 的数据：~7 rows (大约)
 DELETE FROM `sys_dept`;
 /*!40000 ALTER TABLE `sys_dept` DISABLE KEYS */;
 INSERT INTO `sys_dept` (`id`, `name`, `pid`, `enabled`, `remark`, `create_time`, `creator_num`, `update_time`, `updater_num`) VALUES
-	(1, 'EL-ADMIN', 0, b'1', NULL, '2019-03-01 12:07:37', NULL, '2019-12-26 22:01:44', NULL),
+	(1, 'EF-ADMIN', 0, b'1', NULL, '2019-03-01 12:07:37', NULL, '2019-12-31 16:58:26', 'admin'),
 	(2, '研发部', 7, b'1', NULL, '2019-03-25 09:15:32', NULL, '2019-12-26 22:01:44', NULL),
-	(5, '运维部', 7, b'1', NULL, '2019-03-25 09:20:44', NULL, '2019-12-26 22:01:44', NULL),
-	(6, '测试部', 8, b'1', NULL, '2019-03-25 09:52:18', NULL, '2019-12-26 22:01:44', NULL),
+	(5, '运维部', 7, b'1', 'Maintenance Department', '2019-03-25 09:20:44', NULL, '2020-01-26 12:29:21', 'admin'),
+	(6, '测试部(QA)', 8, b'1', NULL, '2019-03-25 09:52:18', NULL, '2020-01-26 12:10:50', 'admin'),
 	(7, '华南分部', 1, b'1', NULL, '2019-03-25 11:04:50', NULL, '2019-12-26 22:01:44', NULL),
 	(8, '华北分部', 1, b'1', NULL, '2019-03-25 11:04:53', NULL, '2019-12-26 22:01:44', NULL),
-	(11, '人事部', 8, b'1', NULL, '2019-03-25 11:07:58', NULL, '2019-12-26 22:01:44', NULL);
+	(11, '人事部(HR)', 8, b'1', NULL, '2019-03-25 11:07:58', NULL, '2020-01-26 12:10:05', 'admin');
 /*!40000 ALTER TABLE `sys_dept` ENABLE KEYS */;
 
 -- 导出  表 db_efadmin.sys_dict 结构
 CREATE TABLE IF NOT EXISTS `sys_dict` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典名称',
-  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '描述',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs NOT NULL COMMENT '字典名称',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '描述',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   `creator_num` varchar(32) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='数据字典';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='数据字典';
 
 -- 正在导出表  db_efadmin.sys_dict 的数据：~3 rows (大约)
 DELETE FROM `sys_dict`;
@@ -127,9 +189,9 @@ INSERT INTO `sys_dict` (`id`, `name`, `remark`, `create_time`, `creator_num`, `u
 -- 导出  表 db_efadmin.sys_dict_detail 结构
 CREATE TABLE IF NOT EXISTS `sys_dict_detail` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT,
-  `label` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典标签',
-  `value` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典值',
-  `sort` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '排序',
+  `label` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs NOT NULL COMMENT '字典标签',
+  `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs NOT NULL COMMENT '字典值',
+  `sort` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '排序',
   `dict_id` bigint(11) DEFAULT NULL COMMENT '字典id',
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
@@ -139,35 +201,35 @@ CREATE TABLE IF NOT EXISTS `sys_dict_detail` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `FK5tpkputc6d9nboxojdbgnpmyb` (`dict_id`) USING BTREE,
   CONSTRAINT `FK5tpkputc6d9nboxojdbgnpmyb` FOREIGN KEY (`dict_id`) REFERENCES `sys_dict` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='数据字典详情';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='数据字典详情';
 
 -- 正在导出表  db_efadmin.sys_dict_detail 的数据：~6 rows (大约)
 DELETE FROM `sys_dict_detail`;
 /*!40000 ALTER TABLE `sys_dict_detail` DISABLE KEYS */;
 INSERT INTO `sys_dict_detail` (`id`, `label`, `value`, `sort`, `dict_id`, `remark`, `create_time`, `creator_num`, `update_time`, `updater_num`) VALUES
-	(1, '激活', 'true', '1', 1, NULL, '2019-10-27 20:31:36', NULL, '2019-12-26 22:01:44', NULL),
-	(2, '禁用', 'false', '2', 1, NULL, NULL, NULL, '2019-12-26 22:01:44', NULL),
-	(3, '启用', 'true', '1', 4, NULL, NULL, NULL, '2019-12-26 22:01:44', NULL),
-	(4, '停用', 'false', '2', 4, NULL, '2019-10-27 20:31:36', NULL, '2019-12-26 22:01:44', NULL),
-	(5, '启用', 'true', '1', 5, NULL, NULL, NULL, '2019-12-26 22:01:44', NULL),
-	(6, '停用', 'false', '2', 5, NULL, '2019-10-27 20:31:36', NULL, '2019-12-26 22:01:44', NULL);
+	(1, '激活(Active)', 'true', '1', 1, NULL, '2019-10-27 20:31:36', NULL, '2020-01-26 11:57:30', 'admin'),
+	(2, '禁用(Disable)', 'false', '2', 1, NULL, NULL, NULL, '2020-01-26 11:57:46', 'admin'),
+	(3, '启用(Active)', 'true', '1', 4, NULL, NULL, NULL, '2020-01-27 10:42:08', 'admin'),
+	(4, '停用(Disable)', 'false', '2', 4, NULL, '2019-10-27 20:31:36', NULL, '2020-01-27 10:42:23', 'admin'),
+	(5, '启用(Active)', 'true', '1', 5, NULL, NULL, NULL, '2020-01-27 10:42:46', 'admin'),
+	(6, '停用(Disable)', 'false', '2', 5, NULL, '2019-10-27 20:31:36', NULL, '2020-01-27 10:43:01', 'admin');
 /*!40000 ALTER TABLE `sys_dict_detail` ENABLE KEYS */;
 
 -- 导出  表 db_efadmin.sys_email_config 结构
 CREATE TABLE IF NOT EXISTS `sys_email_config` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `from_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '收件人',
-  `host` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '邮件服务器SMTP地址',
-  `pass` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '密码',
-  `port` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '端口',
-  `user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '发件者用户名',
+  `from_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '收件人',
+  `host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '邮件服务器SMTP地址',
+  `pass` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '密码',
+  `port` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '端口',
+  `user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '发件者用户名',
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `creator_num` varchar(32) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='邮箱配置';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='邮箱配置';
 
 -- 正在导出表  db_efadmin.sys_email_config 的数据：~0 rows (大约)
 DELETE FROM `sys_email_config`;
@@ -177,38 +239,38 @@ DELETE FROM `sys_email_config`;
 -- 导出  表 db_efadmin.sys_gen_config 结构
 CREATE TABLE IF NOT EXISTS `sys_gen_config` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `table_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '表名',
-  `author` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '作者',
+  `table_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '表名',
+  `author` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '作者',
   `cover` bit(1) DEFAULT NULL COMMENT '是否覆盖',
-  `module_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '模块名称',
-  `pack` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '至于哪个包下',
-  `path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '前端代码生成的路径',
-  `api_path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '前端Api文件路径',
-  `prefix` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '表前缀',
-  `api_alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '接口名称',
+  `module_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '模块名称',
+  `pack` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '至于哪个包下',
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '前端代码生成的路径',
+  `api_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '前端Api文件路径',
+  `prefix` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '表前缀',
+  `api_alias` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '接口名称',
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `creator_num` varchar(32) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='代码生成器配置';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='代码生成器配置';
 
--- 正在导出表  db_efadmin.sys_gen_config 的数据：~0 rows (大约)
+-- 正在导出表  db_efadmin.sys_gen_config 的数据：~1 rows (大约)
 DELETE FROM `sys_gen_config`;
 /*!40000 ALTER TABLE `sys_gen_config` DISABLE KEYS */;
 INSERT INTO `sys_gen_config` (`id`, `table_name`, `author`, `cover`, `module_name`, `pack`, `path`, `api_path`, `prefix`, `api_alias`, `remark`, `create_time`, `creator_num`, `update_time`, `updater_num`) VALUES
-	(3, 'gen_test', 'Zheng Jie', b'1', 'eladmin-system', 'me.zhengjie.gen', 'E:\\workspace\\me\\front\\eladmin-web\\src\\views\\gen', 'E:\\workspace\\me\\front\\eladmin-web\\src\\api', NULL, '测试生成', NULL, '2019-12-26 22:01:45', NULL, '2019-12-26 22:01:45', NULL);
+	(1, 'tbl_employee', 'dbdu', b'1', 'efadmin-system', 'vip.efactory.demo', 'system', 'employee/', 'tbl_', '员工信息', NULL, '2019-12-31 08:54:51', 'admin', '2020-03-14 08:59:45', 'admin');
 /*!40000 ALTER TABLE `sys_gen_config` ENABLE KEYS */;
 
 -- 导出  表 db_efadmin.sys_gen_test 结构
 CREATE TABLE IF NOT EXISTS `sys_gen_test` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
   `sex` int(255) DEFAULT NULL COMMENT '性别',
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='代码生成测试';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='代码生成测试';
 
 -- 正在导出表  db_efadmin.sys_gen_test 的数据：~0 rows (大约)
 DELETE FROM `sys_gen_test`;
@@ -218,7 +280,7 @@ DELETE FROM `sys_gen_test`;
 -- 导出  表 db_efadmin.sys_job 结构
 CREATE TABLE IF NOT EXISTS `sys_job` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '岗位名称',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs NOT NULL COMMENT '岗位名称',
   `enabled` bit(1) NOT NULL COMMENT '岗位状态',
   `sort` bigint(20) NOT NULL COMMENT '岗位排序',
   `dept_id` bigint(20) DEFAULT NULL COMMENT '部门ID',
@@ -230,13 +292,13 @@ CREATE TABLE IF NOT EXISTS `sys_job` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `FKmvhj0rogastlctflsxf1d6k3i` (`dept_id`) USING BTREE,
   CONSTRAINT `FKmvhj0rogastlctflsxf1d6k3i` FOREIGN KEY (`dept_id`) REFERENCES `sys_dept` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='岗位';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='岗位';
 
 -- 正在导出表  db_efadmin.sys_job 的数据：~4 rows (大约)
 DELETE FROM `sys_job`;
 /*!40000 ALTER TABLE `sys_job` DISABLE KEYS */;
 INSERT INTO `sys_job` (`id`, `name`, `enabled`, `sort`, `dept_id`, `remark`, `create_time`, `creator_num`, `update_time`, `updater_num`) VALUES
-	(8, '人事专员', b'1', 3, 11, NULL, '2019-03-29 14:52:28', NULL, '2019-12-26 22:01:45', NULL),
+	(8, '人事专员', b'1', 3, 11, '如果要做国际化最好名称上有英文简写', '2019-03-29 14:52:28', NULL, '2020-03-14 09:00:58', NULL),
 	(10, '产品经理', b'1', 4, 2, NULL, '2019-03-29 14:55:51', NULL, '2019-12-26 22:01:45', NULL),
 	(11, '全栈开发', b'1', 2, 2, NULL, '2019-03-31 13:39:30', NULL, '2019-12-26 22:01:45', NULL),
 	(12, '软件测试', b'1', 5, 2, NULL, '2019-03-31 13:39:43', NULL, '2019-12-26 22:01:45', NULL);
@@ -245,20 +307,20 @@ INSERT INTO `sys_job` (`id`, `name`, `enabled`, `sort`, `dept_id`, `remark`, `cr
 -- 导出  表 db_efadmin.sys_local_storage 结构
 CREATE TABLE IF NOT EXISTS `sys_local_storage` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `real_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件真实的名称',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件名',
-  `suffix` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '后缀',
-  `path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '路径',
-  `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '类型',
-  `size` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '大小',
-  `operate` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '操作人',
+  `real_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '文件真实的名称',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '文件名',
+  `suffix` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '后缀',
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '路径',
+  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '类型',
+  `size` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '大小',
+  `operate` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '操作人',
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   `creator_num` varchar(32) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='本地存储';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='本地存储';
 
 -- 正在导出表  db_efadmin.sys_local_storage 的数据：~0 rows (大约)
 DELETE FROM `sys_local_storage`;
@@ -268,23 +330,23 @@ DELETE FROM `sys_local_storage`;
 -- 导出  表 db_efadmin.sys_log 结构
 CREATE TABLE IF NOT EXISTS `sys_log` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `exception_detail` text CHARACTER SET utf8 COLLATE utf8_general_ci,
-  `log_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `method` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `params` text CHARACTER SET utf8 COLLATE utf8_general_ci,
-  `request_ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
+  `exception_detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs,
+  `log_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
+  `method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
+  `params` text CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs,
+  `request_ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
   `time` bigint(20) DEFAULT NULL,
-  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `browser` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
+  `browser` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `creator_num` varchar(32) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=411426 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='系统日志';
 
 -- 正在导出表  db_efadmin.sys_log 的数据：~0 rows (大约)
 DELETE FROM `sys_log`;
@@ -295,16 +357,16 @@ DELETE FROM `sys_log`;
 CREATE TABLE IF NOT EXISTS `sys_menu` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `i_frame` bit(1) DEFAULT NULL COMMENT '是否外链',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '菜单名称',
-  `component` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '组件',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '菜单名称',
+  `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '组件',
   `pid` bigint(20) NOT NULL COMMENT '上级菜单ID',
   `sort` bigint(20) DEFAULT NULL COMMENT '排序',
-  `icon` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '图标',
-  `path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '链接地址',
+  `icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '图标',
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '链接地址',
   `cache` bit(1) DEFAULT b'0' COMMENT '缓存',
   `hidden` bit(1) DEFAULT b'0' COMMENT '隐藏',
-  `component_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '-' COMMENT '组件名称',
-  `permission` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '权限',
+  `component_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT '-' COMMENT '组件名称',
+  `permission` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '权限',
   `type` int(11) DEFAULT NULL COMMENT '类型',
   `locale_key` varchar(255) DEFAULT NULL COMMENT '国际化key',
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
@@ -314,7 +376,7 @@ CREATE TABLE IF NOT EXISTS `sys_menu` (
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `FKqcf9gem97gqa5qjm4d3elcqt5` (`pid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='系统菜单';
 
 -- 正在导出表  db_efadmin.sys_menu 的数据：~83 rows (大约)
 DELETE FROM `sys_menu`;
@@ -402,27 +464,27 @@ INSERT INTO `sys_menu` (`id`, `i_frame`, `name`, `component`, `pid`, `sort`, `ic
 	(117, b'0', '员工管理', 'system/employee/index', 1, 9, 'zujian', 'employee', b'0', b'0', 'Employee', 'employee:list', 1, 'employee.manage', NULL, '2020-01-02 10:24:50', NULL, '2020-01-20 11:20:40', 'admin'),
 	(118, b'0', '员工新增', '', 117, 2, '', '', b'0', b'0', '', 'employee:add', 2, 'employee.add', NULL, '2020-01-02 10:24:50', NULL, '2020-01-22 21:48:06', 'admin'),
 	(119, b'0', '员工编辑', '', 117, 3, '', '', b'0', b'0', '', 'employee:edit', 2, 'employee.edit', NULL, '2020-01-02 10:24:50', NULL, '2020-01-22 21:48:51', 'admin'),
-	(120, b'0', '员工删除', '', 117, 4, '', '', b'0', b'0', '', 'employee:del', 2, 'employee.delete', NULL, '2020-01-02 10:24:50', NULL, '2020-01-22 21:48:35', 'admin');
+	(120, b'0', '员工删除', '', 117, 4, '', '', b'0', b'0', '', 'employee:del', 2, 'employee.delete', NULL, '2020-01-02 10:24:50', NULL, '2020-01-22 21:48:35', 'admin'),
+	(121, b'1', 'Github', NULL, 1, 999, 'github', 'https://github.com/vip-efactory/efadmin-ui', b'1', b'0', NULL, NULL, 1, NULL, NULL, '2020-03-13 10:31:45', 'admin', '2020-03-13 10:31:45', 'admin');
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
-
 
 -- 导出  表 db_efadmin.sys_mnt_app 结构
 CREATE TABLE IF NOT EXISTS `sys_mnt_app` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '应用ID',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '应用名称',
-  `upload_path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '上传目录',
-  `deploy_path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '部署路径',
-  `backup_path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '备份路径',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '应用名称',
+  `upload_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '上传目录',
+  `deploy_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '部署路径',
+  `backup_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '备份路径',
   `port` int(255) DEFAULT NULL COMMENT '应用端口',
-  `start_script` varchar(4000) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '启动脚本',
-  `deploy_script` varchar(4000) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '部署脚本',
+  `start_script` varchar(4000) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '启动脚本',
+  `deploy_script` varchar(4000) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '部署脚本',
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   `creator_num` varchar(32) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='应用管理';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='应用管理';
 
 -- 正在导出表  db_efadmin.sys_mnt_app 的数据：~2 rows (大约)
 DELETE FROM `sys_mnt_app`;
@@ -434,24 +496,24 @@ INSERT INTO `sys_mnt_app` (`id`, `name`, `upload_path`, `deploy_path`, `backup_p
 
 -- 导出  表 db_efadmin.sys_mnt_database 结构
 CREATE TABLE IF NOT EXISTS `sys_mnt_database` (
-  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编号',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
-  `jdbc_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'jdbc连接',
-  `user_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '账号',
-  `pwd` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
+  `id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs NOT NULL COMMENT '编号',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs NOT NULL COMMENT '名称',
+  `jdbc_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs NOT NULL COMMENT 'jdbc连接',
+  `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs NOT NULL COMMENT '账号',
+  `pwd` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs NOT NULL COMMENT '密码',
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `creator_num` varchar(32) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='数据库管理';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='数据库管理';
 
--- 正在导出表  db_efadmin.sys_mnt_database 的数据：~0 rows (大约)
+-- 正在导出表  db_efadmin.sys_mnt_database 的数据：~1 rows (大约)
 DELETE FROM `sys_mnt_database`;
 /*!40000 ALTER TABLE `sys_mnt_database` DISABLE KEYS */;
 INSERT INTO `sys_mnt_database` (`id`, `name`, `jdbc_url`, `user_name`, `pwd`, `remark`, `create_time`, `creator_num`, `update_time`, `updater_num`) VALUES
-	('c4109eefc5724c65857ca9dd2690e0dd', 'eladmin', 'jdbc:mysql://localhost:3306/eladmin?serverTimezone=Asia/Shanghai', 'root', '123456', NULL, '2019-12-21 21:11:17', NULL, '2019-12-26 22:01:47', NULL);
+	('c4109eefc5724c65857ca9dd2690e0dd', 'db_eladmin', 'jdbc:mysql://localhost:3306/db_eladmin?serverTimezone=Asia/Shanghai', 'root', '123456', NULL, '2019-12-21 21:11:17', NULL, '2020-02-02 13:57:06', 'admin');
 /*!40000 ALTER TABLE `sys_mnt_database` ENABLE KEYS */;
 
 -- 导出  表 db_efadmin.sys_mnt_deploy 结构
@@ -466,7 +528,7 @@ CREATE TABLE IF NOT EXISTS `sys_mnt_deploy` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `FK6sy157pseoxx4fmcqr1vnvvhy` (`app_id`) USING BTREE,
   CONSTRAINT `FK6sy157pseoxx4fmcqr1vnvvhy` FOREIGN KEY (`app_id`) REFERENCES `sys_mnt_app` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='部署管理';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='部署管理';
 
 -- 正在导出表  db_efadmin.sys_mnt_deploy 的数据：~2 rows (大约)
 DELETE FROM `sys_mnt_deploy`;
@@ -478,11 +540,11 @@ INSERT INTO `sys_mnt_deploy` (`id`, `app_id`, `remark`, `create_time`, `creator_
 
 -- 导出  表 db_efadmin.sys_mnt_deploy_history 结构
 CREATE TABLE IF NOT EXISTS `sys_mnt_deploy_history` (
-  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编号',
-  `app_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '应用名称',
+  `id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs NOT NULL COMMENT '编号',
+  `app_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs NOT NULL COMMENT '应用名称',
   `deploy_date` datetime NOT NULL COMMENT '部署日期',
-  `deploy_user` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '部署用户',
-  `ip` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '服务器IP',
+  `deploy_user` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs NOT NULL COMMENT '部署用户',
+  `ip` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs NOT NULL COMMENT '服务器IP',
   `deploy_id` bigint(20) DEFAULT NULL COMMENT '部署编号',
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -490,7 +552,7 @@ CREATE TABLE IF NOT EXISTS `sys_mnt_deploy_history` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='部署历史管理';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='部署历史管理';
 
 -- 正在导出表  db_efadmin.sys_mnt_deploy_history 的数据：~3 rows (大约)
 DELETE FROM `sys_mnt_deploy_history`;
@@ -509,7 +571,7 @@ CREATE TABLE IF NOT EXISTS `sys_mnt_deploy_server` (
   KEY `FKeaaha7jew9a02b3bk9ghols53` (`server_id`) USING BTREE,
   CONSTRAINT `FK3cehr56tedph6nk3gxsmeq0pb` FOREIGN KEY (`deploy_id`) REFERENCES `sys_mnt_deploy` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKeaaha7jew9a02b3bk9ghols53` FOREIGN KEY (`server_id`) REFERENCES `sys_mnt_server` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='应用与服务器关联';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='应用与服务器关联';
 
 -- 正在导出表  db_efadmin.sys_mnt_deploy_server 的数据：~2 rows (大约)
 DELETE FROM `sys_mnt_deploy_server`;
@@ -522,10 +584,10 @@ INSERT INTO `sys_mnt_deploy_server` (`deploy_id`, `server_id`) VALUES
 -- 导出  表 db_efadmin.sys_mnt_server 结构
 CREATE TABLE IF NOT EXISTS `sys_mnt_server` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'IP地址',
-  `account` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '账号',
-  `ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'IP地址',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '名称',
-  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '密码',
+  `account` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '账号',
+  `ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT 'IP地址',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '名称',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '密码',
   `port` int(11) DEFAULT NULL COMMENT '端口',
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -533,9 +595,9 @@ CREATE TABLE IF NOT EXISTS `sys_mnt_server` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='服务器管理';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='服务器管理';
 
--- 正在导出表  db_efadmin.sys_mnt_server 的数据：~0 rows (大约)
+-- 正在导出表  db_efadmin.sys_mnt_server 的数据：~1 rows (大约)
 DELETE FROM `sys_mnt_server`;
 /*!40000 ALTER TABLE `sys_mnt_server` DISABLE KEYS */;
 INSERT INTO `sys_mnt_server` (`id`, `account`, `ip`, `name`, `password`, `port`, `remark`, `create_time`, `creator_num`, `update_time`, `updater_num`) VALUES
@@ -551,22 +613,22 @@ CREATE TABLE IF NOT EXISTS `sys_monitor_server` (
   `disk_used` double DEFAULT NULL COMMENT '磁盘使用量',
   `mem_total` double DEFAULT NULL COMMENT '内存总数',
   `mem_used` double DEFAULT NULL COMMENT '内存使用量',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '名称',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '名称',
   `port` int(11) DEFAULT NULL COMMENT '访问端口',
   `sort` int(11) DEFAULT NULL COMMENT '排序',
-  `state` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '状态',
+  `state` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '状态',
   `swap_total` double DEFAULT NULL COMMENT '交换区总量',
   `swap_used` double DEFAULT NULL COMMENT '交换区使用量',
-  `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '服务地址',
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs NOT NULL COMMENT '服务地址',
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `creator_num` varchar(32) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='服务监控';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='服务监控';
 
--- 正在导出表  db_efadmin.sys_monitor_server 的数据：~0 rows (大约)
+-- 正在导出表  db_efadmin.sys_monitor_server 的数据：~1 rows (大约)
 DELETE FROM `sys_monitor_server`;
 /*!40000 ALTER TABLE `sys_monitor_server` DISABLE KEYS */;
 INSERT INTO `sys_monitor_server` (`id`, `cpu_core`, `cpu_rate`, `disk_total`, `disk_used`, `mem_total`, `mem_used`, `name`, `port`, `sort`, `state`, `swap_total`, `swap_used`, `address`, `remark`, `create_time`, `creator_num`, `update_time`, `updater_num`) VALUES
@@ -576,21 +638,21 @@ INSERT INTO `sys_monitor_server` (`id`, `cpu_core`, `cpu_rate`, `disk_total`, `d
 -- 导出  表 db_efadmin.sys_picture 结构
 CREATE TABLE IF NOT EXISTS `sys_picture` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `delete_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '删除的URL',
-  `filename` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '图片名称',
-  `height` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '图片高度',
-  `size` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '图片大小',
-  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '图片地址',
-  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '用户名称',
-  `width` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '图片宽度',
-  `md5code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件的MD5值',
+  `delete_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '删除的URL',
+  `filename` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '图片名称',
+  `height` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '图片高度',
+  `size` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '图片大小',
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '图片地址',
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '用户名称',
+  `width` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '图片宽度',
+  `md5code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '文件的MD5值',
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '上传日期',
   `creator_num` varchar(32) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='Sm.Ms图床';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='Sm.Ms图床';
 
 -- 正在导出表  db_efadmin.sys_picture 的数据：~0 rows (大约)
 DELETE FROM `sys_picture`;
@@ -600,19 +662,19 @@ DELETE FROM `sys_picture`;
 -- 导出  表 db_efadmin.sys_qiniu_config 结构
 CREATE TABLE IF NOT EXISTS `sys_qiniu_config` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `access_key` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT 'accessKey',
-  `bucket` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'Bucket 识别符',
-  `host` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '外链域名',
-  `secret_key` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT 'secretKey',
-  `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '空间类型',
-  `zone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '机房',
+  `access_key` text CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs COMMENT 'accessKey',
+  `bucket` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT 'Bucket 识别符',
+  `host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs NOT NULL COMMENT '外链域名',
+  `secret_key` text CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs COMMENT 'secretKey',
+  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '空间类型',
+  `zone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '机房',
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `creator_num` varchar(32) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='七牛云配置';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='七牛云配置';
 
 -- 正在导出表  db_efadmin.sys_qiniu_config 的数据：~0 rows (大约)
 DELETE FROM `sys_qiniu_config`;
@@ -622,19 +684,19 @@ DELETE FROM `sys_qiniu_config`;
 -- 导出  表 db_efadmin.sys_qiniu_content 结构
 CREATE TABLE IF NOT EXISTS `sys_qiniu_content` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `bucket` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'Bucket 识别符',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件名称',
-  `size` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件大小',
-  `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件类型：私有或公开',
-  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件url',
-  `suffix` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `bucket` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT 'Bucket 识别符',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '文件名称',
+  `size` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '文件大小',
+  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '文件类型：私有或公开',
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '文件url',
+  `suffix` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `creator_num` varchar(32) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '上传或同步的时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='七牛云文件存储';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='七牛云文件存储';
 
 -- 正在导出表  db_efadmin.sys_qiniu_content 的数据：~0 rows (大约)
 DELETE FROM `sys_qiniu_content`;
@@ -644,39 +706,39 @@ DELETE FROM `sys_qiniu_content`;
 -- 导出  表 db_efadmin.sys_quartz_job 结构
 CREATE TABLE IF NOT EXISTS `sys_quartz_job` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `bean_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'Spring Bean名称',
-  `cron_expression` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'cron 表达式',
+  `bean_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT 'Spring Bean名称',
+  `cron_expression` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT 'cron 表达式',
   `is_pause` bit(1) DEFAULT NULL COMMENT '状态：1暂停、0启用',
-  `job_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '任务名称',
-  `method_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '方法名称',
-  `params` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '参数',
-  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '备注',
+  `job_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '任务名称',
+  `method_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '方法名称',
+  `params` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '参数',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   `creator_num` varchar(32) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='定时任务';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='定时任务';
 
 -- 正在导出表  db_efadmin.sys_quartz_job 的数据：~3 rows (大约)
 DELETE FROM `sys_quartz_job`;
 /*!40000 ALTER TABLE `sys_quartz_job` DISABLE KEYS */;
 INSERT INTO `sys_quartz_job` (`id`, `bean_name`, `cron_expression`, `is_pause`, `job_name`, `method_name`, `params`, `remark`, `create_time`, `creator_num`, `update_time`, `updater_num`) VALUES
 	(1, 'visitsTask', '0 0 0 * * ?', b'0', '更新访客记录', 'run', NULL, '每日0点创建新的访客记录', '2019-01-08 14:53:31', NULL, '2019-12-26 22:01:49', NULL),
-	(2, 'testTask', '0/5 * * * * ?', b'1', '测试1', 'run1', 'test', '带参测试，多参使用json', '2019-08-22 14:08:29', NULL, '2019-12-26 22:01:49', NULL),
+	(2, 'testTask', '0/5 * * * * ?', b'1', '测试1', 'run1', 'test', '带参测试，多参使用json', '2019-08-22 14:08:29', NULL, '2020-03-11 08:59:58', 'admin'),
 	(3, 'testTask', '0/5 * * * * ?', b'1', '测试', 'run', '', '不带参测试', '2019-09-26 16:44:39', NULL, '2019-12-26 22:01:49', NULL);
 /*!40000 ALTER TABLE `sys_quartz_job` ENABLE KEYS */;
 
 -- 导出  表 db_efadmin.sys_quartz_log 结构
 CREATE TABLE IF NOT EXISTS `sys_quartz_log` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `baen_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `cron_expression` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `exception_detail` text CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `baen_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
+  `cron_expression` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
+  `exception_detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs,
   `is_success` bit(1) DEFAULT NULL,
-  `job_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `method_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `params` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `job_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
+  `method_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
+  `params` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
   `time` bigint(20) DEFAULT NULL,
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
   `creator_num` varchar(32) DEFAULT NULL COMMENT '创建人',
@@ -684,9 +746,9 @@ CREATE TABLE IF NOT EXISTS `sys_quartz_log` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=288 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='定时任务日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='定时任务日志';
 
--- 正在导出表  db_efadmin.sys_quartz_log 的数据：~0 rows (大约)
+-- 正在导出表  db_efadmin.sys_quartz_log 的数据：~37,338 rows (大约)
 DELETE FROM `sys_quartz_log`;
 /*!40000 ALTER TABLE `sys_quartz_log` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sys_quartz_log` ENABLE KEYS */;
@@ -694,23 +756,23 @@ DELETE FROM `sys_quartz_log`;
 -- 导出  表 db_efadmin.sys_role 结构
 CREATE TABLE IF NOT EXISTS `sys_role` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
-  `data_scope` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据权限',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs NOT NULL COMMENT '名称',
+  `data_scope` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '数据权限',
   `level` int(255) DEFAULT NULL COMMENT '角色级别',
-  `permission` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '功能权限',
-  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '备注',
+  `permission` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '功能权限',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   `creator_num` varchar(32) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='角色表';
 
 -- 正在导出表  db_efadmin.sys_role 的数据：~2 rows (大约)
 DELETE FROM `sys_role`;
 /*!40000 ALTER TABLE `sys_role` DISABLE KEYS */;
 INSERT INTO `sys_role` (`id`, `name`, `data_scope`, `level`, `permission`, `remark`, `create_time`, `creator_num`, `update_time`, `updater_num`) VALUES
-	(1, '超级管理员', '全部', 1, 'admin', '-', '2018-11-23 11:04:37', NULL, '2019-12-26 22:01:50', NULL),
+	(1, '超级管理员', '全部', 1, 'admin', '-', '2018-11-23 11:04:37', NULL, '2020-03-13 10:33:35', 'admin'),
 	(2, '普通用户', '本级', 2, 'common', '-', '2018-11-23 13:09:06', NULL, '2019-12-26 22:01:50', NULL);
 /*!40000 ALTER TABLE `sys_role` ENABLE KEYS */;
 
@@ -722,7 +784,7 @@ CREATE TABLE IF NOT EXISTS `sys_roles_depts` (
   KEY `FK7qg6itn5ajdoa9h9o78v9ksur` (`dept_id`) USING BTREE,
   CONSTRAINT `FK7qg6itn5ajdoa9h9o78v9ksur` FOREIGN KEY (`dept_id`) REFERENCES `sys_dept` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKrg1ci4cxxfbja0sb0pddju7k` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色部门关联';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='角色部门关联';
 
 -- 正在导出表  db_efadmin.sys_roles_depts 的数据：~0 rows (大约)
 DELETE FROM `sys_roles_depts`;
@@ -737,7 +799,7 @@ CREATE TABLE IF NOT EXISTS `sys_roles_menus` (
   KEY `FKcngg2qadojhi3a651a5adkvbq` (`role_id`) USING BTREE,
   CONSTRAINT `FKo7wsmlrrxb2osfaoavp46rv2r` FOREIGN KEY (`menu_id`) REFERENCES `sys_menu` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKtag324maketmxffly3pdyh193` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色菜单关联';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='角色菜单关联';
 
 -- 正在导出表  db_efadmin.sys_roles_menus 的数据：~96 rows (大约)
 DELETE FROM `sys_roles_menus`;
@@ -807,6 +869,11 @@ INSERT INTO `sys_roles_menus` (`menu_id`, `role_id`) VALUES
 	(97, 1),
 	(98, 1),
 	(116, 1),
+	(117, 1),
+	(118, 1),
+	(119, 1),
+	(120, 1),
+	(121, 1),
 	(1, 2),
 	(2, 2),
 	(3, 2),
@@ -845,17 +912,17 @@ INSERT INTO `sys_roles_menus` (`menu_id`, `role_id`) VALUES
 CREATE TABLE IF NOT EXISTS `sys_user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `avatar_id` bigint(20) DEFAULT NULL COMMENT '头像',
-  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '邮箱',
+  `email` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '邮箱',
   `enabled` bigint(20) DEFAULT NULL COMMENT '状态：1启用、0禁用',
-  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '密码',
-  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '用户名',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '密码',
+  `username` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '用户名',
   `dept_id` bigint(20) DEFAULT NULL COMMENT '部门名称',
-  `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '手机号码',
+  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '手机号码',
   `job_id` bigint(20) DEFAULT NULL COMMENT '岗位名称',
   `last_password_reset_time` datetime DEFAULT NULL COMMENT '最后修改密码的日期',
-  `nick_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '昵称',
-  `sex` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '性别',
-  `usercode` varchar(255) DEFAULT NULL COMMENT '用户编号或者工号',
+  `nick_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '昵称',
+  `sex` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '性别',
+  `usercode` varchar(180) DEFAULT NULL COMMENT '用户编号或者工号',
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   `creator_num` varchar(32) DEFAULT NULL COMMENT '创建人',
@@ -871,14 +938,15 @@ CREATE TABLE IF NOT EXISTS `sys_user` (
   CONSTRAINT `FK5rwmryny6jthaaxkogownknqp` FOREIGN KEY (`dept_id`) REFERENCES `sys_dept` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKfftoc2abhot8f2wu6cl9a5iky` FOREIGN KEY (`job_id`) REFERENCES `sys_job` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKpq2dhypk2qgt68nauh2by22jb` FOREIGN KEY (`avatar_id`) REFERENCES `sys_user_avatar` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统用户';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='系统用户';
 
--- 正在导出表  db_efadmin.sys_user 的数据：~2 rows (大约)
+-- 正在导出表  db_efadmin.sys_user 的数据：~3 rows (大约)
 DELETE FROM `sys_user`;
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
 INSERT INTO `sys_user` (`id`, `avatar_id`, `email`, `enabled`, `password`, `username`, `dept_id`, `phone`, `job_id`, `last_password_reset_time`, `nick_name`, `sex`, `usercode`, `remark`, `create_time`, `creator_num`, `update_time`, `updater_num`) VALUES
-	(1, NULL, 'zhengjie@tom.com', 1, '$2a$10$fP.426qKaTmix50Oln8L.uav55gELhAd0Eg66Av4oG86u8km7D/Ky', 'admin', 2, '18888888888', 11, '2019-05-18 17:34:21', '管理员', '男', NULL, NULL, '2018-08-23 09:11:56', NULL, '2019-12-26 22:01:50', NULL),
-	(3, NULL, 'test@eladmin.net', 1, '$2a$10$HhxyGZy.ulf3RvAwaHUGb.k.2i9PBpv4YbLMJWp8pES7pPhTyRCF.', 'test', 2, '17777777777', 12, '2019-04-01 09:15:24', '测试', '男', NULL, NULL, '2018-12-27 20:05:26', NULL, '2019-12-26 22:01:50', NULL);
+	(1, 2, 'zhengjie@tom.com', 1, '$2a$10$fP.426qKaTmix50Oln8L.uav55gELhAd0Eg66Av4oG86u8km7D/Ky', 'admin', 2, '138****9027', 11, '2019-05-18 17:34:21', '管理员', '男', NULL, NULL, '2018-08-23 09:11:56', NULL, '2020-03-14 10:31:25', 'admin'),
+	(3, NULL, 'test@eladmin.net', 1, NULL, 'Test', 2, '17777777777', 10, '2019-04-01 09:15:24', '测试', '男', NULL, NULL, '2018-12-27 20:05:26', NULL, '2020-01-26 12:12:45', 'admin'),
+	(4, NULL, 'dusuanyun@sina.com', 0, NULL, 'dbdu', 2, '138****9027', 10, '2019-04-01 09:15:24', 'suanyun', '男', NULL, NULL, '2019-12-27 21:31:37', NULL, '2020-03-14 10:31:11', 'admin');
 /*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
 
 -- 导出  表 db_efadmin.sys_users_roles 结构
@@ -889,63 +957,68 @@ CREATE TABLE IF NOT EXISTS `sys_users_roles` (
   KEY `FKq4eq273l04bpu4efj0jd0jb98` (`role_id`) USING BTREE,
   CONSTRAINT `FKgd3iendaoyh04b95ykqise6qh` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKt4v0rrweyk393bdgt107vdx0x` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='用户角色关联';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='用户角色关联';
 
--- 正在导出表  db_efadmin.sys_users_roles 的数据：~2 rows (大约)
+-- 正在导出表  db_efadmin.sys_users_roles 的数据：~3 rows (大约)
 DELETE FROM `sys_users_roles`;
 /*!40000 ALTER TABLE `sys_users_roles` DISABLE KEYS */;
 INSERT INTO `sys_users_roles` (`user_id`, `role_id`) VALUES
 	(1, 1),
-	(3, 2);
+	(3, 2),
+	(4, 2);
 /*!40000 ALTER TABLE `sys_users_roles` ENABLE KEYS */;
 
 -- 导出  表 db_efadmin.sys_user_avatar 结构
 CREATE TABLE IF NOT EXISTS `sys_user_avatar` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `real_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '真实文件名',
-  `path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '路径',
-  `size` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '大小',
+  `real_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '真实文件名',
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '路径',
+  `size` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '大小',
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `creator_num` varchar(32) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统用户头像';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='系统用户头像';
 
 -- 正在导出表  db_efadmin.sys_user_avatar 的数据：~0 rows (大约)
 DELETE FROM `sys_user_avatar`;
 /*!40000 ALTER TABLE `sys_user_avatar` DISABLE KEYS */;
+INSERT INTO `sys_user_avatar` (`id`, `real_name`, `path`, `size`, `remark`, `create_time`, `creator_num`, `update_time`, `updater_num`) VALUES
+	(2, '管理者素养-20200128054216530.png', '/media/dbdu/BK/repository/GitHub/vip-factory/efadmin/~/eladmin/avatar/管理者素养-20200128054216530.png', '64.69KB   ', NULL, '2020-01-28 17:42:17', 'admin', '2020-01-28 17:42:17', 'admin');
 /*!40000 ALTER TABLE `sys_user_avatar` ENABLE KEYS */;
 
 -- 导出  表 db_efadmin.sys_verification_code 结构
 CREATE TABLE IF NOT EXISTS `sys_verification_code` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '验证码',
+  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '验证码',
   `status` bit(1) DEFAULT NULL COMMENT '状态：1有效、0过期',
-  `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '验证码类型：email或者短信',
-  `value` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '接收邮箱或者手机号码',
-  `scenes` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '业务名称：如重置邮箱、重置密码等',
+  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '验证码类型：email或者短信',
+  `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '接收邮箱或者手机号码',
+  `scenes` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '业务名称：如重置邮箱、重置密码等',
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   `creator_num` varchar(32) DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='验证码';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='验证码';
 
 -- 正在导出表  db_efadmin.sys_verification_code 的数据：~0 rows (大约)
 DELETE FROM `sys_verification_code`;
 /*!40000 ALTER TABLE `sys_verification_code` DISABLE KEYS */;
+INSERT INTO `sys_verification_code` (`id`, `code`, `status`, `type`, `value`, `scenes`, `remark`, `create_time`, `creator_num`, `update_time`, `updater_num`) VALUES
+	(3, '049380', b'0', 'email', 'dusuanyun@sina.com', '重置邮箱', NULL, '2020-01-15 22:22:22', 'admin', '2020-01-15 22:27:22', 'System');
 /*!40000 ALTER TABLE `sys_verification_code` ENABLE KEYS */;
 
 -- 导出  表 db_efadmin.sys_visits 结构
 CREATE TABLE IF NOT EXISTS `sys_visits` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `date` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `date` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
   `ip_counts` bigint(20) DEFAULT NULL,
   `pv_counts` bigint(20) DEFAULT NULL,
-  `week_day` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `week_day` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL,
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `creator_num` varchar(32) DEFAULT NULL COMMENT '创建人',
@@ -953,14 +1026,11 @@ CREATE TABLE IF NOT EXISTS `sys_visits` (
   `updater_num` varchar(32) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `UK_11aksgq87euk9bcyeesfs4vtp` (`date`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='访客记录';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='访客记录';
 
--- 正在导出表  db_efadmin.sys_visits 的数据：~0 rows (大约)
+-- 正在导出表  db_efadmin.sys_visits 的数据：~3 rows (大约)
 DELETE FROM `sys_visits`;
 /*!40000 ALTER TABLE `sys_visits` DISABLE KEYS */;
-INSERT INTO `sys_visits` (`id`, `date`, `ip_counts`, `pv_counts`, `week_day`, `remark`, `create_time`, `creator_num`, `update_time`, `updater_num`) VALUES
-	(21, '2019-12-26', 1, 1, 'Thu', NULL, '2019-12-26 22:01:57', 'System', '2019-12-26 22:01:57', 'System'),
-	(22, '2019-12-27', 1, 1, 'Fri', NULL, '2019-12-27 08:44:17', 'System', '2019-12-27 08:44:17', 'System');
 /*!40000 ALTER TABLE `sys_visits` ENABLE KEYS */;
 
 -- 导出  表 db_efadmin.tbl_employee 结构
@@ -971,10 +1041,10 @@ CREATE TABLE IF NOT EXISTS `tbl_employee` (
   `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '住址',
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '头像',
   `birthday` datetime(6) DEFAULT NULL COMMENT '生日',
-  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '编码',
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '邮箱',
+  `code` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '编码',
+  `email` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '邮箱',
   `id_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '身份证号码',
-  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '手机号',
+  `phone` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '手机号',
   `status` int(11) DEFAULT NULL COMMENT '状态',
   `dept_id` bigint(20) DEFAULT NULL COMMENT '部门',
   `job_id` bigint(20) DEFAULT NULL COMMENT '岗位',
@@ -993,7 +1063,7 @@ CREATE TABLE IF NOT EXISTS `tbl_employee` (
   CONSTRAINT `FKkkanek0iwqokx6xa2wxoipe2t` FOREIGN KEY (`job_id`) REFERENCES `sys_job` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs COMMENT='员工信息';
 
--- 正在导出表  db_efadmin.tbl_employee 的数据：~0 rows (大约)
+-- 正在导出表  db_efadmin.tbl_employee 的数据：~1 rows (大约)
 DELETE FROM `tbl_employee`;
 /*!40000 ALTER TABLE `tbl_employee` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tbl_employee` ENABLE KEYS */;

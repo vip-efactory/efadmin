@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="30 seconds" debug="false">
-    <contextName>efAdmin</contextName>
-    <property name="log.charset" value="utf-8" />
-    <property name="log.pattern" value="%black(%contextName-) %red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{36}) - %gray(%msg%n)" />
+    <contextName>efadmin</contextName>
+    <property name="log.charset" value="utf-8"/>
+    <property name="log.pattern"
+              value="%black(%contextName-) %red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{36}) - %gray(%msg%n)"/>
+    <property name="log.path" value="logs"/>
 
     <!--输出到控制台-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -37,22 +39,22 @@
             <appender-ref ref="console"/>
         </logger>
 
-    <logger name="jdbc.resultset" level="ERROR" additivity="false">
-        <appender-ref ref="console" />
-    </logger>
+        <logger name="jdbc.resultset" level="ERROR" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
 
-    <!--  如想看到表格数据，将OFF改为INFO  -->
-    <logger name="jdbc.resultsettable" level="OFF" additivity="false">
-        <appender-ref ref="console" />
-    </logger>
+        <!--  如想看到表格数据，将OFF改为INFO  -->
+        <logger name="jdbc.resultsettable" level="OFF" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
 
-    <logger name="jdbc.connection" level="OFF" additivity="false">
-        <appender-ref ref="console" />
-    </logger>
+        <logger name="jdbc.connection" level="OFF" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
 
-    <logger name="jdbc.sqltiming" level="OFF" additivity="false">
-        <appender-ref ref="console" />
-    </logger>
+        <logger name="jdbc.sqltiming" level="OFF" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
 
         <logger name="jdbc.audit" level="OFF" additivity="false">
             <appender-ref ref="console"/>
@@ -70,6 +72,16 @@
         <logger name="org.springframework.web" level="ERROR"/>
         <logger name="org.springboot.sample" level="ERROR"/>
         <logger name="vip.efactory" level="WARN"/>
+
+        <!--监控sql日志输出 -->
+        <logger name="jdbc.sqlonly" level="ERROR" additivity="false">
+            <appender-ref ref="logFile"/>
+        </logger>
+
+        <logger name="jdbc.resultset" level="ERROR" additivity="false">
+            <appender-ref ref="logFile"/>
+        </logger>
+
         <root level="warn">
             <appender-ref ref="logFile"/>
         </root>
