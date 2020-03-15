@@ -158,7 +158,7 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, Long, MenuRepository>
     }
 
     @Override
-    @Cacheable(key = "'tree'")
+//    @Cacheable(key = "'tree'")   //缓存会导致菜单与环境不一致
     public Object getMenuTree(List<Menu> menus) {
         // 菜单国际化
         MenuI18nUtil.handleLocale(menus);
