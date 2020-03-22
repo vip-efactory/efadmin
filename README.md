@@ -35,6 +35,10 @@
 |---  |--- | --- |
 |  github   |  https://github.com/vip-efactory/efadmin   |  https://github.com/vip-efactory/efadmin-ui   |
 
+#### 体验地址
+http://efadmin.ddbin.com/  
+用户名密码：admin/123456
+
 #### 主要特性
 - 使用最新技术栈，社区资源丰富。
 - 项目按功能模块化，提升开发，测试效率。
