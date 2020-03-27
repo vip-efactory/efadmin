@@ -3,6 +3,7 @@ package vip.efactory.modules.system.rest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -13,6 +14,9 @@ import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.ejpa.base.entity.BaseSearchEntity;
 import vip.efactory.ejpa.utils.R;
+import vip.efactory.modules.mnt.websocket.MsgType;
+import vip.efactory.modules.mnt.websocket.SocketMsg;
+import vip.efactory.modules.mnt.websocket.WebSocketServer;
 import vip.efactory.modules.system.domain.Employee;
 import vip.efactory.modules.system.service.EmployeeService;
 
@@ -167,6 +171,18 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
     @ApiOperation(value = "依据Ids来删除Employee对应的记录", notes = "依据Ids来删除Employee对应的记录")
     public R deleteByIds(@RequestBody Set<Long> ids) {
         return super.deleteByIds(ids);
+    }
+
+    /**
+     * 测试用WebSocket主动向订阅的客户端发送信息
+     * 用Postman工具，先启动后端，再启动前端，打开部署管理页面。
+     * get http://localhost:8000/api/employee/deploy  在头里面带上token即可，测试成功！
+     */
+    @GetMapping("/deploy")
+    @SneakyThrows
+    public void testSocket(){
+        SocketMsg socketMsg = new SocketMsg("测试Socket发送信息！！！", MsgType.INFO);
+        WebSocketServer.sendInfo(socketMsg, "deploy");
     }
 
 }
