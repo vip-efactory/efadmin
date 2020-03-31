@@ -19,8 +19,8 @@
 <div style="text-align: center">
 
 [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/vip-efactory/efadmin/blob/master/LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/elunez/efadmin.svg?style=social&label=Stars)](https://github.com/vip-efactory/efadmin)
-[![GitHub forks](https://img.shields.io/github/forks/elunez/efadmin.svg?style=social&label=Fork)](https://github.com/vip-efactory/efadmin)
+[![GitHub stars](https://img.shields.io/github/stars/vip-efactory/efadmin.svg?style=social&label=Stars)](https://github.com/vip-efactory/efadmin)
+[![GitHub forks](https://img.shields.io/github/forks/vip-efactory/efadmin.svg?style=social&label=Fork)](https://github.com/vip-efactory/efadmin)
 
 </div>
 
@@ -31,9 +31,10 @@
 
 #### 项目源码
 
-|     |   后端源码  |   前端源码  |
-|---  |--- | --- |
-|  github   |  https://github.com/vip-efactory/efadmin   |  https://github.com/vip-efactory/efadmin-ui   |
+|        | 后端源码                                 | 前端源码                                    |
+|:-------|:----------------------------------------|:-------------------------------------------|
+| github | https://github.com/vip-efactory/efadmin | https://github.com/vip-efactory/efadmin-ui |
+| gitee  | https://gitee.com/vip-efactory/efadmin  | https://gitee.com/vip-efactory/efadmin-ui  |
 
 #### 体验地址
 <http://efadmin.ddbin.com/>  
