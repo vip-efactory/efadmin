@@ -4,3 +4,4 @@
 */target/*
 */*.iml
 /logs/
+/efadmin-system/logs/*.log
