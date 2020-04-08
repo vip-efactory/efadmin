@@ -1,20 +1,33 @@
 package vip.efactory.modules.mnt.rest;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import java.io.File;
+import java.io.IOException;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.ejpa.utils.R;
 import vip.efactory.exception.BadRequestException;
-import vip.efactory.modules.mnt.domain.App;
 import vip.efactory.modules.mnt.domain.Database;
 import vip.efactory.modules.mnt.service.DatabaseService;
 import vip.efactory.modules.mnt.service.dto.DatabaseDto;
@@ -22,16 +35,11 @@ import vip.efactory.modules.mnt.service.dto.DatabaseQueryCriteria;
 import vip.efactory.modules.mnt.util.SqlUtils;
 import vip.efactory.utils.FileUtil;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.util.Set;
-
 @AllArgsConstructor
 @Api(tags = "数据库管理")
 @RestController
 @RequestMapping("/api/database")
+@SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class DatabaseController extends BaseController<Database, DatabaseService, String> {
     private static String fileSavePath = System.getProperty("java.io.tmpdir");
 

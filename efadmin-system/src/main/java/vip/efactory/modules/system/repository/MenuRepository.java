@@ -8,7 +8,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-public interface MenuRepository extends BaseRepository<Menu, Long>, JpaSpecificationExecutor {
+public interface MenuRepository extends BaseRepository<Menu, Long>, JpaSpecificationExecutor<Menu> {
 
     /**
      * 根据菜单名称查询

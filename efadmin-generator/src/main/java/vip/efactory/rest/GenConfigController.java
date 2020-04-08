@@ -12,6 +12,7 @@ import vip.efactory.service.GenConfigService;
 @RestController
 @RequestMapping("/api/genConfig")
 @Api(tags = "系统：代码生成器配置管理")
+@SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class GenConfigController extends BaseController<GenConfig, GenConfigService, Long> {
 
     @ApiOperation("查询")

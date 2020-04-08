@@ -23,6 +23,7 @@ import java.util.Set;
 @Api(tags = "部署历史管理")
 @RestController
 @RequestMapping("/api/deployHistory")
+@SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class DeployHistoryController extends BaseController<DeployHistory, DeployHistoryService, String> {
 
     @Log("导出部署历史数据")

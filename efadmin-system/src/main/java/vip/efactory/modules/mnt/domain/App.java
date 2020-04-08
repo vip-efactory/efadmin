@@ -1,34 +1,39 @@
 package vip.efactory.modules.mnt.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import lombok.Data;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
-import javax.persistence.*;
-import java.io.Serializable;
-
 /**
-* @author zhanghouying
-* @date 2019-08-24
-*/
+ * @author zhanghouying
+ * @date 2019-08-24
+ */
 @Entity
 @Data
-@Table(name="sys_mnt_app")
-public class App extends BaseEntity<Long> implements Serializable {
+@Table(name = "sys_mnt_app")
+public class App extends BaseEntity<Long> {
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 应用编号
 	 */
-    @Id
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	private Long id;
 
 	/**
 	 * 应用名称
 	 */
-    @Column(name = "name")
-    private String name;
+	@Column(name = "name")
+	private String name;
 
 	/**
 	 * 端口
@@ -66,10 +71,10 @@ public class App extends BaseEntity<Long> implements Serializable {
 	@Column(name = "deploy_script")
 	private String deployScript;
 
-//	@CreationTimestamp
-//	private Timestamp createTime;
+	// @CreationTimestamp
+	// private Timestamp createTime;
 
-    public void copy(App source){
-        BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
-    }
+	public void copy(App source) {
+		BeanUtil.copyProperties(source, this, CopyOptions.create().setIgnoreNullValue(true));
+	}
 }

@@ -1,15 +1,17 @@
 package vip.efactory.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 import vip.efactory.ejpa.base.valid.Update;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.sql.Timestamp;
 
 /**
  * Description: 日志记录表
@@ -21,11 +23,11 @@ import java.sql.Timestamp;
 @Data
 @Table(name = "sys_log")
 @NoArgsConstructor
-public class SysLog extends BaseEntity<Long> implements Serializable {
+public class SysLog extends BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "id {property.not.allow.empty}", groups = Update.class)  // 意味着，updateById更新时id不允许为空
+    @NotNull(message = "id {property.not.allow.empty}", groups = Update.class) // 意味着，updateById更新时id不允许为空
     private Long id;
 
     /**
@@ -65,20 +67,20 @@ public class SysLog extends BaseEntity<Long> implements Serializable {
     @Column(name = "address")
     private String address;
 
-    /** 浏览器  */
+    /** 浏览器 */
     private String browser;
 
     /** 请求耗时 */
     private Long time;
 
-    /** 异常详细  */
+    /** 异常详细 */
     @Column(name = "exception_detail", columnDefinition = "text")
     private byte[] exceptionDetail;
 
-//    /** 创建日期 */
-//    @CreationTimestamp
-//    @Column(name = "create_time")
-//    private Timestamp createTime;
+    // /** 创建日期 */
+    // @CreationTimestamp
+    // @Column(name = "create_time")
+    // private Timestamp createTime;
 
     public SysLog(String logType, Long time) {
         this.logType = logType;

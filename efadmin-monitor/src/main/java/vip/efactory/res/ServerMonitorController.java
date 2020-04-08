@@ -1,4 +1,4 @@
-package me.zhengjie.res;
+package vip.efactory.res;
 
 import org.hyperic.sigar.CpuInfo;
 import org.hyperic.sigar.FileSystem;

@@ -1,11 +1,25 @@
 package vip.efactory.modules.system.rest;
 
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.ejpa.base.valid.Update;
@@ -20,17 +34,11 @@ import vip.efactory.modules.system.service.dto.MenuQueryCriteria;
 import vip.efactory.modules.system.service.dto.UserDto;
 import vip.efactory.utils.SecurityUtils;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 @AllArgsConstructor
 @Api(tags = "系统：菜单管理")
 @RestController
 @RequestMapping("/api/menus")
-@SuppressWarnings("unchecked")
+@SuppressWarnings(value = { "rawtypes", "unchecked" }) // 压制原生类型的警告
 public class MenuController extends BaseController<Menu, MenuService, Long> {
     private static final String ENTITY_NAME = "menu";
 

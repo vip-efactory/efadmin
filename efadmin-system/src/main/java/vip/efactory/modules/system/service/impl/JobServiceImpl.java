@@ -1,5 +1,14 @@
 package vip.efactory.modules.system.service.impl;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -8,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import vip.efactory.ejpa.base.controller.EPage;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.modules.system.domain.Job;
@@ -18,13 +28,8 @@ import vip.efactory.modules.system.service.dto.JobDto;
 import vip.efactory.modules.system.service.dto.JobQueryCriteria;
 import vip.efactory.modules.system.service.mapper.JobMapper;
 import vip.efactory.utils.FileUtil;
-import vip.efactory.utils.PageUtil;
 import vip.efactory.utils.QueryHelp;
 import vip.efactory.utils.ValidationUtil;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.*;
 
 @Service
 @CacheConfig(cacheNames = "job")

@@ -25,6 +25,7 @@ import java.util.Set;
 @Api(tags = "服务器管理")
 @RestController
 @RequestMapping("/api/serverDeploy")
+@SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class ServerDeployController extends BaseController<ServerDeploy, ServerDeployService, Long> {
 
     @Log("导出服务器数据")

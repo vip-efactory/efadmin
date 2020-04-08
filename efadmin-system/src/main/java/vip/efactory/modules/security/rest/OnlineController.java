@@ -18,6 +18,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/auth/online")
 @Api(tags = "系统：在线用户管理")
+@SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class OnlineController {
 
     private final OnlineUserService onlineUserService;

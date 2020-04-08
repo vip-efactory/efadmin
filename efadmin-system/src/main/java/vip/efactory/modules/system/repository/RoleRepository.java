@@ -8,7 +8,7 @@ import vip.efactory.modules.system.domain.Role;
 
 import java.util.Set;
 
-public interface RoleRepository extends BaseRepository<Role, Long>, JpaSpecificationExecutor {
+public interface RoleRepository extends BaseRepository<Role, Long>, JpaSpecificationExecutor<Role> {
 
     /**
      * 根据名称查询

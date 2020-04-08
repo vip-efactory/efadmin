@@ -1,26 +1,33 @@
 package vip.efactory.modules.system.rest;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import lombok.SneakyThrows;
-import org.springframework.beans.BeanUtils;
+import java.util.Set;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.SneakyThrows;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
-import vip.efactory.ejpa.base.entity.BaseSearchEntity;
 import vip.efactory.ejpa.utils.R;
 import vip.efactory.modules.mnt.websocket.MsgType;
 import vip.efactory.modules.mnt.websocket.SocketMsg;
 import vip.efactory.modules.mnt.websocket.WebSocketServer;
 import vip.efactory.modules.system.domain.Employee;
 import vip.efactory.modules.system.service.EmployeeService;
-
-import java.util.Set;
 
 
 /**
@@ -30,6 +37,7 @@ import java.util.Set;
 @Api(tags = "Employee管理")
 @RestController
 @RequestMapping("api/employee")
+@SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class EmployeeController extends BaseController<Employee, EmployeeService, Long> {
 
 //    @Log("查询员工信息")

@@ -1,30 +1,36 @@
 package vip.efactory.rest;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import vip.efactory.aop.log.Log;
-import vip.efactory.domain.LocalStorage;
-import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.domain.Picture;
+import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.ejpa.utils.R;
 import vip.efactory.service.PictureService;
 import vip.efactory.service.dto.PictureQueryCriteria;
 import vip.efactory.utils.SecurityUtils;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 @RestController
 @RequestMapping("/api/pictures")
 @Api(tags = "工具：免费图床管理")
+@SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class PictureController extends BaseController<Picture, PictureService, Long> {
 
     @Log("查询图片")

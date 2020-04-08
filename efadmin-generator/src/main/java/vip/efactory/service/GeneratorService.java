@@ -1,14 +1,15 @@
 package vip.efactory.service;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
-import vip.efactory.domain.ColumnInfo;
-import vip.efactory.domain.GenConfig;
-import vip.efactory.ejpa.utils.R;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+
+import org.springframework.scheduling.annotation.Async;
+
+import vip.efactory.domain.ColumnInfo;
+import vip.efactory.domain.GenConfig;
+import vip.efactory.ejpa.utils.R;
 
 
 public interface GeneratorService {
@@ -61,6 +62,7 @@ public interface GeneratorService {
      * @param columns 字段信息
      * @return /
      */
+    @SuppressWarnings("rawtypes")   // 压制原生类型的警告
     R preview(GenConfig genConfig, List<ColumnInfo> columns);
 
     /**

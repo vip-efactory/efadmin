@@ -10,7 +10,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
  */
 @Getter
 public class BadRequestException extends RuntimeException {
-
+    private static final long serialVersionUID = 1L;
     private Integer status = BAD_REQUEST.value();
 
     public BadRequestException(String msg) {

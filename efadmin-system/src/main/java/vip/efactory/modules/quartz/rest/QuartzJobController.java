@@ -1,14 +1,26 @@
 package vip.efactory.modules.quartz.rest;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.ejpa.base.valid.Update;
@@ -17,16 +29,11 @@ import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.quartz.domain.QuartzJob;
 import vip.efactory.modules.quartz.service.QuartzJobService;
 import vip.efactory.modules.quartz.service.dto.JobQueryCriteria;
-import vip.efactory.modules.system.domain.Dict;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Set;
-
-@Slf4j
 @RestController
 @Api(tags = "系统:定时任务管理")
 @RequestMapping("/api/jobs")
+@SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class QuartzJobController extends BaseController<QuartzJob, QuartzJobService, Long> {
 
     private static final String ENTITY_NAME = "quartzJob";

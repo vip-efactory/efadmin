@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Table(name = "sys_verification_code")
 public class VerificationCode extends BaseEntity<Long> {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,14 +1,15 @@
 package vip.efactory.modules.system.repository;
 
+import java.util.Date;
+
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+
 import vip.efactory.ejpa.base.repository.BaseRepository;
 import vip.efactory.modules.system.domain.User;
 
-import java.util.Date;
-
-public interface UserRepository extends BaseRepository<User, Long>, JpaSpecificationExecutor {
+public interface UserRepository extends BaseRepository<User, Long>, JpaSpecificationExecutor<User> {
 
     /**
      * 根据用户名查询

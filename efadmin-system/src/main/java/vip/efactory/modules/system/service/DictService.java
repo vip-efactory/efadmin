@@ -1,16 +1,17 @@
 package vip.efactory.modules.system.service;
 
 
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.data.domain.Pageable;
+
 import vip.efactory.ejpa.base.service.IBaseService;
 import vip.efactory.modules.system.domain.Dict;
 import vip.efactory.modules.system.service.dto.DictDto;
 import vip.efactory.modules.system.service.dto.DictQueryCriteria;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 public interface DictService extends IBaseService<Dict, Long> {
 

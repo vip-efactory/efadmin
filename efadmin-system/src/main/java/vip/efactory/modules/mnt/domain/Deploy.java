@@ -16,7 +16,7 @@ import java.util.Set;
 @Entity
 @Data
 @Table(name = "sys_mnt_deploy")
-public class Deploy extends BaseEntity<Long> implements Serializable {
+public class Deploy extends BaseEntity<Long> {
 
     /**
      * 部署编号
@@ -36,11 +36,13 @@ public class Deploy extends BaseEntity<Long> implements Serializable {
      * 服务器
      */
     @ManyToMany
-    @JoinTable(name = "sys_mnt_deploy_server", joinColumns = {@JoinColumn(name = "deploy_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "server_id", referencedColumnName = "id")})
+    @JoinTable(name = "sys_mnt_deploy_server", joinColumns = {
+            @JoinColumn(name = "deploy_id", referencedColumnName = "id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "server_id", referencedColumnName = "id") })
     private Set<ServerDeploy> deploys;
 
-//	@CreationTimestamp
-//	private Timestamp createTime;
+    // @CreationTimestamp
+    // private Timestamp createTime;
 
     public void copy(Deploy source) {
         BeanUtil.copyProperties(source, this, CopyOptions.create().setIgnoreNullValue(true));

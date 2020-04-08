@@ -1,9 +1,9 @@
 package vip.efactory.utils;
 
+import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
+
 import cn.hutool.core.util.ObjectUtil;
 import vip.efactory.exception.BadRequestException;
-import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
-import java.util.Optional;
 
 /**
  * 验证工具

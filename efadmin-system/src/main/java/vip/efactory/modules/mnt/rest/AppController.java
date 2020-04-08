@@ -24,6 +24,7 @@ import java.util.Set;
 @Api(tags = "应用管理")
 @RestController
 @RequestMapping("/api/app")
+@SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class AppController extends BaseController<App, AppService, Long> {
 
     @Log("导出应用数据")

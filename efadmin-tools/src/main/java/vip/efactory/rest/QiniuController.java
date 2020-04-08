@@ -1,14 +1,28 @@
 package vip.efactory.rest;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import vip.efactory.aop.log.Log;
 import vip.efactory.domain.QiniuConfig;
 import vip.efactory.domain.QiniuContent;
@@ -17,18 +31,13 @@ import vip.efactory.ejpa.utils.R;
 import vip.efactory.service.QiNiuService;
 import vip.efactory.service.dto.QiniuQueryCriteria;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * 发送邮件
  */
-@Slf4j
 @RestController
 @RequestMapping("/api/qiNiuContent")
 @Api(tags = "工具：七牛云存储管理")
+@SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class QiniuController extends BaseController<QiniuConfig, QiNiuService, Long> {
 
     @GetMapping(value = "/config")

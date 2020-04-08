@@ -18,6 +18,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "sys_column_config")
 public class ColumnInfo extends BaseEntity<Long> {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

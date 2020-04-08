@@ -1,21 +1,21 @@
 package vip.efactory.exception.handler;
 
-import lombok.extern.slf4j.Slf4j;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+
+import java.util.Objects;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import lombok.extern.slf4j.Slf4j;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.exception.EntityExistException;
 import vip.efactory.exception.EntityNotFoundException;
 import vip.efactory.utils.ThrowableUtil;
-
-import java.util.Objects;
-
-import static org.springframework.http.HttpStatus.*;
 
 /**
  * Description: 全局异常处理

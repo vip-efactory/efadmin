@@ -8,7 +8,7 @@ import vip.efactory.modules.system.domain.Dept;
 import java.util.List;
 import java.util.Set;
 
-public interface DeptRepository extends BaseRepository<Dept, Long>, JpaSpecificationExecutor {
+public interface DeptRepository extends BaseRepository<Dept, Long>, JpaSpecificationExecutor<Dept> {
 
     /**
      * 根据 PID 查询

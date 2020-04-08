@@ -1,12 +1,13 @@
 package vip.efactory.modules.security.rest;
 
-import cn.hutool.core.util.IdUtil;
-import cn.hutool.crypto.asymmetric.KeyType;
-import cn.hutool.crypto.asymmetric.RSA;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import javax.servlet.http.HttpServletRequest;
+
 import com.wf.captcha.ArithmeticCaptcha;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,7 +15,18 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.crypto.asymmetric.KeyType;
+import cn.hutool.crypto.asymmetric.RSA;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import vip.efactory.annotation.AnonymousAccess;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.utils.R;
@@ -28,18 +40,13 @@ import vip.efactory.utils.RedisUtils;
 import vip.efactory.utils.SecurityUtils;
 import vip.efactory.utils.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 /**
  * 授权、根据token获取用户详细信息
  */
-@Slf4j
 @RestController
 @RequestMapping("/auth")
 @Api(tags = "系统：系统授权接口")
+@SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class AuthController {
 
     @Value("${loginCode.expiration}")

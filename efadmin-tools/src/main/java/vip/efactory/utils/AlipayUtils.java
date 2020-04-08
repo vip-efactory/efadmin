@@ -41,6 +41,7 @@ public class AlipayUtils {
      * @param alipay 阿里云配置
      * @return boolean
      */
+    @SuppressWarnings("rawtypes")   // 压制原生类型的警告
     public boolean rsaCheck(HttpServletRequest request, AlipayConfig alipay){
 
         // 获取支付宝POST过来反馈信息

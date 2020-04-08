@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import vip.efactory.ejpa.base.repository.BaseRepository;
 import vip.efactory.domain.QiniuContent;
 
-public interface QiniuContentRepository extends BaseRepository<QiniuContent, Long>, JpaSpecificationExecutor {
+public interface QiniuContentRepository extends BaseRepository<QiniuContent, Long>, JpaSpecificationExecutor<QiniuContent> {
 
     /**
      * 根据key查询

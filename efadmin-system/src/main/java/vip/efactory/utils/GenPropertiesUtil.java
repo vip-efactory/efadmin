@@ -17,6 +17,7 @@ import java.util.List;
 /**
  * 生成项目中需要的实体国际化的文件！
  */
+@SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class GenPropertiesUtil {
 
     public static void geni18nFiles() {

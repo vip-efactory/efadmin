@@ -1,17 +1,16 @@
 package vip.efactory.modules.quartz.utils;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.ReflectionUtils;
-import vip.efactory.utils.SpringContextHolder;
-
 import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.ReflectionUtils;
+
+import vip.efactory.utils.SpringContextHolder;
 
 /**
  * 执行定时任务
  */
-@Slf4j
 public class QuartzRunnable implements Callable {
 
 	private Object target;

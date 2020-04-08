@@ -1,24 +1,37 @@
 package vip.efactory.modules.system.rest;
 
-import cn.hutool.core.lang.Dict;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import cn.hutool.core.lang.Dict;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
-import vip.efactory.ejpa.base.entity.BaseSearchEntity;
 import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.ejpa.utils.R;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.domain.Role;
-import vip.efactory.modules.system.domain.User;
 import vip.efactory.modules.system.service.RoleService;
 import vip.efactory.modules.system.service.UserService;
 import vip.efactory.modules.system.service.dto.RoleDto;
@@ -28,17 +41,11 @@ import vip.efactory.modules.system.service.dto.UserDto;
 import vip.efactory.utils.SecurityUtils;
 import vip.efactory.utils.ThrowableUtil;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 @AllArgsConstructor
 @Api(tags = "系统：角色管理")
 @RestController
 @RequestMapping("/api/roles")
+@SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class RoleController extends BaseController<Role, RoleService, Long> {
     private static final String ENTITY_NAME = "role";
 
@@ -62,7 +69,8 @@ public class RoleController extends BaseController<Role, RoleService, Long> {
     @ApiOperation("返回全部的角色")
     @GetMapping(value = "/all")
     @PreAuthorize("@p.check('roles:list','user:add','user:edit')")
-    public R getAll(@PageableDefault(value = 2000, sort = {"level"}, direction = Sort.Direction.ASC) Pageable pageable) {
+    public R getAll(
+            @PageableDefault(value = 2000, sort = { "level" }, direction = Sort.Direction.ASC) Pageable pageable) {
         return R.ok(entityService.queryAll(pageable));
     }
 
@@ -77,15 +85,16 @@ public class RoleController extends BaseController<Role, RoleService, Long> {
     /**
      * Description: 高级查询
      *
-     * @param entity           含有高级查询条件
-     * @param page             分页参数对象
+     * @param entity 含有高级查询条件
+     * @param page   分页参数对象
      * @return R
      */
     @Log("分页高级查询Role")
     @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
     @PostMapping("/page")
     @PreAuthorize("@p.check('roles:list')")
-    public R advancedQuery(@RequestBody Role entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
+    public R advancedQuery(@RequestBody Role entity,
+            @PageableDefault(value = 25, sort = { "id" }, direction = Sort.Direction.DESC) Pageable page) {
         return super.advancedQueryByPage(page, entity);
     }
 
@@ -152,7 +161,8 @@ public class RoleController extends BaseController<Role, RoleService, Long> {
      */
     private int getLevels(Integer level) {
         UserDto user = userService.findByName(SecurityUtils.getUsername());
-        List<Integer> levels = entityService.findByUsersId(user.getId()).stream().map(RoleSmallDto::getLevel).collect(Collectors.toList());
+        List<Integer> levels = entityService.findByUsersId(user.getId()).stream().map(RoleSmallDto::getLevel)
+                .collect(Collectors.toList());
         int min = Collections.min(levels);
         if (level != null) {
             if (level < min) {

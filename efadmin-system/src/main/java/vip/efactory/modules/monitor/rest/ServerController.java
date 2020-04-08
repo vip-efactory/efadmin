@@ -1,28 +1,35 @@
 package vip.efactory.modules.monitor.rest;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import java.util.Set;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import vip.efactory.aop.log.Log;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.ejpa.utils.R;
 import vip.efactory.modules.monitor.domain.Server;
 import vip.efactory.modules.monitor.service.ServerService;
 import vip.efactory.modules.monitor.service.dto.ServerQueryCriteria;
-import vip.efactory.modules.quartz.domain.QuartzJob;
-
-import java.util.Set;
 
 @AllArgsConstructor
 @Api(tags = "服务监控管理")
 @RestController
 @RequestMapping("/api/server")
+@SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class ServerController extends BaseController<Server, ServerService, Integer> {
 
     @GetMapping("/page")

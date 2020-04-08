@@ -1,29 +1,5 @@
 package vip.efactory.modules.mnt.rest;
 
-import com.jcraft.jsch.JSchException;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import vip.efactory.aop.log.Log;
-import vip.efactory.ejpa.base.controller.BaseController;
-import vip.efactory.ejpa.utils.R;
-import vip.efactory.modules.mnt.domain.App;
-import vip.efactory.modules.mnt.domain.Deploy;
-import vip.efactory.modules.mnt.domain.DeployHistory;
-import vip.efactory.modules.mnt.service.DeployService;
-import vip.efactory.modules.mnt.service.dto.DeployQueryCriteria;
-import vip.efactory.modules.system.service.DeptService;
-import vip.efactory.utils.FileUtil;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -31,10 +7,42 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.jcraft.jsch.JSchException;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
+import vip.efactory.aop.log.Log;
+import vip.efactory.ejpa.base.controller.BaseController;
+import vip.efactory.ejpa.utils.R;
+import vip.efactory.modules.mnt.domain.Deploy;
+import vip.efactory.modules.mnt.domain.DeployHistory;
+import vip.efactory.modules.mnt.service.DeployService;
+import vip.efactory.modules.mnt.service.dto.DeployQueryCriteria;
+import vip.efactory.utils.FileUtil;
+
 @AllArgsConstructor
 @Api(tags = "部署管理")
 @RestController
 @RequestMapping("/api/deploy")
+@SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class DeployController extends BaseController<Deploy, DeployService, Long> {
     private static String fileSavePath = System.getProperty("java.io.tmpdir");
 

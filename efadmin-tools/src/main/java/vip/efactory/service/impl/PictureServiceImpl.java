@@ -1,12 +1,17 @@
 package vip.efactory.service.impl;
 
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
 import com.alibaba.fastjson.JSON;
-import com.alipay.api.domain.AlipayEcoMycarDialogonlineAnswererUpdateModel;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.domain.Pageable;
@@ -14,21 +19,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
+import vip.efactory.domain.Picture;
 import vip.efactory.ejpa.base.controller.EPage;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
-import vip.efactory.domain.Picture;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.repository.PictureRepository;
 import vip.efactory.service.PictureService;
 import vip.efactory.service.dto.PictureQueryCriteria;
-import vip.efactory.utils.*;
+import vip.efactory.utils.EfAdminConstant;
+import vip.efactory.utils.FileUtil;
+import vip.efactory.utils.QueryHelp;
+import vip.efactory.utils.TranslatorUtil;
+import vip.efactory.utils.ValidationUtil;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
-@Slf4j
 @Service(value = "pictureService")
 @CacheConfig(cacheNames = "picture")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
@@ -72,7 +80,7 @@ public class PictureServiceImpl extends BaseServiceImpl<Picture, Long, PictureRe
                 .execute().body();
         JSONObject jsonObject = JSONUtil.parseObj(result);
         if(!jsonObject.get(CODE).toString().equals(SUCCESS)){
-            throw new BadRequestException(me.zhengjie.utils.TranslatorUtil.translate(jsonObject.get(MSG).toString()));
+            throw new BadRequestException(TranslatorUtil.translate(jsonObject.get(MSG).toString()));
         }
         picture = JSON.parseObject(jsonObject.get("data").toString(), Picture.class);
         picture.setSize(FileUtil.getSize(Integer.parseInt(picture.getSize())));

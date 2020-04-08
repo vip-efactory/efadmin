@@ -1,12 +1,5 @@
 package vip.efactory.utils;
 
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.template.*;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.ObjectUtils;
-import vip.efactory.domain.ColumnInfo;
-import vip.efactory.domain.GenConfig;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,10 +10,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.util.ObjectUtils;
+
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.template.Template;
+import cn.hutool.extra.template.TemplateConfig;
+import cn.hutool.extra.template.TemplateEngine;
+import cn.hutool.extra.template.TemplateException;
+import cn.hutool.extra.template.TemplateUtil;
+import vip.efactory.domain.ColumnInfo;
+import vip.efactory.domain.GenConfig;
+
 /**
  * 代码生成
  */
-@Slf4j
 public class GenUtil {
 
     private static final String TIMESTAMP = "Timestamp";

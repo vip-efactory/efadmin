@@ -5,3 +5,15 @@
 */*.iml
 /logs/
 /efadmin-system/logs/*.log
+*/.settings/**
+.settings/*
+### Eclipse EE ###
+*/.project
+*/.classpath
+.project
+### Local FILE ###
+~/eladmin/avatar/管理者素养-20200128054216530.png
+~/eladmin/file/图片/remmina_Office-87_192.168.1.87_2019918-61744.806011-20200115074813146.png
+### vscode ###
+.vscode/*
+*/.factorypath

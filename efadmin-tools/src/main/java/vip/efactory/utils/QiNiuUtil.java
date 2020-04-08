@@ -1,11 +1,9 @@
 package vip.efactory.utils;
 
-import com.qiniu.common.Zone;
-import com.qiniu.storage.Configuration;
-import com.qiniu.storage.Region;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.qiniu.storage.Region;
 
 /**
  * 七牛云存储工具类

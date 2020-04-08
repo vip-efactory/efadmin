@@ -10,14 +10,11 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.lang.reflect.Field;
 
-/**
- * @author Zheng Jie
- * @Date 2019年10月24日20:46:32
- */
 @Getter
 @Setter
 @MappedSuperclass
 public class BaseEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /** 删除标识 **/
     @Column(name = "is_delete", columnDefinition = "bit default 0")

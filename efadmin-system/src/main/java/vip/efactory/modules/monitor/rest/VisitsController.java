@@ -15,6 +15,7 @@ import vip.efactory.utils.RequestHolder;
 @RestController
 @RequestMapping("/api/visits")
 @Api(tags = "系统:访问记录管理")
+@SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class VisitsController extends BaseController<Visits, VisitsService, Long> {
 
     @PostMapping

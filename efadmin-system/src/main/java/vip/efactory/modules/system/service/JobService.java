@@ -1,17 +1,18 @@
 package vip.efactory.modules.system.service;
 
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.data.domain.Pageable;
+
 import vip.efactory.ejpa.base.service.IBaseService;
 import vip.efactory.modules.system.domain.Job;
 import vip.efactory.modules.system.service.dto.JobDto;
 import vip.efactory.modules.system.service.dto.JobQueryCriteria;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 
 public interface JobService extends IBaseService<Job, Long> {

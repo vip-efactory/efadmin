@@ -1,10 +1,13 @@
 package vip.efactory.modules.system.rest;
 
-import cn.hutool.crypto.asymmetric.KeyType;
-import cn.hutool.crypto.asymmetric.RSA;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.BeanUtils;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -14,14 +17,26 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import cn.hutool.crypto.asymmetric.KeyType;
+import cn.hutool.crypto.asymmetric.RSA;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import vip.efactory.aop.log.Log;
 import vip.efactory.config.DataScope;
 import vip.efactory.domain.VerificationCode;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.ejpa.base.controller.EPage;
-import vip.efactory.ejpa.base.entity.BaseSearchEntity;
 import vip.efactory.ejpa.base.valid.Update;
 import vip.efactory.ejpa.utils.R;
 import vip.efactory.exception.BadRequestException;
@@ -37,16 +52,10 @@ import vip.efactory.service.VerificationCodeService;
 import vip.efactory.utils.EfAdminConstant;
 import vip.efactory.utils.SecurityUtils;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 @Api(tags = "系统：用户管理")
 @RestController
 @RequestMapping("/api/users")
+@SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class UserController extends BaseController<User, UserService, Long> {
 
     @Value("${rsa.private_key}")

@@ -24,6 +24,7 @@ import java.io.IOException;
 @Api(tags = "工具：本地存储管理")
 @RestController
 @RequestMapping("/api/localStorage")
+@SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class LocalStorageController extends BaseController<LocalStorage, LocalStorageService, Long> {
 
     @ApiOperation("查询文件")
