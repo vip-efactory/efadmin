@@ -1,11 +1,10 @@
 package vip.efactory.config.thread;
 
-
-import vip.efactory.utils.SpringContextHolder;
-
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import vip.efactory.ejpa.utils.SpringContextHolder;
 
 /**
  * 用于获取自定义线程池

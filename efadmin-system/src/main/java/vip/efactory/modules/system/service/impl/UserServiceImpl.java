@@ -1,5 +1,17 @@
 package vip.efactory.modules.system.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -10,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
 import vip.efactory.ejpa.base.controller.EPage;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.exception.EntityExistException;
@@ -23,13 +36,12 @@ import vip.efactory.modules.system.service.dto.RoleSmallDto;
 import vip.efactory.modules.system.service.dto.UserDto;
 import vip.efactory.modules.system.service.dto.UserQueryCriteria;
 import vip.efactory.modules.system.service.mapper.UserMapper;
-import vip.efactory.utils.*;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
+import vip.efactory.utils.FileUtil;
+import vip.efactory.utils.QueryHelp;
+import vip.efactory.utils.RedisUtils;
+import vip.efactory.utils.SecurityUtils;
+import vip.efactory.utils.StringUtils;
+import vip.efactory.utils.ValidationUtil;
 
 @Service
 @CacheConfig(cacheNames = "user")
@@ -37,8 +49,7 @@ import java.util.stream.Collectors;
 public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository> implements UserService {
     
     private final UserMapper userMapper;
-    private final
-    RedisUtils redisUtils;
+    private final RedisUtils redisUtils;
     private final UserAvatarRepository userAvatarRepository;
 
     @Value("${file.avatar}")

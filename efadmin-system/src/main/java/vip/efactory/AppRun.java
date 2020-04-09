@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vip.efactory.annotation.AnonymousAccess;
-import vip.efactory.utils.SpringContextHolder;
 
 @EnableAsync
 @EnableJpaAuditing
@@ -24,10 +23,10 @@ public class AppRun {
         SpringApplication.run(AppRun.class, args);
     }
 
-    @Bean
-    public SpringContextHolder springContextHolder() {
-        return new SpringContextHolder();
-    }
+    // @Bean    由ejpa的框架自动初始化
+    // public SpringContextHolder springContextHolder() {
+    //     return new SpringContextHolder();
+    // }
 
     @Bean
     public ServletWebServerFactory webServerFactory() {
