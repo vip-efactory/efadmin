@@ -95,6 +95,7 @@ public class GeneratorController {
                 break;
             default: throw new BadRequestException("没有这个选项");
         }
-        return R.ok();
+        // 注意此处一定要返回null，不能返回R.ok(),case0和2都自动接管了response，如果此时不返回null，控制台就会无法处理数据而报异常。
+        return null;
     }
 }
