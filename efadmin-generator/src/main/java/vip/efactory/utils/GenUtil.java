@@ -372,6 +372,10 @@ public class GenUtil {
             return packagePath + "repository" + File.separator + className + "Repository.java";
         }
 
+        if ("Messages".equals(templateName)) {
+            return packagePath + "repository" + File.separator + className + "Messages.properties";
+        }
+
         return null;
     }
 
@@ -390,6 +394,10 @@ public class GenUtil {
 
         if ("MenuSQL".equals(templateName)) {
             return path  + File.separator + "MenuSQL.sql";  // 权限菜单的sql
+        }
+
+        if ("i18n".equals(templateName)) {
+            return path  + File.separator + "i18n.js";      // 菜单国际化
         }
 
         return null;
