@@ -49,9 +49,9 @@ public class ${className} extends BaseEntity<${pkColumnType}> implements Seriali
     @Column(name = "${column.columnName}"<#if column.columnKey = 'UNI'>,unique = true</#if><#if column.istNotNull && column.columnKey != 'PRI'>,nullable = false</#if>)
     <#if column.istNotNull && column.columnKey != 'PRI'>
         <#if column.columnType = 'String'>
-    @NotBlank
+    @NotBlank(message = "{${className}.${column.changeColumnName}}{property.not.allow.empty}")
         <#else>
-    @NotNull
+    @NotNull(message = "{${className}.${column.changeColumnName}}{property.not.allow.empty}")
         </#if>
     </#if>
     </#if>

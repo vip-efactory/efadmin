@@ -38,7 +38,7 @@
     <#if columns??>
       <#list columns as column>
         <#if column.formShow>
-          <el-form-item label="<#if column.remark != ''>${column.remark}<#else>${column.changeColumnName}</#if>"<#if column.istNotNull> prop="${column.changeColumnName}"</#if>>
+          <el-form-item :label="<#if column.remark != ''>$t('${className}.${column.changeColumnName}')<#else>${column.changeColumnName}</#if>"<#if column.istNotNull> prop="${column.changeColumnName}"</#if>>
             <#if column.formType = 'Input'>
             <el-input v-model="form.${column.changeColumnName}" style="width: 370px;" />
             <#elseif column.formType = 'Textarea'>
@@ -70,26 +70,26 @@
     </#if>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button type="text" @click="crud.cancelCU">取消</el-button>
-          <el-button :loading="crud.cu === 2" type="primary" @click="crud.submitCU">确认</el-button>
+          <el-button type="text" @click="crud.cancelCU">{{ $t('crud.cancel') }}</el-button>
+          <el-button :loading="crud.cu === 2" type="primary" @click="crud.submitCU">{{ $t('crud.confirm') }}</el-button>
         </div>
       </el-dialog>
       <!--表格渲染-->
-      <el-table ref="table" v-loading="crud.loading" :data="crud.data" size="small" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
+      <el-table ref="table" v-loading="crud.loading" :data="crud.data" size="small" style="width: 100%;" @selection-change="crud.selectionChangeHandler" @sort-change="crud.doTitleOrder">
         <el-table-column type="selection" width="55" />
         <#if columns??>
             <#list columns as column>
             <#if column.columnShow>
           <#if column.dictName??>
-        <el-table-column v-if="columns.visible('${column.changeColumnName}')" prop="${column.changeColumnName}" label="<#if column.remark != ''>${column.remark}<#else>${column.changeColumnName}</#if>">
+        <el-table-column v-if="columns.visible('${column.changeColumnName}')" prop="${column.changeColumnName}" :label="<#if column.remark != ''>$t('${className}.${column.changeColumnName}')<#else>'${column.changeColumnName}'</#if>" sortable="custom">
           <template slot-scope="scope">
             {{ dict.label.${column.dictName}[scope.row.${column.changeColumnName}] }}
           </template>
         </el-table-column>
           <#elseif column.columnType != 'Timestamp'>
-        <el-table-column v-if="columns.visible('${column.changeColumnName}')" prop="${column.changeColumnName}" label="<#if column.remark != ''>${column.remark}<#else>${column.changeColumnName}</#if>" />
+        <el-table-column v-if="columns.visible('${column.changeColumnName}')" prop="${column.changeColumnName}" :label="<#if column.remark != ''>$t('${className}.${column.changeColumnName}')<#else>'${column.changeColumnName}'</#if>" sortable="custom" />
                 <#else>
-        <el-table-column v-if="columns.visible('${column.changeColumnName}')" prop="${column.changeColumnName}" label="<#if column.remark != ''>${column.remark}<#else>${column.changeColumnName}</#if>">
+        <el-table-column v-if="columns.visible('${column.changeColumnName}')" prop="${column.changeColumnName}" :label="<#if column.remark != ''>$t('${className}.${column.changeColumnName}')<#else>'${column.changeColumnName}'</#if>" sortable="custom">
           <template slot-scope="scope">
             <span>{{ parseTime(scope.row.${column.changeColumnName}) }}</span>
           </template>
@@ -98,7 +98,7 @@
             </#if>
             </#list>
         </#if>
-        <el-table-column v-permission="['admin','${changeClassName}:edit','${changeClassName}:del']" label="操作" width="150px" align="center">
+        <el-table-column v-permission="['admin','${changeClassName}:edit','${changeClassName}:del']" :label="$t('be.operate')" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation
               :data="scope.row"
@@ -120,9 +120,11 @@ import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
+import i18n from '../../../lang'
 
 // crud交由presenter持有
-const defaultCrud = CRUD({ title: '${apiAlias}', url: 'api/${changeClassName}/page', sort: '${pkChangeColName},desc', crudMethod: { ...crud${className} }})
+const adSearchFields = new Map([['remark', i18n.t('be.updateTime')], ['createTime', i18n.t('be.createTime')], ['updateTime', i18n.t('be.updateTime')],['creator_num', i18n.t('be.creator_num')], ['updater_num', i18n.t('be.updater_num')]]) // 需要高级搜索的字段，此处只是通用的字段，实体自己的需要手动添加！
+const defaultCrud = CRUD({ title: i18n.t('${className}.TITLE'), url: 'api/${changeClassName}/page', sort: '${pkChangeColName},desc', crudMethod: { ...crud${className} }, adSearchFields: adSearchFields })
 const defaultForm = { <#if columns??><#list columns as column>${column.changeColumnName}: null<#if column_has_next>, </#if></#list></#if> }
 export default {
   name: '${className}',
@@ -143,7 +145,7 @@ export default {
         <#list isNotNullColumns as column>
         <#if column.istNotNull>
         ${column.changeColumnName}: [
-          { required: true, message: '<#if column.remark != ''>${column.remark}</#if>不能为空', trigger: 'blur' }
+          { required: true, message: <#if column.remark != ''>i18n.t('${className}.${column.changeColumnName}Required')</#if>, trigger: 'blur' }
         ]<#if column_has_next>,</#if>
         </#if>
         </#list>
@@ -153,7 +155,7 @@ export default {
         <#if queryColumns??>
         <#list queryColumns as column>
         <#if column.queryType != 'BetWeen'>
-        { key: '${column.changeColumnName}', display_name: '<#if column.remark != ''>${column.remark}<#else>${column.changeColumnName}</#if>' }<#if column_has_next>,</#if>
+        { key: '${column.changeColumnName}', display_name: <#if column.remark != ''>i18n.t('${className}.${column.changeColumnName}')<#else>'${column.changeColumnName}'</#if> }<#if column_has_next>,</#if>
         </#if>
         </#list>
         </#if>

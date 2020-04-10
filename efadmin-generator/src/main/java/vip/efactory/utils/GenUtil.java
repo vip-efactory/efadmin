@@ -48,6 +48,7 @@ public class GenUtil {
         templateNames.add("Service");
         templateNames.add("ServiceImpl");
         templateNames.add("Repository");
+        templateNames.add("Messages"); // 实体属性中文国际化键值对，其他语言需手动处理
         return templateNames;
     }
 
@@ -60,6 +61,7 @@ public class GenUtil {
         templateNames.add("index");
         templateNames.add("api");
         templateNames.add("MenuSQL");  // 菜单权限模板
+        templateNames.add("i18n");  // 界面国际化相关
         return templateNames;
     }
 

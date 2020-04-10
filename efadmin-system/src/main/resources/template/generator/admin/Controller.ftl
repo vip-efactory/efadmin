@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 // @RequestMapping("api")
 @RequestMapping("api/${changeClassName}")
+@SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class ${className}Controller extends BaseController<${className}, I${className}Service, ${pkColumnType}> {
 /**
     @Log("查询${apiAlias}")

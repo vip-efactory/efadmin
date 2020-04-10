@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Table(name = "sys_gen_config")
 public class GenConfig extends BaseEntity<Long> {
+    private static final long serialVersionUID = 1L;
 
     public GenConfig(String tableName) {
         this.cover = false;

@@ -4,7 +4,7 @@
 */target/*
 */*.iml
 /logs/
-/efadmin-system/logs/*.log
+/efadmin-system/logs/*
 */.settings/**
 .settings/*
 ### Eclipse EE ###
