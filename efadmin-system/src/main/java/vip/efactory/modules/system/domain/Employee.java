@@ -25,8 +25,9 @@ import java.util.Date;
 @Getter
 @Setter
 @Table(name = "tbl_employee")
-public class Employee extends BaseEntity<Long> implements Serializable {
-
+public class Employee extends BaseEntity<Long> {
+    private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(message = "{Employee.id}{property.not.allow.empty}", groups = Update.class)  // 意味着，updateById更新时id不允许为空
