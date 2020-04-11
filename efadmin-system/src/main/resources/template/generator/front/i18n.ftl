@@ -1,6 +1,6 @@
 // 前端界面国际化需要的信息
 export default {
-  ${className}: {
+  ${changeClassName}: {
     // 属性的国际化信息
     TITLE: '${apiAlias}',  
 <#if columns??>
