@@ -4,8 +4,8 @@ import ${package}.domain.${className};
 import ${package}.service.dto.${className}Dto;
 import ${package}.service.dto.${className}QueryCriteria;
 import vip.efactory.ejpa.base.service.IBaseService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import java.util.Map;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
@@ -21,9 +21,9 @@ public interface I${className}Service extends IBaseService<${className}, ${pkCol
     * 查询数据分页
     * @param criteria 条件
     * @param pageable 分页参数
-    * @return Map<String,Object>
+    * @return Page<${className}Dto>
     */
- //   Map<String, Object> queryAll(${className}QueryCriteria criteria, Pageable pageable);
+    Page<${className}Dto> queryAll(${className}QueryCriteria criteria, Pageable pageable);
 
     /**
     * 查询所有数据不分页

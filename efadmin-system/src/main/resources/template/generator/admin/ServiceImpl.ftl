@@ -10,7 +10,6 @@ import vip.efactory.exception.EntityExistException;
         </#if>
     </#list>
 </#if>
-import vip.efactory.utils.ValidationUtil;
 import vip.efactory.utils.FileUtil;
 import ${package}.repository.${className}Repository;
 import ${package}.service.I${className}Service;
@@ -34,7 +33,6 @@ import cn.hutool.core.util.IdUtil;
 //import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import vip.efactory.utils.PageUtil;
 import vip.efactory.utils.QueryHelp;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import java.util.List;
@@ -58,12 +56,12 @@ public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${pkC
 
     private final ${className}Mapper ${changeClassName}Mapper;
 
-//    @Override
-//    //@Cacheable
-//    public Map<String,Object> queryAll(${className}QueryCriteria criteria, Pageable pageable){
-//        Page<${className}> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-//        return PageUtil.toPage(page.map(${changeClassName}Mapper::toDto));
-//    }
+    @Override
+    //@Cacheable
+    public Page<${className}Dto> queryAll(${className}QueryCriteria criteria, Pageable pageable){
+        Page<${className}> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+        return page.map(${changeClassName}Mapper::toDto);
+    }
 //
 //    @Override
 //    //@Cacheable

@@ -20,7 +20,6 @@ import java.sql.Timestamp;
 <#if hasBigDecimal>
 import java.math.BigDecimal;
 </#if>
-import java.io.Serializable;
 
 /**
 * ${apiAlias} 实体
@@ -30,7 +29,8 @@ import java.io.Serializable;
 @Entity
 @Data
 @Table(name="${tableName}")
-public class ${className} extends BaseEntity<${pkColumnType}> implements Serializable {
+public class ${className} extends BaseEntity<${pkColumnType}> {
+    private static final long serialVersionUID = 1L;
 <#if columns??>
     <#list columns as column>
 

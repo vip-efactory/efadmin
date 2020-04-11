@@ -5,20 +5,14 @@ import ${package}.domain.${className};
 import ${package}.service.I${className}Service;
 import ${package}.service.dto.${className}QueryCriteria;
 import vip.efactory.ejpa.base.controller.BaseController;
-import vip.efactory.ejpa.base.entity.BaseSearchEntity;
+import vip.efactory.ejpa.base.controller.EPage;
 import vip.efactory.ejpa.utils.R;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-// import org.springframework.http.HttpStatus;
-// import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
-import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
 
 /**
 * ${apiAlias} 控制器层
@@ -27,45 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 */
 @Api(tags = "${apiAlias}管理")
 @RestController
-// @RequestMapping("api")
 @RequestMapping("api/${changeClassName}")
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class ${className}Controller extends BaseController<${className}, I${className}Service, ${pkColumnType}> {
-/**
-    @Log("查询${apiAlias}")
-    @ApiOperation(value = "查询${className}")
-    @GetMapping
-    @PreAuthorize("@p.check('${changeClassName}:list')")
-    public ResponseEntity get${className}s(${className}QueryCriteria criteria, Pageable pageable){
-        return new ResponseEntity(entityService.queryAll(criteria,pageable),HttpStatus.OK);
-    }
-
-    @Log("新增${apiAlias}")
-    @ApiOperation(value = "新增${className}")
-    @PostMapping
-    @PreAuthorize("@p.check('${changeClassName}:add')")
-    public ResponseEntity create(@Validated @RequestBody ${className} resources){
-        return new ResponseEntity(entityService.create(resources),HttpStatus.CREATED);
-    }
-
-    @Log("修改${apiAlias}")
-    @ApiOperation(value = "修改${className}")
-    @PutMapping
-    @PreAuthorize("@p.check('${changeClassName}:edit')")
-    public ResponseEntity update(@Validated @RequestBody ${className} resources){
-        entityService.edit(resources);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
-    }
-
-    @Log("删除${apiAlias}")
-    @ApiOperation(value = "删除${className}")
-    @DeleteMapping(value = "/{${pkChangeColName}}")
-    @PreAuthorize("@p.check('${changeClassName}:del')")
-    public ResponseEntity delete(@PathVariable ${pkColumnType} ${pkChangeColName}){
-        entityService.delete(${pkChangeColName});
-        return new ResponseEntity(HttpStatus.OK);
-    }
-*/
 
     /**
      * Description: 默认的分页与排序,默认${pkChangeColName}降序
@@ -73,12 +31,12 @@ public class ${className}Controller extends BaseController<${className}, I${clas
      * @param page 框架默认的分页对象
      * @return R
      */
-    @Log("分页查询${apiAlias}")
-    @ApiOperation(value = "获取分页数据", notes = "默认每页25条记录,${pkChangeColName}字段降序")
-    @RequestMapping(value = "/page", method = {RequestMethod.GET})
+    @Log("GET分页查询${apiAlias}")
+    @ApiOperation(value = "GET获取分页数据", notes = "默认每页25条记录,${pkChangeColName}字段降序")
+    @GetMapping("/page")
     @PreAuthorize("@p.check('${changeClassName}:list')")
-    public R getByPage(@PageableDefault(value = 25, sort = {"${pkChangeColName}"}, direction = Sort.Direction.DESC) Pageable page) {
-        return super.getByPage(page);
+    public R getByPage(${className}QueryCriteria criteria, @PageableDefault(value = 25, sort = {"${pkChangeColName}"}, direction = Sort.Direction.DESC) Pageable page) {
+        return R.ok(new EPage(entityService.queryAll(criteria, page)));
     }
 
     /**
@@ -88,19 +46,17 @@ public class ${className}Controller extends BaseController<${className}, I${clas
      * @param page 框架默认的分页对象
      * @return R
      */
-    @Log("高级查询${apiAlias}")
-    @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,${pkChangeColName}字段降序")
-    @RequestMapping(value = "/advanced/query", method = {RequestMethod.POST})
+    @Log("POST高级查询${apiAlias}")
+    @ApiOperation(value = "POST多条件组合查询,返回分页数据", notes = "默认每页25条记录,${pkChangeColName}字段降序")
+    @PostMapping("/page")
     @PreAuthorize("@p.check('${changeClassName}:list')")
-    public R advancedQuery(@RequestBody BaseSearchEntity searchEntity, @PageableDefault(value = 25, sort = {"${pkChangeColName}"}, direction = Sort.Direction.DESC) Pageable page) {
-        ${className} entity = new ${className}();
-        BeanUtils.copyProperties(searchEntity, entity);
+    public R advancedQuery(@RequestBody ${className} entity, @PageableDefault(value = 25, sort = {"${pkChangeColName}"}, direction = Sort.Direction.DESC) Pageable page) {
         return super.advancedQueryByPage(page, entity);
     }
 
     /**
      * Description: 多字段模糊查询,默认${pkChangeColName}降序,例如:
-     * http://localhost:8080/${changeClassName}/fuzzy?fields=name,version&q=BB
+     * http://localhost:8000/api/${changeClassName}/fuzzy?fields=name,version&q=BB   仅供事例作用
      *
      * @param q 要匹配的值
      * @param fields 要匹配哪些字段
