@@ -488,7 +488,11 @@ INSERT INTO `sys_menu` (`id`, `i_frame`, `name`, `component`, `pid`, `sort`, `ic
 	(118, b'0', '员工新增', '', 117, 2, '', '', b'0', b'0', '', 'employee:add', 2, 'employee.add', NULL, '2020-01-02 10:24:50', NULL, '2020-01-22 21:48:06', 'admin'),
 	(119, b'0', '员工编辑', '', 117, 3, '', '', b'0', b'0', '', 'employee:edit', 2, 'employee.edit', NULL, '2020-01-02 10:24:50', NULL, '2020-01-22 21:48:51', 'admin'),
 	(120, b'0', '员工删除', '', 117, 4, '', '', b'0', b'0', '', 'employee:del', 2, 'employee.delete', NULL, '2020-01-02 10:24:50', NULL, '2020-01-22 21:48:35', 'admin'),
-	(121, b'1', 'Github', NULL, 1, 999, 'github', 'https://github.com/vip-efactory/efadmin-ui', b'1', b'0', NULL, NULL, 1, NULL, NULL, '2020-03-13 10:31:45', 'admin', '2020-03-13 10:31:45', 'admin');
+  (121, b'1', 'Github', NULL, 1, 999, 'github', 'https://github.com/vip-efactory/efadmin-ui', b'1', b'0', NULL, NULL, 1, 'github.link', NULL, '2020-03-13 10:31:45', 'admin', '2020-04-12 08:16:32', 'admin'),
+	(122, b'0', '系统租户管理', 'tenant/tenant/index', 1, 999, 'zujian', 'tenant', b'0', b'0', 'Tenant', 'tenant:list', 1, 'tenant.manage', NULL, '2020-04-11 10:27:45', NULL, '2020-04-12 07:38:57', NULL),
+	(123, b'0', '系统租户新增', '', 122, 2, '', '', b'0', b'0', '', 'tenant:add', 2, 'tenant.add', NULL, '2020-04-11 10:27:45', NULL, '2020-04-12 07:39:18', NULL),
+	(124, b'0', '系统租户编辑', '', 122, 3, '', '', b'0', b'0', '', 'tenant:edit', 2, 'tenant.edit', NULL, '2020-04-11 10:27:45', NULL, '2020-04-12 07:39:33', NULL),
+	(125, b'0', '系统租户删除', '', 122, 4, '', '', b'0', b'0', '', 'tenant:del', 2, 'tenant.delete', NULL, '2020-04-11 10:27:45', NULL, '2020-04-12 07:49:15', NULL);
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
 
 -- 导出  表 db_efadmin.sys_mnt_app 结构
