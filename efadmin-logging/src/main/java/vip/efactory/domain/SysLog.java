@@ -24,6 +24,7 @@ import vip.efactory.ejpa.base.valid.Update;
 @Table(name = "sys_log")
 @NoArgsConstructor
 public class SysLog extends BaseEntity<Long> {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

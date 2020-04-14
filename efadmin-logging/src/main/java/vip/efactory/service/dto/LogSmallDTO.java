@@ -1,12 +1,13 @@
 package vip.efactory.service.dto;
 
-import lombok.Data;
-
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import lombok.Data;
+
 @Data
 public class LogSmallDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * 描述
