@@ -1,18 +1,23 @@
 package vip.efactory.modules.quartz.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import lombok.Data;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 import vip.efactory.ejpa.base.valid.Update;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-
 @Data
 @Entity
 @Table(name = "sys_quartz_job")
-public class QuartzJob extends BaseEntity<Long> implements Serializable {
+public class QuartzJob extends BaseEntity<Long> {
+    private static final long serialVersionUID = 1L;
 
     public static final String JOB_KEY = "JOB_KEY";
 

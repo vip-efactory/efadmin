@@ -23,6 +23,9 @@ import vip.efactory.ejpa.tenant.identifier.TenantHolder;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.quartz.domain.QuartzJob;
 
+/**
+ * 定时任务的标识及key中要带有所属租户的信息(使用@符，避免和_相混)，这样在执行定时任务时，才能取到租户信息，进而让系统决定使用哪个数据源！
+ */
 @Slf4j
 @Component
 public class QuartzManage {
@@ -35,22 +38,20 @@ public class QuartzManage {
     public void addJob(QuartzJob quartzJob) {
         try {
             // 构建job信息
-            JobDetail jobDetail = JobBuilder.newJob(ExecutionJob.class).
-                    withIdentity(JOB_NAME + TenantHolder.getTenantId() + "_" + quartzJob.getId()).build();  // 标识符中添加租户id信息，避免相同任务不能执行
+            JobDetail jobDetail = JobBuilder.newJob(ExecutionJob.class)
+                    .withIdentity(JOB_NAME + "@" + TenantHolder.getTenantId() + "@" + quartzJob.getId()).build(); // 标识符中添加租户id信息，避免相同任务不能执行
 
-            //通过触发器名和cron 表达式创建 Trigger
+            // 通过触发器名和cron 表达式创建 Trigger
             Trigger cronTrigger = newTrigger()
-                    .withIdentity(JOB_NAME + TenantHolder.getTenantId() + "_" + quartzJob.getId())
-                    .startNow()
-                    .withSchedule(CronScheduleBuilder.cronSchedule(quartzJob.getCronExpression()))
-                    .build();
+                    .withIdentity(JOB_NAME + "@" + TenantHolder.getTenantId() + "@" + quartzJob.getId()).startNow()
+                    .withSchedule(CronScheduleBuilder.cronSchedule(quartzJob.getCronExpression())).build();
 
-            cronTrigger.getJobDataMap().put(QuartzJob.JOB_KEY, quartzJob);
+            cronTrigger.getJobDataMap().put(QuartzJob.JOB_KEY + "@" + TenantHolder.getTenantId(), quartzJob);
 
-            //重置启动时间
+            // 重置启动时间
             ((CronTriggerImpl) cronTrigger).setStartTime(new Date());
 
-            //执行定时任务
+            // 执行定时任务
             scheduler.scheduleJob(jobDetail, cronTrigger);
 
             // 暂停任务
@@ -65,11 +66,13 @@ public class QuartzManage {
 
     /**
      * 更新job cron表达式
+     * 
      * @param quartzJob /
      */
     public void updateJobCron(QuartzJob quartzJob) {
         try {
-            TriggerKey triggerKey = TriggerKey.triggerKey(JOB_NAME + TenantHolder.getTenantId() + "_" + quartzJob.getId());
+            TriggerKey triggerKey = TriggerKey
+                    .triggerKey(JOB_NAME + "@" + TenantHolder.getTenantId() + "@" + quartzJob.getId());
             CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
             // 如果不存在则创建一个定时任务
             if (trigger == null) {
@@ -78,9 +81,9 @@ public class QuartzManage {
             }
             CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(quartzJob.getCronExpression());
             trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).build();
-            //重置启动时间
+            // 重置启动时间
             ((CronTriggerImpl) trigger).setStartTime(new Date());
-            trigger.getJobDataMap().put(QuartzJob.JOB_KEY, quartzJob);
+            trigger.getJobDataMap().put(QuartzJob.JOB_KEY + "@" + TenantHolder.getTenantId(), quartzJob);
 
             scheduler.rescheduleJob(triggerKey, trigger);
             // 暂停任务
@@ -96,14 +99,15 @@ public class QuartzManage {
 
     /**
      * 删除一个job
+     * 
      * @param quartzJob /
      */
     public void deleteJob(QuartzJob quartzJob) {
         try {
-            JobKey jobKey = JobKey.jobKey(JOB_NAME + TenantHolder.getTenantId() + "_" + quartzJob.getId());
+            JobKey jobKey = JobKey.jobKey(JOB_NAME + "@" + TenantHolder.getTenantId() + "@" + quartzJob.getId());
             scheduler.pauseJob(jobKey);
             scheduler.deleteJob(jobKey);
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error("删除定时任务失败", e);
             throw new BadRequestException("删除定时任务失败");
         }
@@ -111,19 +115,21 @@ public class QuartzManage {
 
     /**
      * 恢复一个job
+     * 
      * @param quartzJob /
      */
-    public void resumeJob(QuartzJob quartzJob){
+    public void resumeJob(QuartzJob quartzJob) {
         try {
-            TriggerKey triggerKey = TriggerKey.triggerKey(JOB_NAME + TenantHolder.getTenantId() + "_" + quartzJob.getId());
+            TriggerKey triggerKey = TriggerKey
+                    .triggerKey(JOB_NAME + "@" + TenantHolder.getTenantId() + "@" + quartzJob.getId());
             CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
             // 如果不存在则创建一个定时任务
-            if(trigger == null) {
+            if (trigger == null) {
                 addJob(quartzJob);
             }
-            JobKey jobKey = JobKey.jobKey(JOB_NAME + TenantHolder.getTenantId() + "_" + quartzJob.getId());
+            JobKey jobKey = JobKey.jobKey(JOB_NAME + "@" + TenantHolder.getTenantId() + "@" + quartzJob.getId());
             scheduler.resumeJob(jobKey);
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error("恢复定时任务失败", e);
             throw new BadRequestException("恢复定时任务失败");
         }
@@ -131,21 +137,23 @@ public class QuartzManage {
 
     /**
      * 立即执行job
+     * 
      * @param quartzJob /
      */
-    public void runJobNow(QuartzJob quartzJob){
+    public void runJobNow(QuartzJob quartzJob) {
         try {
-            TriggerKey triggerKey = TriggerKey.triggerKey(JOB_NAME + TenantHolder.getTenantId() + "_" + quartzJob.getId());
+            TriggerKey triggerKey = TriggerKey
+                    .triggerKey(JOB_NAME + "@" + TenantHolder.getTenantId() + "@" + quartzJob.getId());
             CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
             // 如果不存在则创建一个定时任务
-            if(trigger == null) {
+            if (trigger == null) {
                 addJob(quartzJob);
             }
             JobDataMap dataMap = new JobDataMap();
-            dataMap.put(QuartzJob.JOB_KEY, quartzJob);
-            JobKey jobKey = JobKey.jobKey(JOB_NAME + TenantHolder.getTenantId() + "_" + quartzJob.getId());
-            scheduler.triggerJob(jobKey,dataMap);
-        } catch (Exception e){
+            dataMap.put(QuartzJob.JOB_KEY + "@" + TenantHolder.getTenantId(), quartzJob);
+            JobKey jobKey = JobKey.jobKey(JOB_NAME + "@" + TenantHolder.getTenantId() + "@" + quartzJob.getId());
+            scheduler.triggerJob(jobKey, dataMap);
+        } catch (Exception e) {
             log.error("定时任务执行失败", e);
             throw new BadRequestException("定时任务执行失败");
         }
@@ -153,13 +161,14 @@ public class QuartzManage {
 
     /**
      * 暂停一个job
+     * 
      * @param quartzJob /
      */
     public void pauseJob(QuartzJob quartzJob) {
         try {
-            JobKey jobKey = JobKey.jobKey(JOB_NAME + TenantHolder.getTenantId() + "_" + quartzJob.getId());
+            JobKey jobKey = JobKey.jobKey(JOB_NAME + "@" + TenantHolder.getTenantId() + "@" + quartzJob.getId());
             scheduler.pauseJob(jobKey);
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error("定时任务暂停失败", e);
             throw new BadRequestException("定时任务暂停失败");
         }
