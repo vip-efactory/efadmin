@@ -1,12 +1,6 @@
 package vip.efactory.config.tenant;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
-
+import lombok.AllArgsConstructor;
 import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Environment;
@@ -24,12 +18,16 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import lombok.AllArgsConstructor;
 import vip.efactory.ejpa.tenant.database.MultiTenantConnectionProviderImpl;
 import vip.efactory.ejpa.tenant.database.MultiTenantIdentifierResolver;
 import vip.efactory.ejpa.tenant.database.TenantDataSourceProvider;
 import vip.efactory.ejpa.tenant.identifier.TenantConstants;
+
+import javax.annotation.PostConstruct;
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @AllArgsConstructor
 @Configuration
@@ -75,8 +73,8 @@ public class MultiTenantJpaConfiguration {
         hibernateProps.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProvider);
         hibernateProps.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, currentTenantIdentifierResolver);
         hibernateProps.put(Environment.HBM2DDL_AUTO, Action.UPDATE); // 自动更新表结构,仅默认数据源有效且控制台会报警告可以不用管！
-        hibernateProps.put(Environment.SHOW_SQL, true); // 显示SQL
-        hibernateProps.put(Environment.FORMAT_SQL, true); // 格式化SQL
+        // hibernateProps.put(Environment.SHOW_SQL, true); // 显示SQL,如果需要可以打开
+        // hibernateProps.put(Environment.FORMAT_SQL, true); // 格式化SQL,如果需要可以打开
 
         // No dataSource is set to resulting entityManagerFactoryBean
         LocalContainerEntityManagerFactoryBean result = new LocalContainerEntityManagerFactoryBean();
