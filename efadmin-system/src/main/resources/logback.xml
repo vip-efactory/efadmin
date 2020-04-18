@@ -32,7 +32,7 @@
     <springProfile name="dev">
         <logger name="org.springframework.web" level="INFO"/>
         <logger name="org.springboot.sample" level="INFO"/>
-        <logger name="vip.efactory" level="INFO"/>
+        <logger name="vip.efactory" level="DEBUG"/>
 
         <!--监控sql日志输出 -->
         <logger name="jdbc.sqlonly" level="INFO" additivity="false">
