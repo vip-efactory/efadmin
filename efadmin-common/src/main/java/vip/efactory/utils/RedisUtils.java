@@ -1,5 +1,6 @@
 package vip.efactory.utils;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -15,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 @SuppressWarnings({"unchecked","all"})
 public class RedisUtils {
-
+    @Qualifier("redisTemplate")
     private RedisTemplate<Object, Object> redisTemplate;
     @Value("${jwt.online-key}")
     private String onlineKey;
@@ -169,6 +170,7 @@ public class RedisUtils {
     public boolean set(String key, Object value) {
         try {
             redisTemplate.opsForValue().set(key, value);
+
             return true;
         } catch (Exception e) {
             e.printStackTrace();
