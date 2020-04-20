@@ -1,6 +1,8 @@
 package vip.efactory.aspect;
 
 import com.google.common.collect.ImmutableList;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -22,14 +24,10 @@ import java.lang.reflect.Method;
 
 @Aspect
 @Component
+@AllArgsConstructor
+@Slf4j
 public class LimitAspect {
-
-    private final RedisTemplate<Object,Object> redisTemplate;
-    private static final Logger logger = LoggerFactory.getLogger(LimitAspect.class);
-
-    public LimitAspect(RedisTemplate<Object,Object> redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
+    private final RedisTemplate<String,Object> redisTemplate;
 
     @Pointcut("@annotation(vip.efactory.annotation.Limit)")
     public void pointcut() {
@@ -51,13 +49,13 @@ public class LimitAspect {
             }
         }
 
-        ImmutableList<Object> keys = ImmutableList.of(StringUtils.join(limit.prefix(), "_", key, "_", request.getRequestURI().replaceAll("/","_")));
+        ImmutableList<String> keys = ImmutableList.of(StringUtils.join(limit.prefix(), "_", key, "_", request.getRequestURI().replaceAll("/","_")));
 
         String luaScript = buildLuaScript();
         RedisScript<Number> redisScript = new DefaultRedisScript<>(luaScript, Number.class);
         Number count = redisTemplate.execute(redisScript, keys, limit.count(), limit.period());
         if (null != count && count.intValue() <= limit.count()) {
-            logger.info("第{}次访问key为 {}，描述为 [{}] 的接口", count, keys, limit.name());
+            log.info("第{}次访问key为 {}，描述为 [{}] 的接口", count, keys, limit.name());
             return joinPoint.proceed();
         } else {
             throw new BadRequestException("访问次数受限制");
