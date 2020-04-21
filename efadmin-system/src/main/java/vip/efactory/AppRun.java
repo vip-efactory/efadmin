@@ -16,7 +16,7 @@ import vip.efactory.annotation.AnonymousAccess;
 @EnableAsync
 @EnableJpaAuditing
 @RestController
-@SpringBootApplication(exclude = {RedisAutoConfiguration.class, RedisRepositoriesAutoConfiguration.class })
+@SpringBootApplication
 public class AppRun {
 
     public static void main(String[] args) {

@@ -76,6 +76,10 @@ public class RedisConfig extends CachingConfigurerSupport {
         return new RedisClusterConfiguration(new MapPropertySource("RedisClusterConfiguration", source));
     }
 
+    /**
+     * 在redis的连接工厂内部动态选择redis数据库，是实现不同租户对应不同redis数据库的关键,@Bean注解不能省略，省略将导致缓存等注解失效！
+     * @return JedisConnectionFactory
+     */
     @Bean
     public JedisConnectionFactory jedisConnectionFactory() {
         XRedisConnectionFactory redisConnectionFactory = null;
