@@ -44,7 +44,7 @@ public interface LogService extends IBaseService<SysLog, Long> {
      * @param joinPoint /
      * @param log 日志实体
      */
-    @Async
+    // @Async ,多租户模式下使用异步线程池会导致数据库读写不一致，暂时不使用线程池执行异步日志记录任务
     void save(String username, String browser, String ip, ProceedingJoinPoint joinPoint, SysLog log);
 
     /**
