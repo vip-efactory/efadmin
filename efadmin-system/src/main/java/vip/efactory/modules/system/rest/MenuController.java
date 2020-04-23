@@ -109,7 +109,7 @@ public class MenuController extends BaseController<Menu, MenuService, Long> {
     @PutMapping
     @PreAuthorize("@p.check('menu:edit')")
     public R update(@Validated(Update.class) @RequestBody Menu resources) {
-        entityService.update(resources);
+        entityService.update2(resources);
         return R.ok();
     }
 

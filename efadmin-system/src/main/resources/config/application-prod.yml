@@ -80,3 +80,7 @@ file:
   # 文件大小 /M
   maxSize: 100
   avatarMaxSize: 5
+
+# 是否启用演示环境限制:
+demoEnv:
+  enableLimit: true
