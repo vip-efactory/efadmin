@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 * @date 2020-04-11
 */
 public interface ITenantService extends IBaseService<Tenant, Long>{
+    Integer TENANT_DISABLE = 0;  // 租户状态为禁用
+    Integer TENANT_ENABLE = 1;   // 租户状态为启用，后面有更多类型时则重构为使用枚举
 
     /**
     * 查询数据分页
@@ -66,4 +68,7 @@ public interface ITenantService extends IBaseService<Tenant, Long>{
     * @throws IOException /
     */
     void download(List<TenantDto> all, HttpServletResponse response) throws IOException;
+
+    // 根据租户状态来查询所有的列表
+    List<Tenant> findAllByStatusEquals(Integer enable);
 }

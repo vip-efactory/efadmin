@@ -1,37 +1,39 @@
 package vip.efactory.modules.tenant.service.impl;
 
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.modules.tenant.domain.Tenant;
-import vip.efactory.utils.FileUtil;
 import vip.efactory.modules.tenant.repository.TenantRepository;
 import vip.efactory.modules.tenant.service.ITenantService;
 import vip.efactory.modules.tenant.service.dto.TenantDto;
 import vip.efactory.modules.tenant.service.dto.TenantQueryCriteria;
 import vip.efactory.modules.tenant.service.mapper.TenantMapper;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import java.util.Optional;
+import vip.efactory.utils.FileUtil;
+import vip.efactory.utils.QueryHelp;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 // 默认不使用缓存
 //import org.springframework.cache.annotation.CacheConfig;
 //import org.springframework.cache.annotation.CacheEvict;
 //import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import vip.efactory.utils.QueryHelp;
-import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
-import java.util.List;
-import java.util.Map;
-import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import lombok.AllArgsConstructor;
 
 /**
-* 系统租户 服务层实现
-* @author vip-efactory
-* @date 2020-04-11
-*/
+ * 系统租户 服务层实现
+ *
+ * @author vip-efactory
+ * @date 2020-04-11
+ */
 @Service
 //@CacheConfig(cacheNames = "tenant")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
@@ -42,8 +44,8 @@ public class TenantServiceImpl extends BaseServiceImpl<Tenant, Long, TenantRepos
 
     @Override
     //@Cacheable
-    public Page<TenantDto> queryAll(TenantQueryCriteria criteria, Pageable pageable){
-        Page<Tenant> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+    public Page<TenantDto> queryAll(TenantQueryCriteria criteria, Pageable pageable) {
+        Page<Tenant> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
         return page.map(tenantMapper::toDto);
     }
 //
@@ -148,10 +150,15 @@ public class TenantServiceImpl extends BaseServiceImpl<Tenant, Long, TenantRepos
     }
 
     @Override
+    public List<Tenant> findAllByStatusEquals(Integer enable) {
+        return br.findAllByStatusEquals(enable);
+    }
+
+    @Override
     public void download(List<TenantDto> all, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
         for (TenantDto tenant : all) {
-            Map<String,Object> map = new LinkedHashMap<>();
+            Map<String, Object> map = new LinkedHashMap<>();
             map.put("租户名称", tenant.getTenantName());
             map.put("租户编码", tenant.getTenantCode());
             map.put("DB用户名", tenant.getDbUsername());

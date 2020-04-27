@@ -26,7 +26,7 @@ public class DataSourceBeanPostProcessor {
     public void init() {
         // 获取数据库里所有的租户信息
         log.info("多租户的数据源初始化开始...");
-        List<Tenant> tenantList = (List<Tenant>) tenantService.findAll();
+        List<Tenant> tenantList = tenantService.findAllByStatusEquals(ITenantService.TENANT_ENABLE);
         // 初始化所有租户的数据源
         if (tenantList != null && tenantList.size() > 0) {
             tenantList.forEach(tenant -> {

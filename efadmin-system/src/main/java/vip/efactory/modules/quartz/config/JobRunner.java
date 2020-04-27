@@ -39,7 +39,7 @@ public class JobRunner implements ApplicationRunner {
             log.info("开始注入默认租户的定时任务...");
             List<QuartzJob> quartzJobs = quartzJobRepository.findByIsPauseIsFalse();
             quartzJobs.forEach(quartzManage::addJob);
-            List<Tenant> tenants = (List<Tenant>) tenantService.findAll(); // 后面统一加过滤条件
+            List<Tenant> tenants = tenantService.findAllByStatusEquals(ITenantService.TENANT_ENABLE);
             tenants.forEach(tenant -> {
                 log.info("开始注入租户{}的定时任务...", tenant.getId());
                 // 先设定租户的持有者信息
