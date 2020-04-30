@@ -68,8 +68,8 @@ swagger:
 
 # 文件存储路径,linux用户家目录下
 file:
-  path: ~/eladmin/file/
-  avatar: ~/eladmin/avatar/
+  path: ~/efadmin/file/
+  avatar: ~/efadmin/avatar/
   # 文件大小 /M
   maxSize: 100
   avatarMaxSize: 5

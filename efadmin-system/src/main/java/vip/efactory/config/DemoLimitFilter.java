@@ -34,6 +34,7 @@ public class DemoLimitFilter extends GenericFilterBean {
     static {
         // 初始化要限制的组件
         LIMIT_COMPONENTS.add("tenant");
+        LIMIT_COMPONENTS.add("users");
         LIMIT_COMPONENTS.add("roles");
         LIMIT_COMPONENTS.add("menus");
 
