@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.domain.LocalStorage;
 import vip.efactory.ejpa.base.controller.EPage;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
+import vip.efactory.ejpa.tenant.identifier.TenantHolder;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.repository.LocalStorageRepository;
 import vip.efactory.service.LocalStorageService;
@@ -75,14 +76,15 @@ public class LocalStorageServiceImpl extends BaseServiceImpl<LocalStorage, Long,
         FileUtil.checkSize(maxSize, multipartFile.getSize());
         String suffix = FileUtil.getExtensionName(multipartFile.getOriginalFilename());
         String type = FileUtil.getFileType(suffix);
-        File file = FileUtil.upload(multipartFile, path + type + File.separator);
+        String finalPath = path + TenantHolder.getTenantId() + File.separator;  // 加上租户信息，以便数据隔离
+        File file = FileUtil.upload(multipartFile, finalPath + type + File.separator);
         if (ObjectUtil.isNull(file)) {
             throw new BadRequestException("上传失败");
         }
         try {
             name = StringUtils.isBlank(name) ? FileUtil.getFileNameNoEx(multipartFile.getOriginalFilename()) : name;
             LocalStorage localStorage = new LocalStorage(
-                    file.getName(),
+                    TenantHolder.getTenantId() + File.separator + type + File.separator + file.getName(),
                     name,
                     suffix,
                     file.getPath(),
