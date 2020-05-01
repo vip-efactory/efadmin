@@ -26,7 +26,7 @@
 </div>
 
 #### 项目简介
-一个基于 Spring Boot 2.2.2 、 Spring Boot Jpa、 JWT、Spring Security、Redis、Vue、ejpa的前后端分离的后台管理系统
+一个基于 Spring Boot 2.2.6 、 eJpa、 JWT、Spring Security、Redis、Vue、的前后端分离的后台管理系统
 
 **账号密码：** `admin/123456` (默认密码都是123456)
 
@@ -38,7 +38,8 @@
 | gitee  | https://gitee.com/vip-efactory/efadmin  | https://gitee.com/vip-efactory/efadmin-ui  |
 
 #### 体验地址
-##### 管理多租户,可以管理其他租户的数据源
+##### 管理多租户,可以管理其他租户的数据源  
+因阿里云服务器宽带仅1M,即理论最大128K/s文件传输速度,因此登录可能会慢一些，请知悉。  
 <https://efadmin.ddbin.com/>  
 用户名密码：root/123456
 
