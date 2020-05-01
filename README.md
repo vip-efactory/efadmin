@@ -7,6 +7,7 @@
 # 本项目与eladmin的差异
 - 使用ejpa框架
 - 不使用JPA的ResponseEntity及分页，太繁琐了，用R代替了ResponseEntity，分页数据返回使用EPage简化
+- 支持独立数据库及redis数据库模式的多租户;  2.1.0+
 - 因为使用ejpa框架，在原来的基础上有如下的新特性：更多请参见：https://github.com/vip-efactory/ejpa-example
     - 基本的CRUD模板，即增删改查操作，此处的查是指正常的分页、排序及id查询；
     - 较复杂的多条件的高级查询； --比eladmin更加灵活的高级查询
@@ -37,8 +38,17 @@
 | gitee  | https://gitee.com/vip-efactory/efadmin  | https://gitee.com/vip-efactory/efadmin-ui  |
 
 #### 体验地址
-<http://efadmin.ddbin.com/>  
-用户名密码：admin/123456
+##### 管理多租户,可以管理其他租户的数据源
+<https://efadmin.ddbin.com/>  
+用户名密码：root/123456
+
+注意:因为下面两个租户的https证书使用的是efadmin.ddbin.com的，所以访问时，浏览器会说证书无效，信任即可!
+##### 租户1
+<https://t1.ddbin.com/>  
+用户名密码：admin1/123456
+##### 租户2
+<https://t2.ddbin.com/>  
+用户名密码：admin2/123456
 
 #### 文档说明
 <http://docs.efactory.vip/>
