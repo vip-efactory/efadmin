@@ -44,4 +44,14 @@
             <version>${configuration.version}</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <!-- 编译生成querydsl的查询类 -->
+            <plugin>
+                <groupId>com.mysema.maven</groupId>
+                <artifactId>apt-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

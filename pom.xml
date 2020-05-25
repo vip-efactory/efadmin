@@ -32,7 +32,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <ejpa.starter.version>3.5.1</ejpa.starter.version>
+        <spring-boot.version>2.2.6.RELEASE</spring-boot.version>
+        <ejpa.starter.version>3.6.0</ejpa.starter.version>
+        <querydsl.version>4.3.1</querydsl.version>
         <jedis.version>2.9.0</jedis.version>
         <log4jdbc.version>1.16</log4jdbc.version>
         <swagger.version>2.9.2</swagger.version>
@@ -59,6 +61,25 @@
                </exclusion>
             </exclusions>
         </dependency>
+        <!-- JPA的好搭档：querydsl jpa查询的依赖-->
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-apt</artifactId>
+            <version>${querydsl.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
+            <version>${querydsl.version}</version>
+        </dependency>
+        <dependency>
+            <!-- QueryDSL依赖 -->
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
         <!-- 引入国际化的依赖 -->
         <dependency>
             <groupId>vip.efactory</groupId>
@@ -66,15 +87,6 @@
             <version>1.1.2</version>
         </dependency>
 
-        <!--Spring boot start-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-data-jpa</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-web</artifactId>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -242,6 +254,24 @@
                 <version>${ejpa.starter.version}</version>
                 <type>pom</type>
             </dependency>
+            <!-- JPA的好搭档：querydsl jpa查询的依赖-->
+            <dependency>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-apt</artifactId>
+                <version>${querydsl.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-jpa</artifactId>
+                <version>${querydsl.version}</version>
+            </dependency>
+            <dependency>
+                <!-- QueryDSL依赖 -->
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-commons</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.projectlombok</groupId>
@@ -275,6 +305,29 @@
                 </configuration>
             </plugin>
         </plugins>
+        <!-- 管理可被子模块继承的插件 -->
+        <pluginManagement>
+            <plugins>
+                <!-- JPAAnnotationProcessor查找使用javax.persistence.Entity注释进行注释的域类型，并为其生成查询类型。 -->
+                <!-- 如果您在域类型中使用Hibernate注释，则应改用APT处理器 com.querydsl.apt.hibernate.HibernateAnnotationProcessor 。 -->
+                <plugin>
+                    <groupId>com.mysema.maven</groupId>
+                    <artifactId>apt-maven-plugin</artifactId>
+                    <version>1.1.3</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>process</goal>
+                            </goals>
+                            <configuration>
+                                <outputDirectory>target/generated-sources/java</outputDirectory>
+                                <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
 <!--    <repositories>-->
