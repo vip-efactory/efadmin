@@ -13,6 +13,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
+import java.io.IOException;
+import java.util.Set;
 
 /**
 * ${apiAlias} 控制器层
@@ -42,7 +44,7 @@ public class ${className}Controller extends BaseController<${className}, I${clas
     /**
      * Description: 多条件高级查询;默认的分页与排序,默认${pkChangeColName}降序
      *
-     * @param baseEntity 含有高级搜索条件的基础对象
+     * @param entity 含有高级搜索条件的基础对象
      * @param page 框架默认的分页对象
      * @return R
      */
@@ -71,7 +73,6 @@ public class ${className}Controller extends BaseController<${className}, I${clas
         return super.queryMutiField(q, fields, page);
     }
 
-
     /**
      * Description: 使用${pkChangeColName}来获取实体
      *
@@ -85,7 +86,6 @@ public class ${className}Controller extends BaseController<${className}, I${clas
     public R getById(@PathVariable("${pkChangeColName}") ${pkColumnType} ${pkChangeColName}) {
         return super.getById(${pkChangeColName});
     }
-
 
     /**
      * Description: 保存实体
@@ -129,4 +129,31 @@ public class ${className}Controller extends BaseController<${className}, I${clas
         return super.deleteById(${pkChangeColName});
     }
 
+    /**
+    * Description: 依据${pkChangeColName}集合来删除实体
+    *
+    * @param ${pkChangeColName}s 主键集合
+    * @return R
+    */
+    @Log("依ID集合删除${apiAlias}")
+    @DeleteMapping
+    @ApiOperation(value = "依据${pkChangeColName}集合来删除对应的记录", notes = "依据${pkChangeColName}集合来删除对应的记录")
+    @PreAuthorize("@p.check('${changeClassName}:del')")
+    public R deleteByIds(@RequestBody Set<${pkColumnType}> ${pkChangeColName}s) {
+        return super.deleteByIds(${pkChangeColName}s);
+    }
+
+    /**
+    * 不分页，url暂时用/page开头，后期可以考虑前后端一起改掉
+    * @param response
+    * @param criteria
+    * @throws IOException
+    */
+    @Log("导出${apiAlias}数据")
+    @ApiOperation("导出${apiAlias}数据")
+    @GetMapping(value = "/page/download")
+    @PreAuthorize("@p.check('${changeClassName}:list')")
+    public void download(HttpServletResponse response, ${className}QueryCriteria criteria) throws IOException {
+        entityService.download(entityService.queryAll(criteria), response);
+    }
 }

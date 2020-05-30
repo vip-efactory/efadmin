@@ -30,7 +30,7 @@ public interface I${className}Service extends IBaseService<${className}, ${pkCol
     * @param criteria 条件参数
     * @return List<${className}Dto>
     */
- //   List<${className}Dto> queryAll(${className}QueryCriteria criteria);
+    List<${className}Dto> queryAll(${className}QueryCriteria criteria);
 
     /**
      * 根据ID查询${className}Dto

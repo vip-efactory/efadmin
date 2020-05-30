@@ -62,12 +62,12 @@ public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${pkC
         Page<${className}> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return page.map(${changeClassName}Mapper::toDto);
     }
-//
-//    @Override
-//    //@Cacheable
-//    public List<${className}Dto> queryAll(${className}QueryCriteria criteria){
-//        return ${changeClassName}Mapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
-//    }
+
+    @Override
+    //@Cacheable
+    public List<${className}Dto> queryAll(${className}QueryCriteria criteria){
+        return ${changeClassName}Mapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+    }
 //
 //    @Override
 //    //@Cacheable(key = "#p0")

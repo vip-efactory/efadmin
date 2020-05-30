@@ -3,6 +3,8 @@ package ${package}.domain;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 import vip.efactory.ejpa.base.valid.Update;
 import javax.persistence.*;
@@ -29,6 +31,7 @@ import java.math.BigDecimal;
 @Entity
 @Data
 @Table(name="${tableName}")
+@ApiModel(value = "${apiAlias}实体", description = "${apiAlias}实体管理")
 public class ${className} extends BaseEntity<${pkColumnType}> {
     private static final long serialVersionUID = 1L;
 <#if columns??>
@@ -65,6 +68,7 @@ public class ${className} extends BaseEntity<${pkColumnType}> {
     @UpdateTimestamp
     </#if>
     </#if>
+    @ApiModelProperty(value = "${column.remark}", dataType = "${column.columnType}"<#if column.istNotNull && column.columnKey != 'PRI'>, required = true</#if>)
     private ${column.columnType} ${column.changeColumnName};
     </#if>
     </#list>
