@@ -119,7 +119,8 @@ INSERT INTO `sys_dict` (`id`, `name`, `remark`, `create_time`, `creator_num`, `u
 	(1, 'user_status', '用户状态', '2019-10-27 20:31:36', NULL, '2019-12-26 22:01:44', NULL),
 	(4, 'dept_status', '部门状态', '2019-10-27 20:31:36', NULL, '2019-12-26 22:01:44', NULL),
 	(5, 'job_status', '岗位状态', '2019-10-27 20:31:36', NULL, '2019-12-26 22:01:44', NULL),
-	(6, 'employee_status', '员工状态', '2020-04-24 14:03:31', 'admin', '2020-04-24 14:03:31', 'admin');
+	(6, 'employee_status', '员工状态', '2020-04-24 14:03:31', 'admin', '2020-04-24 14:03:31', 'admin'),
+    (7, 'switch_status', '开关状态', '2020-05-30 09:08:39', 'admin', '2020-05-30 09:08:39', 'admin');
 /*!40000 ALTER TABLE `sys_dict` ENABLE KEYS */;
 
 -- 导出  表 db_efadmin1.sys_dict_detail 结构
@@ -151,7 +152,9 @@ INSERT INTO `sys_dict_detail` (`id`, `label`, `value`, `sort`, `dict_id`, `remar
 	(6, '停用(Disable)', 'false', '2', 5, NULL, '2019-10-27 20:31:36', NULL, '2020-01-27 10:43:01', 'admin'),
 	(7, '在职', '０', '1', 6, NULL, '2020-04-24 14:04:20', NULL, '2020-04-24 14:05:13', 'admin'),
 	(8, '休假', '1', '2', 6, NULL, '2020-04-24 14:05:53', 'admin', '2020-04-24 14:05:53', 'admin'),
-	(9, '离职', '2', '3', 6, NULL, '2020-04-24 14:06:29', 'admin', '2020-04-24 14:06:29', 'admin');
+	(9, '离职', '2', '3', 6, NULL, '2020-04-24 14:06:29', 'admin', '2020-04-24 14:06:29', 'admin'),
+    (10, '启用(Active)', 'true', '1', 7, NULL, '2020-05-30 09:09:11', 'admin', '2020-05-30 09:09:11', 'admin'),
+    (11, '停用(Disable)', 'false', '2', 7, NULL, '2020-05-30 09:09:38', 'admin', '2020-05-30 09:09:38', 'admin');
 /*!40000 ALTER TABLE `sys_dict_detail` ENABLE KEYS */;
 
 -- 导出  表 db_efadmin1.sys_email_config 结构
