@@ -42,7 +42,7 @@
             <#if column.formType = 'Input'>
             <el-input v-model="form.${column.changeColumnName}" style="width: 370px;" />
             <#elseif column.formType = 'Textarea'>
-            <el-input :rows="3" v-model="form.${column.changeColumnName}" type="textarea" style="width: 370px;" />
+            <el-input v-model="form.${column.changeColumnName}" :rows="3" type="textarea" style="width: 370px;" />
             <#elseif column.formType = 'Radio'>
               <#if column.dictName??>
             <el-radio v-for="item in dict.${column.dictName}" :key="item.id" v-model="form.${column.changeColumnName}" :label="item.value">{{ item.label }}</el-radio>
