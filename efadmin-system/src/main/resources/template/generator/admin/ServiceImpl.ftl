@@ -27,10 +27,9 @@ import cn.hutool.core.util.IdUtil;
 <#if !auto && pkColumnType = 'String'>
 import cn.hutool.core.util.IdUtil;
 </#if>
-// 默认不使用缓存
-//import org.springframework.cache.annotation.CacheConfig;
-//import org.springframework.cache.annotation.CacheEvict;
-//import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import vip.efactory.utils.QueryHelp;
@@ -49,7 +48,7 @@ import lombok.AllArgsConstructor;
 * @date ${date}
 */
 @Service
-//@CacheConfig(cacheNames = "${changeClassName}")
+@CacheConfig(cacheNames = "${changeClassName}")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 @AllArgsConstructor
 public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${pkColumnType}, ${className}Repository> implements I${className}Service {
@@ -64,7 +63,7 @@ public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${pkC
     }
 
     @Override
-    //@Cacheable
+    @Cacheable
     public List<${className}Dto> queryAll(${className}QueryCriteria criteria){
         return ${changeClassName}Mapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }
@@ -125,9 +124,29 @@ public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${pkC
 
 
     @Override
-    //@CacheEvict(allEntries = true)
-    public void deleteAll(${pkColumnType}[] ids) {
-        for (${pkColumnType} id : ids) {
+    @CacheEvict(allEntries = true)
+    public ${className} update(${className} ${changeClassName}) {
+        return super.update(${changeClassName});
+    }
+
+    @Override
+    @CacheEvict(allEntries = true)
+    @Transactional
+    public void deleteById(${pkColumnType} ${pkChangeColName}) {
+        super.deleteById(${pkChangeColName});
+    }
+
+    @Override
+    @CacheEvict(allEntries = true)
+    @Transactional
+    public int deleteAllById(Iterable<${pkColumnType}> ${pkChangeColName}s) {
+        return super.deleteAllById(${pkChangeColName}s);
+    }
+
+    @Override
+    @CacheEvict(allEntries = true)
+    public void deleteAll(${pkColumnType}[] ${pkChangeColName}s) {
+        for (${pkColumnType} ${pkChangeColName} : ${pkChangeColName}s) {
             br.deleteById(${pkChangeColName});
         }
     }
