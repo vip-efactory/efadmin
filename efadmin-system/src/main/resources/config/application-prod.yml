@@ -80,6 +80,8 @@ file:
   # 文件大小 /M
   maxSize: 100
   avatarMaxSize: 5
+  # 上传的文件访问的主机,线上通过80端口内部向8000端口转发
+  host: "http://efadmin.ddbin.com"
 
 # 是否启用演示环境限制:
 demoEnv:

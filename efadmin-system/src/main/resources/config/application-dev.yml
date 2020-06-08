@@ -73,6 +73,8 @@ file:
   # 文件大小 /M
   maxSize: 100
   avatarMaxSize: 5
+  # 上传的文件访问的主机
+  host: "http://localhost:${server.port}"
 
 # 是否启用演示环境限制:
 demoEnv:
