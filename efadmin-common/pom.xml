@@ -41,6 +41,11 @@
             <artifactId>commons-fileupload</artifactId>
             <version>1.4</version>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.1.5.Final</version>
+        </dependency>
         <!-- BD Ueditor 依赖结束 -->
     </dependencies>
 </project>
