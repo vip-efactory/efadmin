@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="30 seconds" debug="false">
     <contextName>efadmin</contextName>
+    <!--引入默认的一些设置-->
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
     <property name="log.charset" value="utf-8"/>
     <property name="log.pattern"
               value="%black(%contextName-) %red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{36}) - %gray(%msg%n)"/>
@@ -20,6 +23,7 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${log.path}/%d{yyyy-MM, aux}/efadmin.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
             <maxFileSize>50MB</maxFileSize>
+            <!--日志文件保留天数-->
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
@@ -27,6 +31,12 @@
         </encoder>
     </appender>
 
+    <!--异步到文件-->
+    <appender name="asyncFileAppender" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>500</queueSize>
+        <appender-ref ref="logFile"/>
+    </appender>
 
     <!-- 开发环境-->
     <springProfile name="dev">
@@ -69,16 +79,16 @@
 
     <!-- 生产环境. -->
     <springProfile name="prod">
-        <logger name="org.springframework.web" level="ERROR"/>
-        <logger name="org.springboot.sample" level="ERROR"/>
+        <logger name="org.springframework.web" level="WARN"/>
+        <logger name="org.springboot.sample" level="WARN"/>
         <logger name="vip.efactory" level="WARN"/>
 
         <!--监控sql日志输出 -->
-        <logger name="jdbc.sqlonly" level="ERROR" additivity="false">
+        <logger name="jdbc.sqlonly" level="WARN" additivity="false">
             <appender-ref ref="logFile"/>
         </logger>
 
-        <logger name="jdbc.resultset" level="ERROR" additivity="false">
+        <logger name="jdbc.resultset" level="WARN" additivity="false">
             <appender-ref ref="logFile"/>
         </logger>
 
