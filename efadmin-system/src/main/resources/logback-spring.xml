@@ -2,7 +2,7 @@
 <configuration scan="true" scanPeriod="30 seconds" debug="false">
     <contextName>efadmin</contextName>
     <!--引入默认的一些设置-->
-    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
     <property name="log.charset" value="utf-8"/>
     <property name="log.pattern"
