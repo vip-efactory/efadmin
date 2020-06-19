@@ -42,7 +42,7 @@
         <druid.version>1.1.10</druid.version>
         <commons-pool2.version>2.5.0</commons-pool2.version>
         <mapstruct.version>1.2.0.Final</mapstruct.version>
-        <lombok.version>1.18.10</lombok.version>
+        <lombok.version>1.18.12</lombok.version>
     </properties>
 
 
@@ -244,7 +244,7 @@
 
     </dependencies>
 
-    <!-- 管理可被子模块集成的依赖 -->
+    <!-- 管理可被子模块继承的依赖 -->
     <dependencyManagement>
         <dependencies>
             <!-- 引入自己分装的ejpa模块 -->
