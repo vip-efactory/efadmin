@@ -55,12 +55,12 @@ public class UeditorController {
      * @param upfile
      */
     @AnonymousAccess
-    @RequestMapping(value = "/ueditor/ueditorConfig", params = {"action=config", "callback"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/editor/config", params = {"action=config", "callback"}, method = RequestMethod.GET)
     public void ueditorConfigOnly(HttpServletRequest request, HttpServletResponse response, MultipartFile upfile) {
         this.ueditorConfig(request, response, upfile);
     }
 
-    @RequestMapping(value = "/ueditor/ueditorConfig",method = RequestMethod.POST)
+    @RequestMapping(value = "/editor/config",method = RequestMethod.POST)
     @PreAuthorize("@p.check()")  // 检查token
     public void ueditorConfig(HttpServletRequest request, HttpServletResponse response, MultipartFile upfile) {
 
