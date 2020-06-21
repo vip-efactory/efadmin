@@ -343,7 +343,7 @@ CREATE TABLE IF NOT EXISTS `sys_menu` (
   `updater_num` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `FKqcf9gem97gqa5qjm4d3elcqt5` (`pid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='系统菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='系统菜单';
 
 -- 正在导出表  db_ef_tenants.sys_menu 的数据：~88 rows (大约)
 DELETE FROM `sys_menu`;
@@ -436,7 +436,8 @@ INSERT INTO `sys_menu` (`id`, `i_frame`, `name`, `component`, `pid`, `sort`, `ic
 	(122, b'0', '系统租户管理', 'tenant/tenant/index', 1, 999, 'zujian', 'tenant', b'0', b'0', 'Tenant', 'tenant:list', 1, 'tenant.manage', NULL, '2020-04-11 10:27:45', NULL, '2020-04-12 07:38:57', NULL),
 	(123, b'0', '系统租户新增', '', 122, 2, '', '', b'0', b'0', '', 'tenant:add', 2, 'tenant.add', NULL, '2020-04-11 10:27:45', NULL, '2020-04-12 07:39:18', NULL),
 	(124, b'0', '系统租户编辑', '', 122, 3, '', '', b'0', b'0', '', 'tenant:edit', 2, 'tenant.edit', NULL, '2020-04-11 10:27:45', NULL, '2020-04-12 07:39:33', NULL),
-	(125, b'0', '系统租户删除', '', 122, 4, '', '', b'0', b'0', '', 'tenant:del', 2, 'tenant.delete', NULL, '2020-04-11 10:27:45', NULL, '2020-04-12 07:49:15', NULL);
+	(125, b'0', '系统租户删除', '', 122, 4, '', '', b'0', b'0', '', 'tenant:del', 2, 'tenant.delete', NULL, '2020-04-11 10:27:45', NULL, '2020-04-12 07:49:15', NULL),
+    (126, b'0', 'Ueditor富文本', 'components/Ueditor', 10, 55, 'fwb', 'ueditor', b'0', b'0', 'Ueditor', NULL, 1, 'ueditor.text', NULL, '2020-06-14 19:20:46', 'admin1', '2020-06-21 07:32:43', 'admin1');
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
 
 -- 导出  表 db_ef_tenants.sys_mnt_app 结构
@@ -839,6 +840,7 @@ INSERT INTO `sys_roles_menus` (`menu_id`, `role_id`) VALUES
 	(123, 1),
 	(124, 1),
 	(125, 1),
+	(126, 1),
 	(1, 2),
 	(2, 2),
 	(3, 2),

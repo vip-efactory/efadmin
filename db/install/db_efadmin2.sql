@@ -317,7 +317,7 @@ CREATE TABLE IF NOT EXISTS `sys_menu` (
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `FKqcf9gem97gqa5qjm4d3elcqt5` (`pid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='系统菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='系统菜单';
 
 -- 正在导出表  db_efadmin2.sys_menu 的数据：~88 rows (大约)
 DELETE FROM `sys_menu`;
@@ -406,7 +406,8 @@ INSERT INTO `sys_menu` (`id`, `i_frame`, `name`, `component`, `pid`, `sort`, `ic
 	(118, b'0', '员工新增', '', 117, 2, '', '', b'0', b'0', '', 'employee:add', 2, 'employee.add', NULL, '2020-01-02 10:24:50', NULL, '2020-01-22 21:48:06', 'admin'),
 	(119, b'0', '员工编辑', '', 117, 3, '', '', b'0', b'0', '', 'employee:edit', 2, 'employee.edit', NULL, '2020-01-02 10:24:50', NULL, '2020-01-22 21:48:51', 'admin'),
 	(120, b'0', '员工删除', '', 117, 4, '', '', b'0', b'0', '', 'employee:del', 2, 'employee.delete', NULL, '2020-01-02 10:24:50', NULL, '2020-01-22 21:48:35', 'admin'),
-	(121, b'1', 'Github', NULL, 1, 10, 'github', 'https://github.com/vip-efactory/efadmin-ui', b'1', b'0', NULL, NULL, 1, NULL, NULL, '2020-03-13 10:31:45', NULL, '2020-04-22 12:22:43', 'admindu');
+    (121, b'1', 'Github', NULL, 1, 999, 'github', 'https://github.com/vip-efactory/efadmin-ui', b'1', b'0', NULL, NULL, 1, 'github.link', NULL, '2020-03-13 10:31:45', 'admin', '2020-04-12 08:16:32', 'admin'),
+    (122, b'0', 'Ueditor富文本', 'components/Ueditor', 10, 55, 'fwb', 'ueditor', b'0', b'0', 'Ueditor', NULL, 1, 'ueditor.text', NULL, '2020-06-14 19:20:46', 'admin1', '2020-06-21 07:32:43', 'admin1');
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
 
 -- 导出  表 db_efadmin2.sys_mnt_app 结构
@@ -813,6 +814,7 @@ INSERT INTO `sys_roles_menus` (`menu_id`, `role_id`) VALUES
 	(119, 1),
 	(120, 1),
 	(121, 1),
+	(122, 1),
 	(1, 2),
 	(2, 2),
 	(3, 2),
