@@ -89,7 +89,7 @@
           <#elseif column.columnType != 'Timestamp'>
         <el-table-column v-if="columns.visible('${column.changeColumnName}')" prop="${column.changeColumnName}" :label="<#if column.remark != ''>$t('${changeClassName}.${column.changeColumnName}')<#else>'${column.changeColumnName}'</#if>" sortable="custom" />
                 <#else>
-        <el-table-column v-if="columns.visible('${column.changeColumnName}')" prop="${column.changeColumnName}" :label="<#if column.remark != ''>$t('${changeClassName}.${column.changeColumnName}')<#else>'${column.changeColumnName}'</#if>" sortable="custom">
+        <el-table-column v-if="columns.visible('${column.changeColumnName}')" prop="${column.changeColumnName}" :label="<#if column.remark != ''>$t('${changeClassName}.${column.changeColumnName}')<#else>'${column.changeColumnName}'</#if>" width="135px" sortable="custom">
           <template slot-scope="scope">
             <span>{{ parseTime(scope.row.${column.changeColumnName}) }}</span>
           </template>
