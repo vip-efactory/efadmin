@@ -353,7 +353,7 @@ INSERT INTO `sys_menu` (`id`, `i_frame`, `name`, `component`, `pid`, `sort`, `ic
 	(2, b'0', '用户管理', 'system/user/index', 1, 2, 'peoples', 'user', b'0', b'0', 'User', 'user:list', 1, 'user.manage', NULL, '2018-12-18 15:14:44', NULL, '2020-01-20 11:02:59', NULL),
 	(3, b'0', '角色管理', 'system/role/index', 1, 3, 'role', 'role', b'0', b'0', 'Role', 'roles:list', 1, 'role.manage', NULL, '2018-12-18 15:16:07', NULL, '2020-01-20 11:03:09', NULL),
 	(5, b'0', '菜单管理', 'system/menu/index', 1, 5, 'menu', 'menu', b'0', b'0', 'Menu', 'menu:list', 1, 'menu.manage', NULL, '2018-12-18 15:17:28', NULL, '2020-01-20 11:03:32', NULL),
-	(6, b'0', '系统监控', NULL, 0, 10, 'monitor', 'monitor', b'0', b'0', NULL, NULL, 0, 'system.monitor', NULL, '2018-12-18 15:17:48', NULL, '2020-01-20 11:03:57', NULL),
+	(6, b'0', '系统监控', NULL, 0, 10, 'monitor', 'monitor', b'0', b'0', NULL, 'monitor:list', 0, 'system.monitor', NULL, '2018-12-18 15:17:48', NULL, '2020-01-20 11:03:57', NULL),
 	(7, b'0', '操作日志', 'monitor/log/index', 6, 11, 'log', 'logs', b'0', b'0', 'Log', NULL, 1, 'operation.log', NULL, '2018-12-18 15:18:26', NULL, '2020-01-20 11:04:13', NULL),
 	(9, b'0', 'SQL监控', 'monitor/sql/index', 6, 18, 'sqlMonitor', 'druid', b'0', b'0', 'Sql', NULL, 1, 'sql.monitor', NULL, '2018-12-18 15:19:34', NULL, '2020-01-20 11:04:49', NULL),
 	(10, b'0', '组件管理', NULL, 0, 50, 'zujian', 'components', b'0', b'0', NULL, NULL, 0, 'component.manage', NULL, '2018-12-19 13:38:16', NULL, '2020-01-20 11:05:02', NULL),

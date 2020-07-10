@@ -19,6 +19,13 @@ INSERT INTO `sys_roles_menus` (`menu_id`, `role_id`) VALUES
 (126, 1);
 /*!40000 ALTER TABLE `sys_roles_menus` DISABLE KEYS */;
 
+-- ---------------------------------
+-- 说明: 系统监控菜单增加权限标识
+-- 作者: dbdu
+-- 日期: 2020-07-10
+-- ---------------------------------
+update sys_menu set permission='monitor:list' where id = 6;
+
 
 -- -------------------------------- 对租户1数据库进行以下操作：-----------------------
 USE `db_efadmin1`;
@@ -38,6 +45,12 @@ INSERT INTO `sys_menu` (`id`, `i_frame`, `name`, `component`, `pid`, `sort`, `ic
 INSERT INTO `sys_roles_menus` (`menu_id`, `role_id`) VALUES
 (122, 1);
 /*!40000 ALTER TABLE `sys_roles_menus` DISABLE KEYS */;
+-- ---------------------------------
+-- 说明: 系统监控菜单增加权限标识
+-- 作者: dbdu
+-- 日期: 2020-07-10
+-- ---------------------------------
+update sys_menu set permission='monitor:list' where id = 6;
 
 
 -- -------------------------------- 对租户2数据库进行以下操作：-----------------------
@@ -58,3 +71,9 @@ INSERT INTO `sys_menu` (`id`, `i_frame`, `name`, `component`, `pid`, `sort`, `ic
 INSERT INTO `sys_roles_menus` (`menu_id`, `role_id`) VALUES
 (122, 1);
 /*!40000 ALTER TABLE `sys_roles_menus` DISABLE KEYS */;
+-- ---------------------------------
+-- 说明: 系统监控菜单增加权限标识
+-- 作者: dbdu
+-- 日期: 2020-07-10
+-- ---------------------------------
+update sys_menu set permission='monitor:list' where id = 6;
