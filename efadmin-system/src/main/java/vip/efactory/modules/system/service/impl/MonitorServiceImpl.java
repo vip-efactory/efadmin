@@ -17,38 +17,38 @@ package vip.efactory.modules.system.service.impl;
 
 import cn.hutool.core.date.BetweenFormater;
 import cn.hutool.core.date.DateUtil;
-
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
-import oshi.hardware.*;
+import oshi.hardware.CentralProcessor;
+import oshi.hardware.GlobalMemory;
+import oshi.hardware.HardwareAbstractionLayer;
 import oshi.software.os.FileSystem;
 import oshi.software.os.OSFileStore;
 import oshi.software.os.OperatingSystem;
 import oshi.util.FormatUtil;
 import oshi.util.Util;
+import vip.efactory.common.i18n.enums.ErrorCodeUtil;
 import vip.efactory.modules.system.service.MonitorService;
 import vip.efactory.utils.FileUtil;
 import vip.efactory.utils.StringUtils;
 
 import java.lang.management.ManagementFactory;
 import java.text.DecimalFormat;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
-* @author Zheng Jie
-* @author dbdu
-* @date 2020-05-02
-*/
+ * @author Zheng Jie
+ * @author dbdu
+ * @date 2020-05-02
+ */
 @Service
 public class MonitorServiceImpl implements MonitorService {
 
     private final DecimalFormat df = new DecimalFormat("0.00");
 
     @Override
-    public Map<String,Object> getServers(){
+    public Map<String, Object> getServers() {
         Map<String, Object> resultMap = new LinkedHashMap<>(8);
         try {
             SystemInfo si = new SystemInfo();
@@ -73,16 +73,17 @@ public class MonitorServiceImpl implements MonitorService {
 
     /**
      * 获取磁盘信息
+     *
      * @return /
      */
-    private Map<String,Object> getDiskInfo(OperatingSystem os) {
-        Map<String,Object> diskInfo = new LinkedHashMap<>();
+    private Map<String, Object> getDiskInfo(OperatingSystem os) {
+        Map<String, Object> diskInfo = new LinkedHashMap<>();
         FileSystem fileSystem = os.getFileSystem();
         List<OSFileStore> fsArray = fileSystem.getFileStores(true);
         Long allTotal = 0L;
         Long allUsed = 0L;
-        Long allAvailable= 0L;
-        for (OSFileStore fs : fsArray){
+        Long allAvailable = 0L;
+        for (OSFileStore fs : fsArray) {
             allTotal = allTotal + fs.getTotalSpace();
             allUsed = allUsed + (fs.getTotalSpace() - fs.getUsableSpace());
             allAvailable = allAvailable + fs.getUsableSpace();
@@ -97,51 +98,54 @@ public class MonitorServiceImpl implements MonitorService {
         diskInfo.put("total", FileUtil.getSize(allTotal));
         diskInfo.put("available", FileUtil.getSize(allAvailable));
         diskInfo.put("used", FileUtil.getSize(allUsed));
-        diskInfo.put("usageRate", df.format(allUsed/(double)allTotal * 100));
-        diskInfo.put("disks",fsArray);
+        diskInfo.put("usageRate", df.format(allUsed / (double) allTotal * 100));
+        diskInfo.put("disks", fsArray);
         return diskInfo;
     }
 
     /**
      * 获取交换区信息
+     *
      * @param memory /
      * @return /
      */
-    private Map<String,Object> getSwapInfo(GlobalMemory memory) {
-        Map<String,Object> swapInfo = new LinkedHashMap<>();
+    private Map<String, Object> getSwapInfo(GlobalMemory memory) {
+        Map<String, Object> swapInfo = new LinkedHashMap<>();
         swapInfo.put("total", FormatUtil.formatBytes(memory.getVirtualMemory().getSwapTotal()));
         swapInfo.put("used", FormatUtil.formatBytes(memory.getVirtualMemory().getSwapUsed()));
         swapInfo.put("available", FormatUtil.formatBytes(memory.getVirtualMemory().getSwapTotal() - memory.getVirtualMemory().getSwapUsed()));
-        swapInfo.put("usageRate", df.format(memory.getVirtualMemory().getSwapUsed()/(double)memory.getVirtualMemory().getSwapTotal() * 100));
+        swapInfo.put("usageRate", df.format(memory.getVirtualMemory().getSwapUsed() / (double) memory.getVirtualMemory().getSwapTotal() * 100));
         return swapInfo;
     }
 
     /**
      * 获取内存信息
+     *
      * @param memory /
      * @return /
      */
-    private Map<String,Object> getMemoryInfo(GlobalMemory memory) {
-        Map<String,Object> memoryInfo = new LinkedHashMap<>();
+    private Map<String, Object> getMemoryInfo(GlobalMemory memory) {
+        Map<String, Object> memoryInfo = new LinkedHashMap<>();
         memoryInfo.put("total", FormatUtil.formatBytes(memory.getTotal()));
         memoryInfo.put("available", FormatUtil.formatBytes(memory.getAvailable()));
         memoryInfo.put("used", FormatUtil.formatBytes(memory.getTotal() - memory.getAvailable()));
-        memoryInfo.put("usageRate", df.format((memory.getTotal() - memory.getAvailable())/(double)memory.getTotal() * 100));
+        memoryInfo.put("usageRate", df.format((memory.getTotal() - memory.getAvailable()) / (double) memory.getTotal() * 100));
         return memoryInfo;
     }
 
     /**
      * 获取Cpu相关信息
+     *
      * @param processor /
      * @return /
      */
-    private Map<String,Object> getCpuInfo(CentralProcessor processor) {
-        Map<String,Object> cpuInfo = new LinkedHashMap<>();
+    private Map<String, Object> getCpuInfo(CentralProcessor processor) {
+        Map<String, Object> cpuInfo = new LinkedHashMap<>();
         cpuInfo.put("name", processor.getProcessorIdentifier().getName());
-        cpuInfo.put("package", processor.getPhysicalPackageCount() + "个物理CPU");
-        cpuInfo.put("core", processor.getPhysicalProcessorCount() + "个物理核心");
+        cpuInfo.put("package", processor.getPhysicalPackageCount() + " " + ErrorCodeUtil.getMessage("Server.package"));
+        cpuInfo.put("core", processor.getPhysicalProcessorCount() + " " + ErrorCodeUtil.getMessage("Server.core"));
         cpuInfo.put("coreNumber", processor.getPhysicalProcessorCount());
-        cpuInfo.put("logic", processor.getLogicalProcessorCount() + "个逻辑CPU");
+        cpuInfo.put("logic", processor.getLogicalProcessorCount() + " " + ErrorCodeUtil.getMessage("Server.logic"));
         // CPU信息
         long[] prevTicks = processor.getSystemCpuLoadTicks();
         // 等待1秒...
@@ -163,16 +167,25 @@ public class MonitorServiceImpl implements MonitorService {
 
     /**
      * 获取系统相关信息,系统、运行天数、系统IP
+     *
      * @param os /
      * @return /
      */
-    private Map<String,Object> getSystemInfo(OperatingSystem os){
-        Map<String,Object> systemInfo = new LinkedHashMap<>();
+    private Map<String, Object> getSystemInfo(OperatingSystem os) {
+        Map<String, Object> systemInfo = new LinkedHashMap<>();
         // jvm 运行时间
         long time = ManagementFactory.getRuntimeMXBean().getStartTime();
         Date date = new Date(time);
         // 计算项目运行时间
         String formatBetween = DateUtil.formatBetween(date, new Date(), BetweenFormater.Level.HOUR);
+        // 如果当前的语言环境不是中文简体，则显示为英文
+        if (!LocaleContextHolder.getLocale().equals(Locale.SIMPLIFIED_CHINESE)) {
+            formatBetween = formatBetween.replace("天", "Days");
+            formatBetween = formatBetween.replace("小时", "Hours");
+            //formatBetween = formatBetween.replace("分", "Minutes");
+            //formatBetween = formatBetween.replace("秒", "Seconds");
+            //formatBetween = formatBetween.replace("毫秒", "MillSeconds");
+        }
         // 系统信息
         systemInfo.put("os", os.toString());
         systemInfo.put("day", formatBetween);
