@@ -28,10 +28,12 @@ spring:
       filters: stat
 
       stat-view-servlet:
+        # 线上环境不开启监控
+        enabled: false
         url-pattern: /druid/*
         reset-enable: false
-        login-username: admin
-        login-password: 123456
+#        login-username: admin
+#        login-password: qqqqqqqqqqqq
 
       web-stat-filter:
         url-pattern: /*
