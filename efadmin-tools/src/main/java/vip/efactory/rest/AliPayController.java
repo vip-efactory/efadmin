@@ -1,22 +1,10 @@
 package vip.efactory.rest;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 import vip.efactory.annotation.AnonymousAccess;
 import vip.efactory.aop.log.Log;
@@ -28,6 +16,11 @@ import vip.efactory.ejpa.utils.R;
 import vip.efactory.service.AliPayService;
 import vip.efactory.utils.AliPayStatusEnum;
 import vip.efactory.utils.AlipayUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 @AllArgsConstructor
 @RestController
@@ -71,6 +64,12 @@ public class AliPayController extends BaseController<AlipayConfig, AliPayService
         return R.ok(payUrl);
     }
 
+    /**
+    * Description:
+    * @param request http请求
+    * @param response http响应
+    * @return {@link R}
+    */
     @ApiIgnore
     @GetMapping("/return")
     @AnonymousAccess
