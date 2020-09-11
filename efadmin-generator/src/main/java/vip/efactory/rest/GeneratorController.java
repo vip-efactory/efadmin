@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import vip.efactory.common.base.utils.R;
 import vip.efactory.domain.ColumnInfo;
-import vip.efactory.ejpa.utils.R;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.service.GenConfigService;
 import vip.efactory.service.GeneratorService;

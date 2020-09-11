@@ -1,11 +1,13 @@
 package vip.efactory.modules.system.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -39,7 +41,8 @@ public class JobDto implements Serializable {
     /**
      * 创建日期
      */
-    private Timestamp createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime createTime;
 
     public JobDto(String name, Boolean enabled) {
         this.name = name;

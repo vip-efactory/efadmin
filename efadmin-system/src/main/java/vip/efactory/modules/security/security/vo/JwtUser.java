@@ -1,11 +1,13 @@
 package vip.efactory.modules.security.security.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -44,7 +46,8 @@ public class JwtUser implements UserDetails {
 
     private final boolean enabled;
 
-    private Timestamp createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime createTime;
 
     @JsonIgnore
     private final Date lastPasswordResetDate;

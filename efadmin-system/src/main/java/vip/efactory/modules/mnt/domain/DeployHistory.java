@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
 * @author zhanghouying
@@ -46,7 +47,7 @@ public class DeployHistory extends BaseEntity<String> implements Serializable {
 	 */
     @Column(name = "deploy_date")
 	@CreationTimestamp
-    private Timestamp deployDate;
+    private LocalDateTime deployDate;
 
 	/**
 	 * 部署人员

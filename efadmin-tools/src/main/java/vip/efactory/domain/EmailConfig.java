@@ -10,8 +10,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
+import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
-import vip.efactory.ejpa.base.valid.Update;
 
 /**
  * 邮件配置类，数据存覆盖式存入数据存

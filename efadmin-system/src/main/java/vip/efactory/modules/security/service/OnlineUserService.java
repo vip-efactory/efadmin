@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import vip.efactory.ejpa.base.controller.EPage;
+import vip.efactory.common.base.page.EPage;
 import vip.efactory.modules.security.config.SecurityProperties;
 import vip.efactory.modules.security.security.vo.JwtUser;
 import vip.efactory.modules.security.security.vo.OnlineUser;

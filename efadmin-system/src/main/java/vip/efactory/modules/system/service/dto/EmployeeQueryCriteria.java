@@ -1,9 +1,12 @@
 package vip.efactory.modules.system.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import vip.efactory.annotation.Query;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @author dbdu
@@ -26,7 +29,8 @@ public class EmployeeQueryCriteria {
 
     // 模糊
     @Query(type = Query.Type.INNER_LIKE)
-    private Timestamp birthday;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private LocalDate birthday;
 
     // 模糊
     @Query(type = Query.Type.INNER_LIKE)
@@ -66,7 +70,8 @@ public class EmployeeQueryCriteria {
 
     // 模糊
     @Query(type = Query.Type.INNER_LIKE)
-    private Timestamp createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime createTime;
 
     // 模糊
     @Query(type = Query.Type.INNER_LIKE)
@@ -74,7 +79,8 @@ public class EmployeeQueryCriteria {
 
     // 模糊
     @Query(type = Query.Type.INNER_LIKE)
-    private Timestamp updateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime updateTime;
 
     // 模糊
     @Query(type = Query.Type.INNER_LIKE)

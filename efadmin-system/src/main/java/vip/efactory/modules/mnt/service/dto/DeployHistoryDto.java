@@ -1,9 +1,11 @@
 package vip.efactory.modules.mnt.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 
 /**
@@ -31,7 +33,8 @@ public class DeployHistoryDto implements Serializable {
 	/**
 	 * 部署时间
 	 */
-	private Timestamp deployDate;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	private LocalDateTime deployDate;
 
 	/**
 	 * 部署人员

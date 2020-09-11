@@ -29,7 +29,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import vip.efactory.annotation.AnonymousAccess;
 import vip.efactory.aop.log.Log;
-import vip.efactory.ejpa.utils.R;
+import vip.efactory.common.base.utils.R;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.security.config.SecurityProperties;
 import vip.efactory.modules.security.security.TokenProvider;

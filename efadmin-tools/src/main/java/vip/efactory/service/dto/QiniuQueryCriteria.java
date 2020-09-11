@@ -3,7 +3,7 @@ package vip.efactory.service.dto;
 import lombok.Data;
 import vip.efactory.annotation.Query;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -14,5 +14,5 @@ public class QiniuQueryCriteria{
     private String key;
 
     @Query(type = Query.Type.BETWEEN)
-    private List<Timestamp> createTime;
+    private List<LocalDateTime> createTime;
 }

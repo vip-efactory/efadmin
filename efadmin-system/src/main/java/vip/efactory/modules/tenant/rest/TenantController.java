@@ -1,12 +1,13 @@
 package vip.efactory.modules.tenant.rest;
 
 import vip.efactory.aop.log.Log;
+import vip.efactory.common.base.page.EPage;
+import vip.efactory.common.base.utils.R;
 import vip.efactory.modules.tenant.domain.Tenant;
 import vip.efactory.modules.tenant.service.ITenantService;
 import vip.efactory.modules.tenant.service.dto.TenantQueryCriteria;
 import vip.efactory.ejpa.base.controller.BaseController;
-import vip.efactory.ejpa.base.controller.EPage;
-import vip.efactory.ejpa.utils.R;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -42,7 +43,7 @@ public class TenantController extends BaseController<Tenant, ITenantService, Lon
     /**
      * Description: 多条件高级查询;默认的分页与排序,默认id降序
      *
-     * @param baseEntity 含有高级搜索条件的基础对象
+     * @param entity 含有高级搜索条件的基础对象
      * @param page 框架默认的分页对象
      * @return R
      */
@@ -68,7 +69,7 @@ public class TenantController extends BaseController<Tenant, ITenantService, Lon
     @RequestMapping(value = "/fuzzy", method = {RequestMethod.GET})
     @PreAuthorize("@p.check('tenant:list')")
     public R getByPage(@RequestParam String q, @RequestParam String fields, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
-        return super.queryMutiField(q, fields, page);
+        return super.queryMultiField(q, fields, page);
     }
 
 

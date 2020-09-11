@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.scheduling.annotation.Async;
 
+import vip.efactory.common.base.utils.R;
 import vip.efactory.domain.ColumnInfo;
 import vip.efactory.domain.GenConfig;
-import vip.efactory.ejpa.utils.R;
 
 
 public interface GeneratorService {

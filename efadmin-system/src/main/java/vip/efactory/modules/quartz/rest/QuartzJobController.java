@@ -22,9 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import vip.efactory.aop.log.Log;
+import vip.efactory.common.base.utils.R;
+import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.controller.BaseController;
-import vip.efactory.ejpa.base.valid.Update;
-import vip.efactory.ejpa.utils.R;
+
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.quartz.domain.QuartzJob;
 import vip.efactory.modules.quartz.service.QuartzJobService;

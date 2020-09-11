@@ -19,12 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import vip.efactory.aop.log.Log;
+import vip.efactory.common.base.entity.BaseSearchField;
+import vip.efactory.common.base.enums.ConditionRelationEnum;
+import vip.efactory.common.base.enums.SearchTypeEnum;
+import vip.efactory.common.base.utils.R;
 import vip.efactory.domain.SysLog;
 import vip.efactory.ejpa.base.controller.BaseController;
-import vip.efactory.ejpa.base.entity.BaseSearchField;
-import vip.efactory.ejpa.base.enums.ConditionRelationEnum;
-import vip.efactory.ejpa.base.enums.SearchTypeEnum;
-import vip.efactory.ejpa.utils.R;
+
 import vip.efactory.service.LogService;
 import vip.efactory.service.dto.LogQueryCriteria;
 import vip.efactory.utils.SecurityUtils;
@@ -70,7 +71,7 @@ public class LogController extends BaseController<SysLog, LogService, Long> {
     /**
      * Description: 高级查询,info级别
      *
-     * @param baseSearchEntity 含有高级查询条件
+     * @param entity 含有高级查询条件
      * @param page             分页参数对象
      * @return R
      */

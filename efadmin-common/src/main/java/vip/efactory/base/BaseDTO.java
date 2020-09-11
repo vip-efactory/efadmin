@@ -2,8 +2,9 @@ package vip.efactory.base;
 
 import lombok.Getter;
 import lombok.Setter;
+
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * @author Zheng Jie
@@ -16,9 +17,9 @@ public class BaseDTO  implements Serializable {
 
     private Boolean isDelete;
 
-    private Timestamp createTime;
+    private LocalDateTime createTime;
 
-    private Timestamp updateTime;
+    private LocalDateTime updateTime;
 
     @Override
     public String toString() {

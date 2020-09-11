@@ -1,9 +1,10 @@
 package vip.efactory.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
 * @author Zheng Jie
@@ -26,5 +27,6 @@ public class LocalStorageDto implements Serializable {
 
     private String operate;
 
-    private Timestamp createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime createTime;
 }

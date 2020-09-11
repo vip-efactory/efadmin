@@ -21,9 +21,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import vip.efactory.aop.log.Log;
+import vip.efactory.common.base.utils.R;
+import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.controller.BaseController;
-import vip.efactory.ejpa.base.valid.Update;
-import vip.efactory.ejpa.utils.R;
+
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.domain.Menu;
 import vip.efactory.modules.system.service.MenuService;

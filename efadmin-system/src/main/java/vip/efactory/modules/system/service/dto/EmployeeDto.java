@@ -1,8 +1,11 @@
 package vip.efactory.modules.system.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -23,7 +26,8 @@ public class EmployeeDto implements Serializable {
     private String avatar;
 
     // 生日
-    private Date birthday;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthday;
 
     // 编号
     private String code;
@@ -53,13 +57,15 @@ public class EmployeeDto implements Serializable {
     private String remark;
 
     // 创建时间
-    private Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime createTime;
 
     // 创建人
     private String creatorNum;
 
     // 更新时间
-    private Date updateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime updateTime;
 
     // 更新人
     private String updaterNum;

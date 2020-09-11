@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
-import vip.efactory.ejpa.utils.R;
+import vip.efactory.common.base.utils.R;
 import vip.efactory.modules.security.service.OnlineUserService;
 
 import javax.servlet.http.HttpServletResponse;

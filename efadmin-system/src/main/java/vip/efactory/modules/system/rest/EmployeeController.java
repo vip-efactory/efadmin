@@ -21,8 +21,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.SneakyThrows;
 import vip.efactory.aop.log.Log;
+import vip.efactory.common.base.utils.R;
 import vip.efactory.ejpa.base.controller.BaseController;
-import vip.efactory.ejpa.utils.R;
 import vip.efactory.modules.mnt.websocket.MsgType;
 import vip.efactory.modules.mnt.websocket.SocketMsg;
 import vip.efactory.modules.mnt.websocket.WebSocketServer;
@@ -119,7 +119,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
     @GetMapping("/fuzzy")
     @PreAuthorize("@p.check('employee:list')")
     public R getByPage(@RequestParam String q, @RequestParam String fields, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
-        return super.queryMutiField(q, fields, page);
+        return super.queryMultiField(q, fields, page);
     }
 
 

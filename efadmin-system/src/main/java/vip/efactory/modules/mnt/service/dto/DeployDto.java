@@ -1,10 +1,12 @@
 package vip.efactory.modules.mnt.service.dto;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,8 +36,8 @@ public class DeployDto implements Serializable {
 	 * 服务状态
 	 */
 	private String status;
-
-	private Timestamp createTime;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	private LocalDateTime createTime;
 
 	public String getServers() {
 		if(CollectionUtil.isNotEmpty(deploys)){

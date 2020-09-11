@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import vip.efactory.ejpa.base.controller.EPage;
+import vip.efactory.common.base.page.EPage;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.mnt.domain.App;
@@ -344,7 +344,8 @@ public class DeployServiceImpl extends BaseServiceImpl<Deploy, Long, DeployRepos
     public String serverReduction(DeployHistory resources) throws JSchException {
         Long deployId = resources.getDeployId();
         Deploy deployInfo = br.findById(deployId).orElseGet(Deploy::new);
-        String deployDate = DateUtil.format(resources.getDeployDate(), DatePattern.PURE_DATETIME_PATTERN);
+        String deployDate = resources.getDeployDate().toString();
+        deployDate = deployDate.replace("-", "").replace(":", "");
         App app = deployInfo.getApp();
         if (app == null) {
             sendMsg("应用信息不存在：" + resources.getAppName(), MsgType.ERROR);

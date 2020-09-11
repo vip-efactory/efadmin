@@ -11,9 +11,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.aop.log.Log;
+import vip.efactory.common.base.utils.R;
 import vip.efactory.domain.LocalStorage;
 import vip.efactory.ejpa.base.controller.BaseController;
-import vip.efactory.ejpa.utils.R;
 import vip.efactory.service.LocalStorageService;
 import vip.efactory.service.dto.LocalStorageQueryCriteria;
 

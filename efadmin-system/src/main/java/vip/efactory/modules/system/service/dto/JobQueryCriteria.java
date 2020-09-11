@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import vip.efactory.annotation.Query;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -25,5 +26,5 @@ public class JobQueryCriteria {
     private Set<Long> deptIds;
 
     @Query(type = Query.Type.BETWEEN)
-    private List<Timestamp> createTime;
+    private List<LocalDateTime> createTime;
 }

@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+import vip.efactory.common.base.utils.SpringContextHolder;
 import vip.efactory.config.thread.ThreadPoolExecutorUtil;
 import vip.efactory.ejpa.tenant.identifier.TenantHolder;
-import vip.efactory.ejpa.utils.SpringContextHolder;
 import vip.efactory.modules.quartz.domain.QuartzJob;
 import vip.efactory.modules.quartz.domain.QuartzLog;
 import vip.efactory.modules.quartz.repository.QuartzLogRepository;

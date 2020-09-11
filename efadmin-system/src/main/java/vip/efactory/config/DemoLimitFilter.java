@@ -8,7 +8,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
-import vip.efactory.ejpa.utils.R;
+import vip.efactory.common.base.utils.R;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletRequest;

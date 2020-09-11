@@ -1,8 +1,10 @@
 package vip.efactory.modules.tenant.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import java.sql.Timestamp;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 
 /**
@@ -41,13 +43,15 @@ public class TenantDto implements Serializable {
     private String remark;
 
     /** 创建时间 */
-    private Timestamp createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime createTime;
 
     /** 创建人 */
     private String creatorNum;
 
     /** 更新时间 */
-    private Timestamp updateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime updateTime;
 
     /** 更新人 */
     private String updaterNum;

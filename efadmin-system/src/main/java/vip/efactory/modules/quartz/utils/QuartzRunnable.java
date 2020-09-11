@@ -5,8 +5,8 @@ import java.util.concurrent.Callable;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.ReflectionUtils;
+import vip.efactory.common.base.utils.SpringContextHolder;
 
-import vip.efactory.ejpa.utils.SpringContextHolder;
 
 /**
  * 执行定时任务

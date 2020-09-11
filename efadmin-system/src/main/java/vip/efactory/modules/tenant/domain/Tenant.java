@@ -3,8 +3,8 @@ package vip.efactory.modules.tenant.domain;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import lombok.Data;
+import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
-import vip.efactory.ejpa.base.valid.Update;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

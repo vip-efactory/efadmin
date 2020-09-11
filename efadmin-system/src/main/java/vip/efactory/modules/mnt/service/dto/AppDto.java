@@ -1,9 +1,10 @@
 package vip.efactory.modules.mnt.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 
 /**
@@ -52,7 +53,7 @@ public class AppDto implements Serializable {
 	 * 部署脚本
 	 */
 	private String deployScript;
-
-	private Timestamp createTime;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	private LocalDateTime createTime;
 
 }

@@ -1,9 +1,10 @@
 package vip.efactory.service.dto;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
 public class LogSmallDTO implements Serializable {
@@ -27,6 +28,6 @@ public class LogSmallDTO implements Serializable {
     private String address;
 
     private String browser;
-
-    private Timestamp createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime createTime;
 }

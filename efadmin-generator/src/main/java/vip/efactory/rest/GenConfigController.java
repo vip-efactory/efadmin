@@ -4,9 +4,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import vip.efactory.common.base.utils.R;
 import vip.efactory.domain.GenConfig;
 import vip.efactory.ejpa.base.controller.BaseController;
-import vip.efactory.ejpa.utils.R;
 import vip.efactory.service.GenConfigService;
 
 @RestController

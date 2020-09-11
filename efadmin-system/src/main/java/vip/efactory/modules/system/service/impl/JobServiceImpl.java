@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import vip.efactory.ejpa.base.controller.EPage;
+import vip.efactory.common.base.page.EPage;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.modules.system.domain.Job;
 import vip.efactory.modules.system.repository.DeptRepository;

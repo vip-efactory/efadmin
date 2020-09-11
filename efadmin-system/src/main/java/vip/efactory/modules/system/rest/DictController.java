@@ -21,9 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import vip.efactory.aop.log.Log;
+import vip.efactory.common.base.utils.R;
+import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.controller.BaseController;
-import vip.efactory.ejpa.base.valid.Update;
-import vip.efactory.ejpa.utils.R;
+
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.domain.Dict;
 import vip.efactory.modules.system.service.DictService;
@@ -36,7 +37,7 @@ import vip.efactory.modules.system.service.dto.DictQueryCriteria;
 public class DictController extends BaseController<Dict, DictService, Long> {
 
     private static final String ENTITY_NAME = "dict";
-    
+
 
     @Log("导出字典数据")
     @ApiOperation("导出字典数据")

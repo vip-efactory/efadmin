@@ -24,10 +24,10 @@ import org.springframework.web.multipart.MultipartFile;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import vip.efactory.aop.log.Log;
+import vip.efactory.common.base.utils.R;
 import vip.efactory.domain.QiniuConfig;
 import vip.efactory.domain.QiniuContent;
 import vip.efactory.ejpa.base.controller.BaseController;
-import vip.efactory.ejpa.utils.R;
 import vip.efactory.service.QiNiuService;
 import vip.efactory.service.dto.QiniuQueryCriteria;
 

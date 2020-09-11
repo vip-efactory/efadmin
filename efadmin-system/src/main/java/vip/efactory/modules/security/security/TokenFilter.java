@@ -15,7 +15,7 @@ import org.springframework.web.filter.GenericFilterBean;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
-import vip.efactory.ejpa.utils.SpringContextHolder;
+import vip.efactory.common.base.utils.SpringContextHolder;
 import vip.efactory.modules.security.config.SecurityProperties;
 import vip.efactory.modules.security.security.vo.OnlineUser;
 import vip.efactory.modules.security.service.OnlineUserService;

@@ -1,8 +1,9 @@
 package vip.efactory.modules.system.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
-import vip.efactory.ejpa.base.valid.Update;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper=false)
 @Table(name = "sys_dict")
 public class Dict extends BaseEntity<Long> implements Serializable {
 

@@ -1,24 +1,16 @@
 package vip.efactory.modules.system.domain;
 
-import java.util.Objects;
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Getter;
 import lombok.Setter;
+import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
-import vip.efactory.ejpa.base.valid.Update;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -57,18 +49,18 @@ public class Dept extends BaseEntity<Long> {
 //    @CreationTimestamp
 //    private Timestamp createTime;
 
-@Override
-public boolean equals(Object o) {
-    if (this == o) {
-        return true;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Dept dept = (Dept) o;
+        return Objects.equals(id, dept.id) &&
+                Objects.equals(name, dept.name);
     }
-    if (o == null || getClass() != o.getClass()) {
-        return false;
-    }
-    Dept dept = (Dept) o;
-    return Objects.equals(id, dept.id) &&
-            Objects.equals(name, dept.name);
-}
 
     @Override
     public int hashCode() {

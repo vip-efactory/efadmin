@@ -7,13 +7,15 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
+import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
-import vip.efactory.ejpa.base.valid.Update;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import javax.validation.groups.Default;
-import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -27,7 +29,7 @@ import java.util.Date;
 @Table(name = "tbl_employee")
 public class Employee extends BaseEntity<Long> {
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(message = "{Employee.id}{property.not.allow.empty}", groups = Update.class)  // 意味着，updateById更新时id不允许为空
@@ -92,8 +94,8 @@ public class Employee extends BaseEntity<Long> {
      * 生日,允许当天
      */
     @PastOrPresent(message = "{Employee.birthday}{property.value.only.past}", groups = {Update.class, Default.class})
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date birthday;
+    //@JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthday;
 
     /**
      * 员工住址

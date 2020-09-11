@@ -2,8 +2,9 @@ package vip.efactory.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
-import vip.efactory.ejpa.base.valid.Update;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

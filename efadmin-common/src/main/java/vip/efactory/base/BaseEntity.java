@@ -9,6 +9,7 @@ import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -22,11 +23,11 @@ public class BaseEntity implements Serializable {
 
     @Column(name = "create_time")
     @CreationTimestamp
-    private Timestamp createTime;
+    private LocalDateTime createTime;
 
     @Column(name = "update_time")
     @UpdateTimestamp
-    private Timestamp updateTime;
+    private LocalDateTime updateTime;
 
     public @interface Update {}
 
