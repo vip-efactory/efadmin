@@ -94,7 +94,7 @@ public class Employee extends BaseEntity<Long> {
      * 生日,允许当天
      */
     @PastOrPresent(message = "{Employee.birthday}{property.value.only.past}", groups = {Update.class, Default.class})
-    //@JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
 
     /**
