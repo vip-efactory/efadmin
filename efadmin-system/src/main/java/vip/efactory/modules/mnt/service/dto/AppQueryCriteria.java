@@ -1,6 +1,7 @@
 package vip.efactory.modules.mnt.service.dto;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 import vip.efactory.annotation.Query;
 
 import java.sql.Timestamp;
@@ -21,5 +22,6 @@ public class AppQueryCriteria{
     private String name;
 
 	@Query(type = Query.Type.BETWEEN)
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private List<LocalDateTime> createTime;
 }

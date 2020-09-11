@@ -1,6 +1,7 @@
 package vip.efactory.modules.system.service.dto;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 import vip.efactory.annotation.Query;
 
 
@@ -19,5 +20,6 @@ public class MenuQueryCriteria {
     private String blurry;
 
     @Query(type = Query.Type.BETWEEN)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private List<LocalDateTime> createTime;
 }
