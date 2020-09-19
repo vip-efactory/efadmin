@@ -90,7 +90,7 @@ public class RedisConfig extends CachingConfigurerSupport {
      * @return
      */
     private RedisClusterConfiguration getClusterConfiguration() {
-        Map<String, Object> source = new HashMap<String, Object>();
+        Map<String, Object> source = new HashMap<String, Object>(2);
         String clusterNodes = env.getProperty("spring.redis.cluster.nodes");
         source.put("spring.redis.cluster.nodes", clusterNodes);
         String clusterPassword = env.getProperty("spring.redis.cluster.password");
@@ -109,7 +109,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         String clusterEnable = env.getProperty("spring.redis.cluster.enable");
         // 有三种模式：Standalone、Sentinel and Cluster,此处不区分这么细
         // 集群配置
-        if (clusterEnable != null && clusterEnable.equals("true")) {
+        if ("true".equals(clusterEnable)) {
             redisConnectionFactory = new XRedisConnectionFactory(getClusterConfiguration());
             // Sentinel和Cluster模式还可以配置连接池，此处略去
         } else {
@@ -118,7 +118,9 @@ public class RedisConfig extends CachingConfigurerSupport {
             String host = env.getProperty("spring.redis.host");
             String port = env.getProperty("spring.redis.port");
             String password = env.getProperty("spring.redis.password");
+            assert host != null;
             standaloneConfiguration.setHostName(host);
+            assert port != null;
             standaloneConfiguration.setPort(Integer.parseInt(port));
             standaloneConfiguration.setPassword(password);
             standaloneConfiguration.setDatabase(TenantHolder.getTenantId().intValue());
