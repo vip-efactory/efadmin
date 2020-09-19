@@ -1,5 +1,6 @@
 package vip.efactory.config;
 
+import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.parser.ParserConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -28,6 +29,7 @@ import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.*;
 import org.springframework.util.Assert;
+import vip.efactory.common.base.utils.MapUtil;
 import vip.efactory.config.cache.XRedisConnectionFactory;
 import vip.efactory.ejpa.tenant.identifier.TenantHolder;
 import vip.efactory.utils.StringUtils;
@@ -160,17 +162,20 @@ public class RedisConfig extends CachingConfigurerSupport {
             Map<String, Object> container = new HashMap<>(3);
             Class<?> targetClassClass = target.getClass();
             // 类地址
-            container.put("class", targetClassClass.toGenericString());
+            container.put("className", targetClassClass.toGenericString());
             // 方法名称
             container.put("methodName", method.getName());
             // 包名称
-            container.put("package", targetClassClass.getPackage());
+            container.put("packageName", targetClassClass.getPackage());
             // 参数列表
-            for (int i = 0; i < params.length; i++) {
-                container.put(String.valueOf(i), params[i]);
+            for (Object param : params) {
+                // 对每一个参数对象转换成map，然后再放入容器，因为lambda中不允许删除objectMap元素操作，此处不再删除值为null的参数
+                Map<String, Object> objectMap = (Map<String, Object>) MapUtil.objectToMap1(param);
+                // 合并有效的参数到容器里
+                container.putAll(objectMap);
             }
             // 转为JSON字符串
-            String jsonString = JSON.toJSONString(container);
+            String jsonString = JSONUtil.toJsonStr(container);
             // 做SHA256 Hash计算，得到一个SHA256摘要作为Key
             return DigestUtils.sha256Hex(jsonString);
         };
