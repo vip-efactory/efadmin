@@ -108,7 +108,7 @@ public class JobServiceImpl extends BaseServiceImpl<Job, Long, JobRepository> im
             map.put("岗位名称", jobDTO.getName());
             map.put("所属部门", jobDTO.getDept().getName());
             map.put("岗位状态", jobDTO.getEnabled() ? "启用" : "停用");
-            map.put("创建日期", jobDTO.getCreateTime());
+            map.put("创建日期", jobDTO.getCreateTime().toString());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);

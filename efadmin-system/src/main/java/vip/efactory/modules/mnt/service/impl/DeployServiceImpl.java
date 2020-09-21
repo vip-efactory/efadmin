@@ -430,7 +430,7 @@ public class DeployServiceImpl extends BaseServiceImpl<Deploy, Long, DeployRepos
             Map<String, Object> map = new LinkedHashMap<>();
             map.put("应用名称", deployDto.getApp().getName());
             map.put("服务器", deployDto.getServers());
-            map.put("部署日期", deployDto.getCreateTime());
+            map.put("部署日期", deployDto.getCreateTime().toString());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);

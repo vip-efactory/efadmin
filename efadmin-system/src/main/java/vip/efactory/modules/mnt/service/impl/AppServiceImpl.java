@@ -105,7 +105,7 @@ public class AppServiceImpl extends BaseServiceImpl<App, Long, AppRepository> im
             map.put("备份目录", appDto.getBackupPath());
             map.put("启动脚本", appDto.getStartScript());
             map.put("部署脚本", appDto.getDeployScript());
-            map.put("创建日期", appDto.getCreateTime());
+            map.put("创建日期", appDto.getCreateTime().toString());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);

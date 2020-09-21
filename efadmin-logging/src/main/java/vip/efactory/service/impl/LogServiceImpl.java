@@ -132,7 +132,7 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog, Long, LogRepository>
             map.put("浏览器", log.getBrowser());
             map.put("请求耗时/毫秒", log.getTime());
             map.put("异常详情", new String(ObjectUtil.isNotNull(log.getExceptionDetail()) ? log.getExceptionDetail() : "".getBytes()));
-            map.put("创建日期", log.getCreateTime());
+            map.put("创建日期", log.getCreateTime().toString());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);

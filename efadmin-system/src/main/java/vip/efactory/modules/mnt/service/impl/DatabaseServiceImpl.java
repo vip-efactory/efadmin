@@ -99,7 +99,7 @@ public class DatabaseServiceImpl extends BaseServiceImpl<Database, String, Datab
             map.put("数据库名称", databaseDto.getName());
             map.put("数据库连接地址", databaseDto.getJdbcUrl());
             map.put("用户名", databaseDto.getUserName());
-            map.put("创建日期", databaseDto.getCreateTime());
+            map.put("创建日期", databaseDto.getCreateTime().toString());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);

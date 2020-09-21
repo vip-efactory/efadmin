@@ -73,7 +73,7 @@ public class DeployHistoryServiceImpl extends BaseServiceImpl<DeployHistory, Str
             map.put("部署编号", deployHistoryDto.getDeployId());
             map.put("应用名称", deployHistoryDto.getAppName());
             map.put("部署IP", deployHistoryDto.getIp());
-            map.put("部署时间", deployHistoryDto.getDeployDate());
+            map.put("部署时间", deployHistoryDto.getDeployDate().toString());
             map.put("部署人员", deployHistoryDto.getDeployUser());
             list.add(map);
         }

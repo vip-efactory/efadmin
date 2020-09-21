@@ -103,7 +103,7 @@ public class ServerDeployServiceImpl extends BaseServiceImpl<ServerDeploy, Long,
             map.put("服务器IP", deployDto.getIp());
             map.put("端口", deployDto.getPort());
             map.put("账号", deployDto.getAccount());
-            map.put("创建日期", deployDto.getCreateTime());
+            map.put("创建日期", deployDto.getCreateTime().toString());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);

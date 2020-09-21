@@ -217,7 +217,7 @@ public class QiNiuServiceImpl extends BaseServiceImpl<QiniuConfig, Long, QiNiuCo
             map.put("空间名称", content.getBucket());
             map.put("文件大小", content.getSize());
             map.put("空间类型", content.getType());
-            map.put("创建日期", content.getUpdateTime());
+            map.put("创建日期", content.getUpdateTime().toString());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);

@@ -294,7 +294,7 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, Long, MenuRepository>
             map.put("外链菜单", menuDTO.getIFrame() ? "是" : "否");
             map.put("菜单可见", menuDTO.getHidden() ? "否" : "是");
             map.put("是否缓存", menuDTO.getCache() ? "是" : "否");
-            map.put("创建日期", menuDTO.getCreateTime());
+            map.put("创建日期", menuDTO.getCreateTime().toString());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);

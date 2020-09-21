@@ -151,7 +151,7 @@ public class QuartzJobServiceImpl extends BaseServiceImpl<QuartzJob, Long, Quart
             map.put("表达式", quartzJob.getCronExpression());
             map.put("状态", quartzJob.getIsPause() ? "暂停中" : "运行中");
             map.put("描述", quartzJob.getRemark());
-            map.put("创建日期", quartzJob.getCreateTime());
+            map.put("创建日期", quartzJob.getCreateTime().toString());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);
@@ -170,7 +170,7 @@ public class QuartzJobServiceImpl extends BaseServiceImpl<QuartzJob, Long, Quart
             map.put("异常详情", quartzLog.getExceptionDetail());
             map.put("耗时/毫秒", quartzLog.getTime());
             map.put("状态", quartzLog.getIsSuccess() ? "成功" : "失败");
-            map.put("创建日期", quartzLog.getCreateTime());
+            map.put("创建日期", quartzLog.getCreateTime().toString());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);

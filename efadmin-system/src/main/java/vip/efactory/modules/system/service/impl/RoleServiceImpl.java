@@ -169,7 +169,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, Long, RoleRepository>
             map.put("默认权限", role.getPermission());
             map.put("角色级别", role.getLevel());
             map.put("描述", role.getRemark());
-            map.put("创建日期", role.getCreateTime());
+            map.put("创建日期", role.getCreateTime().toString());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);

@@ -130,7 +130,7 @@ public class LocalStorageServiceImpl extends BaseServiceImpl<LocalStorage, Long,
             map.put("文件类型", localStorageDTO.getType());
             map.put("文件大小", localStorageDTO.getSize());
             map.put("操作人", localStorageDTO.getOperate());
-            map.put("创建日期", localStorageDTO.getCreateTime());
+            map.put("创建日期", localStorageDTO.getCreateTime().toString());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);

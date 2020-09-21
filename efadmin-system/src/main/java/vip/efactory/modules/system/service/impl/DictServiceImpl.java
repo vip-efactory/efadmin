@@ -98,7 +98,6 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, Long, DictRepository>
                     map.put("字典描述", dictDTO.getRemark());
                     map.put("字典标签", dictDetail.getLabel());
                     map.put("字典值", dictDetail.getValue());
-                    map.put("创建日期", dictDetail.getCreateTime());
                     list.add(map);
                 }
             } else {
@@ -107,7 +106,7 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, Long, DictRepository>
                 map.put("字典描述", dictDTO.getRemark());
                 map.put("字典标签", null);
                 map.put("字典值", null);
-                map.put("创建日期", dictDTO.getCreateTime());
+                map.put("创建日期", dictDTO.getCreateTime().toString());
                 list.add(map);
             }
         }

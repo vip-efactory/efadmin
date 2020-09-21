@@ -146,7 +146,7 @@ public class PictureServiceImpl extends BaseServiceImpl<Picture, Long, PictureRe
             map.put("高度", picture.getHeight());
             map.put("宽度", picture.getWidth());
             map.put("删除地址", picture.getDelete());
-            map.put("创建日期", picture.getCreateTime());
+            map.put("创建日期", picture.getCreateTime().toString());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);

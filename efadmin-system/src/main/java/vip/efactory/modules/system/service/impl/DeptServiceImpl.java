@@ -156,7 +156,7 @@ public class DeptServiceImpl extends BaseServiceImpl<Dept, Long, DeptRepository>
             Map<String,Object> map = new LinkedHashMap<>();
             map.put("部门名称", deptDTO.getName());
             map.put("部门状态", deptDTO.getEnabled() ? "启用" : "停用");
-            map.put("创建日期", deptDTO.getCreateTime());
+            map.put("创建日期", deptDTO.getCreateTime().toString());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);

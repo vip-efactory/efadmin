@@ -209,8 +209,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
             map.put("角色", roles);
             map.put("部门", userDTO.getDept().getName());
             map.put("岗位", userDTO.getJob().getName());
-            map.put("最后修改密码的时间", userDTO.getLastPasswordResetTime());
-            map.put("创建日期", userDTO.getCreateTime());
+            map.put("最后修改密码的时间", userDTO.getLastPasswordResetTime().toString());
+            map.put("创建日期", userDTO.getCreateTime().toString());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);
