@@ -124,7 +124,7 @@ import i18n from '../../../lang'
 
 // crud交由presenter持有
 const adSearchFields = new Map([['remark', i18n.t('be.remark')], ['createTime', i18n.t('be.createTime')], ['updateTime', i18n.t('be.updateTime')], ['creatorNum', i18n.t('be.creatorNum')], ['updaterNum', i18n.t('be.updaterNum')]]) // 需要高级搜索的字段，此处只是通用的字段，实体自己的需要手动添加！
-const defaultCrud = CRUD({ title: i18n.t('${changeClassName}.TITLE'), url: 'api/${changeClassName}/page', sort: '${pkChangeColName},desc', crudMethod: { ...crud${className} }, adSearchFields: adSearchFields })
+const defaultCrud = CRUD({ title: i18n.t('${changeClassName}.TITLE'), url: 'api/${changeClassName}/page', exportUrl: 'api/${changeClassName}/download', sort: '${pkChangeColName},desc', crudMethod: { ...crud${className} }, adSearchFields: adSearchFields })
 const defaultForm = { <#if columns??><#list columns as column>${column.changeColumnName}: null<#if column_has_next>, </#if></#list></#if> }
 export default {
   name: '${className}',

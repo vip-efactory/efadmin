@@ -155,13 +155,23 @@ public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${pkC
     public void download(List<${className}Dto> all, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
         for (${className}Dto ${changeClassName} : all) {
-            Map<String,Object> map = new LinkedHashMap<>();
+            Map<String, Object> map = new LinkedHashMap<>();
         <#list columns as column>
             <#if column.columnKey != 'PRI'>
             <#if column.remark != ''>
-            map.put("${column.remark}", ${changeClassName}.get${column.capitalColumnName}());
+            <#if column.columnType = 'LocalDateTime' || column.columnType = 'LocalDate' || column.columnType = 'LocalTime' >
+            // Excel导出不支持Java8的日期类型,故将值保存为字符串
+            map.put("${column.remark}",  ${changeClassName}.get${column.capitalColumnName}().toString());
             <#else>
-            map.put(" ${column.changeColumnName}",  ${changeClassName}.get${column.capitalColumnName}());
+            map.put("${column.remark}", ${changeClassName}.get${column.capitalColumnName}());
+            </#if>
+            <#else>
+            <#if column.columnType = 'LocalDateTime' || column.columnType = 'LocalDate' || column.columnType = 'LocalTime' >
+            // Excel导出不支持Java8的日期类型,故将值保存为字符串
+            map.put("${column.changeColumnName}",  ${changeClassName}.get${column.capitalColumnName}().toString());
+            <#else>
+            map.put("${column.changeColumnName}",  ${changeClassName}.get${column.capitalColumnName}());
+            </#if>
             </#if>
             </#if>
         </#list>
