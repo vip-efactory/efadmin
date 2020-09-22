@@ -79,6 +79,7 @@ public class TenantController extends BaseController<Tenant, ITenantService, Lon
      * @param id 主键
      * @return R
      */
+    @Override
     @Log("依ID查询系统租户")
     @GetMapping("/{id}")
     @ApiOperation(value = "依据id来获取对应的记录", notes = "依据id来获取对应的记录")
@@ -94,6 +95,7 @@ public class TenantController extends BaseController<Tenant, ITenantService, Lon
      * @param entity 要保存的对象
      * @return R
      */
+    @Override
     @Log("新增系统租户")
     @PostMapping
     @ApiOperation(value = "保存记录", notes = "保存来自json格式对象")
@@ -108,6 +110,7 @@ public class TenantController extends BaseController<Tenant, ITenantService, Lon
      * @param entity 将更新的对象
      * @return R
      */
+    @Override
     @Log("依ID修改系统租户")
     @PutMapping
     @ApiOperation(value = "依据id来更新对应的记录", notes = "依据id来更新对应的记录,属性值为空则不更新数据表中已有的数据")
@@ -122,6 +125,7 @@ public class TenantController extends BaseController<Tenant, ITenantService, Lon
      * @param id 主键
      * @return R
      */
+    @Override
     @Log("依ID删除系统租户")
     @DeleteMapping("/{id}")
     @ApiOperation(value = "依据id来删除对应的记录", notes = "依据id来删除对应的记录")

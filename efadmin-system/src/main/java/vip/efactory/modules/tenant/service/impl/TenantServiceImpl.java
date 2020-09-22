@@ -70,33 +70,33 @@ public class TenantServiceImpl extends BaseServiceImpl<Tenant, Long, TenantRepos
 //
 //
 //
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //        return tenantMapper.toDto(br.save(resources));
 //    }
@@ -108,33 +108,33 @@ public class TenantServiceImpl extends BaseServiceImpl<Tenant, Long, TenantRepos
 //        Tenant tenant = br.findById(resources.getId()).orElseGet(Tenant::new);
 //        ValidationUtil.isNull( tenant.getId(),"Tenant","id",resources.getId());
 //
-//    
-//        
-//    
-//        
-//    
-//        
-//    
-//        
-//    
-//        
-//    
-//        
-//    
-//        
-//    
-//        
-//    
-//        
-//    
-//        
-//    
-//        
-//    
-//        
-//    
-//        
-//    
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //        tenant.copy(resources);
 //        br.save(tenant);
@@ -167,9 +167,9 @@ public class TenantServiceImpl extends BaseServiceImpl<Tenant, Long, TenantRepos
             map.put("JDBC链接", tenant.getJdbcUrl());
             map.put("租户状态,-1禁用；0正常等", tenant.getStatus());
             map.put("备注", tenant.getRemark());
-            map.put("创建时间", tenant.getCreateTime());
+            map.put("创建时间", tenant.getCreateTime().toString());
             map.put("创建人", tenant.getCreatorNum());
-            map.put("更新时间", tenant.getUpdateTime());
+            map.put("更新时间", tenant.getUpdateTime().toString());
             map.put("更新人", tenant.getUpdaterNum());
             list.add(map);
         }
