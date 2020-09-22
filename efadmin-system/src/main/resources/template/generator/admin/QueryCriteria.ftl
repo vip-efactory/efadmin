@@ -4,6 +4,15 @@ import lombok.Data;
 <#if hasTimestamp>
 import java.sql.Timestamp;
 </#if>
+<#if hasLocalDateTime>
+import java.time.LocalDateTime;
+</#if>
+<#if hasLocalDate>
+import java.time.LocalDate;
+</#if>
+<#if hasLocalTime>
+import java.time.LocalTime;
+</#if>
 <#if hasBigDecimal>
 import java.math.BigDecimal;
 </#if>
@@ -58,9 +67,19 @@ public class ${className}QueryCriteria{
 </#if>
 <#if betweens??>
     <#list betweens as column>
+
     /** BETWEEN */
     @Query(type = Query.Type.BETWEEN)
-    private List<${column.columnType}> createTime;
+    <#if column.columnType = 'LocalDateTime'>
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    </#if>
+    <#if column.columnType = 'LocalDate'>
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    </#if>
+    <#if column.columnType = 'LocalTime'>
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    </#if>
+    private List<${column.columnType}> ${column.changeColumnName};
     </#list>
 </#if>
 }

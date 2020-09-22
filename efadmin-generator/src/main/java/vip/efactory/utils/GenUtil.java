@@ -27,6 +27,10 @@ import vip.efactory.domain.GenConfig;
 public class GenUtil {
 
     private static final String TIMESTAMP = "Timestamp";
+    /* java8的日期类型 */
+    private static final String LOCAL_DATETIME = "LocalDateTime";
+    private static final String LOCAL_DATE = "LocalDate";
+    private static final String LOCAL_TIME = "LocalTime";
 
     private static final String BIGDECIMAL = "BigDecimal";
 
@@ -203,8 +207,14 @@ public class GenUtil {
         genMap.put("changeClassName", changeClassName);
         // 存在 Timestamp 字段
         genMap.put("hasTimestamp",false);
+        genMap.put("hasLocalDateTime",false);
+        genMap.put("hasLocalDate",false);
+        genMap.put("hasLocalTime",false);
         // 查询类中存在 Timestamp 字段
         genMap.put("queryHasTimestamp",false);
+        genMap.put("queryHasLocalDateTime",false);
+        genMap.put("queryHasLocalDate",false);
+        genMap.put("queryHasLocalTime",false);
         // 存在 BigDecimal 字段
         genMap.put("hasBigDecimal",false);
         // 查询类中存在 BigDecimal 字段
@@ -251,6 +261,15 @@ public class GenUtil {
             // 是否存在 Timestamp 类型的字段
             if(TIMESTAMP.equals(colType)){
                 genMap.put("hasTimestamp",true);
+            }
+            if(LOCAL_DATETIME.equals(colType)){
+                genMap.put("hasLocalDateTime",true);
+            }
+            if(LOCAL_DATE.equals(colType)){
+                genMap.put("hasLocalDate",true);
+            }
+            if(LOCAL_TIME.equals(colType)){
+                genMap.put("hasLocalTime",true);
             }
             // 是否存在 BigDecimal 类型的字段
             if(BIGDECIMAL.equals(colType)){
@@ -303,6 +322,18 @@ public class GenUtil {
                     // 查询中存储 Timestamp 类型
                     genMap.put("queryHasTimestamp",true);
                 }
+                if(LOCAL_DATETIME.equals(colType)){
+                    // 查询中存储 Timestamp 类型
+                    genMap.put("queryHasLocalDateTime",true);
+                }
+                if(LOCAL_DATE.equals(colType)){
+                    // 查询中存储 Timestamp 类型
+                    genMap.put("queryHasLocalDate",true);
+                }
+                if(LOCAL_TIME.equals(colType)){
+                    // 查询中存储 Timestamp 类型
+                    genMap.put("queryHasLocalTime",true);
+                }
                 if(BIGDECIMAL.equals(colType)){
                     // 查询中存储 BigDecimal 类型
                     genMap.put("queryHasBigDecimal",true);
@@ -336,6 +367,7 @@ public class GenUtil {
     private static String getAdminFilePath(String templateName, GenConfig genConfig, String className, String rootPath) {
         String projectPath = rootPath + File.separator + genConfig.getModuleName();
         String packagePath = projectPath + File.separator + "src" +File.separator+ "main" + File.separator + "java" + File.separator;
+        String resourcesPath = projectPath + File.separator + "src" +File.separator+ "main" + File.separator + "resources" + File.separator;
         if (!ObjectUtils.isEmpty(genConfig.getPack())) {
             packagePath += genConfig.getPack().replace(".", File.separator) + File.separator;
         }
@@ -373,7 +405,7 @@ public class GenUtil {
         }
 
         if ("Messages".equals(templateName)) {
-            return packagePath + "repository" + File.separator + className + "Messages.properties";
+            return resourcesPath + "i18n" + File.separator + className + "Messages.properties";
         }
 
         return null;

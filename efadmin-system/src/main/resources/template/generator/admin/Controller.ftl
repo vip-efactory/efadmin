@@ -30,7 +30,8 @@ public class ${className}Controller extends BaseController<${className}, I${clas
     /**
      * Description: 默认的分页与排序,默认${pkChangeColName}降序
      *
-     * @param page 框架默认的分页对象
+     * @param criteria 查询条件对象
+     * @param page     框架默认的分页对象
      * @return R
      */
     @Log("GET分页查询${apiAlias}")
@@ -50,7 +51,7 @@ public class ${className}Controller extends BaseController<${className}, I${clas
      */
     @Log("POST高级查询${apiAlias}")
     @ApiOperation(value = "POST多条件组合查询,返回分页数据", notes = "默认每页25条记录,${pkChangeColName}字段降序")
-    @PostMapping("/page")
+    @PostMapping("/query")
     @PreAuthorize("@p.check('${changeClassName}:list')")
     public R advancedQuery(@RequestBody ${className} entity, @PageableDefault(value = 25, sort = {"${pkChangeColName}"}, direction = Sort.Direction.DESC) Pageable page) {
         return super.advancedQueryByPage(page, entity);
@@ -70,7 +71,7 @@ public class ${className}Controller extends BaseController<${className}, I${clas
     @RequestMapping(value = "/fuzzy", method = {RequestMethod.GET})
     @PreAuthorize("@p.check('${changeClassName}:list')")
     public R getByPage(@RequestParam String q, @RequestParam String fields, @PageableDefault(value = 25, sort = {"${pkChangeColName}"}, direction = Sort.Direction.DESC) Pageable page) {
-        return super.queryMutiField(q, fields, page);
+        return super.queryMultiField(q, fields, page);
     }
 
     /**
@@ -79,6 +80,7 @@ public class ${className}Controller extends BaseController<${className}, I${clas
      * @param ${pkChangeColName} 主键
      * @return R
      */
+    @Override
     @Log("依ID查询${apiAlias}")
     @GetMapping("/{${pkChangeColName}}")
     @ApiOperation(value = "依据${pkChangeColName}来获取对应的记录", notes = "依据${pkChangeColName}来获取对应的记录")
@@ -93,6 +95,7 @@ public class ${className}Controller extends BaseController<${className}, I${clas
      * @param entity 要保存的对象
      * @return R
      */
+    @Override
     @Log("新增${apiAlias}")
     @PostMapping
     @ApiOperation(value = "保存记录", notes = "保存来自json格式对象")
@@ -107,6 +110,7 @@ public class ${className}Controller extends BaseController<${className}, I${clas
      * @param entity 将更新的对象
      * @return R
      */
+    @Override
     @Log("依ID修改${apiAlias}")
     @PutMapping
     @ApiOperation(value = "依据${pkChangeColName}来更新对应的记录", notes = "依据${pkChangeColName}来更新对应的记录,属性值为空则不更新数据表中已有的数据")
@@ -121,6 +125,7 @@ public class ${className}Controller extends BaseController<${className}, I${clas
      * @param ${pkChangeColName} 主键
      * @return R
      */
+    @Override
     @Log("依ID删除${apiAlias}")
     @DeleteMapping("/{${pkChangeColName}}")
     @ApiOperation(value = "依据${pkChangeColName}来删除对应的记录", notes = "依据${pkChangeColName}来删除对应的记录")
@@ -135,6 +140,7 @@ public class ${className}Controller extends BaseController<${className}, I${clas
     * @param ${pkChangeColName}s 主键集合
     * @return R
     */
+    @Override
     @Log("依ID集合删除${apiAlias}")
     @DeleteMapping
     @ApiOperation(value = "依据${pkChangeColName}集合来删除对应的记录", notes = "依据${pkChangeColName}集合来删除对应的记录")
@@ -144,14 +150,14 @@ public class ${className}Controller extends BaseController<${className}, I${clas
     }
 
     /**
-    * 不分页，url暂时用/page开头，后期可以考虑前后端一起改掉
-    * @param response
-    * @param criteria
+    * 不分页,导出数据为excel文件
+    * @param response 请求响应对象
+    * @param criteria 查询条件对象
     * @throws IOException
     */
     @Log("导出${apiAlias}数据")
     @ApiOperation("导出${apiAlias}数据")
-    @GetMapping(value = "/page/download")
+    @GetMapping(value = "/download")
     @PreAuthorize("@p.check('${changeClassName}:list')")
     public void download(HttpServletResponse response, ${className}QueryCriteria criteria) throws IOException {
         entityService.download(entityService.queryAll(criteria), response);

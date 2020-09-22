@@ -19,6 +19,15 @@ import org.hibernate.annotations.*;
 <#if hasTimestamp>
 import java.sql.Timestamp;
 </#if>
+<#if hasLocalDateTime>
+import java.time.LocalDateTime;
+</#if>
+<#if hasLocalDate>
+import java.time.LocalDate;
+</#if>
+<#if hasLocalTime>
+import java.time.LocalTime;
+</#if>
 <#if hasBigDecimal>
 import java.math.BigDecimal;
 </#if>
