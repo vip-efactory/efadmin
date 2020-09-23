@@ -51,7 +51,7 @@ public class ${className}Controller extends BaseController<${className}, I${clas
      */
     @Log("POST高级查询${apiAlias}")
     @ApiOperation(value = "POST多条件组合查询,返回分页数据", notes = "默认每页25条记录,${pkChangeColName}字段降序")
-    @PostMapping("/query")
+    @PostMapping("/page")
     @PreAuthorize("@p.check('${changeClassName}:list')")
     public R advancedQuery(@RequestBody ${className} entity, @PageableDefault(value = 25, sort = {"${pkChangeColName}"}, direction = Sort.Direction.DESC) Pageable page) {
         return super.advancedQueryByPage(page, entity);

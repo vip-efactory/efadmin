@@ -54,16 +54,16 @@ public class ${className} extends BaseEntity<${pkColumnType}> {
     <#if auto>
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     </#if>
-    @NotNull(message = "id {property.not.allow.empty}", groups = Update.class)
+    @NotNull(groups = Update.class)
     </#if>
     <#if column.columnName == "create_time" || column.columnName == "update_time" || column.columnName == "creator_num" || column.columnName == "updater_num" || column.columnName == "remark" >
     <#else>
     @Column(name = "${column.columnName}"<#if column.columnKey = 'UNI'>,unique = true</#if><#if column.istNotNull && column.columnKey != 'PRI'>,nullable = false</#if>)
     <#if column.istNotNull && column.columnKey != 'PRI'>
         <#if column.columnType = 'String'>
-    @NotBlank(message = "{${className}.${column.changeColumnName}}{property.not.allow.empty}")
+    @NotBlank
         <#else>
-    @NotNull(message = "{${className}.${column.changeColumnName}}{property.not.allow.empty}")
+    @NotNull
         </#if>
     </#if>
     </#if>
