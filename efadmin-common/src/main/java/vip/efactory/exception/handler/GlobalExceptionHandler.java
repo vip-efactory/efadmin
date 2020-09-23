@@ -12,10 +12,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.exception.EntityExistException;
 import vip.efactory.exception.EntityNotFoundException;
 import vip.efactory.utils.ThrowableUtil;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Description: 全局异常处理
@@ -35,6 +40,14 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<ApiError> handleException(Throwable e){
+        // 记录发生异常的请求，例如在有些场景请求还没有进入控制器就已经报错了，像JSON转换异常!
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        if (requestAttributes != null) {
+            HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(requestAttributes)).getRequest();
+            // 此处不记录类似Post方式的Body数据，是因为如果是Body数据，在发生异常时已经被读过，此处再去读就会报异常．
+            log.error("发生异常的请求,request={},method={},param={}", request.getRequestURI(), request.getMethod(), request.getQueryString());
+        }
+
         // 打印堆栈信息
         log.error(ThrowableUtil.getStackTrace(e));
         return buildResponseEntity(ApiError.error(e.getMessage()));
