@@ -57,7 +57,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, Long, RoleRepository>
     }
 
     @Override
-//    @Cacheable
+    @Cacheable
     public Object queryAll(RoleQueryCriteria criteria, Pageable pageable) {
         Page<Role> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return new EPage(page.map(roleMapper::toDto));

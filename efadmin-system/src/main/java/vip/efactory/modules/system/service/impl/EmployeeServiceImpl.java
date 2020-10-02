@@ -1,6 +1,9 @@
 package vip.efactory.modules.system.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,23 +29,27 @@ import java.util.Optional;
  */
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
+@CacheConfig(cacheNames = "employee")
 public class EmployeeServiceImpl extends BaseServiceImpl<Employee, Long, EmployeeRepository> implements EmployeeService {
 
     @Autowired
     private EmployeeMapper employeeMapper;
 
     @Override
+    @Cacheable
     public Object queryAll(EmployeeQueryCriteria criteria, Pageable pageable) {
         Page<Employee> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
         return PageUtil.toPage(page.map(employeeMapper::toDto));
     }
 
     @Override
+    @Cacheable
     public Object queryAll(EmployeeQueryCriteria criteria) {
         return employeeMapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
     }
 
     @Override
+    @Cacheable
     public EmployeeDto findDTOById(Long id) {
         Optional<Employee> employee = br.findById(id);
         ValidationUtil.isNull(employee, "Employee", "id", id);
@@ -51,6 +58,7 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee, Long, Employe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true)
     public EmployeeDto create(Employee resources) {
         if (br.findByCode(resources.getCode()) != null) {
             throw new EntityExistException(Employee.class, "code", resources.getCode());
@@ -66,6 +74,7 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee, Long, Employe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true)
     public Employee update(Employee resources) {
         Optional<Employee> optionalEmployee = br.findById(resources.getId());
         ValidationUtil.isNull(optionalEmployee, "Employee", "id", resources.getId());
@@ -90,6 +99,7 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee, Long, Employe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true)
     public void delete(Long id) {
         br.deleteById(id);
     }

@@ -4,6 +4,9 @@ import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import com.jcraft.jsch.JSchException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -42,6 +45,7 @@ import java.util.*;
 @Slf4j
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
+@CacheConfig(cacheNames = "deploy")
 public class DeployServiceImpl extends BaseServiceImpl<Deploy, Long, DeployRepository> implements DeployService {
 
     private final String FILE_SEPARATOR = "/";
@@ -63,17 +67,20 @@ public class DeployServiceImpl extends BaseServiceImpl<Deploy, Long, DeployRepos
 
 
     @Override
+    @Cacheable
     public Object queryAll(DeployQueryCriteria criteria, Pageable pageable) {
         Page<Deploy> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
         return new EPage(page.map(deployMapper::toDto));
     }
 
     @Override
+    @Cacheable
     public List<DeployDto> queryAll(DeployQueryCriteria criteria) {
         return deployMapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
     }
 
     @Override
+    @Cacheable
     public DeployDto findDtoById(Long id) {
         Deploy deploy = br.findById(id).orElseGet(Deploy::new);
         ValidationUtil.isNull(deploy.getId(), "Deploy", "id", id);
@@ -82,12 +89,14 @@ public class DeployServiceImpl extends BaseServiceImpl<Deploy, Long, DeployRepos
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true)
     public DeployDto create(Deploy resources) {
         return deployMapper.toDto(br.save(resources));
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true)
     public void update2(Deploy resources) {
         Deploy deploy = br.findById(resources.getId()).orElseGet(Deploy::new);
         ValidationUtil.isNull(deploy.getId(), "Deploy", "id", resources.getId());
@@ -97,6 +106,7 @@ public class DeployServiceImpl extends BaseServiceImpl<Deploy, Long, DeployRepos
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true)
     public void delete(Set<Long> ids) {
         for (Long id : ids) {
             br.deleteById(id);

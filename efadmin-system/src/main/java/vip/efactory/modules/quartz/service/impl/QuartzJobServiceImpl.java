@@ -48,21 +48,25 @@ public class QuartzJobServiceImpl extends BaseServiceImpl<QuartzJob, Long, Quart
     }
 
     @Override
+    @Cacheable
     public Object queryAll(JobQueryCriteria criteria, Pageable pageable) {
         return new EPage(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable));
     }
 
     @Override
+    @Cacheable
     public Object queryAllLog(JobQueryCriteria criteria, Pageable pageable) {
         return new EPage(quartzLogRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable));
     }
 
     @Override
+    @Cacheable
     public List<QuartzJob> queryAll(JobQueryCriteria criteria) {
         return br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder));
     }
 
     @Override
+    @Cacheable
     public List<QuartzLog> queryAllLog(JobQueryCriteria criteria) {
         return quartzLogRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder));
     }

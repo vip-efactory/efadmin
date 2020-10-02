@@ -43,13 +43,14 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, Long, DictRepository>
     }
 
     @Override
-//    @Cacheable
+    @Cacheable
     public Object queryAll(DictQueryCriteria dict, Pageable pageable){
         Page<Dict> page = br.findAll((root, query, cb) -> QueryHelp.getPredicate(root, dict, cb), pageable);
         return new EPage(page.map(dictMapper::toDto));
     }
 
     @Override
+    @Cacheable
     public List<DictDto> queryAll(DictQueryCriteria dict) {
         List<Dict> list = br.findAll((root, query, cb) -> QueryHelp.getPredicate(root, dict, cb));
         return dictMapper.toDto(list);

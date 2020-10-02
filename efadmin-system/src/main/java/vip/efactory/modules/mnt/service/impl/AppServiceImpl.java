@@ -1,6 +1,9 @@
 package vip.efactory.modules.mnt.service.impl;
 
 
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,6 +32,7 @@ import java.util.*;
  */
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
+@CacheConfig(cacheNames = "app")
 public class AppServiceImpl extends BaseServiceImpl<App, Long, AppRepository> implements AppService {
     private AppMapper appMapper;
 
@@ -37,17 +41,20 @@ public class AppServiceImpl extends BaseServiceImpl<App, Long, AppRepository> im
     }
 
     @Override
+    @Cacheable
     public Object queryAll(AppQueryCriteria criteria, Pageable pageable) {
         Page<App> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
         return new EPage(page.map(appMapper::toDto));
     }
 
     @Override
+    @Cacheable
     public List<AppDto> queryAll(AppQueryCriteria criteria) {
         return appMapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
     }
 
     @Override
+    @Cacheable
     public AppDto findDtoById(Long id) {
         App app = br.findById(id).orElseGet(App::new);
         ValidationUtil.isNull(app.getId(), "App", "id", id);
@@ -55,6 +62,7 @@ public class AppServiceImpl extends BaseServiceImpl<App, Long, AppRepository> im
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     public AppDto create(App resources) {
         verification(resources);
@@ -63,6 +71,7 @@ public class AppServiceImpl extends BaseServiceImpl<App, Long, AppRepository> im
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true)
     public void update2(App resources) {
         verification(resources);
         App app = br.findById(resources.getId()).orElseGet(App::new);
@@ -87,6 +96,7 @@ public class AppServiceImpl extends BaseServiceImpl<App, Long, AppRepository> im
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true)
     public void delete(Set<Long> ids) {
         for (Long id : ids) {
             br.deleteById(id);

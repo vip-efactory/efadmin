@@ -33,7 +33,7 @@ public class DictDetailServiceImpl extends BaseServiceImpl<DictDetail, Long, Dic
     }
 
     @Override
-//    @Cacheable
+    @Cacheable
     public Map<String,Object> queryAll(DictDetailQueryCriteria criteria, Pageable pageable) {
         Page<DictDetail> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(dictDetailMapper::toDto));

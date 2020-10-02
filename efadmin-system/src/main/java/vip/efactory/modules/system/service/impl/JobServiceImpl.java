@@ -46,7 +46,7 @@ public class JobServiceImpl extends BaseServiceImpl<Job, Long, JobRepository> im
     }
 
     @Override
-//    @Cacheable, 如果缓存会导致排序失效！
+    @Cacheable
     public Object queryAll(JobQueryCriteria criteria, Pageable pageable) {
         Page<Job> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         List<JobDto> jobs = new ArrayList<>();

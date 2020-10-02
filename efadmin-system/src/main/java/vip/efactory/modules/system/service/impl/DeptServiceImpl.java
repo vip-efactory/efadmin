@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ import vip.efactory.utils.ValidationUtil;
 
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
+@CacheConfig(cacheNames = "dept")
 public class DeptServiceImpl extends BaseServiceImpl<Dept, Long, DeptRepository> implements DeptService {
 
     private final DeptMapper deptMapper;
@@ -42,7 +44,7 @@ public class DeptServiceImpl extends BaseServiceImpl<Dept, Long, DeptRepository>
     }
 
     @Override
-//    @Cacheable
+    @Cacheable
     public List<DeptDto> queryAll(DeptQueryCriteria criteria) {
         return deptMapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
     }

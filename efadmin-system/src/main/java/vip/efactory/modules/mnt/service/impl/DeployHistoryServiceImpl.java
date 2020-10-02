@@ -1,6 +1,9 @@
 package vip.efactory.modules.mnt.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,7 @@ import java.util.*;
 
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
+@CacheConfig(cacheNames = "deployHistory")
 public class DeployHistoryServiceImpl extends BaseServiceImpl<DeployHistory, String, DeployHistoryRepository> implements DeployHistoryService {
 
     private final DeployHistoryMapper deployhistoryMapper;
@@ -33,17 +37,20 @@ public class DeployHistoryServiceImpl extends BaseServiceImpl<DeployHistory, Str
     }
 
     @Override
+    @Cacheable
     public Object queryAll(DeployHistoryQueryCriteria criteria, Pageable pageable) {
         Page<DeployHistory> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
         return new EPage(page.map(deployhistoryMapper::toDto));
     }
 
     @Override
+    @Cacheable
     public List<DeployHistoryDto> queryAll(DeployHistoryQueryCriteria criteria) {
         return deployhistoryMapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
     }
 
     @Override
+    @Cacheable
     public DeployHistoryDto findDtoById(String id) {
         DeployHistory deployhistory = br.findById(id).orElseGet(DeployHistory::new);
         ValidationUtil.isNull(deployhistory.getId(), "DeployHistory", "id", id);
@@ -52,6 +59,7 @@ public class DeployHistoryServiceImpl extends BaseServiceImpl<DeployHistory, Str
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true)
     public DeployHistoryDto create(DeployHistory resources) {
         resources.setId(IdUtil.simpleUUID());
         return deployhistoryMapper.toDto(br.save(resources));
@@ -59,6 +67,7 @@ public class DeployHistoryServiceImpl extends BaseServiceImpl<DeployHistory, Str
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true)
     public void delete(Set<String> ids) {
         for (String id : ids) {
             br.deleteById(id);

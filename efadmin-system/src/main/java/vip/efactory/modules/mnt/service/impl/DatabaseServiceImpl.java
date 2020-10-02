@@ -2,6 +2,9 @@ package vip.efactory.modules.mnt.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,6 +33,7 @@ import java.util.*;
  */
 @Service
 @Slf4j
+@CacheConfig(cacheNames = "database")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class DatabaseServiceImpl extends BaseServiceImpl<Database, String, DatabaseRepository> implements DatabaseService {
 
@@ -40,17 +44,20 @@ public class DatabaseServiceImpl extends BaseServiceImpl<Database, String, Datab
     }
 
     @Override
+    @Cacheable
     public Object queryAll(DatabaseQueryCriteria criteria, Pageable pageable) {
         Page<Database> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
         return new EPage(page.map(databaseMapper::toDto));
     }
 
     @Override
+    @Cacheable
     public List<DatabaseDto> queryAll(DatabaseQueryCriteria criteria) {
         return databaseMapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
     }
 
     @Override
+    @Cacheable
     public DatabaseDto findDtoById(String id) {
         Database database = br.findById(id).orElseGet(Database::new);
         ValidationUtil.isNull(database.getId(), "Database", "id", id);
@@ -59,6 +66,7 @@ public class DatabaseServiceImpl extends BaseServiceImpl<Database, String, Datab
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true)
     public DatabaseDto create(Database resources) {
         resources.setId(IdUtil.simpleUUID());
         return databaseMapper.toDto(br.save(resources));
@@ -66,6 +74,7 @@ public class DatabaseServiceImpl extends BaseServiceImpl<Database, String, Datab
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true)
     public void update2(Database resources) {
         Database database = br.findById(resources.getId()).orElseGet(Database::new);
         ValidationUtil.isNull(database.getId(), "Database", "id", resources.getId());
@@ -75,6 +84,7 @@ public class DatabaseServiceImpl extends BaseServiceImpl<Database, String, Datab
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true)
     public void delete(Set<String> ids) {
         for (String id : ids) {
             br.deleteById(id);

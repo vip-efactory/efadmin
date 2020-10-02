@@ -2,6 +2,9 @@ package vip.efactory.modules.mnt.service.impl;
 
 
 import com.jcraft.jsch.JSchException;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,7 @@ import java.util.*;
 
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
+@CacheConfig(cacheNames = "serverDeploy")
 public class ServerDeployServiceImpl extends BaseServiceImpl<ServerDeploy, Long, ServerDeployRepository> implements ServerDeployService {
 
     private ServerDeployMapper serverDeployMapper;
@@ -35,17 +39,20 @@ public class ServerDeployServiceImpl extends BaseServiceImpl<ServerDeploy, Long,
     }
 
     @Override
+    @Cacheable
     public Object queryAll(ServerDeployQueryCriteria criteria, Pageable pageable) {
         Page<ServerDeploy> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
         return new EPage(page.map(serverDeployMapper::toDto));
     }
 
     @Override
+    @Cacheable
     public List<ServerDeployDto> queryAll(ServerDeployQueryCriteria criteria) {
         return serverDeployMapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
     }
 
     @Override
+    @Cacheable
     public ServerDeployDto findDtoById(Long id) {
         ServerDeploy server = br.findById(id).orElseGet(ServerDeploy::new);
         ValidationUtil.isNull(server.getId(), "ServerDeploy", "id", id);
@@ -53,6 +60,7 @@ public class ServerDeployServiceImpl extends BaseServiceImpl<ServerDeploy, Long,
     }
 
     @Override
+    @Cacheable
     public ServerDeployDto findByIp(String ip) {
         ServerDeploy deploy = br.findByIp(ip);
         return serverDeployMapper.toDto(deploy);
@@ -73,12 +81,14 @@ public class ServerDeployServiceImpl extends BaseServiceImpl<ServerDeploy, Long,
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true)
     public ServerDeployDto create(ServerDeploy resources) {
         return serverDeployMapper.toDto(br.save(resources));
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true)
     public void update2(ServerDeploy resources) {
         ServerDeploy serverDeploy = br.findById(resources.getId()).orElseGet(ServerDeploy::new);
         ValidationUtil.isNull(serverDeploy.getId(), "ServerDeploy", "id", resources.getId());
@@ -88,6 +98,7 @@ public class ServerDeployServiceImpl extends BaseServiceImpl<ServerDeploy, Long,
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true)
     public void delete(Set<Long> ids) {
         for (Long id : ids) {
             br.deleteById(id);

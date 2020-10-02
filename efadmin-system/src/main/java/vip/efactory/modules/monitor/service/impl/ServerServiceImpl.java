@@ -2,6 +2,9 @@ package vip.efactory.modules.monitor.service.impl;
 
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,7 @@ import java.util.Set;
  */
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
+@CacheConfig(cacheNames = "server")
 public class ServerServiceImpl extends BaseServiceImpl<Server, Integer, ServerRepository> implements ServerService {
     private final ServerMapper serverMapper;
 
@@ -35,6 +39,7 @@ public class ServerServiceImpl extends BaseServiceImpl<Server, Integer, ServerRe
     }
 
     @Override
+    @Cacheable
     public Object queryAll(ServerQueryCriteria criteria, Pageable pageable) {
         Page<Server> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
         page.forEach(server -> {
@@ -61,11 +66,13 @@ public class ServerServiceImpl extends BaseServiceImpl<Server, Integer, ServerRe
     }
 
     @Override
+    @Cacheable
     public List<ServerDTO> queryAll(ServerQueryCriteria criteria) {
         return serverMapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
     }
 
     @Override
+    @Cacheable
     public ServerDTO findDtoById(Integer id) {
         Server server = br.findById(id).orElseGet(Server::new);
         ValidationUtil.isNull(server.getId(), "Server", "id", id);
@@ -74,12 +81,14 @@ public class ServerServiceImpl extends BaseServiceImpl<Server, Integer, ServerRe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true)
     public ServerDTO create(Server resources) {
         return serverMapper.toDto(br.save(resources));
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true)
     public void update2(Server resources) {
         Server server = br.findById(resources.getId()).orElseGet(Server::new);
         ValidationUtil.isNull(server.getId(), "Server", "id", resources.getId());
@@ -89,6 +98,7 @@ public class ServerServiceImpl extends BaseServiceImpl<Server, Integer, ServerRe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true)
     public void delete(Set<Integer> ids) {
         for (Integer id : ids) {
             br.deleteById(id);
