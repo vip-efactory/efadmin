@@ -7,7 +7,7 @@
 # 本项目与eladmin的差异
 - 使用ejpa框架
 - 不使用JPA的ResponseEntity及分页，太繁琐了，用R代替了ResponseEntity，分页数据返回使用EPage简化
-- 支持独立数据库及redis数据库模式的多租户;  2.1.0+
+- 支持独立数据库及redis数据库模式的多租户;  // 2.1.0+
 - 因为使用ejpa框架，在原来的基础上有如下的新特性：更多请参见：https://github.com/vip-efactory/ejpa-example
     - 基本的CRUD模板，即增删改查操作，此处的查是指正常的分页、排序及id查询；
     - 较复杂的多条件的高级查询； --比eladmin更加灵活的高级查询
@@ -15,6 +15,8 @@
     - 提供接口的国际化功能；
     - 自动跟踪记录的：创建时间、更新时间、创建人、更新人
     - 增加员工组件管理
+    - 支持Java8的日期时间类型;   //2.2.0+  
+    - 基于观察者模式的多表联查缓存联动一致性; //2.2.0+  
 
 <h1 style="text-align: center">EF-ADMIN 后台管理系统</h1>
 <div style="text-align: center">
