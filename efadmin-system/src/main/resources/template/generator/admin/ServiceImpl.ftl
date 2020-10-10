@@ -56,7 +56,7 @@ public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${pkC
     private final ${className}Mapper ${changeClassName}Mapper;
 
     @Override
-    //@Cacheable
+    @Cacheable
     public Page<${className}Dto> queryAll(${className}QueryCriteria criteria, Pageable pageable){
         Page<${className}> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return page.map(${changeClassName}Mapper::toDto);
