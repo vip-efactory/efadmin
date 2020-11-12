@@ -4,6 +4,9 @@ import lombok.Data;
 <#if hasTimestamp>
 import java.sql.Timestamp;
 </#if>
+<#if hasLocalDateTime || hasLocalDate || hasLocalTime>
+import org.springframework.format.annotation.DateTimeFormat;
+</#if>
 <#if hasLocalDateTime>
 import java.time.LocalDateTime;
 </#if>

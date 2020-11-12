@@ -125,8 +125,16 @@ public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${pkC
 
     @Override
     @CacheEvict(allEntries = true)
-    public ${className} update(${className} ${changeClassName}) {
-        return super.update(${changeClassName});
+    @Transactional
+    public <S extends ${className}> S save(S var1) {
+        return super.save(var1);
+    }
+
+    @Override
+    @CacheEvict(allEntries = true)
+    @Transactional
+    public <S extends ${className}> S update(S var1) {
+        return super.update(var1);
     }
 
     @Override

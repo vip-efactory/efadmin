@@ -19,6 +19,9 @@ import org.hibernate.annotations.*;
 <#if hasTimestamp>
 import java.sql.Timestamp;
 </#if>
+<#if hasLocalDateTime || hasLocalDate || hasLocalTime>
+import org.springframework.format.annotation.DateTimeFormat;
+</#if>
 <#if hasLocalDateTime>
 import java.time.LocalDateTime;
 </#if>
@@ -78,6 +81,15 @@ public class ${className} extends BaseEntity<${pkColumnType}> {
     </#if>
     </#if>
     @ApiModelProperty(value = "${column.remark}", dataType = "${column.columnType}"<#if column.istNotNull && column.columnKey != 'PRI'>, required = true</#if>)
+<#if column.columnType = 'LocalDateTime'>
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+</#if>
+<#if column.columnType = 'LocalDate'>
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+</#if>
+<#if column.columnType = 'LocalTime'>
+    @DateTimeFormat(pattern = "HH:mm:ss")
+</#if>
     private ${column.columnType} ${column.changeColumnName};
     </#if>
     </#list>

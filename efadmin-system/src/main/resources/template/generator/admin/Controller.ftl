@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
 import java.io.IOException;
 import java.util.Set;
+import javax.servlet.http.HttpServletResponse;
 
 /**
 * ${apiAlias} 控制器层
@@ -153,7 +154,7 @@ public class ${className}Controller extends BaseController<${className}, I${clas
     * 不分页,导出数据为excel文件
     * @param response 请求响应对象
     * @param criteria 查询条件对象
-    * @throws IOException
+    * @throws IOException IO异常
     */
     @Log("导出${apiAlias}数据")
     @ApiOperation("导出${apiAlias}数据")
