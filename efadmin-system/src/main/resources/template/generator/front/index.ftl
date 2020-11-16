@@ -38,7 +38,7 @@
     <#if columns??>
       <#list columns as column>
         <#if column.formShow>
-          <el-form-item :label="<#if column.remark != ''>$t('${changeClassName}.${column.changeColumnName}')<#else>${column.changeColumnName}</#if>"<#if column.istNotNull> prop="${column.changeColumnName}"</#if>>
+          <el-form-item :label="<#if column.remark != ''>$t('<#if baseEntityFields?seq_contains(column.changeColumnName)>be<#else>${changeClassName}</#if>.${column.changeColumnName}')<#else>${column.changeColumnName}</#if>"<#if column.istNotNull> prop="${column.changeColumnName}"</#if>>
             <#if column.formType = 'Input'>
             <el-input v-model="form.${column.changeColumnName}" style="width: 370px;" />
             <#elseif column.formType = 'Textarea'>
@@ -66,7 +66,7 @@
             未设置字典，请手动设置 Select
               </#if>
             <#else>
-            <el-date-picker v-model="form.${column.changeColumnName}" type="datetime" style="width: 370px;" />
+            <el-date-picker v-model="form.${column.changeColumnName}"<#if column.columnType = 'LocalDate'> type="date" value-format="yyyy-MM-dd"<#else> type="datetime" value-format="yyyy-MM-dd HH:mm:ss"</#if> style="width: 370px;" />
             </#if>
           </el-form-item>
         </#if>
@@ -85,15 +85,15 @@
             <#list columns as column>
             <#if column.columnShow>
           <#if column.dictName??>
-        <el-table-column v-if="columns.visible('${column.changeColumnName}')" prop="${column.changeColumnName}" :label="<#if column.remark != ''>$t('${changeClassName}.${column.changeColumnName}')<#else>'${column.changeColumnName}'</#if>" sortable="custom">
+        <el-table-column v-if="columns.visible('${column.changeColumnName}')" prop="${column.changeColumnName}" :label="<#if column.remark != ''>$t('<#if baseEntityFields?seq_contains(column.changeColumnName)>be<#else>${changeClassName}</#if>.${column.changeColumnName}')<#else>'${column.changeColumnName}'</#if>" sortable="custom">
           <template slot-scope="scope">
             {{ dict.label.${column.dictName}[scope.row.${column.changeColumnName}] }}
           </template>
         </el-table-column>
           <#elseif column.columnType != 'Timestamp'>
-        <el-table-column v-if="columns.visible('${column.changeColumnName}')" prop="${column.changeColumnName}" :label="<#if column.remark != ''>$t('${changeClassName}.${column.changeColumnName}')<#else>'${column.changeColumnName}'</#if>" sortable="custom" />
+        <el-table-column v-if="columns.visible('${column.changeColumnName}')" prop="${column.changeColumnName}" :label="<#if column.remark != ''>$t('<#if baseEntityFields?seq_contains(column.changeColumnName)>be<#else>${changeClassName}</#if>.${column.changeColumnName}')<#else>'${column.changeColumnName}'</#if>" sortable="custom" />
                 <#else>
-        <el-table-column v-if="columns.visible('${column.changeColumnName}')" prop="${column.changeColumnName}" :label="<#if column.remark != ''>$t('${changeClassName}.${column.changeColumnName}')<#else>'${column.changeColumnName}'</#if>" width="135px" sortable="custom">
+        <el-table-column v-if="columns.visible('${column.changeColumnName}')" prop="${column.changeColumnName}" :label="<#if column.remark != ''>$t('<#if baseEntityFields?seq_contains(column.changeColumnName)>be<#else>${changeClassName}</#if>.${column.changeColumnName}')<#else>'${column.changeColumnName}'</#if>" width="135px" sortable="custom">
           <template slot-scope="scope">
             <span>{{ parseTime(scope.row.${column.changeColumnName}) }}</span>
           </template>
@@ -159,7 +159,7 @@ export default {
         <#if queryColumns??>
         <#list queryColumns as column>
         <#if column.queryType != 'BetWeen'>
-        { key: '${column.changeColumnName}', display_name: <#if column.remark != ''>i18n.t('${changeClassName}.${column.changeColumnName}')<#else>'${column.changeColumnName}'</#if> }<#if column_has_next>,</#if>
+        { key: '${column.changeColumnName}', display_name: <#if column.remark != ''>i18n.t('<#if baseEntityFields?seq_contains(column.changeColumnName)>be<#else>${changeClassName}</#if>.${column.changeColumnName}')<#else>'${column.changeColumnName}'</#if> }<#if column_has_next>,</#if>
         </#if>
         </#list>
         </#if>

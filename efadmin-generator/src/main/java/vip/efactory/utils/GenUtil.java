@@ -1,5 +1,11 @@
 package vip.efactory.utils;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.template.*;
+import org.springframework.util.ObjectUtils;
+import vip.efactory.domain.ColumnInfo;
+import vip.efactory.domain.GenConfig;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,17 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.util.ObjectUtils;
-
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.template.Template;
-import cn.hutool.extra.template.TemplateConfig;
-import cn.hutool.extra.template.TemplateEngine;
-import cn.hutool.extra.template.TemplateException;
-import cn.hutool.extra.template.TemplateUtil;
-import vip.efactory.domain.ColumnInfo;
-import vip.efactory.domain.GenConfig;
 
 /**
  * 代码生成
@@ -358,6 +353,9 @@ public class GenUtil {
         genMap.put("betweens",betweens);
         // 保存非空字段信息
         genMap.put("isNotNullColumns",isNotNullColumns);
+        // 添加基础实体中的通用字段到,如果基础实体名称修改了则需要修改这里
+        String[] baseEntityFields = {"remark", "createTime", "updateTime", "creatorNum", "updaterNum"};
+        genMap.put("baseEntityFields", baseEntityFields);
         return genMap;
     }
 
