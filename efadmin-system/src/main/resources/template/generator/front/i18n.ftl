@@ -5,7 +5,8 @@ export default {
     TITLE: '${apiAlias}',
 <#if columns??>
     <#list columns as column>
-    <#if column.columnName == "create_time" || column.columnName == "update_time" || column.columnName == "creator_num" || column.columnName == "updater_num" || column.columnName == "remark" >
+    <#-- #基础实体的属性和deleted的属性不生成! deleted属性将来会用作逻辑删除字段 -->
+    <#if baseEntityFields?seq_contains(column.changeColumnName) || column.columnName == "deleted" >
     <#else>
     ${column.changeColumnName}: '${column.remark}',
     </#if>
@@ -14,7 +15,7 @@ export default {
     // 属性非空的国际化信息
 <#if columns??>
     <#list columns as column>
-    <#if column.columnName == "create_time" || column.columnName == "update_time" || column.columnName == "creator_num" || column.columnName == "updater_num" || column.columnName == "remark" >
+    <#if baseEntityFields?seq_contains(column.changeColumnName) || column.columnName == "deleted" >
     <#else>
     ${column.changeColumnName}Required: '${column.remark}不能为空',
     </#if>
@@ -26,7 +27,7 @@ export default {
     TITLE: '${apiAlias}',
 <#if columns??>
     <#list columns as column>
-    <#if column.columnName == "create_time" || column.columnName == "update_time" || column.columnName == "creator_num" || column.columnName == "updater_num" || column.columnName == "remark" >
+    <#if baseEntityFields?seq_contains(column.changeColumnName) || column.columnName == "deleted" >
     <#else>
     ${column.changeColumnName}: '${column.changeColumnName}',
     </#if>
@@ -35,7 +36,7 @@ export default {
     // 属性非空的国际化信息
 <#if columns??>
     <#list columns as column>
-    <#if column.columnName == "create_time" || column.columnName == "update_time" || column.columnName == "creator_num" || column.columnName == "updater_num" || column.columnName == "remark" >
+    <#if baseEntityFields?seq_contains(column.changeColumnName) || column.columnName == "deleted" >
     <#else>
     ${column.changeColumnName}Required: '${column.changeColumnName} is reqiured!',
     </#if>
