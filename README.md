@@ -62,6 +62,9 @@
 FreeMarker官方文档:  
 https://freemarker.apache.org/docs/index.html 
 
+#### mapstruct 使用
+mapstruct的官网:https://mapstruct.org/
+
 #### 主要特性
 - 使用最新技术栈，社区资源丰富。
 - 项目按功能模块化，提升开发，测试效率。

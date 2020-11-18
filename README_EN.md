@@ -58,6 +58,13 @@ Dynamic configuration interface permissions;
 Code generation supports more constraints;  
 Package the file upload and download module of OSS!  
 
+#### Template syntax description for code generation   
+FreeMarker Official documents:  
+https://freemarker.apache.org/docs/index.html 
+
+#### mapstruct Usage
+mapstruct Official:https://mapstruct.org/
+
 #### Main features
 - Using the latest technology stack, the community is rich in resources.
 - The project is modularized by function to improve development and testing efficiency.
