@@ -17,14 +17,14 @@ export default {
     <#list columns as column>
     <#if baseEntityFields?seq_contains(column.changeColumnName) || column.columnName == "deleted" >
     <#else>
-    ${column.changeColumnName}Required: '${column.remark}不能为空',
+    ${column.changeColumnName}Required: '${column.remark}不能为空'<#sep>,</#sep>
     </#if>
     </#list>
 </#if>
   },
     // 属性的国际化信息 --en_US,追加到前端项目的src/lang/en_US.js中
     ${changeClassName}: {
-    TITLE: '${apiAlias}',
+    TITLE: '${className}',
 <#if columns??>
     <#list columns as column>
     <#if baseEntityFields?seq_contains(column.changeColumnName) || column.columnName == "deleted" >
@@ -38,7 +38,7 @@ export default {
     <#list columns as column>
     <#if baseEntityFields?seq_contains(column.changeColumnName) || column.columnName == "deleted" >
     <#else>
-    ${column.changeColumnName}Required: '${column.changeColumnName} is reqiured!',
+    ${column.changeColumnName}Required: '${column.changeColumnName} is reqiured!'<#sep>,</#sep>
     </#if>
     </#list>
 </#if>
