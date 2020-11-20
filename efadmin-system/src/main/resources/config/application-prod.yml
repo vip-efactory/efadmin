@@ -32,8 +32,8 @@ spring:
         enabled: true
         url-pattern: /druid/*
         reset-enable: false
-#        login-username: admin
-#        login-password: qqqqqqqqqqqq
+        login-username: admin
+        login-password: qqqqqqqqqqqq
 
       web-stat-filter:
         url-pattern: /*
