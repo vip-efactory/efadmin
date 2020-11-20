@@ -331,7 +331,7 @@ INSERT INTO `sys_menu` (`id`, `i_frame`, `name`, `component`, `pid`, `sort`, `ic
 	(5, b'0', '菜单管理', 'system/menu/index', 1, 5, 'menu', 'menu', b'0', b'0', 'Menu', 'menu:list', 1, 'menu.manage', NULL, '2018-12-18 15:17:28', NULL, '2020-01-20 11:03:32', NULL),
 	(6, b'0', '系统监控', NULL, 0, 10, 'monitor', 'monitor', b'0', b'0', NULL, 'monitor:list', 0, 'system.monitor', NULL, '2018-12-18 15:17:48', NULL, '2020-01-20 11:03:57', NULL),
 	(7, b'0', '操作日志', 'monitor/log/index', 6, 11, 'log', 'logs', b'0', b'0', 'Log', NULL, 1, 'operation.log', NULL, '2018-12-18 15:18:26', NULL, '2020-01-20 11:04:13', NULL),
-	(9, b'0', 'SQL监控', 'monitor/sql/index', 6, 18, 'sqlMonitor', 'druid', b'0', b'0', 'Sql', NULL, 1, 'sql.monitor', NULL, '2018-12-18 15:19:34', NULL, '2020-01-20 11:04:49', NULL),
+	(9, b'0', 'SQL监控', 'monitor/sql/index', 6, 18, 'sqlMonitor', 'druid', b'0', b'1', 'Sql', NULL, 1, 'sql.monitor', NULL, '2018-12-18 15:19:34', NULL, '2020-01-20 11:04:49', NULL),
 	(10, b'0', '组件管理', NULL, 0, 50, 'zujian', 'components', b'0', b'0', NULL, NULL, 0, 'component.manage', NULL, '2018-12-19 13:38:16', NULL, '2020-01-20 11:05:02', NULL),
 	(11, b'0', '图标库', 'components/icons/index', 10, 51, 'icon', 'icon', b'0', b'0', 'Icons', NULL, 1, 'icon.library', NULL, '2018-12-19 13:38:49', NULL, '2020-01-20 11:05:21', NULL),
 	(14, b'0', '邮件工具', 'tools/email/index', 36, 35, 'email', 'email', b'0', b'0', 'Email', NULL, 1, 'email.tool', NULL, '2018-12-27 10:13:09', NULL, '2020-01-20 11:08:09', NULL),
