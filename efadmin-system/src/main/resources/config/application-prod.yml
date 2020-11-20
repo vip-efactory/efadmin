@@ -28,8 +28,8 @@ spring:
       filters: stat
 
       stat-view-servlet:
-        # 线上环境不开启监控
-        enabled: false
+        # 线上环境通常不开启监控，此处为了演示，开启
+        enabled: true
         url-pattern: /druid/*
         reset-enable: false
 #        login-username: admin
@@ -78,6 +78,7 @@ swagger:
 # 文件存储路径
 file:
   path: /data/efadmin/file/
+  ueditor: /data/efadmin/ueditor/
   avatar: /data/efadmin/avatar/
   # 文件大小 /M
   maxSize: 100

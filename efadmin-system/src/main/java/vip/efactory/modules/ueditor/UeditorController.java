@@ -30,7 +30,7 @@ import java.util.Map;
 @Slf4j
 public class UeditorController {
 
-    @Value("${file.path}")
+    @Value("${file.ueditor}")
     private String path;
 
     @Value("${file.maxSize}")
