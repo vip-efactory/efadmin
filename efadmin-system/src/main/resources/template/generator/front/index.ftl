@@ -57,10 +57,11 @@
                 :key="item.id"
                 :label="item.label"
                 <#if column.columnType == "Integer" || column.columnType == "int" || column.columnType == "Long" || column.columnType == "long">
-                :value="parseInt(item.value)" />
+                  :value="parseInt(item.value)"
                 <#else>
-                :value="item.value" />
+                  :value="item.value"
                 </#if>
+              />
             </el-select>
               <#else>
             未设置字典，请手动设置 Select
