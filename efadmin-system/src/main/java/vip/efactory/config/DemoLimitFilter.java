@@ -62,6 +62,11 @@ public class DemoLimitFilter extends GenericFilterBean {
                 R<String> r = R.error(new Exception("演示环境禁止此操作，您可以下载源码运行体验此功能"));
                 response.setCharacterEncoding("UTF-8");
                 response.setContentType("application/json");
+                // 设置跨域,否则因为拦截了,容器内配置的跨域则无法生效!
+                response.addHeader("Access-Control-Allow-Credentials","true");
+                response.addHeader("Access-Control-Allow-Origin","*");
+                response.addHeader("Access-Control-Allow-Headers","*");
+                response.addHeader("Access-Control-Allow-Methods","*");
                 response.getWriter().print(JSONObject.toJSONString(r));
             } else {
                 // 放行
