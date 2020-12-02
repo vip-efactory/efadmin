@@ -2,8 +2,8 @@ package vip.efactory.modules.mnt.domain;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
 import javax.persistence.Column;
@@ -11,7 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -46,7 +45,7 @@ public class DeployHistory extends BaseEntity<String> implements Serializable {
 	 * 部署时间
 	 */
     @Column(name = "deploy_date")
-	@CreationTimestamp
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime deployDate;
 
 	/**
