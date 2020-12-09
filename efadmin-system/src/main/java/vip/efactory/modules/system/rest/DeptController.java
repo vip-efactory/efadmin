@@ -94,7 +94,7 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
     @PutMapping
     @PreAuthorize("@p.check('dept:edit')")
     public R update(@Validated(Update.class) @RequestBody Dept resources) {
-        entityService.update(resources);
+        entityService.update2(resources);
         return R.ok();
     }
 
