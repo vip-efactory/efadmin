@@ -1,6 +1,7 @@
 package vip.efactory.modules.system.rest;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -60,6 +61,8 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
         // 数据权限
         criteria.setIds(dataScope.getDeptIds());
         List<DeptDto> deptDtos = entityService.queryAll(criteria);
+        // 对sort属性进行升序排序
+        CollectionUtil.sort(deptDtos, Comparator.comparing(DeptDto::getSort));
         return R.ok(entityService.buildTree(deptDtos));
     }
 

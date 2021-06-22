@@ -1,6 +1,7 @@
 package vip.efactory.modules.system.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import vip.efactory.common.base.valid.Update;
@@ -41,13 +42,16 @@ public class Dept extends BaseEntity<Long> {
     @NotNull
     private Long pid;
 
+    /**
+     * 排序，显示时的先后位置
+     */
+    @NotNull(message = "排序值不能为空")
+    @ApiModelProperty(value = "排序值")
+    private Integer sort;
+
     @JsonIgnore
     @ManyToMany(mappedBy = "depts")
     private Set<Role> roles;
-
-//    @Column(name = "create_time")
-//    @CreationTimestamp
-//    private Timestamp createTime;
 
     @Override
     public boolean equals(Object o) {

@@ -105,30 +105,31 @@ DELETE FROM `sys_column_config`;
 
 -- 导出  表 db_ef_tenants.sys_dept 结构
 CREATE TABLE IF NOT EXISTS `sys_dept` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs NOT NULL COMMENT '名称',
-  `pid` bigint(20) NOT NULL COMMENT '上级部门',
-  `enabled` bit(1) NOT NULL COMMENT '状态',
-  `remark` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '备注',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
-  `creator_num` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '创建人',
-  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `updater_num` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='部门';
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+    `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs NOT NULL COMMENT '名称',
+    `pid` bigint(20) NOT NULL COMMENT '上级部门',
+    `enabled` bit(1) NOT NULL COMMENT '状态',
+    `sort` INT(10) NOT NULL COMMENT '显示排序',
+    `remark` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '备注',
+    `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
+    `creator_num` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '创建人',
+    `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `updater_num` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
+    PRIMARY KEY (`id`) USING BTREE
+    ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='部门';
 
 -- 正在导出表  db_ef_tenants.sys_dept 的数据：~8 rows (大约)
 DELETE FROM `sys_dept`;
 /*!40000 ALTER TABLE `sys_dept` DISABLE KEYS */;
-INSERT INTO `sys_dept` (`id`, `name`, `pid`, `enabled`, `remark`, `create_time`, `creator_num`, `update_time`, `updater_num`) VALUES
-	(1, 'EF-ADMIN', 0, b'1', NULL, '2019-03-01 12:07:37', NULL, '2019-12-31 16:58:26', 'admin'),
-	(2, '研发部', 7, b'1', NULL, '2019-03-25 09:15:32', NULL, '2019-12-26 22:01:44', NULL),
-	(5, '运维部', 7, b'1', 'Maintenance Department', '2019-03-25 09:20:44', NULL, '2020-01-26 12:29:21', 'admin'),
-	(6, '测试部(QA)', 8, b'1', NULL, '2019-03-25 09:52:18', NULL, '2020-01-26 12:10:50', 'admin'),
-	(7, '华南分部', 1, b'1', NULL, '2019-03-25 11:04:50', NULL, '2019-12-26 22:01:44', NULL),
-	(8, '华北分部', 1, b'1', NULL, '2019-03-25 11:04:53', NULL, '2019-12-26 22:01:44', NULL),
-	(11, '人事部(HR)', 8, b'1', NULL, '2019-03-25 11:07:58', NULL, '2020-01-26 12:10:05', 'admin'),
-	(13, '采购部PUR', 1, b'1', '采购部门', '2020-03-21 10:36:12', 'admin', '2020-03-21 10:36:12', 'admin');
+INSERT INTO `sys_dept` (`id`, `name`, `pid`, `enabled`, `sort`, `remark`, `create_time`, `creator_num`, `update_time`, `updater_num`) VALUES
+(1, 'EF-ADMIN', 0, b'1', 0, NULL, '2019-03-01 12:07:37', NULL, '2019-12-31 16:58:26', 'admin'),
+(2, '研发部', 7, b'1', 1, NULL, '2019-03-25 09:15:32', NULL, '2021-06-22 18:25:56', 'admin'),
+(5, '运维部', 7, b'1', 2, 'Maintenance Department', '2019-03-25 09:20:44', NULL, '2021-06-22 18:26:03', 'admin'),
+(6, '测试部(QA)', 8, b'1', 1, NULL, '2019-03-25 09:52:18', NULL, '2021-06-22 18:26:17', 'admin'),
+(7, '华南分部', 1, b'1', 1, NULL, '2019-03-25 11:04:50', NULL, '2021-06-22 18:25:24', 'admin'),
+(8, '华北分部', 1, b'1', 2, NULL, '2019-03-25 11:04:53', NULL, '2021-06-22 18:25:31', 'admin'),
+(11, '人事部(HR)', 8, b'1', 2, NULL, '2019-03-25 11:07:58', NULL, '2021-06-22 18:26:24', 'admin'),
+(13, '采购部PUR', 1, b'1', 3, '采购部门', '2020-03-21 10:36:12', NULL, '2021-06-22 18:25:40', 'admin');
 /*!40000 ALTER TABLE `sys_dept` ENABLE KEYS */;
 
 -- 导出  表 db_ef_tenants.sys_dict 结构
