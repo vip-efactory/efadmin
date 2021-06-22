@@ -32,7 +32,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <spring-boot.version>2.3.1.RELEASE</spring-boot.version>
-        <ejpa.starter.version>4.0.0</ejpa.starter.version>
+        <ejpa.starter.version>4.1.0</ejpa.starter.version>
         <querydsl.version>4.3.1</querydsl.version>
         <jedis.version>3.2.0</jedis.version>
         <log4jdbc.version>1.16</log4jdbc.version>
