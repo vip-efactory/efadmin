@@ -1,28 +1,19 @@
 package vip.efactory.rest;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
 import vip.efactory.common.base.utils.R;
 import vip.efactory.domain.ColumnInfo;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.service.GenConfigService;
 import vip.efactory.service.GeneratorService;
 import vip.efactory.utils.PageUtil;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/generator")
@@ -51,7 +42,7 @@ public class GeneratorController {
     public R getTables(@RequestParam(defaultValue = "") String name,
                                             @RequestParam(defaultValue = "0")Integer page,
                                             @RequestParam(defaultValue = "10")Integer size){
-        int[] startEnd = PageUtil.transToStartEnd(page+1, size);
+        int[] startEnd = PageUtil.transToStartEnd(page, size);
         return R.ok(generatorService.getTables(name,startEnd));
     }
 
