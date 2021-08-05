@@ -39,19 +39,19 @@ A back-end management system based on Spring Boot 2.3.1, eJpa, JWT, Spring Secur
 #### Experience address
 ##### Manage multi-tenant, you can manage the data sources of other tenants  
 Because the bandwidth of the Alibaba Cloud server is only 1 M, that is, the theoretical maximum file transfer speed is 128 K/s, the login may be slower, please be aware.  
-<https://efadmin.ddbin.com/>  
+<https://efadmin.ddbin.com:1443/>  
 Username Password：root/123456
 
 Note: Because the https certificates of the following two tenants use efadmin.ddbin.com, when visiting, the browser will say that the certificate is invalid, just trust it!
 ##### Tenant 1
-<https://t1.ddbin.com/>  
+<https://t1.ddbin.com:1443/>  
 Username Password：admin1/123456
 ##### Tenant 2
-<https://t2.ddbin.com/>  
+<https://t2.ddbin.com:1443/>  
 Username Password：admin2/123456
 
 #### Document
-<http://docs.efactory.vip/>
+<https://docs.efactory.vip:1443/>
 
 #### TODO
 Dynamic configuration interface permissions;  
