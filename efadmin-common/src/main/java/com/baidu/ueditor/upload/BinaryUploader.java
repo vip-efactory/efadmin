@@ -18,79 +18,82 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author dusuanyun
+ */
 public class BinaryUploader {
 
-	public static final State save(HttpServletRequest request,
-			Map<String, Object> conf) {
-		FileItemStream fileStream = null;
-		boolean isAjaxUpload = request.getHeader( "X_Requested_With" ) != null;
+    public static final State save(HttpServletRequest request,
+                                   Map<String, Object> conf) {
+        FileItemStream fileStream = null;
+        boolean isAjaxUpload = request.getHeader("X_Requested_With") != null;
 
-		if (!ServletFileUpload.isMultipartContent(request)) {
-			return new BaseState(false, AppInfo.NOT_MULTIPART_CONTENT);
-		}
-
-		ServletFileUpload upload = new ServletFileUpload(
-				new DiskFileItemFactory());
-
-        if ( isAjaxUpload ) {
-            upload.setHeaderEncoding( "UTF-8" );
+        if (!ServletFileUpload.isMultipartContent(request)) {
+            return new BaseState(false, AppInfo.NOT_MULTIPART_CONTENT);
         }
 
-		try {
-			FileItemIterator iterator = upload.getItemIterator(request);
+        ServletFileUpload upload = new ServletFileUpload(
+                new DiskFileItemFactory());
 
-			while (iterator.hasNext()) {
-				fileStream = iterator.next();
+        if (isAjaxUpload) {
+            upload.setHeaderEncoding("UTF-8");
+        }
 
-				if (!fileStream.isFormField())
-					break;
-				fileStream = null;
-			}
+        try {
+            FileItemIterator iterator = upload.getItemIterator(request);
 
-			if (fileStream == null) {
-				return new BaseState(false, AppInfo.NOTFOUND_UPLOAD_DATA);
-			}
+            while (iterator.hasNext()) {
+                fileStream = iterator.next();
 
-			String savePath = (String) conf.get("savePath");
-			String originFileName = fileStream.getName();
-			String suffix = FileType.getSuffixByFilename(originFileName);
+                if (!fileStream.isFormField())
+                    break;
+                fileStream = null;
+            }
 
-			originFileName = originFileName.substring(0,
-					originFileName.length() - suffix.length());
-			savePath = savePath + suffix;
+            if (fileStream == null) {
+                return new BaseState(false, AppInfo.NOTFOUND_UPLOAD_DATA);
+            }
 
-			long maxSize = ((Long) conf.get("maxSize")).longValue();
+            String savePath = (String) conf.get("savePath");
+            String originFileName = fileStream.getName();
+            String suffix = FileType.getSuffixByFilename(originFileName);
 
-			if (!validType(suffix, (String[]) conf.get("allowFiles"))) {
-				return new BaseState(false, AppInfo.NOT_ALLOW_FILE_TYPE);
-			}
+            originFileName = originFileName.substring(0,
+                    originFileName.length() - suffix.length());
+            savePath = savePath + suffix;
 
-			savePath = PathFormat.parse(savePath, originFileName);
+            long maxSize = ((Long) conf.get("maxSize")).longValue();
 
-			String physicalPath = (String) conf.get("rootPath") + savePath;
+            if (!validType(suffix, (String[]) conf.get("allowFiles"))) {
+                return new BaseState(false, AppInfo.NOT_ALLOW_FILE_TYPE);
+            }
 
-			InputStream is = fileStream.openStream();
-			State storageState = StorageManager.saveFileByInputStream(is,
-					physicalPath, maxSize);
-			is.close();
+            savePath = PathFormat.parse(savePath, originFileName);
 
-			if (storageState.isSuccess()) {
-				storageState.putInfo("url", PathFormat.format(savePath));
-				storageState.putInfo("type", suffix);
-				storageState.putInfo("original", originFileName + suffix);
-			}
+            String physicalPath = (String) conf.get("rootPath") + savePath;
 
-			return storageState;
-		} catch (FileUploadException e) {
-			return new BaseState(false, AppInfo.PARSE_REQUEST_ERROR);
-		} catch (IOException e) {
-		}
-		return new BaseState(false, AppInfo.IO_ERROR);
-	}
+            InputStream is = fileStream.openStream();
+            State storageState = StorageManager.saveFileByInputStream(is,
+                    physicalPath, maxSize);
+            is.close();
 
-	private static boolean validType(String type, String[] allowTypes) {
-		List<String> list = Arrays.asList(allowTypes);
+            if (storageState.isSuccess()) {
+                storageState.putInfo("url", PathFormat.format(savePath));
+                storageState.putInfo("type", suffix);
+                storageState.putInfo("original", originFileName + suffix);
+            }
 
-		return list.contains(type);
-	}
+            return storageState;
+        } catch (FileUploadException e) {
+            return new BaseState(false, AppInfo.PARSE_REQUEST_ERROR);
+        } catch (IOException ignored) {
+        }
+        return new BaseState(false, AppInfo.IO_ERROR);
+    }
+
+    private static boolean validType(String type, String[] allowTypes) {
+        List<String> list = Arrays.asList(allowTypes);
+
+        return list.contains(type);
+    }
 }

@@ -7,102 +7,92 @@ import java.util.*;
 /**
  * 多状态集合状态
  * 其包含了多个状态的集合, 其本身自己也是一个状态
- * @author hancong03@baidu.com
  *
+ * @author hancong03@baidu.com
  */
 public class MultiState implements State {
 
-	private boolean state = false;
-	private String info = null;
-	private Map<String, Long> intMap = new HashMap<String, Long>();
-	private Map<String, String> infoMap = new HashMap<String, String>();
-	private List<String> stateList = new ArrayList<String>();
+    private boolean state = false;
+    private String info = null;
+    private final Map<String, Long> intMap;
+    private final Map<String, String> infoMap;
+    private final List<String> stateList;
 
-	public MultiState ( boolean state ) {
-		this.state = state;
-	}
+    public MultiState(boolean state) {
+        this.state = state;
+        intMap = new HashMap<>();
+        infoMap = new HashMap<>();
+        stateList = new ArrayList<>();
+    }
 
-	public MultiState ( boolean state, String info ) {
-		this.state = state;
-		this.info = info;
-	}
+    public MultiState(boolean state, String info) {
+        this(state);
+        this.info = info;
+    }
 
-	public MultiState ( boolean state, int infoKey ) {
-		this.state = state;
-		this.info = AppInfo.getStateInfo( infoKey );
-	}
+    public MultiState(boolean state, int infoKey) {
+        this(state);
+        this.info = AppInfo.getStateInfo(infoKey);
+    }
 
-	@Override
-	public boolean isSuccess() {
-		return this.state;
-	}
+    @Override
+    public boolean isSuccess() {
+        return this.state;
+    }
 
-	public void addState ( State state ) {
-		stateList.add( state.toJSONString() );
-	}
+    public void addState(State state) {
+        stateList.add(state.toJSONString());
+    }
 
-	/**
-	 * 该方法调用无效果
-	 */
-	@Override
-	public void putInfo(String name, String val) {
-		this.infoMap.put(name, val);
-	}
+    /**
+     * 该方法调用无效果
+     */
+    @Override
+    public void putInfo(String name, String val) {
+        this.infoMap.put(name, val);
+    }
 
-	@Override
-	public String toJSONString() {
+    @Override
+    public String toJSONString() {
 
-		String stateVal = this.isSuccess() ? AppInfo.getStateInfo( AppInfo.SUCCESS ) : this.info;
+        String stateVal = this.isSuccess() ? AppInfo.getStateInfo(AppInfo.SUCCESS) : this.info;
+        StringBuilder builder = new StringBuilder();
+        builder.append("{\"state\": \"" + stateVal + "\"");
 
-		StringBuilder builder = new StringBuilder();
+        // 数字转换
+        Iterator<String> iterator = this.intMap.keySet().iterator();
 
-		builder.append( "{\"state\": \"" + stateVal + "\"" );
+        while (iterator.hasNext()) {
+            stateVal = iterator.next();
+            builder.append(",\"" + stateVal + "\": " + this.intMap.get(stateVal));
+        }
 
-		// 数字转换
-		Iterator<String> iterator = this.intMap.keySet().iterator();
+        iterator = this.infoMap.keySet().iterator();
 
-		while ( iterator.hasNext() ) {
+        while (iterator.hasNext()) {
+            stateVal = iterator.next();
+            builder.append(",\"" + stateVal + "\": \"" + this.infoMap.get(stateVal) + "\"");
+        }
 
-			stateVal = iterator.next();
-
-			builder.append( ",\""+ stateVal +"\": " + this.intMap.get( stateVal ) );
-
-		}
-
-		iterator = this.infoMap.keySet().iterator();
-
-		while ( iterator.hasNext() ) {
-
-			stateVal = iterator.next();
-
-			builder.append( ",\""+ stateVal +"\": \"" + this.infoMap.get( stateVal ) + "\"" );
-
-		}
-
-		builder.append( ", list: [" );
+        builder.append(", list: [");
 
 
-		iterator = this.stateList.iterator();
+        iterator = this.stateList.iterator();
+        while (iterator.hasNext()) {
+            builder.append(iterator.next() + ",");
+        }
 
-		while ( iterator.hasNext() ) {
+        if (!this.stateList.isEmpty()) {
+            builder.deleteCharAt(builder.length() - 1);
+        }
 
-			builder.append( iterator.next() + "," );
+        builder.append(" ]}");
+        return Encoder.toUnicode(builder.toString());
+    }
 
-		}
-
-		if ( this.stateList.size() > 0 ) {
-			builder.deleteCharAt( builder.length() - 1 );
-		}
-
-		builder.append( " ]}" );
-
-		return Encoder.toUnicode( builder.toString() );
-
-	}
-
-	@Override
-	public void putInfo(String name, long val) {
-		this.intMap.put( name, val );
-	}
+    @Override
+    public void putInfo(String name, long val) {
+        this.intMap.put(name, val);
+    }
 
 }

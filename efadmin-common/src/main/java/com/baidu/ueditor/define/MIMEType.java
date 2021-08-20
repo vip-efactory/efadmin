@@ -3,18 +3,25 @@ package com.baidu.ueditor.define;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author dusuanyun
+ */
 public class MIMEType {
 
-	public static final Map<String, String> types = new HashMap<String, String>(){{
-		put( "image/gif", ".gif" );
-		put( "image/jpeg", ".jpg" );
-		put( "image/jpg", ".jpg" );
-		put( "image/png", ".png" );
-		put( "image/bmp", ".bmp" );
-	}};
+    protected static final Map<String, String> TYPES = new HashMap<>();
 
-	public static String getSuffix ( String mime ) {
-		return MIMEType.types.get( mime );
-	}
+    static {
+        TYPES.put("image/gif", ".gif");
+        TYPES.put("image/jpeg", ".jpg");
+        TYPES.put("image/jpg", ".jpg");
+        TYPES.put("image/png", ".png");
+        TYPES.put("image/bmp", ".bmp");
+    }
 
+    public static String getSuffix(String mime) {
+        return MIMEType.TYPES.get(mime);
+    }
+
+    private MIMEType() {
+    }
 }

@@ -14,127 +14,115 @@ import java.util.Map;
 
 /**
  * 图片抓取器
- * @author hancong03@baidu.com
  *
+ * @author hancong03@baidu.com
  */
 public class ImageHunter {
 
-	private String filename = null;
-	private String savePath = null;
-	private String rootPath = null;
-	private List<String> allowTypes = null;
-	private long maxSize = -1;
+    private String filename = null;
+    private String savePath = null;
+    private String rootPath = null;
+    private List<String> allowTypes = null;
+    private long maxSize = -1;
 
-	private List<String> filters = null;
+    private List<String> filters = null;
 
-	public ImageHunter ( Map<String, Object> conf ) {
+    public ImageHunter(Map<String, Object> conf) {
 
-		this.filename = (String)conf.get( "filename" );
-		this.savePath = (String)conf.get( "savePath" );
-		this.rootPath = (String)conf.get( "rootPath" );
-		this.maxSize = (Long)conf.get( "maxSize" );
-		this.allowTypes = Arrays.asList( (String[])conf.get( "allowFiles" ) );
-		this.filters = Arrays.asList( (String[])conf.get( "filter" ) );
+        this.filename = (String) conf.get("filename");
+        this.savePath = (String) conf.get("savePath");
+        this.rootPath = (String) conf.get("rootPath");
+        this.maxSize = (Long) conf.get("maxSize");
+        this.allowTypes = Arrays.asList((String[]) conf.get("allowFiles"));
+        this.filters = Arrays.asList((String[]) conf.get("filter"));
 
-	}
+    }
 
-	public State capture ( String[] list ) {
+    public State capture(String[] list) {
 
-		MultiState state = new MultiState( true );
+        MultiState state = new MultiState(true);
 
-		for ( String source : list ) {
-			state.addState( captureRemoteData( source ) );
-		}
+        for (String source : list) {
+            state.addState(captureRemoteData(source));
+        }
 
-		return state;
+        return state;
 
-	}
+    }
 
-	public State captureRemoteData ( String urlStr ) {
+    public State captureRemoteData(String urlStr) {
+        HttpURLConnection connection = null;
+        URL url = null;
+        String suffix = null;
+        try {
+            url = new URL(urlStr);
+            if (!validHost(url.getHost())) {
+                return new BaseState(false, AppInfo.PREVENT_HOST);
+            }
 
-		HttpURLConnection connection = null;
-		URL url = null;
-		String suffix = null;
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setInstanceFollowRedirects(true);
+            connection.setUseCaches(true);
 
-		try {
-			url = new URL( urlStr );
+            if (!validContentState(connection.getResponseCode())) {
+                return new BaseState(false, AppInfo.CONNECTION_ERROR);
+            }
 
-			if ( !validHost( url.getHost() ) ) {
-				return new BaseState( false, AppInfo.PREVENT_HOST );
-			}
+            suffix = MIMEType.getSuffix(connection.getContentType());
 
-			connection = (HttpURLConnection) url.openConnection();
+            if (!validFileType(suffix)) {
+                return new BaseState(false, AppInfo.NOT_ALLOW_FILE_TYPE);
+            }
 
-			connection.setInstanceFollowRedirects( true );
-			connection.setUseCaches( true );
+            if (!validFileSize(connection.getContentLength())) {
+                return new BaseState(false, AppInfo.MAX_SIZE);
+            }
 
-			if ( !validContentState( connection.getResponseCode() ) ) {
-				return new BaseState( false, AppInfo.CONNECTION_ERROR );
-			}
+            String savePath = this.getPath(this.savePath, this.filename, suffix);
+            String physicalPath = this.rootPath + savePath;
 
-			suffix = MIMEType.getSuffix( connection.getContentType() );
+            State state = StorageManager.saveFileByInputStream(connection.getInputStream(), physicalPath);
 
-			if ( !validFileType( suffix ) ) {
-				return new BaseState( false, AppInfo.NOT_ALLOW_FILE_TYPE );
-			}
+            if (state.isSuccess()) {
+                state.putInfo("url", PathFormat.format(savePath));
+                state.putInfo("source", urlStr);
+            }
 
-			if ( !validFileSize( connection.getContentLength() ) ) {
-				return new BaseState( false, AppInfo.MAX_SIZE );
-			}
+            return state;
 
-			String savePath = this.getPath( this.savePath, this.filename, suffix );
-			String physicalPath = this.rootPath + savePath;
+        } catch (Exception e) {
+            return new BaseState(false, AppInfo.REMOTE_FAIL);
+        }
 
-			State state = StorageManager.saveFileByInputStream( connection.getInputStream(), physicalPath );
+    }
 
-			if ( state.isSuccess() ) {
-				state.putInfo( "url", PathFormat.format( savePath ) );
-				state.putInfo( "source", urlStr );
-			}
+    private String getPath(String savePath, String filename, String suffix) {
+        return PathFormat.parse(savePath + suffix, filename);
+    }
 
-			return state;
+    private boolean validHost(String hostname) {
+        try {
+            InetAddress ip = InetAddress.getByName(hostname);
+            if (ip.isSiteLocalAddress()) {
+                return false;
+            }
+        } catch (UnknownHostException e) {
+            return false;
+        }
 
-		} catch ( Exception e ) {
-			return new BaseState( false, AppInfo.REMOTE_FAIL );
-		}
+        return !filters.contains(hostname);
+    }
 
-	}
+    private boolean validContentState(int code) {
+        return HttpURLConnection.HTTP_OK == code;
+    }
 
-	private String getPath ( String savePath, String filename, String suffix  ) {
+    private boolean validFileType(String type) {
+        return this.allowTypes.contains(type);
+    }
 
-		return PathFormat.parse( savePath + suffix, filename );
-
-	}
-
-	private boolean validHost ( String hostname ) {
-		try {
-			InetAddress ip = InetAddress.getByName(hostname);
-
-			if (ip.isSiteLocalAddress()) {
-				return false;
-			}
-		} catch (UnknownHostException e) {
-			return false;
-		}
-
-		return !filters.contains( hostname );
-
-	}
-
-	private boolean validContentState ( int code ) {
-
-		return HttpURLConnection.HTTP_OK == code;
-
-	}
-
-	private boolean validFileType ( String type ) {
-
-		return this.allowTypes.contains( type );
-
-	}
-
-	private boolean validFileSize ( int size ) {
-		return size < this.maxSize;
-	}
+    private boolean validFileSize(int size) {
+        return size < this.maxSize;
+    }
 
 }

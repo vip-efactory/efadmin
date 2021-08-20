@@ -83,7 +83,6 @@ public final class ConfigManager {
         String savePath = null;
 
         switch (type) {
-
             case ActionMap.UPLOAD_FILE:
                 conf.put("isBase64", "false");
                 conf.put("maxSize", this.jsonConfig.getLong("fileMaxSize"));
@@ -135,6 +134,7 @@ public final class ConfigManager {
                 conf.put("dir", this.jsonConfig.getString("fileManagerListPath"));
                 conf.put("count", this.jsonConfig.getInt("fileManagerListSize"));
                 break;
+            default:
 
         }
 
@@ -145,7 +145,7 @@ public final class ConfigManager {
 
     }
 
-    private void initEnv() throws FileNotFoundException, IOException {
+    private void initEnv() throws IOException {
 
         File file = new File(this.originalPath);
 
@@ -166,12 +166,12 @@ public final class ConfigManager {
         // 上面注释的代码在IDE的开发环境运行正常，但是在服务器上用jar运行则找不到配置文件!
         Resource resource = new ClassPathResource("config.json");
         BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
-        StringBuffer message=new StringBuffer();
+        StringBuffer message = new StringBuffer();
         String line = null;
-        while((line = br.readLine()) != null) {
+        while ((line = br.readLine()) != null) {
             message.append(line);
         }
-        String configContent = message.toString().replaceAll("/\\*(.|[\\r\\n])*?\\*/","");
+        String configContent = message.toString().replaceAll("/\\*(.|[\\r\\n])*?\\*/", "");
         try {
             JSONObject jsonConfig = new JSONObject(configContent);
             this.jsonConfig = jsonConfig;
@@ -203,17 +203,13 @@ public final class ConfigManager {
         StringBuilder builder = new StringBuilder();
 
         try {
-
             InputStreamReader reader = new InputStreamReader(new FileInputStream(path), "UTF-8");
-            BufferedReader bfReader = new BufferedReader(reader);
-
-            String tmpContent = null;
-
-            while ((tmpContent = bfReader.readLine()) != null) {
-                builder.append(tmpContent);
+            try (BufferedReader bfReader = new BufferedReader(reader)) {
+                String tmpContent = null;
+                while ((tmpContent = bfReader.readLine()) != null) {
+                    builder.append(tmpContent);
+                }
             }
-
-            bfReader.close();
 
         } catch (UnsupportedEncodingException e) {
             // 忽略
