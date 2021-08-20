@@ -9,14 +9,14 @@ import java.util.Map;
 public class FileType {
 
     public static final String JPG = "JPG";
-    private static final Map<String, String> types = new HashMap<>();
+    private static final Map<String, String> TYPES = new HashMap<>();
 
     static {
-        types.put(FileType.JPG, ".jpg");
+        TYPES.put(FileType.JPG, ".jpg");
     }
 
     public static String getSuffix(String key) {
-        return FileType.types.get(key);
+        return FileType.TYPES.get(key);
     }
 
     /**
@@ -29,4 +29,6 @@ public class FileType {
         return filename.substring(filename.lastIndexOf(".")).toLowerCase();
     }
 
+    private FileType() {
+    }
 }

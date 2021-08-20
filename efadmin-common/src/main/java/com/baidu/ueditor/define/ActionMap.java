@@ -11,7 +11,7 @@ import java.util.Map;
 @SuppressWarnings("serial")
 public final class ActionMap {
 
-    public static final Map<String, Integer> mapping = new HashMap<>();
+    protected static final Map<String, Integer> mapping = new HashMap<>();
     // 获取配置请求
     public static final int CONFIG = 0;
     public static final int UPLOAD_IMAGE = 1;
@@ -35,6 +35,10 @@ public final class ActionMap {
 
     public static int getType(String key) {
         return ActionMap.mapping.get(key);
+    }
+
+    public static boolean containsKey(String key) {
+        return ActionMap.mapping.containsKey(key);
     }
 
     private ActionMap() {

@@ -23,8 +23,7 @@ import java.util.Map;
  */
 public class BinaryUploader {
 
-    public static final State save(HttpServletRequest request,
-                                   Map<String, Object> conf) {
+    public static final State save(HttpServletRequest request, Map<String, Object> conf) {
         FileItemStream fileStream = null;
         boolean isAjaxUpload = request.getHeader("X_Requested_With") != null;
 
@@ -32,8 +31,7 @@ public class BinaryUploader {
             return new BaseState(false, AppInfo.NOT_MULTIPART_CONTENT);
         }
 
-        ServletFileUpload upload = new ServletFileUpload(
-                new DiskFileItemFactory());
+        ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
 
         if (isAjaxUpload) {
             upload.setHeaderEncoding("UTF-8");
@@ -41,12 +39,11 @@ public class BinaryUploader {
 
         try {
             FileItemIterator iterator = upload.getItemIterator(request);
-
             while (iterator.hasNext()) {
                 fileStream = iterator.next();
-
-                if (!fileStream.isFormField())
+                if (!fileStream.isFormField()) {
                     break;
+                }
                 fileStream = null;
             }
 
@@ -71,10 +68,8 @@ public class BinaryUploader {
             savePath = PathFormat.parse(savePath, originFileName);
 
             String physicalPath = (String) conf.get("rootPath") + savePath;
-
             InputStream is = fileStream.openStream();
-            State storageState = StorageManager.saveFileByInputStream(is,
-                    physicalPath, maxSize);
+            State storageState = StorageManager.saveFileByInputStream(is, physicalPath, maxSize);
             is.close();
 
             if (storageState.isSuccess()) {
@@ -84,16 +79,17 @@ public class BinaryUploader {
             }
 
             return storageState;
-        } catch (FileUploadException e) {
+        } catch (FileUploadException | IOException e) {
             return new BaseState(false, AppInfo.PARSE_REQUEST_ERROR);
-        } catch (IOException ignored) {
         }
-        return new BaseState(false, AppInfo.IO_ERROR);
+       // return new BaseState(false, AppInfo.IO_ERROR);
     }
 
     private static boolean validType(String type, String[] allowTypes) {
         List<String> list = Arrays.asList(allowTypes);
-
         return list.contains(type);
+    }
+
+    private BinaryUploader() {
     }
 }

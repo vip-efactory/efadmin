@@ -26,27 +26,21 @@ public class ActionEnter {
     private ConfigManager configManager = null;
 
     public ActionEnter(HttpServletRequest request, String rootPath) {
-
         this.request = request;
         this.rootPath = rootPath;
         this.actionType = request.getParameter("action");
         this.contextPath = request.getContextPath();
         this.configManager = ConfigManager.getInstance(this.rootPath, this.contextPath, request.getRequestURI());
-
     }
 
     public String exec() {
-
         String callbackName = this.request.getParameter("callback");
-
         if (callbackName != null) {
-
             if (!validCallbackName(callbackName)) {
                 return new BaseState(false, AppInfo.ILLEGAL).toJSONString();
             }
 
             return callbackName + "(" + this.invoke() + ");";
-
         } else {
             return this.invoke();
         }
@@ -55,7 +49,7 @@ public class ActionEnter {
 
     public String invoke() {
 
-        if (actionType == null || !ActionMap.mapping.containsKey(actionType)) {
+        if (actionType == null || !ActionMap.containsKey(actionType)) {
             return new BaseState(false, AppInfo.INVALID_ACTION).toJSONString();
         }
 

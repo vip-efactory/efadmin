@@ -9,12 +9,14 @@ import org.apache.commons.codec.binary.Base64;
 
 import java.util.Map;
 
+/**
+ * @author dusuanyun
+ */
 public final class Base64Uploader {
 
 	public static State save(String content, Map<String, Object> conf) {
 
 		byte[] data = decode(content);
-
 		long maxSize = ((Long) conf.get("maxSize")).longValue();
 
 		if (!validSize(data, maxSize)) {
@@ -22,7 +24,6 @@ public final class Base64Uploader {
 		}
 
 		String suffix = FileType.getSuffix("JPG");
-
 		String savePath = PathFormat.parse((String) conf.get("savePath"),
 				(String) conf.get("filename"));
 
@@ -48,4 +49,6 @@ public final class Base64Uploader {
 		return data.length <= length;
 	}
 
+	private Base64Uploader() {
+	}
 }

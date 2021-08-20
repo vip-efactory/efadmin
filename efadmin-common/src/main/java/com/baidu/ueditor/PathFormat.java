@@ -135,4 +135,6 @@ public class PathFormat {
         return (Math.random() + "").replace(".", "").substring(0, length);
     }
 
+    private PathFormat() {
+    }
 }

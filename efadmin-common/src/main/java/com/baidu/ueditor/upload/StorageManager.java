@@ -137,4 +137,7 @@ public class StorageManager {
 
         return new BaseState(true);
     }
+
+    private StorageManager() {
+    }
 }
