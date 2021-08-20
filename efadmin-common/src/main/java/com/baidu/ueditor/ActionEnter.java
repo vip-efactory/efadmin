@@ -11,6 +11,9 @@ import com.baidu.ueditor.upload.Uploader;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
+/**
+ * @author dusuanyun
+ */
 public class ActionEnter {
 
     private HttpServletRequest request = null;
@@ -91,9 +94,11 @@ public class ActionEnter {
                 int start = this.getStartIndex();
                 state = new FileManager(conf).listFile(start);
                 break;
+            default:
 
         }
 
+        assert state != null;
         return state.toJSONString();
 
     }
@@ -114,13 +119,7 @@ public class ActionEnter {
      * callback参数验证
      */
     public boolean validCallbackName(String name) {
-
-        if (name.matches("^[a-zA-Z_]+[\\w0-9_]*$")) {
-            return true;
-        }
-
-        return false;
-
+        return name.matches("^[a-zA-Z_]+[\\w0-9_]*$");
     }
 
 }

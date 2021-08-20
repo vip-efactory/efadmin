@@ -3,6 +3,7 @@ package vip.efactory.rest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -27,6 +28,7 @@ import java.util.Map;
 @RequestMapping("/api/aliPay")
 @Api(tags = "工具：支付宝管理")
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
+@Slf4j
 public class AliPayController extends BaseController<AlipayConfig, AliPayService, Long> {
     private final AlipayUtils alipayUtils;
 
@@ -83,7 +85,7 @@ public class AliPayController extends BaseController<AlipayConfig, AliPayService
             String outTradeNo = new String(request.getParameter("out_trade_no").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
             //支付宝交易号
             String tradeNo = new String(request.getParameter("trade_no").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
-            System.out.println("商户订单号" + outTradeNo + "  " + "第三方交易号" + tradeNo);
+            log.info("商户订单号" + outTradeNo + "  " + "第三方交易号" + tradeNo);
 
             // 根据业务需要返回数据，这里统一返回OK
             return R.ok("payment successful");
