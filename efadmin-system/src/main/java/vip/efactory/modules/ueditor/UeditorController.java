@@ -38,13 +38,16 @@ public class UeditorController {
     @Value("${file.host}")
     private String host;
 
-    private List<String> uploadTypes = new ArrayList<>();
+    private final List<String> uploadTypes = new ArrayList<>();
 
     // 初始化uploadTypes
     {
-        uploadTypes.add("uploadimage"); // 支持图片上传
-        uploadTypes.add("uploadvideo"); // 支持视频上传
-        uploadTypes.add("uploadfile"); // 文件上传--附件上传
+        // 支持图片上传
+        uploadTypes.add("uploadimage");
+        // 支持视频上传
+        uploadTypes.add("uploadvideo");
+        // 文件上传--附件上传
+        uploadTypes.add("uploadfile");
     }
 
     /**
@@ -76,7 +79,8 @@ public class UeditorController {
                 request.setCharacterEncoding("utf-8");
                 exec = new ActionEnter(request, rootPath).exec();
             }
-            response.setCharacterEncoding("utf-8"); // 处理写出中文乱码的问题
+            // 处理写出中文乱码的问题
+            response.setCharacterEncoding("utf-8");
             PrintWriter writer = response.getWriter();
             writer.write(exec);
             writer.flush();
@@ -115,14 +119,18 @@ public class UeditorController {
         return result;
     }
 
-    // 保存文件到服务器的制定目录，并返回访问的url
+    /**
+     * 保存文件到服务器的制定目录，并返回访问的url
+     * @param multipartFile 上传的文件
+     * @return
+     */
     public String upload(MultipartFile multipartFile) {
         FileUtil.checkSize(maxSize, multipartFile.getSize());
         String suffix = FileUtil.getExtensionName(multipartFile.getOriginalFilename());
         String type = FileUtil.getFileType(suffix);
         String today = DateTimeUtil.getTodayShort();
-        // 文件最终存储目录地址
-        String finalPath = path + TenantHolder.getTenantId() + File.separator;  // 加上租户信息，以便数据隔离
+        // 文件最终存储目录地址,加上租户信息，以便数据隔离
+        String finalPath = path + TenantHolder.getTenantId() + File.separator;
         File file = FileUtil.upload(multipartFile, finalPath + type + File.separator + today + File.separator);
         if (ObjectUtil.isNull(file)) {
             throw new BadRequestException("上传失败");
