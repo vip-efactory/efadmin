@@ -29,12 +29,6 @@ public class Dict extends BaseEntity<Long> implements Serializable {
     @NotBlank
     private String name;
 
-//    /**
-//     * 描述
-//     */
-//    @Column(name = "remark")
-//    private String remark;
-
     @OneToMany(mappedBy = "dict", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<DictDetail> dictDetails;
 

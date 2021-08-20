@@ -32,14 +32,22 @@ public class MenuI18nUtil {
         return menus;
     }
 
-    // 获取生成的key,用来国际化查询
+    /**
+     *  获取生成的key,用来国际化查询
+     * @param menu 菜单
+     * @return
+     */
     private static String createKey(Menu menu) {
         StringBuilder sb = new StringBuilder(menu.getClass().getSimpleName());
         sb.append(".").append(menu.getType()).append(".").append(menu.getLocaleKey());
         return sb.toString();
     }
 
-    // 对每一个菜单实例,生成:key = value格式的条目!
+    /**
+     * 对每一个菜单实例,生成:key = value格式的条目!
+     * @param menu
+     * @return
+     */
     private static String installResourceEntry(Menu menu) {
         StringBuilder sb = new StringBuilder(menu.getClass().getSimpleName());
         sb.append(".").append(menu.getType()).append(".").append(menu.getLocaleKey())

@@ -1,17 +1,5 @@
 package vip.efactory.modules.system.service.impl;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -19,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.domain.Dept;
@@ -31,6 +18,11 @@ import vip.efactory.modules.system.service.mapper.DeptMapper;
 import vip.efactory.utils.FileUtil;
 import vip.efactory.utils.QueryHelp;
 import vip.efactory.utils.ValidationUtil;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
@@ -110,7 +102,7 @@ public class DeptServiceImpl extends BaseServiceImpl<Dept, Long, DeptRepository>
 
     @Override
     public Object buildTree4Entites(List<Dept> depts) {
-        if (depts != null && depts.size() > 0) {
+        if (!CollectionUtils.isEmpty(depts)) {
             List<DeptDto> trees = new ArrayList<>();
             depts.forEach(dept -> {
                 DeptDto dto = deptMapper.toDto(dept); // 转换为DTO对象
@@ -169,7 +161,7 @@ public class DeptServiceImpl extends BaseServiceImpl<Dept, Long, DeptRepository>
         for (Dept dept : menuList) {
             deptDtos.add(deptMapper.toDto(dept));
             List<Dept> depts = br.findByPid(dept.getId());
-            if(depts!=null && depts.size()!=0){
+            if(!CollectionUtils.isEmpty(depts)){
                 getDeleteDepts(depts, deptDtos);
             }
         }

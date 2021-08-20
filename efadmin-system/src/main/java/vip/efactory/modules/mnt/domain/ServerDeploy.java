@@ -28,9 +28,6 @@ public class ServerDeploy extends BaseEntity<Long> implements Serializable {
 
     private String password;
 
-//    @CreationTimestamp
-//    private Timestamp createTime;
-
     public void copy(ServerDeploy source){
         BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
     }

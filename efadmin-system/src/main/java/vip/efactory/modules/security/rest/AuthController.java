@@ -1,13 +1,11 @@
 package vip.efactory.modules.security.rest;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import javax.servlet.http.HttpServletRequest;
-
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.crypto.asymmetric.KeyType;
+import cn.hutool.crypto.asymmetric.RSA;
 import com.wf.captcha.ArithmeticCaptcha;
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,18 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import cn.hutool.core.util.IdUtil;
-import cn.hutool.crypto.asymmetric.KeyType;
-import cn.hutool.crypto.asymmetric.RSA;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
 import vip.efactory.annotation.AnonymousAccess;
 import vip.efactory.aop.log.Log;
 import vip.efactory.common.base.utils.R;
@@ -38,7 +25,13 @@ import vip.efactory.modules.security.security.vo.JwtUser;
 import vip.efactory.modules.security.service.OnlineUserService;
 import vip.efactory.utils.RedisUtils;
 import vip.efactory.utils.SecurityUtils;
-import vip.efactory.utils.StringUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
  * 授权、根据token获取用户详细信息
@@ -84,10 +77,10 @@ public class AuthController {
         String code = (String) redisUtils.get(authUser.getUuid());
         // 清除验证码
         redisUtils.del(authUser.getUuid());
-        if (StringUtils.isBlank(code)) {
+        if (isBlank(code)) {
             throw new BadRequestException("验证码不存在或已过期");
         }
-        if (StringUtils.isBlank(authUser.getCode()) || !authUser.getCode().equalsIgnoreCase(code)) {
+        if (isBlank(authUser.getCode()) || !authUser.getCode().equalsIgnoreCase(code)) {
             throw new BadRequestException("验证码错误");
         }
         UsernamePasswordAuthenticationToken authenticationToken =
@@ -101,10 +94,10 @@ public class AuthController {
         // 保存在线信息
         onlineUserService.save(jwtUser, token, request);
         // 返回 token 与 用户信息
-        Map<String, Object> authInfo = new HashMap<String, Object>(2) {{
-            put("token", properties.getTokenStartWith() + token);
-            put("user", jwtUser);
-        }};
+        Map<String, Object> authInfo = new HashMap<>(2);
+        authInfo.put("token", properties.getTokenStartWith() + token);
+        authInfo.put("user", jwtUser);
+
         if (singleLogin) {
             //踢掉之前已经登录的token
             onlineUserService.checkLoginOnUser(authUser.getUsername(), token);
@@ -133,10 +126,10 @@ public class AuthController {
         // 保存
         redisUtils.set(uuid, result, expiration, TimeUnit.MINUTES);
         // 验证码信息
-        Map<String, Object> imgResult = new HashMap<String, Object>(2) {{
-            put("img", captcha.toBase64());
-            put("uuid", uuid);
-        }};
+        Map<String, Object> imgResult = new HashMap<>(2);
+        imgResult.put("img", captcha.toBase64());
+        imgResult.put("uuid", uuid);
+
         return R.ok(imgResult);
     }
 

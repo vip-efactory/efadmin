@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
-import org.springframework.format.annotation.DateTimeFormat;
 import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
@@ -15,8 +14,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import javax.validation.groups.Default;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Description: 员工信息,详细信息,系统用户仅保留系统需要的数据

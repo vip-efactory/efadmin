@@ -31,6 +31,8 @@ import vip.efactory.utils.FileUtil;
 import vip.efactory.utils.QueryHelp;
 import vip.efactory.utils.ValidationUtil;
 
+import static cn.hutool.core.collection.CollUtil.isNotEmpty;
+
 @Service
 @CacheConfig(cacheNames = "dict")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
@@ -92,7 +94,7 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, Long, DictRepository>
     public void download(List<DictDto> dictDtos, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
         for (DictDto dictDTO : dictDtos) {
-            if(CollectionUtil.isNotEmpty(dictDTO.getDictDetails())){
+            if(isNotEmpty(dictDTO.getDictDetails())){
                 for (DictDetailDto dictDetail : dictDTO.getDictDetails()) {
                     Map<String,Object> map = new LinkedHashMap<>();
                     map.put("字典名称", dictDTO.getName());

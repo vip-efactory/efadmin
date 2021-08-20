@@ -19,6 +19,8 @@ import vip.efactory.utils.ThrowableUtil;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 /**
  * Description: 日志注解的实现
  *
@@ -62,7 +64,7 @@ public class LogAspect {
         HttpServletRequest request = RequestHolder.getHttpServletRequest();
         // 从请求头中获取租户信息
         String tenantId = request.getHeader(TenantConstants.TENANT_ID);
-        if (StringUtils.isNotBlank(tenantId)) {
+        if (isNotBlank(tenantId)) {
             TenantHolder.setTenantId(Long.valueOf(tenantId));
         }
         log.setRemark("@T" + tenantId); // 记录租户的ｉｄ的同时，也将租户信息传入线程池
@@ -84,7 +86,7 @@ public class LogAspect {
         HttpServletRequest request = RequestHolder.getHttpServletRequest();
         // 从请求头中获取租户信息
         String tenantId = request.getHeader(TenantConstants.TENANT_ID);
-        if (StringUtils.isNotBlank(tenantId)) {
+        if (isNotBlank(tenantId)) {
             TenantHolder.setTenantId(Long.valueOf(tenantId));
         }
         log.setRemark("@T" + tenantId); // 记录租户的ｉｄ的同时，也将租户信息传入线程池

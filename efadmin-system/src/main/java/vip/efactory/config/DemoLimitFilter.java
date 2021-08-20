@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.alibaba.fastjson.JSON.toJSONString;
+
 /**
  * 线上演示环境限制操作的过滤器,为防止演示环境被严重破坏，实际项目中可以不需要此过滤器！！
  */
@@ -67,7 +69,7 @@ public class DemoLimitFilter extends GenericFilterBean {
                 response.addHeader("Access-Control-Allow-Origin","*");
                 response.addHeader("Access-Control-Allow-Headers","*");
                 response.addHeader("Access-Control-Allow-Methods","*");
-                response.getWriter().print(JSONObject.toJSONString(r));
+                response.getWriter().print(toJSONString(r));
             } else {
                 // 放行
                 filterChain.doFilter(request, response);

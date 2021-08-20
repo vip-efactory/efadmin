@@ -48,7 +48,7 @@ import java.util.*;
 @CacheConfig(cacheNames = "deploy")
 public class DeployServiceImpl extends BaseServiceImpl<Deploy, Long, DeployRepository> implements DeployService {
 
-    private final String FILE_SEPARATOR = "/";
+    private static final String FILE_SEPARATOR = "/";
 
     private final DeployMapper deployMapper;
 
@@ -57,7 +57,7 @@ public class DeployServiceImpl extends BaseServiceImpl<Deploy, Long, DeployRepos
     private final DeployHistoryService deployHistoryService;
 
     // 循环次数
-    private final Integer count = 30;
+    private final static Integer count = 30;
 
     public DeployServiceImpl(DeployMapper deployMapper, ServerDeployService serverDeployService, DeployHistoryService deployHistoryService) {
         this.deployMapper = deployMapper;

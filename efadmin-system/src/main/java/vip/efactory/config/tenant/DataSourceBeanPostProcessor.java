@@ -4,6 +4,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import vip.efactory.ejpa.tenant.database.TenantDataSourceProvider;
 import vip.efactory.modules.tenant.domain.Tenant;
 import vip.efactory.modules.tenant.service.ITenantService;
@@ -28,7 +29,7 @@ public class DataSourceBeanPostProcessor {
         log.info("多租户的数据源初始化开始...");
         List<Tenant> tenantList = tenantService.findAllByStatusEquals(ITenantService.TENANT_ENABLE);
         // 初始化所有租户的数据源
-        if (tenantList != null && tenantList.size() > 0) {
+        if (!CollectionUtils.isEmpty(tenantList)) {
             tenantList.forEach(tenant -> {
                 try {
                     DruidDataSource newDataSource = druidDataSource.cloneDruidDataSource();  // 克隆已有的数据源进行修改

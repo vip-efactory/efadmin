@@ -14,6 +14,8 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 
 @Entity
 @Getter
@@ -84,7 +86,7 @@ public class Menu extends BaseEntity<Long> implements Serializable {
 
     public String getLocaleKey() {
         // 如果值为空检查是否存在权限值
-        return StringUtils.isNotBlank(localeKey) ? localeKey : (StringUtils.isNotBlank(permission) ? permission : "");
+        return isNotBlank(localeKey) ? localeKey : (isNotBlank(permission) ? permission : "");
     }
 
     @Override

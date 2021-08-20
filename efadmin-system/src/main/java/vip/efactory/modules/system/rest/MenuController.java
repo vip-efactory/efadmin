@@ -85,6 +85,7 @@ public class MenuController extends BaseController<Menu, MenuService, Long> {
      * @param entity 含有高级查询条件
      * @return R
      */
+    @Override
     @Log("高级查询菜单")
     @ApiOperation(value = "多条件组合查询")
     @PostMapping("/all")

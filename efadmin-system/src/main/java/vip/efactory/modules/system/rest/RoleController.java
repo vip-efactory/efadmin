@@ -1,35 +1,19 @@
 package vip.efactory.modules.system.rest;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpServletResponse;
-
+import cn.hutool.core.lang.Dict;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import cn.hutool.core.lang.Dict;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
-import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.common.base.utils.R;
 import vip.efactory.common.base.valid.Update;
+import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.domain.Role;
 import vip.efactory.modules.system.service.RoleService;
@@ -40,6 +24,13 @@ import vip.efactory.modules.system.service.dto.RoleSmallDto;
 import vip.efactory.modules.system.service.dto.UserDto;
 import vip.efactory.utils.SecurityUtils;
 import vip.efactory.utils.ThrowableUtil;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Api(tags = "系统：角色管理")
@@ -148,7 +139,7 @@ public class RoleController extends BaseController<Role, RoleService, Long> {
         }
         try {
             entityService.delete(ids);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             ThrowableUtil.throwForeignKeyException(e, "所选角色存在用户关联，请取消关联后再试");
         }
         return R.ok();
@@ -164,10 +155,8 @@ public class RoleController extends BaseController<Role, RoleService, Long> {
         List<Integer> levels = entityService.findByUsersId(user.getId()).stream().map(RoleSmallDto::getLevel)
                 .collect(Collectors.toList());
         int min = Collections.min(levels);
-        if (level != null) {
-            if (level < min) {
-                throw new BadRequestException("权限不足，你的角色级别：" + min + "，低于操作的角色级别：" + level);
-            }
+        if (level != null && level < min) {
+            throw new BadRequestException("权限不足，你的角色级别：" + min + "，低于操作的角色级别：" + level);
         }
         return min;
     }

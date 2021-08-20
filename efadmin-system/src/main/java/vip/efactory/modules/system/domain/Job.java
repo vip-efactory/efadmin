@@ -6,8 +6,6 @@ import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -44,12 +42,5 @@ public class Job extends BaseEntity<Long> implements Serializable {
     @OneToOne
     @JoinColumn(name = "dept_id")
     private Dept dept;
-
-//    /**
-//     * 创建日期
-//     */
-//    @Column(name = "create_time")
-//    @CreationTimestamp
-//    private Timestamp createTime;
 
 }

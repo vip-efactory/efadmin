@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import static com.alibaba.fastjson.JSON.toJSONString;
+
 /**
  * @author: ZhangHouYing
  * @date: 2019-08-10 15:46
@@ -91,7 +93,7 @@ public class WebSocketServer {
 	 * 群发自定义消息
 	 * */
 	public static void sendInfo(SocketMsg socketMsg,@PathParam("sid") String sid) throws IOException {
-		String message = JSONObject.toJSONString(socketMsg);
+		String message = toJSONString(socketMsg);
 		log.info("推送消息到"+sid+"，推送内容:"+message);
 		for (WebSocketServer item : webSocketSet) {
 			try {

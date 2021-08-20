@@ -5,6 +5,7 @@ import java.util.*;
 
 /**
  * 分页工具
+ * @author dusuanyun
  */
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class PageUtil extends cn.hutool.core.util.PageUtil {

@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+import static cn.hutool.core.util.PageUtil.transToStartEnd;
+
 @RestController
 @RequestMapping("/api/generator")
 @Api(tags = "系统：代码生成管理")
@@ -42,7 +44,7 @@ public class GeneratorController {
     public R getTables(@RequestParam(defaultValue = "") String name,
                                             @RequestParam(defaultValue = "0")Integer page,
                                             @RequestParam(defaultValue = "10")Integer size){
-        int[] startEnd = PageUtil.transToStartEnd(page, size);
+        int[] startEnd = transToStartEnd(page, size);
         return R.ok(generatorService.getTables(name,startEnd));
     }
 

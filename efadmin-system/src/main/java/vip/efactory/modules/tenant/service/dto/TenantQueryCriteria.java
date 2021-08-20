@@ -1,8 +1,6 @@
 package vip.efactory.modules.tenant.service.dto;
 
 import lombok.Data;
-import java.sql.Timestamp;
-import java.util.List;
 import vip.efactory.annotation.Query;
 
 /**

@@ -1,39 +1,32 @@
 package vip.efactory.modules.system.rest;
 
-import java.io.IOException;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import cn.hutool.core.collection.CollectionUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
 import vip.efactory.common.base.utils.R;
 import vip.efactory.common.base.valid.Update;
 import vip.efactory.config.DataScope;
 import vip.efactory.ejpa.base.controller.BaseController;
-
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.system.domain.Dept;
 import vip.efactory.modules.system.service.DeptService;
 import vip.efactory.modules.system.service.dto.DeptDto;
 import vip.efactory.modules.system.service.dto.DeptQueryCriteria;
 import vip.efactory.utils.ThrowableUtil;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import static cn.hutool.core.collection.CollUtil.isNotEmpty;
+import static cn.hutool.core.collection.CollUtil.sort;
 
 @AllArgsConstructor
 @RestController
@@ -62,7 +55,7 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
         criteria.setIds(dataScope.getDeptIds());
         List<DeptDto> deptDtos = entityService.queryAll(criteria);
         // 对sort属性进行升序排序
-        CollectionUtil.sort(deptDtos, Comparator.comparing(DeptDto::getSort));
+        sort(deptDtos, Comparator.comparing(DeptDto::getSort));
         return R.ok(entityService.buildTree(deptDtos));
     }
 
@@ -72,6 +65,7 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
      * @param entity 含有高级查询条件
      * @return R
      */
+    @Override
     @Log("高级查询部门")
     @ApiOperation(value = "多条件组合查询")
     @PostMapping("/all")
@@ -110,13 +104,13 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
         for (Long id : ids) {
             List<Dept> deptList = entityService.findByPid(id);
             deptDtos.add(entityService.findDtoById(id));
-            if (CollectionUtil.isNotEmpty(deptList)) {
+            if (isNotEmpty(deptList)) {
                 deptDtos = entityService.getDeleteDepts(deptList, deptDtos);
             }
         }
         try {
             entityService.delete(deptDtos);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             ThrowableUtil.throwForeignKeyException(e, "所选部门中存在岗位或者角色关联，请取消关联后再试");
         }
         return R.ok();

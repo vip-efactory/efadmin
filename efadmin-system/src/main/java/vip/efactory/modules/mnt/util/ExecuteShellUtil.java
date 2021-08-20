@@ -22,7 +22,6 @@ import java.util.Vector;
 public class ExecuteShellUtil {
 
     private Vector<String> stdout;
-
     Session session;
 
     public ExecuteShellUtil(final String ipAddress, final String username, final String password, int port) throws JSchException {

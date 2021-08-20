@@ -1,6 +1,7 @@
 package vip.efactory.config;
 
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import vip.efactory.modules.system.domain.Dept;
 import vip.efactory.modules.system.service.DeptService;
 import vip.efactory.modules.system.service.RoleService;
@@ -61,7 +62,7 @@ public class DataScope {
                 for (Dept dept : depts) {
                     deptIds.add(dept.getId());
                     List<Dept> deptChildren = deptService.findByPid(dept.getId());
-                    if (deptChildren != null && deptChildren.size() != 0) {
+                    if (!CollectionUtils.isEmpty(deptChildren)) {
                         deptIds.addAll(getDeptChildren(deptChildren));
                     }
                 }
@@ -76,7 +77,7 @@ public class DataScope {
         deptList.forEach(dept -> {
                     if (dept!=null && dept.getEnabled()){
                         List<Dept> depts = deptService.findByPid(dept.getId());
-                        if(deptList.size() != 0){
+                        if(!CollectionUtils.isEmpty(depts)){
                             list.addAll(getDeptChildren(depts));
                         }
                         list.add(dept.getId());

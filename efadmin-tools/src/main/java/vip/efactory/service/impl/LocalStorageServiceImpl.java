@@ -31,6 +31,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import static cn.hutool.core.io.FileUtil.del;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 @Service
 @CacheConfig(cacheNames = "localStorage")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
@@ -82,7 +85,7 @@ public class LocalStorageServiceImpl extends BaseServiceImpl<LocalStorage, Long,
             throw new BadRequestException("上传失败");
         }
         try {
-            name = StringUtils.isBlank(name) ? FileUtil.getFileNameNoEx(multipartFile.getOriginalFilename()) : name;
+            name = isBlank(name) ? FileUtil.getFileNameNoEx(multipartFile.getOriginalFilename()) : name;
             LocalStorage localStorage = new LocalStorage(
                     TenantHolder.getTenantId() + File.separator + type + File.separator + file.getName(),
                     name,
@@ -94,7 +97,7 @@ public class LocalStorageServiceImpl extends BaseServiceImpl<LocalStorage, Long,
             );
             return localStorageMapper.toDto(br.save(localStorage));
         } catch (Exception e) {
-            FileUtil.del(file);
+            del(file);
             throw e;
         }
     }
@@ -115,7 +118,7 @@ public class LocalStorageServiceImpl extends BaseServiceImpl<LocalStorage, Long,
     public void deleteAll(Long[] ids) {
         for (Long id : ids) {
             LocalStorage storage = br.findById(id).orElseGet(LocalStorage::new);
-            FileUtil.del(storage.getPath());
+            del(storage.getPath());
             br.delete(storage);
         }
     }

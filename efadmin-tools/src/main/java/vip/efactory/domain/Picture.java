@@ -1,18 +1,12 @@
 package vip.efactory.domain;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
 import lombok.Data;
 import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * sm.ms图床
@@ -47,10 +41,6 @@ public class Picture extends BaseEntity<Long> implements Serializable {
 
     /** 用于检测文件是否重复 */
     private String md5Code;
-
-//    @CreationTimestamp
-//    @Column(name = "create_time")
-//    private Timestamp createTime;
 
     @Override
     public String toString() {

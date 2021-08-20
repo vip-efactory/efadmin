@@ -24,6 +24,8 @@ import vip.efactory.utils.ValidationUtil;
 import java.util.List;
 import java.util.Set;
 
+import static com.alibaba.fastjson.JSON.parseObject;
+
 /**
  * @author Zhang houying
  * @date 2019-11-03
@@ -47,7 +49,7 @@ public class ServerServiceImpl extends BaseServiceImpl<Server, Integer, ServerRe
                 server.setState("1");
                 String url = String.format("http://%s:%d/api/serverMonitor", server.getAddress(), server.getPort());
                 String res = HttpUtil.get(url, 1000);
-                JSONObject obj = JSONObject.parseObject(res);
+                JSONObject obj = parseObject(res);
                 server.setCpuRate(obj.getDouble("cpuRate"));
                 server.setCpuCore(obj.getInteger("cpuCore"));
                 server.setMemTotal(obj.getDouble("memTotal"));

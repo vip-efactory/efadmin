@@ -58,10 +58,6 @@ public class Role extends BaseEntity<Long> implements Serializable {
     @JoinTable(name = "sys_roles_depts", joinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "dept_id",referencedColumnName = "id")})
     private Set<Dept> depts;
 
-//    @CreationTimestamp
-//    @Column(name = "create_time")
-//    private Timestamp createTime;
-
     @Override
     public String toString() {
         return "Role{" +

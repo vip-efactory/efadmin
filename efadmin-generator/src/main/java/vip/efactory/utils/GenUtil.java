@@ -16,6 +16,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static cn.hutool.core.io.FileUtil.exist;
+import static cn.hutool.core.io.FileUtil.touch;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 /**
  * 代码生成
  */
@@ -103,7 +107,7 @@ public class GenUtil {
             assert filePath != null;
             File file = new File(filePath);
             // 如果非覆盖生成
-            if(!genConfig.getCover() && FileUtil.exist(file)){
+            if(!genConfig.getCover() && exist(file)){
                 continue;
             }
             // 生成代码
@@ -121,7 +125,7 @@ public class GenUtil {
             assert filePath != null;
             File file = new File(filePath);
             // 如果非覆盖生成
-            if(!genConfig.getCover() && FileUtil.exist(file)){
+            if(!genConfig.getCover() && exist(file)){
                 continue;
             }
             // 生成代码
@@ -143,7 +147,7 @@ public class GenUtil {
             File file = new File(filePath);
 
             // 如果非覆盖生成
-            if(!genConfig.getCover() && FileUtil.exist(file)){
+            if(!genConfig.getCover() && exist(file)){
                 continue;
             }
             // 生成代码
@@ -161,7 +165,7 @@ public class GenUtil {
             File file = new File(filePath);
 
             // 如果非覆盖生成
-            if(!genConfig.getCover() && FileUtil.exist(file)){
+            if(!genConfig.getCover() && exist(file)){
                 continue;
             }
             // 生成代码
@@ -242,9 +246,9 @@ public class GenUtil {
             // 主键类型
             String colType = ColUtil.cloToJava(column.getColumnType());
             // 小写开头的字段名
-            String changeColumnName = StringUtils.toCamelCase(column.getColumnName().toString());
+            String changeColumnName = StringUtils.toCamelCase(column.getColumnName());
             // 大写开头的字段名
-            String capitalColumnName = StringUtils.toCapitalizeCamelCase(column.getColumnName().toString());
+            String capitalColumnName = StringUtils.toCapitalizeCamelCase(column.getColumnName());
             if(PK.equals(column.getKeyType())){
                 // 存储主键类型
                 genMap.put("pkColumnType",colType);
@@ -275,7 +279,7 @@ public class GenUtil {
                 genMap.put("auto",true);
             }
             // 主键存在字典
-            if(StringUtils.isNotBlank(column.getDictName())){
+            if(isNotBlank(column.getDictName())){
                 genMap.put("hasDict",true);
                 dicts.add(column.getDictName());
             }
@@ -291,7 +295,7 @@ public class GenUtil {
             // 表单显示
             listMap.put("formShow",column.getFormShow());
             // 表单组件类型
-            listMap.put("formType", StringUtils.isNotBlank(column.getFormType()) ? column.getFormType() : "Input");
+            listMap.put("formType", isNotBlank(column.getFormType()) ? column.getFormType() : "Input");
             // 小写开头的字段名称
             listMap.put("changeColumnName",changeColumnName);
             //大写开头的字段名称
@@ -300,7 +304,7 @@ public class GenUtil {
             listMap.put("dictName",column.getDictName());
             // 日期注解
             listMap.put("dateAnnotation",column.getDateAnnotation());
-            if(StringUtils.isNotBlank(column.getDateAnnotation())){
+            if(isNotBlank(column.getDateAnnotation())){
                 genMap.put("hasDateAnnotation",true);
             }
             // 添加非空字段信息
@@ -437,7 +441,7 @@ public class GenUtil {
         // 生成目标文件
         Writer writer = null;
         try {
-            FileUtil.touch(file);
+            touch(file);
             writer = new FileWriter(file);
             template.render(map, writer);
         } catch (TemplateException | IOException e) {

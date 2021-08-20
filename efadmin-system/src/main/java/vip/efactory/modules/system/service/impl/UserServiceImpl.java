@@ -32,6 +32,9 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static cn.hutool.core.io.FileUtil.del;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 @Service
 @CacheConfig(cacheNames = "user")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
@@ -183,8 +186,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
         user.setUserAvatar(userAvatar);
         br.save(user);
         //如果旧的地址文件存在，则删除！
-        if (StringUtils.isNotBlank(oldPath)) {
-            FileUtil.del(oldPath);
+        if (isNotBlank(oldPath)) {
+            del(oldPath);
         }
     }
 

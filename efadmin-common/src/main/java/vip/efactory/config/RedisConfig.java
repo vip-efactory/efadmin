@@ -40,6 +40,8 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 /**
  * @author Zheng Jie
  * @date 2018-11-24
@@ -90,7 +92,7 @@ public class RedisConfig extends CachingConfigurerSupport {
      * @return
      */
     private RedisClusterConfiguration getClusterConfiguration() {
-        Map<String, Object> source = new HashMap<String, Object>(2);
+        Map<String, Object> source = new HashMap<>(2);
         String clusterNodes = env.getProperty("spring.redis.cluster.nodes");
         source.put("spring.redis.cluster.nodes", clusterNodes);
         String clusterPassword = env.getProperty("spring.redis.cluster.password");
@@ -273,7 +275,7 @@ class StringRedisSerializer implements RedisSerializer<Object> {
     @Override
     public byte[] serialize(Object object) {
         String string = JSON.toJSONString(object);
-        if (StringUtils.isBlank(string)) {
+        if (isBlank(string)) {
             return null;
         }
         string = string.replace("\"", "");

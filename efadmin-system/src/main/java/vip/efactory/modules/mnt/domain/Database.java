@@ -5,7 +5,6 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import lombok.Data;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -51,9 +50,6 @@ public class Database extends BaseEntity<String> implements Serializable {
 	 */
     @Column(name = "user_name",nullable = false)
     private String userName;
-
-//	@CreationTimestamp
-//	private Timestamp createTime;
 
     public void copy(Database source){
         BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));

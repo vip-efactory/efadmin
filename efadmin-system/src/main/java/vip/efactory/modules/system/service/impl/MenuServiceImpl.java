@@ -1,7 +1,6 @@
 package vip.efactory.modules.system.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -9,6 +8,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import vip.efactory.ejpa.base.service.impl.BaseServiceImpl;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.exception.EntityExistException;
@@ -22,12 +22,18 @@ import vip.efactory.modules.system.service.dto.MenuDto;
 import vip.efactory.modules.system.service.dto.MenuQueryCriteria;
 import vip.efactory.modules.system.service.dto.RoleSmallDto;
 import vip.efactory.modules.system.service.mapper.MenuMapper;
-import vip.efactory.utils.*;
+import vip.efactory.utils.FileUtil;
+import vip.efactory.utils.MenuI18nUtil;
+import vip.efactory.utils.QueryHelp;
+import vip.efactory.utils.ValidationUtil;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static cn.hutool.core.text.CharSequenceUtil.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Service
 @CacheConfig(cacheNames = "menu")
@@ -78,7 +84,7 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, Long, MenuRepository>
         if (br.findByName(resources.getName()) != null) {
             throw new EntityExistException(Menu.class, "name", resources.getName());
         }
-        if (StringUtils.isNotBlank(resources.getComponentName())) {
+        if (isNotBlank(resources.getComponentName())) {
             if (br.findByComponentName(resources.getComponentName()) != null) {
                 throw new EntityExistException(Menu.class, "componentName", resources.getComponentName());
             }
@@ -113,7 +119,7 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, Long, MenuRepository>
             throw new EntityExistException(Menu.class, "name", resources.getName());
         }
 
-        if (StringUtils.isNotBlank(resources.getComponentName())) {
+        if (isNotBlank(resources.getComponentName())) {
             menu1 = br.findByComponentName(resources.getComponentName());
             if (menu1 != null && !menu1.getId().equals(menu.getId())) {
                 throw new EntityExistException(Menu.class, "componentName", resources.getComponentName());
@@ -169,7 +175,7 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, Long, MenuRepository>
                         Map<String, Object> map = new HashMap<>(16);
                         map.put("id", menu.getId());
                         map.put("label", menu.getName());
-                        if (menuList != null && menuList.size() != 0) {
+                        if (!CollectionUtils.isEmpty(menuList)) {
                             map.put("children", getMenuTree(menuList));
                         }
                         list.add(map);
@@ -214,7 +220,7 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, Long, MenuRepository>
 
     @Override
     public Map<String, Object> buildTree4Entites(List<Menu> menus) {
-        if (menus != null && menus.size() > 0) {
+        if (!CollectionUtils.isEmpty(menus)) {
             List<MenuDto> trees = new ArrayList<>();
             menus.forEach(menu -> {
                 MenuDto dto = menuMapper.toDto(menu); // 转换为DTO对象
@@ -240,8 +246,8 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, Long, MenuRepository>
                         // 如果不是外链
                         if (!menuDTO.getIFrame()) {
                             if (menuDTO.getPid() == 0) {
-                                menuVo.setComponent(StrUtil.isEmpty(menuDTO.getComponent()) ? "Layout" : menuDTO.getComponent());
-                            } else if (!StrUtil.isEmpty(menuDTO.getComponent())) {
+                                menuVo.setComponent(isEmpty(menuDTO.getComponent()) ? "Layout" : menuDTO.getComponent());
+                            } else if (!isEmpty(menuDTO.getComponent())) {
                                 menuVo.setComponent(menuDTO.getComponent());
                             }
                         }

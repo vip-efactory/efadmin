@@ -2,6 +2,7 @@ package vip.efactory.modules.mnt.util;
 
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.SCPClient;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -12,11 +13,12 @@ import java.util.logging.Logger;
  * @author: ZhangHouYing
  * @date: 2019-08-10 10:06
  */
+@Slf4j
 public class ScpClientUtil {
 
-	static private ScpClientUtil instance;
+	private static ScpClientUtil instance;
 
-	static synchronized public ScpClientUtil getInstance(String ip, int port, String username, String passward) {
+	public static synchronized ScpClientUtil getInstance(String ip, int port, String username, String passward) {
 		if (instance == null) {
 			instance = new ScpClientUtil(ip, port, username, passward);
 		}
@@ -36,7 +38,7 @@ public class ScpClientUtil {
 			conn.connect();
 			boolean isAuthenticated = conn.authenticateWithPassword(username, password);
 			if (!isAuthenticated) {
-				System.err.println("authentication failed");
+				log.warn("authentication failed");
 			}
 			SCPClient client = new SCPClient(conn);
 			client.get(remoteFile, localTargetDirectory);
@@ -61,7 +63,7 @@ public class ScpClientUtil {
 			conn.connect();
 			boolean isAuthenticated = conn.authenticateWithPassword(username, password);
 			if (!isAuthenticated) {
-				System.err.println("authentication failed");
+				log.warn("authentication failed");
 			}
 			SCPClient client = new SCPClient(conn);
 			if ((mode == null) || (mode.length() == 0)) {

@@ -1,16 +1,11 @@
 package vip.efactory.modules.quartz.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
 import lombok.Data;
 import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
@@ -53,11 +48,4 @@ public class QuartzLog extends BaseEntity<Long> {
 
     /** 耗时（毫秒） */
     private Long time;
-
-//    /**
-//     * 创建日期
-//     */
-//    @CreationTimestamp
-//    @Column(name = "create_time")
-//    private Timestamp createTime;
 }

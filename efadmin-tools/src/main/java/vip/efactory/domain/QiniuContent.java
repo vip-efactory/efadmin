@@ -1,16 +1,11 @@
 package vip.efactory.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
 import lombok.Data;
 import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * 上传成功后，存储结果
@@ -50,10 +45,4 @@ public class QiniuContent extends BaseEntity<Long> {
     /** 空间类型：公开/私有 */
     private String type = "公开";
 
-//    /**
-//     * 更新时间
-//     */
-//    @UpdateTimestamp
-//    @Column(name = "update_time")
-//    private Timestamp updateTime;
 }

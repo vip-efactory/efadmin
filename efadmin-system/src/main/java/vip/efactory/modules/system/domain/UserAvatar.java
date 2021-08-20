@@ -30,10 +30,6 @@ public class UserAvatar extends BaseEntity<Long> implements Serializable {
 
     private String size;
 
-//    @Column(name = "create_time")
-//    @CreationTimestamp
-//    private Timestamp createTime;
-
     public UserAvatar(UserAvatar userAvatar, String realName, String path, String size) {
         this.id = ObjectUtil.isNotEmpty(userAvatar) ? userAvatar.getId() : null;
         this.realName = realName;

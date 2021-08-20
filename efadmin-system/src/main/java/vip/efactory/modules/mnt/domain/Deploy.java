@@ -6,7 +6,6 @@ import lombok.Data;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -40,9 +39,6 @@ public class Deploy extends BaseEntity<Long> {
             @JoinColumn(name = "deploy_id", referencedColumnName = "id") }, inverseJoinColumns = {
                     @JoinColumn(name = "server_id", referencedColumnName = "id") })
     private Set<ServerDeploy> deploys;
-
-    // @CreationTimestamp
-    // private Timestamp createTime;
 
     public void copy(Deploy source) {
         BeanUtil.copyProperties(source, this, CopyOptions.create().setIgnoreNullValue(true));

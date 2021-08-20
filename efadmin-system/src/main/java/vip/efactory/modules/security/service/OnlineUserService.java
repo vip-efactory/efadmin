@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 /**
  * @author Zheng Jie
  * @Date 2019年10月26日21:56:27
@@ -76,7 +79,7 @@ public class OnlineUserService {
         List<OnlineUser> onlineUsers = new ArrayList<>();
         for (String key : keys) {
             OnlineUser onlineUser = (OnlineUser) redisUtils.get(key);
-            if(StringUtils.isNotBlank(filter)){
+            if(isNotBlank(filter)){
                 if(onlineUser.toString().contains(filter)){
                     onlineUsers.add(onlineUser);
                 }
@@ -150,9 +153,9 @@ public class OnlineUserService {
             if(onlineUser.getUserName().equals(userName)){
                 try {
                     String token =EncryptUtils.desDecrypt(onlineUser.getKey());
-                    if(StringUtils.isNotBlank(igoreToken)&&!igoreToken.equals(token)){
+                    if(isNotBlank(igoreToken)&&!igoreToken.equals(token)){
                         this.kickOut(onlineUser.getKey());
-                    }else if(StringUtils.isBlank(igoreToken)){
+                    }else if(isBlank(igoreToken)){
                         this.kickOut(onlineUser.getKey());
                     }
                 } catch (Exception e) {

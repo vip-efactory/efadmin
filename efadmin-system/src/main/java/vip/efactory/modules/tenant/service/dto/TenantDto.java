@@ -2,7 +2,7 @@ package vip.efactory.modules.tenant.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import java.sql.Timestamp;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 

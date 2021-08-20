@@ -29,6 +29,8 @@ import javax.sql.DataSource;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static org.hibernate.cfg.Environment.*;
+
 @AllArgsConstructor
 @Configuration
 @EnableConfigurationProperties({ JpaProperties.class })
@@ -67,12 +69,12 @@ public class MultiTenantJpaConfiguration {
 
         Map<String, Object> hibernateProps = new LinkedHashMap<>();
         hibernateProps.putAll(this.jpaProperties.getProperties());
-        hibernateProps.put(Environment.MULTI_TENANT, MultiTenancyStrategy.DATABASE); // 使用基于独立数据库的多租户模式
-        hibernateProps.put(Environment.PHYSICAL_NAMING_STRATEGY,
+        hibernateProps.put(MULTI_TENANT, MultiTenancyStrategy.DATABASE); // 使用基于独立数据库的多租户模式
+        hibernateProps.put(PHYSICAL_NAMING_STRATEGY,
                 "org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy"); // 属性及column命名策略
-        hibernateProps.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProvider);
-        hibernateProps.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, currentTenantIdentifierResolver);
-        hibernateProps.put(Environment.HBM2DDL_AUTO, Action.UPDATE); // 自动更新表结构,仅默认数据源有效且控制台会报警告可以不用管！
+        hibernateProps.put(MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProvider);
+        hibernateProps.put(MULTI_TENANT_IDENTIFIER_RESOLVER, currentTenantIdentifierResolver);
+        hibernateProps.put(HBM2DDL_AUTO, Action.UPDATE); // 自动更新表结构,仅默认数据源有效且控制台会报警告可以不用管！
         // hibernateProps.put(Environment.SHOW_SQL, true); // 显示SQL,如果需要可以打开
         // hibernateProps.put(Environment.FORMAT_SQL, true); // 格式化SQL,如果需要可以打开
 

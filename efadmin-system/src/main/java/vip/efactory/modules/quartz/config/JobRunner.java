@@ -27,7 +27,7 @@ public class JobRunner implements ApplicationRunner {
 
     /**
      * 项目启动时重新激活启用的定时任务
-     * 
+     *
      * @param applicationArguments /
      */
     @Override
@@ -35,7 +35,7 @@ public class JobRunner implements ApplicationRunner {
         log.info("--------------------注入定时任务---------------------");
         // 对每个租户的定时任务都进行注入
         // 从默认数据源里查询所有的启用的租户信息，
-        if (TenantHolder.getTenantId() == TenantConstants.DEFAULT_TENANT_ID) {
+        if (TenantHolder.getTenantId().equals(TenantConstants.DEFAULT_TENANT_ID)) {
             log.info("开始注入默认租户的定时任务...");
             List<QuartzJob> quartzJobs = quartzJobRepository.findByIsPauseIsFalse();
             quartzJobs.forEach(quartzManage::addJob);
@@ -45,7 +45,7 @@ public class JobRunner implements ApplicationRunner {
                 // 先设定租户的持有者信息
                 TenantHolder.setTenantId(tenant.getId());
                 List<QuartzJob> jobs = quartzJobRepository.findByIsPauseIsFalse();
-                jobs.forEach(quartzManage::addJob);                
+                jobs.forEach(quartzManage::addJob);
             });
             // 还原租户的持有者信息
             TenantHolder.setTenantId(TenantConstants.DEFAULT_TENANT_ID);

@@ -82,6 +82,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
      * @param page 分页参数对象
      * @return R
      */
+    @Override
     @Log("分页查询Employee")
     @ApiOperation(value = "获取分页数据", notes = "默认每页25条记录,id字段降序")
     @GetMapping("/page")
@@ -129,6 +130,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
      * @param id 主键
      * @return R
      */
+    @Override
     @Log("使用Id查询Employee")
     @GetMapping("/{id}")
     @ApiOperation(value = "依据Id来获取对应的记录", notes = "依据Id来获取对应的记录")
@@ -144,6 +146,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
      * @param entity 要保存的对象实体
      * @return R
      */
+    @Override
     @Log("新增Employee")
     @PostMapping
     @ApiOperation(value = "新增Employee", notes = "新增Employee实体")
@@ -159,6 +162,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
      * @return R
      */
 
+    @Override
     @Log("修改Employee")
     @PreAuthorize("@p.check('employee:edit')")
     @PutMapping
@@ -173,6 +177,7 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
      * @param ids 主键
      * @return R
      */
+    @Override
     @Log("使用Ids删除Employee")
     @PreAuthorize("@p.check('employee:del')")
     @DeleteMapping

@@ -1,17 +1,12 @@
 package vip.efactory.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 
 /**
@@ -78,11 +73,6 @@ public class SysLog extends BaseEntity<Long> {
     /** 异常详细 */
     @Column(name = "exception_detail", columnDefinition = "text")
     private byte[] exceptionDetail;
-
-    // /** 创建日期 */
-    // @CreationTimestamp
-    // @Column(name = "create_time")
-    // private Timestamp createTime;
 
     public SysLog(String logType, Long time) {
         this.logType = logType;

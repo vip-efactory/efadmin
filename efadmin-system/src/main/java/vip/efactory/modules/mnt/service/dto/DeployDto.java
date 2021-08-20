@@ -1,14 +1,14 @@
 package vip.efactory.modules.mnt.service.dto;
 
-import cn.hutool.core.collection.CollectionUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static cn.hutool.core.collection.CollUtil.isNotEmpty;
 
 
 /**
@@ -40,7 +40,7 @@ public class DeployDto implements Serializable {
 	private LocalDateTime createTime;
 
 	public String getServers() {
-		if(CollectionUtil.isNotEmpty(deploys)){
+		if(isNotEmpty(deploys)){
 			return deploys.stream().map(ServerDeployDto::getName).collect(Collectors.joining(","));
 		}
 		return servers;

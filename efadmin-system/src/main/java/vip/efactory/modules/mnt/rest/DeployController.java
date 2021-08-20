@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jcraft.jsch.JSchException;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -38,11 +39,17 @@ import vip.efactory.modules.mnt.service.DeployService;
 import vip.efactory.modules.mnt.service.dto.DeployQueryCriteria;
 import vip.efactory.utils.FileUtil;
 
+import static cn.hutool.core.io.FileUtil.del;
+
+/**
+ * @author dusuanyun
+ */
 @AllArgsConstructor
 @Api(tags = "部署管理")
 @RestController
 @RequestMapping("/api/deploy")
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
+@Slf4j
 public class DeployController extends BaseController<Deploy, DeployService, Long> {
     private static String fileSavePath = System.getProperty("java.io.tmpdir");
 
@@ -113,14 +120,14 @@ public class DeployController extends BaseController<Deploy, DeployService, Long
         if (file != null) {
             fileName = file.getOriginalFilename();
             File deployFile = new File(fileSavePath + fileName);
-            FileUtil.del(deployFile);
+            del(deployFile);
             file.transferTo(deployFile);
             //文件下一步要根据文件名字来
             entityService.deploy(fileSavePath + fileName, id);
         } else {
-            System.out.println("没有找到相对应的文件");
+            log.warn("没有找到相对应的文件");
         }
-        System.out.println("文件上传的原名称为:" + Objects.requireNonNull(file).getOriginalFilename());
+        log.info("文件上传的原名称为:" + Objects.requireNonNull(file).getOriginalFilename());
         Map<String, Object> map = new HashMap<>(2);
         map.put("errno", 0);
         map.put("id", fileName);

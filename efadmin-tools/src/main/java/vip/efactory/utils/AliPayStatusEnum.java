@@ -1,7 +1,11 @@
 package vip.efactory.utils;
 
+import lombok.Getter;
+
 /**
  * 支付状态
+ *
+ * @author dusuanyun
  */
 public enum AliPayStatusEnum {
 
@@ -25,13 +29,13 @@ public enum AliPayStatusEnum {
      */
     CLOSED("交易关闭", "TRADE_CLOSED");
 
-    private String value;
+    @Getter
+    private final String name;
+    @Getter
+    private final String value;
 
     AliPayStatusEnum(String name, String value) {
+        this.name = name;
         this.value = value;
-    }
-
-    public String getValue() {
-        return value;
     }
 }

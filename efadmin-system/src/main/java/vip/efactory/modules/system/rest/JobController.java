@@ -1,26 +1,14 @@
 package vip.efactory.modules.system.rest;
 
-import java.io.IOException;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletResponse;
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 import vip.efactory.aop.log.Log;
 import vip.efactory.common.base.utils.R;
 import vip.efactory.common.base.valid.Update;
@@ -31,6 +19,10 @@ import vip.efactory.modules.system.domain.Job;
 import vip.efactory.modules.system.service.JobService;
 import vip.efactory.modules.system.service.dto.JobQueryCriteria;
 import vip.efactory.utils.ThrowableUtil;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Set;
 
 @AllArgsConstructor
 @Api(tags = "系统：岗位管理")
@@ -103,7 +95,7 @@ public class JobController extends BaseController<Job, JobService, Long> {
     public R delete(@RequestBody Set<Long> ids) {
         try {
             entityService.delete(ids);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             ThrowableUtil.throwForeignKeyException(e, "所选岗位存在用户关联，请取消关联后再试");
         }
         return R.ok();

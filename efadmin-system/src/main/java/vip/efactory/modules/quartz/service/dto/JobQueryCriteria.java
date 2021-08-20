@@ -4,7 +4,6 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 import vip.efactory.annotation.Query;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
