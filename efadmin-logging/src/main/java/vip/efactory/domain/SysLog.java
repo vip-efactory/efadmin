@@ -71,7 +71,7 @@ public class SysLog extends BaseEntity<Long> {
     private Long time;
 
     /** 异常详细 */
-    @Column(name = "exception_detail", columnDefinition = "text")
+    @Column(name = "exception_detail", columnDefinition = "mediumtext")
     private byte[] exceptionDetail;
 
     public SysLog(String logType, Long time) {
