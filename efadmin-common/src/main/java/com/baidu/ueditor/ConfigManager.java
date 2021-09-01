@@ -76,14 +76,12 @@ public final class ConfigManager {
     }
 
     public JSONObject getAllConfig() {
-
         return this.jsonConfig;
-
     }
 
     public Map<String, Object> getConfig(int type) {
 
-        Map<String, Object> conf = new HashMap<String, Object>();
+        Map<String, Object> conf = new HashMap<>();
         String savePath = null;
 
         switch (type) {
@@ -197,7 +195,6 @@ public final class ConfigManager {
         }
 
         return result;
-
     }
 
     private String readFile(String path) throws IOException {
@@ -216,14 +213,11 @@ public final class ConfigManager {
         }
 
         return this.filter(builder.toString());
-
     }
 
     // 过滤输入字符串, 剔除多行注释以及替换掉反斜杠
     private String filter(String input) {
-
         return input.replaceAll("/\\*[\\s\\S]*?\\*/", "");
-
     }
 
 }

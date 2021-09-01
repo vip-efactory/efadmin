@@ -14,7 +14,7 @@ public class BaseState implements State {
     private boolean state = false;
     private String info = null;
 
-    private Map<String, String> infoMap;
+    private final Map<String, String> infoMap;
 
     public BaseState() {
         this.state = true;
@@ -36,6 +36,7 @@ public class BaseState implements State {
         this.info = AppInfo.getStateInfo(infoCode);
     }
 
+    @Override
     public boolean isSuccess() {
         return this.state;
     }
@@ -63,19 +64,13 @@ public class BaseState implements State {
         String stateVal = this.isSuccess() ? AppInfo.getStateInfo(AppInfo.SUCCESS) : this.info;
 
         StringBuilder builder = new StringBuilder();
-
-        builder.append("{\"state\": \"" + stateVal + "\"");
-
+        builder.append("{\"state\": \"").append(stateVal).append("\"");
         Iterator<String> iterator = this.infoMap.keySet().iterator();
 
         while (iterator.hasNext()) {
-
             key = iterator.next();
-
             builder.append(",\"" + key + "\": \"" + this.infoMap.get(key) + "\"");
-
         }
-
         builder.append("}");
 
         return Encoder.toUnicode(builder.toString());

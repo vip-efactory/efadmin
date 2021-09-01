@@ -75,15 +75,11 @@ public class FileManager {
             fileState.putInfo("url", PathFormat.format(this.getPath(file)));
             state.addState(fileState);
         }
-
         return state;
-
     }
 
     private String getPath(File file) {
-
         String path = file.getAbsolutePath();
-
         return path.replace(this.rootPath, "/");
 
     }
@@ -100,14 +96,11 @@ public class FileManager {
         exts = (String[]) fileExt;
 
         for (int i = 0, len = exts.length; i < len; i++) {
-
             ext = exts[i];
             exts[i] = ext.replace(".", "");
 
         }
-
         return exts;
-
     }
 
 }

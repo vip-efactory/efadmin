@@ -22,7 +22,6 @@ public class ActionEnter {
     private String contextPath = null;
 
     private String actionType = null;
-
     private ConfigManager configManager = null;
 
     public ActionEnter(HttpServletRequest request, String rootPath) {
@@ -58,13 +57,10 @@ public class ActionEnter {
         }
 
         State state = null;
-
         int actionCode = ActionMap.getType(this.actionType);
-
         Map<String, Object> conf = null;
 
         switch (actionCode) {
-
             case ActionMap.CONFIG:
                 return this.configManager.getAllConfig().toString();
 
@@ -94,11 +90,9 @@ public class ActionEnter {
 
         assert state != null;
         return state.toJSONString();
-
     }
 
     public int getStartIndex() {
-
         String start = this.request.getParameter("start");
 
         try {
@@ -106,7 +100,6 @@ public class ActionEnter {
         } catch (Exception e) {
             return 0;
         }
-
     }
 
     /**
