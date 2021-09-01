@@ -57,21 +57,21 @@ public class MultiState implements State {
 
         String stateVal = this.isSuccess() ? AppInfo.getStateInfo(AppInfo.SUCCESS) : this.info;
         StringBuilder builder = new StringBuilder();
-        builder.append("{\"state\": \"" + stateVal + "\"");
+        builder.append("{\"state\": \"").append(stateVal).append("\"");
 
         // 数字转换
         Iterator<String> iterator = this.intMap.keySet().iterator();
 
         while (iterator.hasNext()) {
             stateVal = iterator.next();
-            builder.append(",\"" + stateVal + "\": " + this.intMap.get(stateVal));
+            builder.append(",\"").append(stateVal).append("\": ").append(this.intMap.get(stateVal));
         }
 
         iterator = this.infoMap.keySet().iterator();
 
         while (iterator.hasNext()) {
             stateVal = iterator.next();
-            builder.append(",\"" + stateVal + "\": \"" + this.infoMap.get(stateVal) + "\"");
+            builder.append(",\"").append(stateVal).append("\": \"").append(this.infoMap.get(stateVal)).append("\"");
         }
 
         builder.append(", list: [");
@@ -79,7 +79,7 @@ public class MultiState implements State {
 
         iterator = this.stateList.iterator();
         while (iterator.hasNext()) {
-            builder.append(iterator.next() + ",");
+            builder.append(iterator.next()).append(",");
         }
 
         if (!this.stateList.isEmpty()) {
