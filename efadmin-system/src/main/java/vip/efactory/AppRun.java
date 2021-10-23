@@ -21,10 +21,6 @@ public class AppRun {
         SpringApplication.run(AppRun.class, args);
     }
 
-    // @Bean    由ejpa的框架自动初始化
-    // public SpringContextHolder springContextHolder() {
-    //     return new SpringContextHolder();
-    // }
 
     @Bean
     public ServletWebServerFactory webServerFactory() {
