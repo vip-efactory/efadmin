@@ -5,15 +5,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 
 @SpringBootTest
-public class EfadminSystemApplicationTests {
+class EfadminSystemApplicationTests {
 
     @Test
-    public void contextLoads() {
+    void contextLoads() {
         System.out.println("test run is ok！");
     }
 
     @Test
-    void print(){
+    void print() {
         System.out.println("print test run is ok！");
     }
 
