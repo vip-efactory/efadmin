@@ -1,7 +1,8 @@
 package vip.efactory.utils;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EncryptUtilsTest {
 
@@ -11,7 +12,7 @@ public class EncryptUtilsTest {
     @Test
     public void testDesEncrypt() {
         try {
-            Assert.assertEquals("7772841DC6099402", EncryptUtils.desEncrypt("123456"));
+            assertEquals("7772841DC6099402", EncryptUtils.desEncrypt("123456"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -23,7 +24,7 @@ public class EncryptUtilsTest {
     @Test
     public void testDesDecrypt() {
         try {
-            Assert.assertEquals("123456", EncryptUtils.desDecrypt("7772841DC6099402"));
+            assertEquals("123456", EncryptUtils.desDecrypt("7772841DC6099402"));
         } catch (Exception e) {
             e.printStackTrace();
         }

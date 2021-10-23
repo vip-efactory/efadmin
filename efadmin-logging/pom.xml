@@ -13,17 +13,28 @@
 
     <dependencies>
         <!-- 引入ejpa模块 -->
-        <dependency>
-            <groupId>vip.efactory</groupId>
-            <artifactId>ejpa-spring-boot-starter</artifactId>
-            <version>${ejpa.starter.version}</version>
-            <type>pom</type>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>vip.efactory</groupId>-->
+<!--            <artifactId>ejpa-spring-boot-starter</artifactId>-->
+<!--            <version>${ejpa.starter.version}</version>-->
+<!--            <type>pom</type>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>vip.efactory</groupId>
             <artifactId>efadmin-common</artifactId>
             <version>2.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-jdk8</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <scope>provided</scope>
+            <version>${mapstruct.version}</version>
         </dependency>
     </dependencies>
 

@@ -1,7 +1,8 @@
 package vip.efactory.domain;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
@@ -16,9 +17,9 @@ import javax.validation.constraints.NotNull;
  * @date 19-7-10 上午10:43
  */
 @Entity
-@Data
 @Table(name = "sys_log")
 @NoArgsConstructor
+@Getter@Setter
 public class SysLog extends BaseEntity<Long> {
     private static final long serialVersionUID = 1L;
 
