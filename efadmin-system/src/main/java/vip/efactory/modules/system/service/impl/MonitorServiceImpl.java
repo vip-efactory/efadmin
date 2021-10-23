@@ -15,7 +15,7 @@
  */
 package vip.efactory.modules.system.service.impl;
 
-import cn.hutool.core.date.BetweenFormater;
+import cn.hutool.core.date.BetweenFormatter;
 import cn.hutool.core.date.DateUtil;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
@@ -177,7 +177,7 @@ public class MonitorServiceImpl implements MonitorService {
         long time = ManagementFactory.getRuntimeMXBean().getStartTime();
         Date date = new Date(time);
         // 计算项目运行时间
-        String formatBetween = DateUtil.formatBetween(date, new Date(), BetweenFormater.Level.HOUR);
+        String formatBetween = DateUtil.formatBetween(date, new Date(), BetweenFormatter.Level.HOUR);
         // 如果当前的语言环境不是中文简体，则显示为英文
         if (!LocaleContextHolder.getLocale().equals(Locale.SIMPLIFIED_CHINESE)) {
             formatBetween = formatBetween.replace("天", "Days");
