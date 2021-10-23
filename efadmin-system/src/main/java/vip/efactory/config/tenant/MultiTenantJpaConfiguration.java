@@ -3,7 +3,6 @@ package vip.efactory.config.tenant;
 import lombok.AllArgsConstructor;
 import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Environment;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
 import org.hibernate.tool.schema.Action;
@@ -31,6 +30,10 @@ import java.util.Map;
 
 import static org.hibernate.cfg.Environment.*;
 
+/**
+ * JPA的多租户配置
+ * @author dusuanyun
+ */
 @AllArgsConstructor
 @Configuration
 @EnableConfigurationProperties({ JpaProperties.class })
@@ -49,7 +52,8 @@ public class MultiTenantJpaConfiguration {
     @PostConstruct
     public void initDefaultDataSources() {
         // 先初始化租户表所在的数据源，然后从租户表中读取其他租户的数据源然后再进行初始化,详见：DataSourceBeanPostProcessor类
-        TenantDataSourceProvider.addDataSource(TenantConstants.DEFAULT_TENANT_ID.toString(), dataSource); // 放入数据源集合中
+        // 放入数据源集合中
+        TenantDataSourceProvider.addDataSource(TenantConstants.DEFAULT_TENANT_ID.toString(), dataSource);
     }
 
     @Bean
@@ -67,8 +71,7 @@ public class MultiTenantJpaConfiguration {
             MultiTenantConnectionProvider multiTenantConnectionProvider,
             CurrentTenantIdentifierResolver currentTenantIdentifierResolver) {
 
-        Map<String, Object> hibernateProps = new LinkedHashMap<>();
-        hibernateProps.putAll(this.jpaProperties.getProperties());
+        Map<String, Object> hibernateProps = new LinkedHashMap<>(this.jpaProperties.getProperties());
         hibernateProps.put(MULTI_TENANT, MultiTenancyStrategy.DATABASE); // 使用基于独立数据库的多租户模式
         hibernateProps.put(PHYSICAL_NAMING_STRATEGY,
                 "org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy"); // 属性及column命名策略

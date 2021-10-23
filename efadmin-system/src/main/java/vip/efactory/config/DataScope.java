@@ -17,6 +17,7 @@ import java.util.Set;
 
 /**
  * 数据权限配置
+ * @author dusuanyun
  */
 @Component
 public class DataScope {

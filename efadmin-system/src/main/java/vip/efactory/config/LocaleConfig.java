@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 /**
  * 国际化文件的配置信息,这个配置类如果不需要自己指定特殊的国际化文件名则不需要
  * 因为依赖的国际化组件,已经包含常见的bansenames了
+ * @author dusuanyun
  */
 @Configuration
 @AllArgsConstructor

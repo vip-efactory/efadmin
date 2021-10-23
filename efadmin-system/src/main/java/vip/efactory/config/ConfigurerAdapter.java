@@ -12,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * WebMvcConfigurer
+ * @author dusuanyun
  */
 @Configuration
 @EnableWebMvc

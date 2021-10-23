@@ -6,8 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.annotation.AnonymousAccess;
@@ -58,12 +58,12 @@ public class UeditorController {
      * @param upfile
      */
     @AnonymousAccess
-    @RequestMapping(value = "/editor/config", params = {"action=config", "callback"}, method = RequestMethod.GET)
+    @GetMapping(value = "/editor/config", params = {"action=config", "callback"})
     public void ueditorConfigOnly(HttpServletRequest request, HttpServletResponse response, MultipartFile upfile) {
         this.ueditorConfig(request, response, upfile);
     }
 
-    @RequestMapping(value = "/editor/config",method = RequestMethod.POST)
+    @PostMapping(value = "/editor/config")
     @PreAuthorize("@p.check()")  // 检查token
     public void ueditorConfig(HttpServletRequest request, HttpServletResponse response, MultipartFile upfile) {
 

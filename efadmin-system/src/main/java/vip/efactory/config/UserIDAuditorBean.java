@@ -1,12 +1,11 @@
 package vip.efactory.config;
 
-import java.util.Optional;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
-
-import lombok.extern.slf4j.Slf4j;
 import vip.efactory.utils.SecurityUtils;
+
+import java.util.Optional;
 
 /**
  * Description: 这是当前用户的监听器,用来更新用户操作时,记录到创建人或者更新人的字段
@@ -27,6 +26,5 @@ public class UserIDAuditorBean implements AuditorAware<String> {
             log.info(e.getMessage());
         }
         return Optional.ofNullable(username);
-
     }
 }

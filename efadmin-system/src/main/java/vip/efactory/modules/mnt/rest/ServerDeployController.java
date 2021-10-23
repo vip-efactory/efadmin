@@ -91,7 +91,7 @@ public class ServerDeployController extends BaseController<ServerDeploy, ServerD
     @PreAuthorize("@p.check('serverDeploy:add')")
     public R testConnect(@Validated @RequestBody ServerDeploy resources) {
         try {
-            return entityService.testConnect(resources) == true ? R.ok() : R.error();
+            return entityService.testConnect(resources) ? R.ok() : R.error();
         } catch (JSchException e) {
             e.printStackTrace();
             return R.error(e);
