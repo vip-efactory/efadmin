@@ -1,6 +1,7 @@
 package vip.efactory.config;
 
 import com.fasterxml.classmate.TypeResolver;
+import com.google.common.base.Predicates;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -12,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.schema.AlternateTypeRule;
 import springfox.documentation.schema.AlternateTypeRuleConvention;
 import springfox.documentation.schema.ModelRef;
@@ -20,7 +20,7 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Parameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +34,7 @@ import static springfox.documentation.schema.AlternateTypeRules.newRule;
  */
 
 @Configuration
-@EnableOpenApi
+@EnableSwagger2
 public class SwaggerConfig {
 
     @Value("${jwt.header}")
@@ -58,12 +58,11 @@ public class SwaggerConfig {
                 .required(true)
                 .build();
         pars.add(ticketPar.build());
-        return new Docket(DocumentationType.OAS_30)
+        return new Docket(DocumentationType.SWAGGER_2)
                 .enable(enabled)
                 .apiInfo(apiInfo())
                 .select()
-                //.paths(Predicates.not(PathSelectors.regex("/error.*")))
-                .paths(PathSelectors.regex("/error.*").negate())
+                .paths(Predicates.not(PathSelectors.regex("/error.*")))
                 .build()
                 .globalOperationParameters(pars);
     }
