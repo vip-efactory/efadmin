@@ -47,5 +47,11 @@
             <version>6.1.5.Final</version>
         </dependency>
         <!-- BD Ueditor 依赖结束 -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>30.0-jre</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>

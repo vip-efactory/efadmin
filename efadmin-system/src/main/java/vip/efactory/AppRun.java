@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vip.efactory.annotation.AnonymousAccess;
 
+/**
+ * @author dusuanyun
+ */
 @EnableAsync
 @EnableJpaAuditing
 @RestController
