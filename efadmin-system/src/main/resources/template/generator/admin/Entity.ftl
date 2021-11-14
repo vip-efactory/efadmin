@@ -6,7 +6,7 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import vip.efactory.ejpa.base.entity.BaseEntity;
-import vip.efactory.ejpa.base.valid.Update;
+import vip.efactory.common.base.valid.Update;
 import javax.persistence.*;
 <#if isNotNullColumns??>
 import javax.validation.constraints.*;
