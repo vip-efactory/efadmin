@@ -4,6 +4,9 @@ import vip.efactory.ejpa.base.service.IBaseService;
 import vip.efactory.domain.GenConfig;
 
 
+/**
+ * @author dusuanyun
+ */
 public interface GenConfigService extends IBaseService<GenConfig, Long> {
 
     /**

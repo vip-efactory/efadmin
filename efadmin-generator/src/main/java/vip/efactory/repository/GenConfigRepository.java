@@ -3,6 +3,9 @@ package vip.efactory.repository;
 import vip.efactory.ejpa.base.repository.BaseRepository;
 import vip.efactory.domain.GenConfig;
 
+/**
+ * @author dusuanyun
+ */
 public interface GenConfigRepository extends BaseRepository<GenConfig, Long> {
 
     /**

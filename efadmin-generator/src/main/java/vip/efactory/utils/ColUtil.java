@@ -6,6 +6,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 
 /**
  * sql字段转java
+ * @author dusuanyun
  */
 public class ColUtil {
 

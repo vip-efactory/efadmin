@@ -49,6 +49,11 @@ public class GenConfig extends BaseEntity<Long> {
     private String moduleName;
 
     /**
+     * 挂载的父菜单Id
+     */
+    private Integer parentMenuId;
+
+    /**
      * 前端文件路径
      **/
     private String path;

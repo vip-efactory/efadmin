@@ -9,6 +9,9 @@ import vip.efactory.domain.GenConfig;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.service.GenConfigService;
 
+/**
+ * @author dusuanyun
+ */
 @RestController
 @RequestMapping("/api/genConfig")
 @Api(tags = "系统：代码生成器配置管理")

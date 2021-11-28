@@ -22,13 +22,19 @@ public class TableInfo {
      **/
     private Object createTime;
 
-    // 数据库引擎
+    /**
+     * 数据库引擎
+     */
     private Object engine;
 
-    // 编码集
+    /**
+     * 编码集
+     */
     private Object coding;
 
-    // 备注
+    /**
+     * 备注
+     */
     private Object remark;
 
 
