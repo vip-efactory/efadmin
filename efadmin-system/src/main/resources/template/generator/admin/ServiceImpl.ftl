@@ -67,15 +67,15 @@ public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${pkC
     public List<${className}Dto> queryAll(${className}QueryCriteria criteria){
         return ${changeClassName}Mapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }
-//
-//    @Override
-//    //@Cacheable(key = "#p0")
-//    public ${className}Dto findDtoById(${pkColumnType} ${pkChangeColName}) {
-//        ${className} ${changeClassName} = br.findById(${pkChangeColName}).orElseGet(${className}::new);
-//        ValidationUtil.isNull(${changeClassName}.get${pkCapitalColName}(),"${className}","${pkChangeColName}",${pkChangeColName});
-//        return ${changeClassName}Mapper.toDto(${changeClassName});
-//    }
-//
+
+    @Override
+    @Cacheable(key = "#p0")
+    public ${className}Dto findDtoById(${pkColumnType} ${pkChangeColName}) {
+        ${className} ${changeClassName} = br.findById(${pkChangeColName}).orElseGet(${className}::new);
+        ValidationUtil.isNull(${changeClassName}.get${pkCapitalColName}(),"${className}","${pkChangeColName}",${pkChangeColName});
+        return ${changeClassName}Mapper.toDto(${changeClassName});
+    }
+
 //    @Override
 //    //@CacheEvict(allEntries = true)
 //    @Transactional(rollbackFor = Exception.class)
