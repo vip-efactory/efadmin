@@ -1,6 +1,5 @@
 -- 作者： dbdu，日期：2020-0102
 -- 这个存储程序是创建组件的权限的存储程序，
--- 组件的上级菜单暂时挂在系统管理下,方便执行后在UI就可以看到界面，后面要自己修改;
 -- 组件排序默认999，后面要自己修改;
 -- 组件的图标，使用默认组件的zujian图标，后面要自己修改;
 
@@ -24,7 +23,7 @@ declare btnDelId int;
 
 -- 插入组件的管理菜单权限 --
 INSERT INTO `sys_menu` (`i_frame`, `name`, `component`, `pid`, `sort`, `icon`, `path`, `cache`, `hidden`, `component_name`, `permission`, `locale_key`,`type`) VALUES
-(b'0', '${apiAlias}管理', '${path}/${changeClassName}/index', 1, 999, 'zujian', '${changeClassName}', b'0', b'0', '${className}', '', '${changeClassName}.manage', 1);
+(b'0', '${apiAlias}管理', '${path}/${changeClassName}/index', ${parentMenuId}, 999, 'zujian', '${changeClassName}', b'0', b'0', '${className}', '', '${changeClassName}.manage', 1);
 
 -- 选择出组件的管理菜单id，为按钮父id --
 SELECT id INTO pId FROM `sys_menu` WHERE `name`='${apiAlias}管理' and `component_name`='${className}';

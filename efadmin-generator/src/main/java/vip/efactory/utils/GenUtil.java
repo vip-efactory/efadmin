@@ -185,6 +185,8 @@ public class GenUtil {
         genMap.put("package",genConfig.getPack());
         // 模块名称
         genMap.put("moduleName",genConfig.getModuleName());
+        // 挂载的父级菜单
+        genMap.put("parentMenuId",genConfig.getParentMenuId() != null ? genConfig.getParentMenuId() : 1);
         // 作者
         genMap.put("author",genConfig.getAuthor());
         // 创建日期
