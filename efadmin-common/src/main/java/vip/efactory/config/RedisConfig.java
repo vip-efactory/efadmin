@@ -2,11 +2,9 @@ package vip.efactory.config;
 
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.parser.ParserConfig;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -27,12 +25,13 @@ import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.*;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.util.Assert;
 import vip.efactory.common.base.utils.MapUtil;
 import vip.efactory.config.cache.XRedisConnectionFactory;
 import vip.efactory.ejpa.tenant.identifier.TenantHolder;
-import vip.efactory.utils.StringUtils;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -51,19 +50,19 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @EnableCaching
 @ConditionalOnClass(RedisOperations.class)
 @EnableConfigurationProperties(RedisProperties.class)
+@AllArgsConstructor
 public class RedisConfig extends CachingConfigurerSupport {
 
-    @Autowired
-    private Environment env;
+    private final Environment env;
 
     /**
-     * 设置 redis 数据默认过期时间，默认2小时
+     * 设置 redis 数据默认过期时间，默认5小时
      * 设置@cacheable 序列化方式
      */
     @Bean
     public RedisCacheConfiguration redisCacheConfiguration() {
         RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig();
-        configuration = configuration.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new FastJsonRedisSerializer<>(Object.class))).entryTtl(Duration.ofHours(2));
+        configuration = configuration.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new JdkSerializationRedisSerializer())).entryTtl(Duration.ofHours(5));
         return configuration;
     }
 
@@ -73,15 +72,9 @@ public class RedisConfig extends CachingConfigurerSupport {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());
+        redisTemplate.setHashValueSerializer(new JdkSerializationRedisSerializer());
 
-        // value值的序列化采用fastJsonRedisSerializer
-        FastJsonRedisSerializer<Object> fastJsonRedisSerializer = new FastJsonRedisSerializer<>(Object.class);
-        // 全局开启AutoType，这里方便开发，使用全局的方式
-        // ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
-        // 建议使用这种方式，小范围指定白名单
-        ParserConfig.getGlobalInstance().addAccept("vip.efactory");
-        redisTemplate.setValueSerializer(fastJsonRedisSerializer);
-        redisTemplate.setHashValueSerializer(fastJsonRedisSerializer);
         redisTemplate.setConnectionFactory(jedisConnectionFactory());
         return redisTemplate;
     }
@@ -133,28 +126,6 @@ public class RedisConfig extends CachingConfigurerSupport {
         redisConnectionFactory.afterPropertiesSet();
         return redisConnectionFactory;
     }
-
-
-//    @SuppressWarnings("all")
-//    @Bean(name = "redisTemplate")
-//    @ConditionalOnMissingBean(name = "redisTemplate")
-//    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-//        RedisTemplate<Object, Object> template = new RedisTemplate<>();
-//        //序列化
-//        FastJsonRedisSerializer<Object> fastJsonRedisSerializer = new FastJsonRedisSerializer<>(Object.class);
-//        // value值的序列化采用fastJsonRedisSerializer
-//        template.setValueSerializer(fastJsonRedisSerializer);
-//        template.setHashValueSerializer(fastJsonRedisSerializer);
-//        // 全局开启AutoType，这里方便开发，使用全局的方式
-//        ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
-//        // 建议使用这种方式，小范围指定白名单
-//        // ParserConfig.getGlobalInstance().addAccept("me.zhengjie.domain");
-//        // key的序列化采用StringRedisSerializer
-//        template.setKeySerializer(new StringRedisSerializer());
-//        template.setHashKeySerializer(new StringRedisSerializer());
-//        template.setConnectionFactory(redisConnectionFactory);
-//        return template;
-//    }
 
     /**
      * 自定义缓存key生成策略，默认将使用该策略
@@ -211,40 +182,6 @@ public class RedisConfig extends CachingConfigurerSupport {
                 log.error("Redis occur handleCacheClearError：", e);
             }
         };
-    }
-
-}
-
-/**
- * Value 序列化
- *
- * @param <T>
- * @author /
- */
-class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
-
-    private Class<T> clazz;
-
-    FastJsonRedisSerializer(Class<T> clazz) {
-        super();
-        this.clazz = clazz;
-    }
-
-    @Override
-    public byte[] serialize(T t) {
-        if (t == null) {
-            return new byte[0];
-        }
-        return JSON.toJSONString(t, SerializerFeature.WriteClassName).getBytes(StandardCharsets.UTF_8);
-    }
-
-    @Override
-    public T deserialize(byte[] bytes) {
-        if (bytes == null || bytes.length <= 0) {
-            return null;
-        }
-        String str = new String(bytes, StandardCharsets.UTF_8);
-        return JSON.parseObject(str, clazz);
     }
 
 }
