@@ -27,7 +27,7 @@
 </div>
 
 #### Project Description
-A back-end management system based on Spring Boot 2.3.1, eJpa, JWT, Spring Security, Redis, Vue, separation of front and backends
+A back-end management system based on Spring Boot 2.5.6, eJpa, JWT, Spring Security, Redis, Vue, separation of front and backends
 
 #### Source (Github priority update)
 
@@ -37,12 +37,11 @@ A back-end management system based on Spring Boot 2.3.1, eJpa, JWT, Spring Secur
 | gitee  | https://gitee.com/vip-efactory/efadmin  | https://gitee.com/vip-efactory/efadmin-ui  |
 
 #### Experience address
+Note: Because the https certificates of the following two tenants use ddbin.com, when visiting, the browser will say that the certificate is invalid, just trust it!  
 ##### Manage multi-tenant, you can manage the data sources of other tenants  
 Because the bandwidth of the Alibaba Cloud server is only 1 M, that is, the theoretical maximum file transfer speed is 128 K/s, the login may be slower, please be aware.  
 <https://efadmin.ddbin.com:1443/>  
 Username Password：root/123456
-
-Note: Because the https certificates of the following two tenants use efadmin.ddbin.com, when visiting, the browser will say that the certificate is invalid, just trust it!
 ##### Tenant 1
 <https://t1.ddbin.com:1443/>  
 Username Password：admin1/123456
