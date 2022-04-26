@@ -180,6 +180,8 @@ public final class ConfigManager {
             JSONObject jsonConfig = new JSONObject(configContent);
             this.jsonConfig = jsonConfig;
         } catch (Exception e) {
+            log.warn("configContent:" + configContent);
+            log.warn("百度富文本编辑器,初始化配置环境失败:" + ThrowableUtil.stackTraceToString(e));
             this.jsonConfig = null;
         }
 
@@ -213,7 +215,7 @@ public final class ConfigManager {
             }
 
         } catch (UnsupportedEncodingException e) {
-            // 忽略
+            log.warn("百度富文本编辑器,读取文件失败:" + ThrowableUtil.stackTraceToString(e));
         }
 
         return this.filter(builder.toString());
