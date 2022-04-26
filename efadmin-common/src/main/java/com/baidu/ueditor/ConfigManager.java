@@ -1,6 +1,8 @@
 package com.baidu.ueditor;
 
-import com.baidu.ueditor.define.ActionMap;
+import  com.baidu.ueditor.define.ActionMap;
+import io.netty.util.internal.ThrowableUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.core.io.ClassPathResource;
@@ -16,6 +18,7 @@ import java.util.Map;
  *
  * @author hancong03@baidu.com
  */
+@Slf4j
 public final class ConfigManager {
 
     private final String rootPath;
@@ -65,6 +68,7 @@ public final class ConfigManager {
         try {
             return new ConfigManager(rootPath, contextPath, uri);
         } catch (Exception e) {
+            log.warn("百度富文本编辑器的配置管理器，实例化失败："+ ThrowableUtil.stackTraceToString(e));
             return null;
         }
 
