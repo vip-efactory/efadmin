@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import vip.efactory.annotation.AnonymousAccess;
 import vip.efactory.aop.log.Log;
 import vip.efactory.common.base.utils.R;
+import vip.efactory.config.CustomArithmeticCaptcha;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.security.config.SecurityProperties;
 import vip.efactory.modules.security.security.TokenProvider;
@@ -39,7 +40,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @RestController
 @RequestMapping("/auth")
 @Api(tags = "系统：系统授权接口")
-@SuppressWarnings("rawtypes")   // 压制原生类型的警告
+@SuppressWarnings("rawtypes") // 压制原生类型的警告
 public class AuthController {
 
     @Value("${loginCode.expiration}")
@@ -56,7 +57,9 @@ public class AuthController {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public AuthController(SecurityProperties properties, RedisUtils redisUtils, UserDetailsService userDetailsService, OnlineUserService onlineUserService, TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
+    public AuthController(SecurityProperties properties, RedisUtils redisUtils, UserDetailsService userDetailsService,
+            OnlineUserService onlineUserService, TokenProvider tokenProvider,
+            AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.properties = properties;
         this.redisUtils = redisUtils;
         this.userDetailsService = userDetailsService;
@@ -83,8 +86,8 @@ public class AuthController {
         if (isBlank(authUser.getCode()) || !authUser.getCode().equalsIgnoreCase(code)) {
             throw new BadRequestException("验证码错误");
         }
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(authUser.getUsername(), password);
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                authUser.getUsername(), password);
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -99,7 +102,7 @@ public class AuthController {
         authInfo.put("user", jwtUser);
 
         if (singleLogin) {
-            //踢掉之前已经登录的token
+            // 踢掉之前已经登录的token
             onlineUserService.checkLoginOnUser(authUser.getUsername(), token);
         }
         return R.ok(authInfo);
@@ -117,7 +120,7 @@ public class AuthController {
     @GetMapping(value = "/code")
     public R getCode() {
         // 算术类型 https://gitee.com/whvse/EasyCaptcha
-        ArithmeticCaptcha captcha = new ArithmeticCaptcha(111, 36);
+        ArithmeticCaptcha captcha = new CustomArithmeticCaptcha(111, 36);
         // 几位数运算，默认是两位
         captcha.setLen(2);
         // 获取运算的结果

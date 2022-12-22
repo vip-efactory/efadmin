@@ -1,7 +1,6 @@
 package vip.efactory.domain;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
@@ -18,7 +17,6 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "sys_log")
-@NoArgsConstructor
 @Getter@Setter
 public class SysLog extends BaseEntity<Long> {
     private static final long serialVersionUID = 1L;
@@ -74,6 +72,9 @@ public class SysLog extends BaseEntity<Long> {
     /** 异常详细 */
     @Column(name = "exception_detail", columnDefinition = "mediumtext")
     private byte[] exceptionDetail;
+
+    public SysLog() {
+    }
 
     public SysLog(String logType, Long time) {
         this.logType = logType;
