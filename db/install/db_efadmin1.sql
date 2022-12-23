@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `sys_alipay_config` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='支付宝配置类';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='支付宝配置类';
 
 -- 正在导出表  db_efadmin1.sys_alipay_config 的数据：~0 rows (大约)
 DELETE FROM `sys_alipay_config`;
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `sys_column_config` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='代码生成字段信息存储';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='代码生成字段信息存储';
 
 -- 正在导出表  db_efadmin1.sys_column_config 的数据：~75 rows (大约)
 DELETE FROM `sys_column_config`;
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `sys_dept` (
     `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `updater_num` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
     PRIMARY KEY (`id`) USING BTREE
-    ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='部门';
+    ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='部门';
 
 -- 正在导出表  db_efadmin1.sys_dept 的数据：~7 rows (大约)
 DELETE FROM `sys_dept`;
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `sys_dict` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='数据字典';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='数据字典';
 
 -- 正在导出表  db_efadmin1.sys_dict 的数据：~3 rows (大约)
 DELETE FROM `sys_dict`;
@@ -139,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `sys_dict_detail` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `FK5tpkputc6d9nboxojdbgnpmyb` (`dict_id`) USING BTREE,
   CONSTRAINT `FK5tpkputc6d9nboxojdbgnpmyb` FOREIGN KEY (`dict_id`) REFERENCES `sys_dict` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='数据字典详情';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='数据字典详情';
 
 -- 正在导出表  db_efadmin1.sys_dict_detail 的数据：~8 rows (大约)
 DELETE FROM `sys_dict_detail`;
@@ -172,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `sys_email_config` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='邮箱配置';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='邮箱配置';
 
 -- 正在导出表  db_efadmin1.sys_email_config 的数据：~0 rows (大约)
 DELETE FROM `sys_email_config`;
@@ -197,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `sys_gen_config` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='代码生成器配置';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='代码生成器配置';
 
 -- 正在导出表  db_efadmin1.sys_gen_config 的数据：~0 rows (大约)
 DELETE FROM `sys_gen_config`;
@@ -214,7 +214,7 @@ CREATE TABLE IF NOT EXISTS `sys_gen_test` (
   `sex` int(255) DEFAULT NULL COMMENT '性别',
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='代码生成测试';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='代码生成测试';
 
 -- 正在导出表  db_efadmin1.sys_gen_test 的数据：~0 rows (大约)
 DELETE FROM `sys_gen_test`;
@@ -236,7 +236,7 @@ CREATE TABLE IF NOT EXISTS `sys_job` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `FKmvhj0rogastlctflsxf1d6k3i` (`dept_id`) USING BTREE,
   CONSTRAINT `FKmvhj0rogastlctflsxf1d6k3i` FOREIGN KEY (`dept_id`) REFERENCES `sys_dept` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='岗位';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='岗位';
 
 -- 正在导出表  db_efadmin1.sys_job 的数据：~4 rows (大约)
 DELETE FROM `sys_job`;
@@ -264,7 +264,7 @@ CREATE TABLE IF NOT EXISTS `sys_local_storage` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='本地存储';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='本地存储';
 
 -- 正在导出表  db_efadmin1.sys_local_storage 的数据：~0 rows (大约)
 DELETE FROM `sys_local_storage`;
@@ -290,7 +290,7 @@ CREATE TABLE IF NOT EXISTS `sys_log` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='系统日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='系统日志';
 
 -- 正在导出表  db_efadmin1.sys_log 的数据：~279 rows (大约)
 DELETE FROM `sys_log`;
@@ -320,7 +320,7 @@ CREATE TABLE IF NOT EXISTS `sys_menu` (
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `FKqcf9gem97gqa5qjm4d3elcqt5` (`pid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='系统菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='系统菜单';
 
 -- 正在导出表  db_efadmin1.sys_menu 的数据：~84 rows (大约)
 DELETE FROM `sys_menu`;
@@ -429,7 +429,7 @@ CREATE TABLE IF NOT EXISTS `sys_mnt_app` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='应用管理';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='应用管理';
 
 -- 正在导出表  db_efadmin1.sys_mnt_app 的数据：~2 rows (大约)
 DELETE FROM `sys_mnt_app`;
@@ -452,7 +452,7 @@ CREATE TABLE IF NOT EXISTS `sys_mnt_database` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='数据库管理';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='数据库管理';
 
 -- 正在导出表  db_efadmin1.sys_mnt_database 的数据：~0 rows (大约)
 DELETE FROM `sys_mnt_database`;
@@ -473,7 +473,7 @@ CREATE TABLE IF NOT EXISTS `sys_mnt_deploy` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `FK6sy157pseoxx4fmcqr1vnvvhy` (`app_id`) USING BTREE,
   CONSTRAINT `FK6sy157pseoxx4fmcqr1vnvvhy` FOREIGN KEY (`app_id`) REFERENCES `sys_mnt_app` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='部署管理';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='部署管理';
 
 -- 正在导出表  db_efadmin1.sys_mnt_deploy 的数据：~2 rows (大约)
 DELETE FROM `sys_mnt_deploy`;
@@ -497,7 +497,7 @@ CREATE TABLE IF NOT EXISTS `sys_mnt_deploy_history` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='部署历史管理';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='部署历史管理';
 
 -- 正在导出表  db_efadmin1.sys_mnt_deploy_history 的数据：~3 rows (大约)
 DELETE FROM `sys_mnt_deploy_history`;
@@ -516,7 +516,7 @@ CREATE TABLE IF NOT EXISTS `sys_mnt_deploy_server` (
   KEY `FKeaaha7jew9a02b3bk9ghols53` (`server_id`) USING BTREE,
   CONSTRAINT `FK3cehr56tedph6nk3gxsmeq0pb` FOREIGN KEY (`deploy_id`) REFERENCES `sys_mnt_deploy` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKeaaha7jew9a02b3bk9ghols53` FOREIGN KEY (`server_id`) REFERENCES `sys_mnt_server` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='应用与服务器关联';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='应用与服务器关联';
 
 -- 正在导出表  db_efadmin1.sys_mnt_deploy_server 的数据：~2 rows (大约)
 DELETE FROM `sys_mnt_deploy_server`;
@@ -540,7 +540,7 @@ CREATE TABLE IF NOT EXISTS `sys_mnt_server` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='服务器管理';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='服务器管理';
 
 -- 正在导出表  db_efadmin1.sys_mnt_server 的数据：~0 rows (大约)
 DELETE FROM `sys_mnt_server`;
@@ -571,7 +571,7 @@ CREATE TABLE IF NOT EXISTS `sys_monitor_server` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='服务监控';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='服务监控';
 
 -- 正在导出表  db_efadmin1.sys_monitor_server 的数据：~0 rows (大约)
 DELETE FROM `sys_monitor_server`;
@@ -595,7 +595,7 @@ CREATE TABLE IF NOT EXISTS `sys_picture` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='Sm.Ms图床';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='Sm.Ms图床';
 
 -- 正在导出表  db_efadmin1.sys_picture 的数据：~0 rows (大约)
 DELETE FROM `sys_picture`;
@@ -617,7 +617,7 @@ CREATE TABLE IF NOT EXISTS `sys_qiniu_config` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='七牛云配置';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='七牛云配置';
 
 -- 正在导出表  db_efadmin1.sys_qiniu_config 的数据：~0 rows (大约)
 DELETE FROM `sys_qiniu_config`;
@@ -639,7 +639,7 @@ CREATE TABLE IF NOT EXISTS `sys_qiniu_content` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '上传或同步的时间',
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='七牛云文件存储';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='七牛云文件存储';
 
 -- 正在导出表  db_efadmin1.sys_qiniu_content 的数据：~0 rows (大约)
 DELETE FROM `sys_qiniu_content`;
@@ -661,7 +661,7 @@ CREATE TABLE IF NOT EXISTS `sys_quartz_job` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='定时任务';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='定时任务';
 
 -- 正在导出表  db_efadmin1.sys_quartz_job 的数据：~3 rows (大约)
 DELETE FROM `sys_quartz_job`;
@@ -688,7 +688,7 @@ CREATE TABLE IF NOT EXISTS `sys_quartz_log` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='定时任务日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='定时任务日志';
 
 -- 正在导出表  db_efadmin1.sys_quartz_log 的数据：~72 rows (大约)
 DELETE FROM `sys_quartz_log`;
@@ -708,7 +708,7 @@ CREATE TABLE IF NOT EXISTS `sys_role` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='角色表';
 
 -- 正在导出表  db_efadmin1.sys_role 的数据：~2 rows (大约)
 DELETE FROM `sys_role`;
@@ -727,7 +727,7 @@ CREATE TABLE IF NOT EXISTS `sys_roles_depts` (
   KEY `FK7qg6itn5ajdoa9h9o78v9ksur` (`dept_id`) USING BTREE,
   CONSTRAINT `FK7qg6itn5ajdoa9h9o78v9ksur` FOREIGN KEY (`dept_id`) REFERENCES `sys_dept` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKrg1ci4cxxfbja0sb0pddju7k` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='角色部门关联';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='角色部门关联';
 
 -- 正在导出表  db_efadmin1.sys_roles_depts 的数据：~0 rows (大约)
 DELETE FROM `sys_roles_depts`;
@@ -744,7 +744,7 @@ CREATE TABLE IF NOT EXISTS `sys_roles_menus` (
   KEY `FKcngg2qadojhi3a651a5adkvbq` (`role_id`) USING BTREE,
   CONSTRAINT `FKo7wsmlrrxb2osfaoavp46rv2r` FOREIGN KEY (`menu_id`) REFERENCES `sys_menu` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKtag324maketmxffly3pdyh193` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='角色菜单关联';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='角色菜单关联';
 
 -- 正在导出表  db_efadmin1.sys_roles_menus 的数据：~101 rows (大约)
 DELETE FROM `sys_roles_menus`;
@@ -885,7 +885,7 @@ CREATE TABLE IF NOT EXISTS `sys_user` (
   CONSTRAINT `FK5rwmryny6jthaaxkogownknqp` FOREIGN KEY (`dept_id`) REFERENCES `sys_dept` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKfftoc2abhot8f2wu6cl9a5iky` FOREIGN KEY (`job_id`) REFERENCES `sys_job` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKpq2dhypk2qgt68nauh2by22jb` FOREIGN KEY (`avatar_id`) REFERENCES `sys_user_avatar` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='系统用户';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='系统用户';
 
 -- 正在导出表  db_efadmin1.sys_user 的数据：~3 rows (大约)
 DELETE FROM `sys_user`;
@@ -904,7 +904,7 @@ CREATE TABLE IF NOT EXISTS `sys_users_roles` (
   KEY `FKq4eq273l04bpu4efj0jd0jb98` (`role_id`) USING BTREE,
   CONSTRAINT `FKgd3iendaoyh04b95ykqise6qh` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKt4v0rrweyk393bdgt107vdx0x` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='用户角色关联';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='用户角色关联';
 
 -- 正在导出表  db_efadmin1.sys_users_roles 的数据：~3 rows (大约)
 DELETE FROM `sys_users_roles`;
@@ -927,7 +927,7 @@ CREATE TABLE IF NOT EXISTS `sys_user_avatar` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='系统用户头像';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='系统用户头像';
 
 -- 正在导出表  db_efadmin1.sys_user_avatar 的数据：~0 rows (大约)
 DELETE FROM `sys_user_avatar`;
@@ -950,7 +950,7 @@ CREATE TABLE IF NOT EXISTS `sys_verification_code` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='验证码';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='验证码';
 
 -- 正在导出表  db_efadmin1.sys_verification_code 的数据：~0 rows (大约)
 DELETE FROM `sys_verification_code`;
@@ -971,7 +971,7 @@ CREATE TABLE IF NOT EXISTS `sys_visits` (
   `updater_num` varchar(32) COLLATE utf8mb4_zh_0900_as_cs DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `UK_11aksgq87euk9bcyeesfs4vtp` (`date`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=COMPACT COMMENT='访客记录';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_zh_0900_as_cs ROW_FORMAT=DYNAMIC COMMENT='访客记录';
 
 -- 正在导出表  db_efadmin1.sys_visits 的数据：~8 rows (大约)
 DELETE FROM `sys_visits`;
