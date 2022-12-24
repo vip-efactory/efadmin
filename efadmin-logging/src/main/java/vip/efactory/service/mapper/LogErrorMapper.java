@@ -10,7 +10,7 @@ import vip.efactory.service.dto.LogErrorDTO;
 /**
  * @author dusuanyun
  */
-@Mapper(componentModel = "spring", uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface LogErrorMapper extends BaseMapper<LogErrorDTO, SysLog> {
 
 }
