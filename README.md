@@ -140,5 +140,8 @@ mapstruct的官网:https://mapstruct.org/
 #### 反馈交流
 - QQ交流群：601693868
 
+#### 其他
+- 目前对于验证码的适配，jdk8和jdk17不兼容，如果想以jdk17运行项目，请切换到dev_jdk17分支。
+
 
 
