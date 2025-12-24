@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import vip.efactory.aop.log.Log;
 import vip.efactory.common.base.utils.R;
 import vip.efactory.common.base.valid.Update;
@@ -30,7 +31,7 @@ import vip.efactory.modules.system.service.DictDetailService;
 import vip.efactory.modules.system.service.dto.DictDetailQueryCriteria;
 
 @RestController
-@Api(tags = "系统：字典详情管理")
+@Tag(name = "系统：字典详情管理") // 替换@Api为@Tag
 @RequestMapping("/api/dictDetail")
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class DictDetailController extends BaseController<DictDetail, DictDetailService, Long> {
@@ -38,7 +39,7 @@ public class DictDetailController extends BaseController<DictDetail, DictDetailS
     private static final String ENTITY_NAME = "dictDetail";
 
     @Log("查询字典详情")
-    @ApiOperation("查询字典详情")
+    @Operation(summary = "查询字典详情") // 替换@ApiOperation
     @GetMapping("/page")
     public R getDictDetails(DictDetailQueryCriteria criteria,
                             @PageableDefault(sort = {"sort"}, direction = Sort.Direction.ASC) Pageable pageable) {
@@ -53,14 +54,14 @@ public class DictDetailController extends BaseController<DictDetail, DictDetailS
      * @return R
      */
     @Log("分页高级查询DictDetail")
-    @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
+    @Operation(summary = "多条件组合查询,返回分页数据", description = "默认每页25条记录,id字段降序") // 替换value和notes
     @PostMapping("/page")
     public R advancedQuery(@RequestBody DictDetail entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
         return super.advancedQueryByPage(page, entity);
     }
 
     @Log("查询多个字典详情")
-    @ApiOperation("查询多个字典详情")
+    @Operation(summary = "查询多个字典详情") // 替换@ApiOperation
     @GetMapping(value = "/map")
     public R getDictDetailMaps(DictDetailQueryCriteria criteria,
                                @PageableDefault(sort = {"sort"}, direction = Sort.Direction.ASC) Pageable pageable) {
@@ -74,7 +75,7 @@ public class DictDetailController extends BaseController<DictDetail, DictDetailS
     }
 
     @Log("新增字典详情")
-    @ApiOperation("新增字典详情")
+    @Operation(summary = "新增字典详情") // 替换@ApiOperation
     @PostMapping
     @PreAuthorize("@p.check('dict:add')")
     public R create(@Validated @RequestBody DictDetail resources) {
@@ -85,7 +86,7 @@ public class DictDetailController extends BaseController<DictDetail, DictDetailS
     }
 
     @Log("修改字典详情")
-    @ApiOperation("修改字典详情")
+    @Operation(summary = "修改字典详情") // 替换@ApiOperation
     @PutMapping
     @PreAuthorize("@p.check('dict:edit')")
     public R update(@Validated(Update.class) @RequestBody DictDetail resources) {
@@ -94,10 +95,10 @@ public class DictDetailController extends BaseController<DictDetail, DictDetailS
     }
 
     @Log("删除字典详情")
-    @ApiOperation("删除字典详情")
+    @Operation(summary = "删除字典详情") // 替换@ApiOperation
     @DeleteMapping(value = "/{id}")
     @PreAuthorize("@p.check('dict:del')")
-    public R delete(@PathVariable Long id) {
+    public R delete(@Parameter(name = "id", description = "字典详情ID", required = true) @PathVariable Long id) {
         entityService.delete(id);
         return R.ok();
     }

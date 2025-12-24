@@ -1,7 +1,8 @@
 package vip.efactory.modules.mnt.rest;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,19 +16,18 @@ import vip.efactory.modules.mnt.domain.DeployHistory;
 import vip.efactory.modules.mnt.service.DeployHistoryService;
 import vip.efactory.modules.mnt.service.dto.DeployHistoryQueryCriteria;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
 @AllArgsConstructor
-@Api(tags = "部署历史管理")
+@Tag(name = "部署历史管理") // 替换@Api为@Tag
 @RestController
 @RequestMapping("/api/deployHistory")
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class DeployHistoryController extends BaseController<DeployHistory, DeployHistoryService, String> {
 
     @Log("导出部署历史数据")
-    @ApiOperation("导出部署历史数据")
+    @Operation(summary = "导出部署历史数据") // 替换@ApiOperation
     @GetMapping(value = "/download")
     @PreAuthorize("@p.check('deployHistory:list')")
     public void download(HttpServletResponse response, DeployHistoryQueryCriteria criteria) throws IOException {
@@ -35,7 +35,7 @@ public class DeployHistoryController extends BaseController<DeployHistory, Deplo
     }
 
     @Log("查询部署历史")
-    @ApiOperation(value = "查询部署历史")
+    @Operation(summary = "查询部署历史") // 替换@ApiOperation(value = "...")
     @GetMapping("/page")
     @PreAuthorize("@p.check('deployHistory:list')")
     public R getDeployHistorys(DeployHistoryQueryCriteria criteria, Pageable pageable) {
@@ -50,7 +50,7 @@ public class DeployHistoryController extends BaseController<DeployHistory, Deplo
      * @return R
      */
     @Log("分页高级查询部署历史")
-    @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
+    @Operation(summary = "多条件组合查询,返回分页数据", description = "默认每页25条记录,id字段降序") // 替换value和notes
     @PostMapping("/page")
     @PreAuthorize("@p.check('deployHistory:list')")
     public R advancedQuery(@RequestBody DeployHistory entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
@@ -58,7 +58,7 @@ public class DeployHistoryController extends BaseController<DeployHistory, Deplo
     }
 
     @Log("删除DeployHistory")
-    @ApiOperation(value = "删除部署历史")
+    @Operation(summary = "删除部署历史") // 替换@ApiOperation(value = "...")
     @DeleteMapping
     @PreAuthorize("@p.check('deployHistory:del')")
     public R delete(@RequestBody Set<String> ids) {

@@ -2,7 +2,7 @@ package vip.efactory.modules.system.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,7 +13,7 @@ import java.util.Set;
 @Data
 public class UserDto implements Serializable {
 
-    @ApiModelProperty(hidden = true)
+    @Schema(hidden = true) // 替换@ApiModelProperty(hidden = true)
     private Long id;
 
     private String username;
@@ -40,10 +40,10 @@ public class UserDto implements Serializable {
 
     private Date lastPasswordResetTime;
 
-    @ApiModelProperty(hidden = true)
+    @Schema(hidden = true) // 替换@ApiModelProperty(hidden = true)
     private Set<RoleSmallDto> roles;
 
-    @ApiModelProperty(hidden = true)
+    @Schema(hidden = true) // 替换@ApiModelProperty(hidden = true)
     private JobSmallDto job;
 
     private DeptSmallDto dept;

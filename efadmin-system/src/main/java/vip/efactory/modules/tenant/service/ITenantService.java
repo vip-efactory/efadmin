@@ -1,5 +1,6 @@
 package vip.efactory.modules.tenant.service;
 
+import jakarta.servlet.http.HttpServletResponse;
 import vip.efactory.modules.tenant.domain.Tenant;
 import vip.efactory.modules.tenant.service.dto.TenantDto;
 import vip.efactory.modules.tenant.service.dto.TenantQueryCriteria;
@@ -8,7 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
+
 
 /**
 * 系统租户 服务层

@@ -2,16 +2,16 @@ package vip.efactory.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.scheduling.annotation.Async;
 
+import org.springframework.stereotype.Service;
 import vip.efactory.common.base.utils.R;
 import vip.efactory.domain.ColumnInfo;
 import vip.efactory.domain.GenConfig;
 
-
+@Service
 public interface GeneratorService {
 
     /**

@@ -2,10 +2,12 @@ package vip.efactory.utils;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
+import jakarta.persistence.criteria.*;
+
 import lombok.extern.slf4j.Slf4j;
 import vip.efactory.annotation.Query;
 
-import javax.persistence.criteria.*;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;

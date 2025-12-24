@@ -6,67 +6,50 @@ import vip.efactory.modules.system.domain.Employee;
 import vip.efactory.modules.system.service.dto.EmployeeDto;
 import vip.efactory.modules.system.service.dto.EmployeeQueryCriteria;
 
-//import org.springframework.cache.annotation.CacheConfig;
-//import org.springframework.cache.annotation.CacheEvict;
-//import org.springframework.cache.annotation.Cacheable;
+import java.util.Set;
 
 /**
  * @author dbdu
  * @date 2019-07-21
  */
-//@CacheConfig(cacheNames = "employee")
 public interface EmployeeService extends IBaseService<Employee, Long> {
 
     /**
-     * queryAll 分页
-     *
-     * @param criteria
-     * @param pageable
-     * @return
+     * 分页查询（带条件）
      */
-    //@Cacheable(keyGenerator = "keyGenerator")
     Object queryAll(EmployeeQueryCriteria criteria, Pageable pageable);
 
     /**
-     * queryAll 不分页
-     *
-     * @param criteria
-     * @return
+     * 不分页查询（带条件）
      */
-    //@Cacheable(keyGenerator = "keyGenerator")
-    public Object queryAll(EmployeeQueryCriteria criteria);
+    Object queryAll(EmployeeQueryCriteria criteria);
 
     /**
-     * findById
-     *
-     * @param id
-     * @return
+     * 单个查询（返回DTO）
      */
-    //@Cacheable(key = "#p0")
     EmployeeDto findDTOById(Long id);
 
     /**
-     * create
-     *
-     * @param resources
-     * @return
+     * 新增
      */
-    //@CacheEvict(allEntries = true)
     EmployeeDto create(Employee resources);
 
     /**
-     * update
-     *
-     * @param resources
+     * 修改
      */
-    //@CacheEvict(allEntries = true)
     Employee update(Employee resources);
 
     /**
-     * delete
-     *
-     * @param id
+     * 单个删除
      */
-    //@CacheEvict(allEntries = true)
     void delete(Long id);
+
+    /**
+     * 批量删除（默认实现）
+     */
+    default void deleteByIds(Set<Long> ids) {
+        for (Long id : ids) {
+            delete(id);
+        }
+    }
 }

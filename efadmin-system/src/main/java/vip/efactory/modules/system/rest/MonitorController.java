@@ -15,8 +15,8 @@
  */
 package vip.efactory.modules.system.rest;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,14 +32,14 @@ import vip.efactory.modules.system.service.MonitorService;
  */
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "系统-服务监控管理")
+@Tag(name = "系统-服务监控管理") // 替换@Api为@Tag
 @RequestMapping("/api/monitor")
 public class MonitorController {
 
     private final MonitorService serverService;
 
     @GetMapping
-    @ApiOperation("查询服务监控")
+    @Operation(summary = "查询服务监控") // 替换@ApiOperation
     @PreAuthorize("@p.check('monitor:list')")
     public R<Object> query() {
         return R.ok(serverService.getServers());

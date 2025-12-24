@@ -4,8 +4,8 @@ import static org.quartz.TriggerBuilder.newTrigger;
 
 import java.util.Date;
 
-import javax.annotation.Resource;
 
+import jakarta.annotation.Resource;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.JobBuilder;

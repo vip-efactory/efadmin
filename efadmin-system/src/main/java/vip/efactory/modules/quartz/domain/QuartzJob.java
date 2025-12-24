@@ -1,18 +1,16 @@
 package vip.efactory.modules.quartz.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @Table(name = "sys_quartz_job")

@@ -5,61 +5,30 @@ import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-
-import redis.clients.jedis.JedisPoolConfig;
-import redis.clients.jedis.JedisShardInfo;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import vip.efactory.ejpa.tenant.identifier.TenantConstants;
 import vip.efactory.ejpa.tenant.identifier.TenantHolder;
 
 /**
- * JedisConnectionFactory 复制修改而来
+ * Redis 连接工厂：使用 Lettuce 实现
  */
 @Slf4j
-public class XRedisConnectionFactory extends JedisConnectionFactory {
+public class XRedisConnectionFactory extends LettuceConnectionFactory {
 
-    public XRedisConnectionFactory() {
-    }
-
-    @Deprecated
-    public XRedisConnectionFactory(JedisShardInfo shardInfo) {
-        super(shardInfo);
-    }
-
-    public XRedisConnectionFactory(JedisPoolConfig poolConfig) {
-        super(poolConfig);
-    }
-
-    public XRedisConnectionFactory(RedisSentinelConfiguration sentinelConfig) {
-        super(sentinelConfig);
-    }
-
-    public XRedisConnectionFactory(RedisSentinelConfiguration sentinelConfig, JedisPoolConfig poolConfig) {
-        super(sentinelConfig, poolConfig);
-    }
-
-    public XRedisConnectionFactory(RedisClusterConfiguration clusterConfig) {
-        super(clusterConfig);
-    }
-
-    public XRedisConnectionFactory(RedisClusterConfiguration clusterConfig, JedisPoolConfig poolConfig) {
-        super(clusterConfig, poolConfig);
+    public XRedisConnectionFactory(RedisStandaloneConfiguration standaloneConfiguration, JedisClientConfiguration jedisClientConfiguration) {
+        super();
     }
 
     public XRedisConnectionFactory(RedisStandaloneConfiguration standaloneConfig) {
         super(standaloneConfig);
     }
 
-    public XRedisConnectionFactory(RedisStandaloneConfiguration standaloneConfig, JedisClientConfiguration clientConfig) {
-        super(standaloneConfig, clientConfig);
+    public XRedisConnectionFactory(RedisSentinelConfiguration sentinelConfig) {
+        super(sentinelConfig);
     }
 
-    public XRedisConnectionFactory(RedisSentinelConfiguration sentinelConfig, JedisClientConfiguration clientConfig) {
-        super(sentinelConfig, clientConfig);
-    }
-
-    public XRedisConnectionFactory(RedisClusterConfiguration clusterConfig, JedisClientConfiguration clientConfig) {
-        super(clusterConfig, clientConfig);
+    public XRedisConnectionFactory(RedisClusterConfiguration clusterConfig) {
+        super(clusterConfig);
     }
 
     /**

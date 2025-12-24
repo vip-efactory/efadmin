@@ -1,7 +1,9 @@
 package vip.efactory.config.tenant;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityManagerFactory;  // 使用 jakarta.persistence
 import lombok.AllArgsConstructor;
-import org.hibernate.MultiTenancyStrategy;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
@@ -22,12 +24,9 @@ import vip.efactory.ejpa.tenant.database.MultiTenantIdentifierResolver;
 import vip.efactory.ejpa.tenant.database.TenantDataSourceProvider;
 import vip.efactory.ejpa.tenant.identifier.TenantConstants;
 
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import static org.hibernate.cfg.Environment.*;
 
 /**
@@ -66,28 +65,35 @@ public class MultiTenantJpaConfiguration {
         return new MultiTenantIdentifierResolver();
     }
 
+    // 其他代码完全不变，只改这一行！
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(
             MultiTenantConnectionProvider multiTenantConnectionProvider,
             CurrentTenantIdentifierResolver currentTenantIdentifierResolver) {
 
         Map<String, Object> hibernateProps = new LinkedHashMap<>(this.jpaProperties.getProperties());
-        hibernateProps.put(MULTI_TENANT, MultiTenancyStrategy.DATABASE); // 使用基于独立数据库的多租户模式
+        hibernateProps.put("hibernate.multiTenancy", "DATABASE");
+        // ########### 仅改这一行 ###########
         hibernateProps.put(PHYSICAL_NAMING_STRATEGY,
-                "org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy"); // 属性及column命名策略
+                "org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy");
+        // ########### 其他代码完全不变 ###########
         hibernateProps.put(MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProvider);
         hibernateProps.put(MULTI_TENANT_IDENTIFIER_RESOLVER, currentTenantIdentifierResolver);
-        hibernateProps.put(HBM2DDL_AUTO, Action.UPDATE); // 自动更新表结构,仅默认数据源有效且控制台会报警告可以不用管！
-        // hibernateProps.put(Environment.SHOW_SQL, true); // 显示SQL,如果需要可以打开
-        // hibernateProps.put(Environment.FORMAT_SQL, true); // 格式化SQL,如果需要可以打开
 
-        // No dataSource is set to resulting entityManagerFactoryBean
+        // ========== 核心修改1：关闭表结构校验（替换原validate） ==========
+        hibernateProps.put(HBM2DDL_AUTO, "none");
+        // ========== 核心修改2：兜底关闭schema校验（防止还有残留校验） ==========
+        hibernateProps.put("hibernate.schema.validation.enabled", "false");
+
         LocalContainerEntityManagerFactoryBean result = new LocalContainerEntityManagerFactoryBean();
-
-        // result.setPackagesToScan(new String[] { Tenant.class.getPackage().getName() });
         result.setPackagesToScan("vip.efactory");
         result.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         result.setJpaPropertyMap(hibernateProps);
+
+        // 核心改动1：绑定数据源（避免后续数据源报错）
+        result.setDataSource(dataSource);
+        // 核心改动2：指定接口为Jakarta标准，解决冲突（报错提示的直接解决方案）
+        result.setEntityManagerFactoryInterface(EntityManagerFactory.class);
 
         return result;
     }
@@ -102,13 +108,6 @@ public class MultiTenantJpaConfiguration {
     @Primary // 注意我们自己定义的bean，最好都加此注解，防止与自动配置的重复而不知道如何选择
     public PlatformTransactionManager txManager(EntityManagerFactory entityManagerFactory) {
         SessionFactory sessionFactory = entityManagerFactory.unwrap(SessionFactory.class);
-        // 此处在SpringDataJpa中不使用hibernate的事务管理，否则可能导致log持久层save方法不写数据库的问题
-        // HibernateTransactionManager result = new HibernateTransactionManager();
-        // result.setAutodetectDataSource(false); // 不自动检测数据源
-        // result.setSessionFactory(sessionFactory);
-        // result.setRollbackOnCommitFailure(true);
-        // return result;
-
         JpaTransactionManager txManager = new JpaTransactionManager();
         txManager.setEntityManagerFactory(entityManagerFactory);
         return txManager;

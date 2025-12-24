@@ -1,5 +1,6 @@
 package vip.efactory.aspect;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -17,7 +18,7 @@ import vip.efactory.utils.SecurityUtils;
 import vip.efactory.utils.StringUtils;
 import vip.efactory.utils.ThrowableUtil;
 
-import javax.servlet.http.HttpServletRequest;
+
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 

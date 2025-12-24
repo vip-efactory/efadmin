@@ -9,6 +9,7 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.storage.model.FileInfo;
 import com.qiniu.util.Auth;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -30,7 +31,7 @@ import vip.efactory.service.QiNiuService;
 import vip.efactory.service.dto.QiniuQueryCriteria;
 import vip.efactory.utils.*;
 
-import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.*;
 

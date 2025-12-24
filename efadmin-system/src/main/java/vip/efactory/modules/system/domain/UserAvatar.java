@@ -1,12 +1,12 @@
 package vip.efactory.modules.system.domain;
 
 import cn.hutool.core.util.ObjectUtil;
+import jakarta.persistence.*; // 统一使用Jakarta版本JPA注解
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 /**

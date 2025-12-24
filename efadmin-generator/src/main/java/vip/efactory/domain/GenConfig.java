@@ -1,12 +1,13 @@
 package vip.efactory.domain;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
 
-import javax.persistence.*;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -32,9 +33,11 @@ public class GenConfig extends BaseEntity<Long> {
     private Long id;
 
     @NotBlank
+    @Column(length = 100)
     private String tableName;
 
     /** 接口名称 **/
+    @Column(name = "api_alias", length = 100)
     private String apiAlias;
 
     /**

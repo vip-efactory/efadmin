@@ -2,6 +2,8 @@ package vip.efactory.rest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import vip.efactory.common.base.utils.R;
@@ -11,8 +13,7 @@ import vip.efactory.service.GenConfigService;
 import vip.efactory.service.GeneratorService;
 import vip.efactory.utils.PageUtil;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import java.util.List;
 
 import static cn.hutool.core.util.PageUtil.transToStartEnd;

@@ -10,9 +10,9 @@ import org.hibernate.validator.constraints.Range;
 import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
-import javax.validation.groups.Default;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import jakarta.validation.groups.Default;
 import java.time.LocalDate;
 
 /**

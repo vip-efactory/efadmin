@@ -6,8 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -30,8 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import vip.efactory.aop.log.Log;
 import vip.efactory.common.base.page.EPage;
 import vip.efactory.config.DataScope;
@@ -52,7 +51,7 @@ import vip.efactory.service.VerificationCodeService;
 import vip.efactory.utils.EfAdminConstant;
 import vip.efactory.utils.SecurityUtils;
 
-@Api(tags = "系统：用户管理")
+@Tag(name = "系统：用户管理") // 替换@Api为@Tag
 @RestController
 @RequestMapping("/api/users")
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
@@ -76,7 +75,7 @@ public class UserController extends BaseController<User, UserService, Long> {
     }
 
     @Log("导出用户数据")
-    @ApiOperation("导出用户数据")
+    @Operation(summary = "导出用户数据") // 替换@ApiOperation
     @GetMapping(value = "/download")
     @PreAuthorize("@p.check('user:list')")
     public void download(HttpServletResponse response, UserQueryCriteria criteria) throws IOException {
@@ -84,7 +83,7 @@ public class UserController extends BaseController<User, UserService, Long> {
     }
 
     @Log("查询用户")
-    @ApiOperation("查询用户")
+    @Operation(summary = "查询用户") // 替换@ApiOperation
     @GetMapping("/page")
     @PreAuthorize("@p.check('user:list')")
     public R getUsers(UserQueryCriteria criteria, Pageable pageable) {
@@ -127,7 +126,7 @@ public class UserController extends BaseController<User, UserService, Long> {
      * @return R
      */
     @Log("分页高级查询User")
-    @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
+    @Operation(summary = "多条件组合查询,返回分页数据", description = "默认每页25条记录,id字段降序") // 替换value和notes
     @PostMapping("/page")
     @PreAuthorize("@p.check('user:list')")
     public R advancedQuery(@RequestBody User entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
@@ -135,7 +134,7 @@ public class UserController extends BaseController<User, UserService, Long> {
     }
 
     @Log("新增用户")
-    @ApiOperation("新增用户")
+    @Operation(summary = "新增用户") // 替换@ApiOperation
     @PostMapping
     @PreAuthorize("@p.check('user:add')")
     public R create(@Validated @RequestBody User resources) {
@@ -146,7 +145,7 @@ public class UserController extends BaseController<User, UserService, Long> {
     }
 
     @Log("修改用户")
-    @ApiOperation("修改用户")
+    @Operation(summary = "修改用户") // 替换@ApiOperation
     @PutMapping
     @PreAuthorize("@p.check('user:edit')")
     public R update(@Validated(Update.class) @RequestBody User resources) {
@@ -156,7 +155,7 @@ public class UserController extends BaseController<User, UserService, Long> {
     }
 
     @Log("修改用户：个人中心")
-    @ApiOperation("修改用户：个人中心")
+    @Operation(summary = "修改用户：个人中心") // 替换@ApiOperation
     @PutMapping(value = "center")
     public R center(@Validated(Update.class) @RequestBody User resources) {
         UserDto userDto = entityService.findByName(SecurityUtils.getUsername());
@@ -168,7 +167,7 @@ public class UserController extends BaseController<User, UserService, Long> {
     }
 
     @Log("删除用户")
-    @ApiOperation("删除用户")
+    @Operation(summary = "删除用户") // 替换@ApiOperation
     @DeleteMapping
     @PreAuthorize("@p.check('user:del')")
     public R delete(@RequestBody Set<Long> ids) {
@@ -184,7 +183,7 @@ public class UserController extends BaseController<User, UserService, Long> {
         return R.ok();
     }
 
-    @ApiOperation("修改密码")
+    @Operation(summary = "修改密码") // 替换@ApiOperation
     @PostMapping(value = "/updatePass")
     public R updatePass(@RequestBody UserPassVo passVo) {
         // 密码解密
@@ -202,7 +201,7 @@ public class UserController extends BaseController<User, UserService, Long> {
         return R.ok();
     }
 
-    @ApiOperation("修改头像")
+    @Operation(summary = "修改头像") // 替换@ApiOperation
     @PostMapping(value = "/updateAvatar")
     public R updateAvatar(@RequestParam MultipartFile file) {
         entityService.updateAvatar(file);
@@ -210,7 +209,7 @@ public class UserController extends BaseController<User, UserService, Long> {
     }
 
     @Log("修改邮箱")
-    @ApiOperation("修改邮箱")
+    @Operation(summary = "修改邮箱") // 替换@ApiOperation
     @PostMapping(value = "/updateEmail/{code}")
     public R updateEmail(@PathVariable String code, @RequestBody User user) {
         // 密码解密

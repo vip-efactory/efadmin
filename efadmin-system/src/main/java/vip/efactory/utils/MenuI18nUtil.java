@@ -13,41 +13,45 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 本工具类是为了快速地将项目中的数据库硬编码的菜单快速地转换为国际化的key和value
+ * MenuI18nUtil - 低改动安全版（对 ErrorCodeUtil.getMessage 做兜底，避免 NPE）
  */
-
 public class MenuI18nUtil {
 
-    /**
-     * 处理所有国际化硬编码的菜单数据
-     * @param menus 菜单实体列表
-     * @return 处理过的集合
-     */
     public static Collection<Menu> handleLocale(Collection<Menu> menus) {
-        if (!menus.isEmpty()) {
-            for (Menu menu : menus) {
-                menu.setName(ErrorCodeUtil.getMessage(createKey(menu)));
+        if (menus == null || menus.isEmpty()) {
+            return menus;
+        }
+        for (Menu menu : menus) {
+            try {
+                String key = createKey(menu);
+                String msg = null;
+                try {
+                    // 尝试调用 ErrorCodeUtil（可能内部依赖的服务为 null）
+                    msg = ErrorCodeUtil.getMessage(key);
+                } catch (Exception e) {
+                    // 记录（可以改为 logger）
+                    System.err.println("ErrorCodeUtil.getMessage failed for key=" + key + ", error=" + e.getMessage());
+                }
+                // 如果没有国际化文本，保持原 name 或使用 key
+                if (msg == null || msg.isEmpty()) {
+                    // 保持原有名称（更友好），或者使用 key: menu.setName(key);
+                    continue;
+                }
+                menu.setName(msg);
+            } catch (Throwable t) {
+                // 防止单个 menu 处理失败影响整体
+                System.err.println("handleLocale error for menu " + (menu == null ? "null" : menu.getLocaleKey()) + ": " + t.getMessage());
             }
         }
         return menus;
     }
 
-    /**
-     *  获取生成的key,用来国际化查询
-     * @param menu 菜单
-     * @return
-     */
     private static String createKey(Menu menu) {
         StringBuilder sb = new StringBuilder(menu.getClass().getSimpleName());
         sb.append(".").append(menu.getType()).append(".").append(menu.getLocaleKey());
         return sb.toString();
     }
 
-    /**
-     * 对每一个菜单实例,生成:key = value格式的条目!
-     * @param menu
-     * @return
-     */
     private static String installResourceEntry(Menu menu) {
         StringBuilder sb = new StringBuilder(menu.getClass().getSimpleName());
         sb.append(".").append(menu.getType()).append(".").append(menu.getLocaleKey())
@@ -55,44 +59,30 @@ public class MenuI18nUtil {
         return sb.toString();
     }
 
-    /**
-     * 利用菜单生成国际化的资源文件,非处理国际化的情况下,请勿使用!
-     *
-     * @param fileName 仅仅是文件名，不包含路径与后缀
-     * @param entities
-     */
     @SneakyThrows
     public static String geni18nPropertiesFile(String fileName, List<Menu> entities) {
-        //生成的错误码文件的存放位置,直接在项目的指定位置,注意,如果手动修改过此文件,谨慎执行此main方法.
-//        Map<String, String> envs = System.getenv();
         String pathanme = System.getenv("PWD") + File.separator + fileName + ".properties";
-        //容纳所有的条目
         List<String> lines = new ArrayList<String>();
-        //生成的时间写入注释头中
         lines.add("# This file create at " + new Date() + " ,by MenuI18nUtil! \n");
         String lastClass = "";
-        String currClass = "";      //当前正在处理的菜单类
+        String currClass = "";
         for (Menu menu : entities) {
-            currClass = Menu.class.getName();         //通过反射获取到当前菜单的类名
+            currClass = Menu.class.getName();
             if (!lastClass.equals(currClass)) {
                 if (!lastClass.isEmpty()) {
-                    lines.add("\n");                        //添加一个换行
+                    lines.add("\n");
                 }
-                lines.add("#" + currClass + "\n");          //添加一个当前菜单类的注释
+                lines.add("#" + currClass + "\n");
                 lastClass = currClass;
             }
 
-            // 仅当有国际化属性时才处理该条记录!
             if (!StringUtils.isEmpty(menu.getLocaleKey())) {
-                lines.add(installResourceEntry(menu) + "\n"); //生成菜单对应的键值对
+                lines.add(installResourceEntry(menu) + "\n");
             }
         }
-        //将上面的菜单值生成文本文件,以便拷贝到项目里面来用
-        FileUtil.writeFileByLines(lines, pathanme);         //将所有的键值对写出!
-
+        FileUtil.writeFileByLines(lines, pathanme);
         System.out.println("文件写出完毕!");
         System.out.println("请到此目录找生成的文件:" + pathanme);
         return pathanme;
     }
-
 }

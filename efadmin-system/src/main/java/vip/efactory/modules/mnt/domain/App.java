@@ -1,21 +1,19 @@
 package vip.efactory.modules.mnt.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
 /**
  * @author zhanghouying
  * @date 2019-08-24
  */
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @Table(name = "sys_mnt_app")

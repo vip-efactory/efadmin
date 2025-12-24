@@ -1,11 +1,12 @@
 package vip.efactory.config;
 
+import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
-import javax.annotation.PostConstruct;
+
 
 /**
  * 国际化文件的配置信息,这个配置类如果不需要自己指定特殊的国际化文件名则不需要

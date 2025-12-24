@@ -13,6 +13,8 @@ public final class AppInfo {
     public static final int PERMISSION_DENIED = 2;
     public static final int FAILED_CREATE_FILE = 3;
     public static final int IO_ERROR = 4;
+    // 添加 MAX_SIZE_EXCEEDED 错误信息
+    public static final int MAX_SIZE_EXCEEDED = 5;
     public static final int NOT_MULTIPART_CONTENT = 5;
     public static final int PARSE_REQUEST_ERROR = 6;
     public static final int NOTFOUND_UPLOAD_DATA = 7;

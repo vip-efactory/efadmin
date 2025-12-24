@@ -4,8 +4,9 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
 import com.wf.captcha.ArithmeticCaptcha;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -26,7 +27,6 @@ import vip.efactory.modules.security.service.OnlineUserService;
 import vip.efactory.utils.RedisUtils;
 import vip.efactory.utils.SecurityUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -38,7 +38,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
  */
 @RestController
 @RequestMapping("/auth")
-@Api(tags = "系统：系统授权接口")
+@Tag(name = "系统：系统授权接口") // 替换@Api为@Tag
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class AuthController {
 
@@ -66,7 +66,7 @@ public class AuthController {
     }
 
     @Log("用户登录")
-    @ApiOperation("登录授权")
+    @Operation(summary = "登录授权") // 替换@ApiOperation
     @AnonymousAccess
     @PostMapping(value = "/login")
     public R login(@Validated @RequestBody AuthUser authUser, HttpServletRequest request) {
@@ -105,7 +105,7 @@ public class AuthController {
         return R.ok(authInfo);
     }
 
-    @ApiOperation("获取用户信息")
+    @Operation(summary = "获取用户信息") // 替换@ApiOperation
     @GetMapping(value = "/info")
     public R getUserInfo() {
         JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(SecurityUtils.getUsername());
@@ -113,7 +113,7 @@ public class AuthController {
     }
 
     @AnonymousAccess
-    @ApiOperation("获取验证码")
+    @Operation(summary = "获取验证码") // 替换@ApiOperation
     @GetMapping(value = "/code")
     public R getCode() {
         // 算术类型 https://gitee.com/whvse/EasyCaptcha
@@ -133,7 +133,7 @@ public class AuthController {
         return R.ok(imgResult);
     }
 
-    @ApiOperation("退出登录")
+    @Operation(summary = "退出登录") // 替换@ApiOperation
     @AnonymousAccess
     @DeleteMapping(value = "/logout")
     public R logout(HttpServletRequest request) {

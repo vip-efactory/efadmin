@@ -1,7 +1,8 @@
 package vip.efactory.modules.security.rest;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,20 +11,19 @@ import vip.efactory.aop.log.Log;
 import vip.efactory.common.base.utils.R;
 import vip.efactory.modules.security.service.OnlineUserService;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
 @AllArgsConstructor
 @RestController
 @RequestMapping("/auth/online")
-@Api(tags = "系统：在线用户管理")
+@Tag(name = "系统：在线用户管理") // 替换@Api为@Tag
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class OnlineController {
 
     private final OnlineUserService onlineUserService;
 
-    @ApiOperation("查询在线用户")
+    @Operation(summary = "查询在线用户") // 替换@ApiOperation
     @GetMapping
     @PreAuthorize("@p.check()")
     public R getAll(String filter, Pageable pageable) {
@@ -31,14 +31,14 @@ public class OnlineController {
     }
 
     @Log("导出数据")
-    @ApiOperation("导出数据")
+    @Operation(summary = "导出数据") // 替换@ApiOperation
     @GetMapping(value = "/download")
     @PreAuthorize("@p.check()")
     public void download(HttpServletResponse response, String filter) throws IOException {
         onlineUserService.download(onlineUserService.getAll(filter), response);
     }
 
-    @ApiOperation("踢出用户")
+    @Operation(summary = "踢出用户") // 替换@ApiOperation
     @DeleteMapping
     @PreAuthorize("@p.check()")
     public R delete(@RequestBody Set<String> keys) throws Exception {

@@ -5,8 +5,8 @@ import lombok.Setter;
 import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity

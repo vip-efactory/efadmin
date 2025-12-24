@@ -1,8 +1,10 @@
 package vip.efactory.repository;
 
+import org.springframework.stereotype.Repository;
 import vip.efactory.ejpa.base.repository.BaseRepository;
 import vip.efactory.domain.VerificationCode;
 
+@Repository
 public interface VerificationCodeRepository extends BaseRepository<VerificationCode, Long> {
 
     /**

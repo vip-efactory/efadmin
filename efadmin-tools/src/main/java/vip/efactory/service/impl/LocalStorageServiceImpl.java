@@ -1,6 +1,7 @@
 package vip.efactory.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -23,7 +24,7 @@ import vip.efactory.service.dto.LocalStorageQueryCriteria;
 import vip.efactory.service.mapper.LocalStorageMapper;
 import vip.efactory.utils.*;
 
-import javax.servlet.http.HttpServletResponse;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -110,6 +111,39 @@ public class LocalStorageServiceImpl extends BaseServiceImpl<LocalStorage, Long,
         ValidationUtil.isNull(localStorage.getId(), "LocalStorage", "id", resources.getId());
         localStorage.copy(resources);
         br.save(localStorage);
+    }
+
+    /**
+     * 新增：单条删除逻辑（核心，批量删除复用）
+     */
+    @Override
+    @CacheEvict(allEntries = true)
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(Long id) {
+        // 1. 校验ID非空
+        if (id == null) {
+            throw new BadRequestException("文件ID不能为空");
+        }
+        // 2. 查询文件（不存在抛异常）
+        LocalStorage storage = br.findById(id)
+                .orElseThrow(() -> new BadRequestException("文件ID：" + id + "不存在"));
+        // 3. 多租户校验
+        Long currentTenantId = TenantHolder.getTenantId() == null ? 1L : TenantHolder.getTenantId();
+        String storagePath = storage.getPath();
+        if (ObjectUtil.isNotEmpty(storagePath) && !storagePath.contains(currentTenantId + File.separator)) {
+            throw new BadRequestException("无权限删除租户外的文件：ID=" + id);
+        }
+        // 4. 删除物理文件（容错）
+        if (ObjectUtil.isNotEmpty(storagePath)) {
+            File file = new File(storagePath);
+            if (file.exists() && file.isFile()) {
+                boolean deleteSuccess = file.delete();
+                if (!deleteSuccess) {
+                }
+            }
+        }
+        // 5. 删除数据库记录
+        br.delete(storage);
     }
 
     @Override

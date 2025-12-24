@@ -1,8 +1,9 @@
 package vip.efactory.modules.mnt.rest;
 
 import com.jcraft.jsch.JSchException;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -17,19 +18,18 @@ import vip.efactory.modules.mnt.domain.ServerDeploy;
 import vip.efactory.modules.mnt.service.ServerDeployService;
 import vip.efactory.modules.mnt.service.dto.ServerDeployQueryCriteria;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
 @AllArgsConstructor
-@Api(tags = "服务器管理")
+@Tag(name = "服务器管理") // 替换@Api为@Tag
 @RestController
 @RequestMapping("/api/serverDeploy")
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class ServerDeployController extends BaseController<ServerDeploy, ServerDeployService, Long> {
 
     @Log("导出服务器数据")
-    @ApiOperation("导出服务器数据")
+    @Operation(summary = "导出服务器数据") // 替换@ApiOperation
     @GetMapping(value = "/download")
     @PreAuthorize("@p.check('serverDeploy:list')")
     public void download(HttpServletResponse response, ServerDeployQueryCriteria criteria) throws IOException {
@@ -37,7 +37,7 @@ public class ServerDeployController extends BaseController<ServerDeploy, ServerD
     }
 
     @Log("查询服务器")
-    @ApiOperation(value = "查询服务器")
+    @Operation(summary = "查询服务器") // 替换@ApiOperation(value = "...")
     @GetMapping("/page")
     @PreAuthorize("@p.check('serverDeploy:list')")
     public R getServers(ServerDeployQueryCriteria criteria, Pageable pageable) {
@@ -52,7 +52,7 @@ public class ServerDeployController extends BaseController<ServerDeploy, ServerD
      * @return R
      */
     @Log("分页高级查询应用管理")
-    @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
+    @Operation(summary = "多条件组合查询,返回分页数据", description = "默认每页25条记录,id字段降序") // 替换value和notes
     @PostMapping("/page")
     @PreAuthorize("@p.check('serverDeploy:list')")
     public R advancedQuery(@RequestBody ServerDeploy entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
@@ -60,7 +60,7 @@ public class ServerDeployController extends BaseController<ServerDeploy, ServerD
     }
 
     @Log("新增服务器")
-    @ApiOperation(value = "新增服务器")
+    @Operation(summary = "新增服务器") // 替换@ApiOperation(value = "...")
     @PostMapping
     @PreAuthorize("@p.check('serverDeploy:add')")
     public R create(@Validated @RequestBody ServerDeploy resources) {
@@ -68,7 +68,7 @@ public class ServerDeployController extends BaseController<ServerDeploy, ServerD
     }
 
     @Log("修改服务器")
-    @ApiOperation(value = "修改服务器")
+    @Operation(summary = "修改服务器") // 替换@ApiOperation(value = "...")
     @PutMapping
     @PreAuthorize("@p.check('serverDeploy:edit')")
     public R update(@Validated @RequestBody ServerDeploy resources) {
@@ -77,7 +77,7 @@ public class ServerDeployController extends BaseController<ServerDeploy, ServerD
     }
 
     @Log("删除服务器")
-    @ApiOperation(value = "删除Server")
+    @Operation(summary = "删除Server") // 替换@ApiOperation(value = "...")
     @DeleteMapping
     @PreAuthorize("@p.check('serverDeploy:del')")
     public R delete(@RequestBody Set<Long> ids) {
@@ -86,7 +86,7 @@ public class ServerDeployController extends BaseController<ServerDeploy, ServerD
     }
 
     @Log("测试连接服务器")
-    @ApiOperation(value = "测试连接服务器")
+    @Operation(summary = "测试连接服务器") // 替换@ApiOperation(value = "...")
     @PostMapping("/testConnect")
     @PreAuthorize("@p.check('serverDeploy:add')")
     public R testConnect(@Validated @RequestBody ServerDeploy resources) {

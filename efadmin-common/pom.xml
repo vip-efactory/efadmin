@@ -9,12 +9,28 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <properties>
-        <hutool.version>5.7.14</hutool.version>
+        <hutool.version>5.8.28</hutool.version>
     </properties>
 
     <artifactId>efadmin-common</artifactId>
 
     <dependencies>
+        <!-- 仅保留JDK21+适配的Jakarta Mail核心依赖 -->
+        <dependency>
+            <groupId>jakarta.mail</groupId>
+            <artifactId>jakarta.mail-api</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>angus-mail</artifactId>
+            <version>2.0.2</version> <!-- JDK21+官方推荐的邮件实现 -->
+        </dependency>
+        <dependency>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
+            <version>2.1.2</version>
+        </dependency>
         <!--工具包-->
         <dependency>
             <groupId>cn.hutool</groupId>
@@ -24,6 +40,7 @@
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
+            <version>3.7.1</version>
         </dependency>
         <!-- BD Ueditor 依赖开始 -->
         <dependency>
@@ -44,7 +61,7 @@
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>6.1.5.Final</version>
+            <version>7.0.0.Final</version>
         </dependency>
         <!-- BD Ueditor 依赖结束 -->
         <dependency>

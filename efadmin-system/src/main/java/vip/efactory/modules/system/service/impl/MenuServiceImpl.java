@@ -1,6 +1,7 @@
 package vip.efactory.modules.system.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -27,7 +28,7 @@ import vip.efactory.utils.MenuI18nUtil;
 import vip.efactory.utils.QueryHelp;
 import vip.efactory.utils.ValidationUtil;
 
-import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -166,22 +167,125 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, Long, MenuRepository>
     @Override
 //    @Cacheable(key = "'tree'")   //缓存会导致菜单与环境不一致
     public Object getMenuTree(List<Menu> menus) {
-        // 菜单国际化
-        MenuI18nUtil.handleLocale(menus);
+        // ========== 第一步：初始化所有key→中文的映射表（覆盖你返回的所有label） ==========
+        Map<String, String> labelMap = new HashMap<>();
+        // 系统管理模块
+        labelMap.put("Menu.0.system.manage", "系统管理");
+        labelMap.put("Menu.1.user.manage", "用户管理");
+        labelMap.put("Menu.2.user.add", "新增用户");
+        labelMap.put("Menu.2.user.edit", "编辑用户");
+        labelMap.put("Menu.2.user.delete", "删除用户");
+        // 角色管理
+        labelMap.put("Menu.1.role.manage", "角色管理");
+        labelMap.put("Menu.2.role.add", "新增角色");
+        labelMap.put("Menu.2.role.edit", "编辑角色");
+        labelMap.put("Menu.2.role.delete", "删除角色");
+        // 菜单管理
+        labelMap.put("Menu.1.menu.manage", "菜单管理");
+        labelMap.put("Menu.2.menu.add", "新增菜单");
+        labelMap.put("Menu.2.menu.edit", "编辑菜单");
+        labelMap.put("Menu.2.menu.delete", "删除菜单");
+        // 部门管理
+        labelMap.put("Menu.1.dept.manage", "部门管理");
+        labelMap.put("Menu.2.dept.add", "新增部门");
+        labelMap.put("Menu.2.dept.edit", "编辑部门");
+        labelMap.put("Menu.2.dept.delete", "删除部门");
+        // 岗位管理
+        labelMap.put("Menu.1.job.manage", "岗位管理");
+        labelMap.put("Menu.2.job.add", "新增岗位");
+        labelMap.put("Menu.2.job.edit", "编辑岗位");
+        labelMap.put("Menu.2.job.delete", "删除岗位");
+        // 字典管理
+        labelMap.put("Menu.1.dict.manage", "字典管理");
+        labelMap.put("Menu.2.dict.add", "新增字典");
+        labelMap.put("Menu.2.dict.edit", "编辑字典");
+        labelMap.put("Menu.2.dict.delete", "删除字典");
+        // 员工管理
+        labelMap.put("Menu.1.employee.manage", "员工管理");
+        labelMap.put("Menu.2.employee.add", "新增员工");
+        labelMap.put("Menu.2.employee.edit", "编辑员工");
+        labelMap.put("Menu.2.employee.delete", "删除员工");
+        // Github链接
+        labelMap.put("Menu.1.github.link", "Github源码");
+        // 系统监控
+        labelMap.put("Menu.0.system.monitor", "系统监控");
+        labelMap.put("Menu.1.operation.log", "操作日志");
+        labelMap.put("Menu.1.sql.monitor", "SQL监控");
+        labelMap.put("Menu.1.error.log", "异常日志");
+        labelMap.put("Menu.1.online.user", "在线用户");
+        labelMap.put("Menu.1.service.monitor", "服务监控");
+        // 组件管理
+        labelMap.put("Menu.0.component.manage", "组件管理");
+        labelMap.put("Menu.1.icon.library", "图标库");
+        labelMap.put("Menu.1.rich.text", "富文本");
+        labelMap.put("Menu.1.markdown.editor", "Markdown编辑器");
+        labelMap.put("Menu.1.yaml.editor", "Yaml编辑器");
+        labelMap.put("Menu.1.echarts.library", "图表库");
+        labelMap.put("Menu.1.ueditor.text", "Ueditor编辑器");
+        // 多级菜单
+        labelMap.put("Menu.0.multi.menu", "多级菜单");
+        labelMap.put("Menu.1.second.menu1", "二级菜单1");
+        labelMap.put("Menu.1.second.menu2", "二级菜单2");
+        labelMap.put("Menu.1.third.menu1", "三级菜单1");
+        labelMap.put("Menu.1.third.menu2", "三级菜单2");
+        // 系统工具
+        labelMap.put("Menu.0.system.tool", "系统工具");
+        labelMap.put("Menu.1.email.tool", "邮件工具");
+        labelMap.put("Menu.1.picture.manage", "图片管理");
+        labelMap.put("Menu.2.picture.add", "上传图片");
+        labelMap.put("Menu.2.picture.delete", "删除图片");
+        labelMap.put("Menu.1.storage.manage", "存储管理");
+        labelMap.put("Menu.2.storage.add", "上传文件");
+        labelMap.put("Menu.2.storage.edit", "编辑文件");
+        labelMap.put("Menu.2.storage.delete", "删除文件");
+        labelMap.put("Menu.1.alipay.tool", "支付宝工具");
+        labelMap.put("Menu.1.timed.task", "定时任务");
+        labelMap.put("Menu.2.task.add", "新增任务");
+        labelMap.put("Menu.2.task.edit", "编辑任务");
+        labelMap.put("Menu.2.task.delete", "删除任务");
+        labelMap.put("Menu.1.code.generator", "代码生成器");
+        labelMap.put("Menu.1.api.docs", "接口文档");
+        labelMap.put("Menu.1.generate.config", "生成配置");
+        labelMap.put("Menu.1.generate.preview", "生成预览");
+        // 运维管理
+        labelMap.put("Menu.1.maintenance.manage", "运维管理");
+        labelMap.put("Menu.1.server", "服务器管理");
+        labelMap.put("Menu.2.server.add", "新增服务器");
+        labelMap.put("Menu.2.server.edit", "编辑服务器");
+        labelMap.put("Menu.2.server.delete", "删除服务器");
+        labelMap.put("Menu.1.app.manage", "应用管理");
+        labelMap.put("Menu.2.app.add", "新增应用");
+        labelMap.put("Menu.2.app.edit", "编辑应用");
+        labelMap.put("Menu.2.app.delete", "删除应用");
+        labelMap.put("Menu.1.deploy.manage", "部署管理");
+        labelMap.put("Menu.2.deploy.add", "新增部署");
+        labelMap.put("Menu.2.deploy.edit", "编辑部署");
+        labelMap.put("Menu.2.deploy.delete", "删除部署");
+        labelMap.put("Menu.1.deploy.backup", "部署备份");
+        labelMap.put("Menu.2.deployHistory.delete", "删除备份");
+        labelMap.put("Menu.1.db.manage", "数据库管理");
+        labelMap.put("Menu.2.db.add", "新增数据库");
+        labelMap.put("Menu.2.db.edit", "编辑数据库");
+        labelMap.put("Menu.2.db.delete", "删除数据库");
+
+        // ========== 第二步：构建菜单树（原有逻辑仅替换label赋值） ==========
         List<Map<String, Object>> list = new LinkedList<>();
-        menus.forEach(menu -> {
-                    if (menu != null) {
-                        List<Menu> menuList = br.findByPid(menu.getId());
-                        Map<String, Object> map = new HashMap<>(16);
-                        map.put("id", menu.getId());
-                        map.put("label", menu.getName());
-                        if (!CollectionUtils.isEmpty(menuList)) {
-                            map.put("children", getMenuTree(menuList));
-                        }
-                        list.add(map);
-                    }
-                }
-        );
+        // 遍历所有菜单，递归构建子菜单
+        for (Menu menu : menus) {
+            if (menu == null) {
+                continue;
+            }
+            Map<String, Object> map = new HashMap<>(16);
+            map.put("id", menu.getId());
+            // 核心：从映射表取中文，无匹配则保留原key（不会null）
+            map.put("label", labelMap.getOrDefault(menu.getName(), menu.getName()));
+            // 递归处理子菜单
+            List<Menu> childMenus = br.findByPid(menu.getId());
+            if (!CollectionUtils.isEmpty(childMenus)) {
+                map.put("children", getMenuTree(childMenus));
+            }
+            list.add(map);
+        }
         return list;
     }
 

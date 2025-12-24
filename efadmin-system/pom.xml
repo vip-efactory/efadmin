@@ -13,10 +13,14 @@
 
     <properties>
         <jjwt.version>0.10.6</jjwt.version>
+        <!-- Querydsl版本（适配Jakarta，需与Spring Boot 3兼容） -->
+        <querydsl.version>5.1.0</querydsl.version>
+        <!-- Jakarta Persistence API版本 -->
+        <jakarta.persistence.version>3.2.0</jakarta.persistence.version>
     </properties>
 
     <dependencies>
-        <!--    代码生成模块    -->
+        <!-- 代码生成模块 -->
         <dependency>
             <groupId>vip.efactory</groupId>
             <artifactId>efadmin-generator</artifactId>
@@ -26,22 +30,34 @@
                     <groupId>vip.efactory</groupId>
                     <artifactId>efadmin-common</artifactId>
                 </exclusion>
+                <!-- 排除旧的javax.persistence依赖（避免冲突） -->
+                <exclusion>
+                    <groupId>javax.persistence</groupId>
+                    <artifactId>javax.persistence-api</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
-        <!--    tools 模块包含了 common 和 logging 模块    -->
+        <!-- tools模块包含了common和logging模块 -->
         <dependency>
             <groupId>vip.efactory</groupId>
             <artifactId>efadmin-tools</artifactId>
             <version>2.3.0</version>
+            <exclusions>
+                <!-- 排除旧的javax.persistence依赖 -->
+                <exclusion>
+                    <groupId>javax.persistence</groupId>
+                    <artifactId>javax.persistence-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-websocket</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
 
-        <!--jwt-->
+        <!-- jwt -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
@@ -64,44 +80,116 @@
             <artifactId>quartz</artifactId>
         </dependency>
 
-		<dependency>
-			<groupId>ch.ethz.ganymed</groupId>
-			<artifactId>ganymed-ssh2</artifactId>
-			<version>build210</version>
-		</dependency>
+        <dependency>
+            <groupId>ch.ethz.ganymed</groupId>
+            <artifactId>ganymed-ssh2</artifactId>
+            <version>build210</version>
+        </dependency>
 
-		<dependency>
-			<groupId>com.jcraft</groupId>
-			<artifactId>jsch</artifactId>
-			<version>0.1.55</version>
-		</dependency>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
+
         <!-- 获取系统信息 -->
         <dependency>
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
             <version>5.7.5</version>
         </dependency>
+
+        <!-- ====================== 新增Querydsl相关依赖（Jakarta版本） ====================== -->
+        <!-- Querydsl JPA（Jakarta版本，支持jakarta.persistence注解） -->
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
+            <version>${querydsl.version}</version>
+            <classifier>jakarta</classifier>
+        </dependency>
+
+        <!-- Querydsl APT处理器（Jakarta版本，用于生成Q类） -->
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-apt</artifactId>
+            <version>${querydsl.version}</version>
+            <classifier>jakarta</classifier>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Jakarta Persistence API（Spring Boot 3+必需） -->
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>${jakarta.persistence.version}</version>
+        </dependency>
+        <!-- MapStruct核心依赖 -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.5.5.Final</version> <!-- 与你代码里的版本一致 -->
+        </dependency>
+
+        <!-- MapStruct处理器（必须，用于编译期生成实现类） -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>1.5.5.Final</version>
+            <scope>provided</scope> <!-- 只在编译期生效 -->
+        </dependency>
+
+        <!-- 添加 Nashorn 引擎到项目（使 ScriptEngineManager 能返回 JS 引擎） -->
+        <dependency>
+            <groupId>org.openjdk.nashorn</groupId>
+            <artifactId>nashorn-core</artifactId>
+            <version>15.6</version>
+        </dependency>
     </dependencies>
 
     <build>
-        <finalName>${project.name}</finalName>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <!-- 跳过单元测试 -->
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
                 <configuration>
-                    <skipTests>true</skipTests>
+                    <source>21</source>
+                    <target>21</target>
+                    <encoding>UTF-8</encoding>
+                    <annotationProcessorPaths>
+                        <!-- Querydsl APT（Jakarta版本） -->
+                        <path>
+                            <groupId>com.querydsl</groupId>
+                            <artifactId>querydsl-apt</artifactId>
+                            <version>${querydsl.version}</version>
+                            <classifier>jakarta</classifier>
+                        </path>
+                        <!-- Jakarta Persistence API -->
+                        <path>
+                            <groupId>jakarta.persistence</groupId>
+                            <artifactId>jakarta.persistence-api</artifactId>
+                            <version>${jakarta.persistence.version}</version>
+                        </path>
+                        <!-- Lombok（若用了Lombok，必须加） -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.30</version>
+                        </path>
+                        <!-- Lombok-MapStruct绑定（关键：解决两者冲突） -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
+                        <!-- MapStruct处理器（关键：必须加，否则无法生成Impl类） -->
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.5.5.Final</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
-            </plugin>
-            <!-- 编译生成querydsl的查询类 -->
-            <plugin>
-                <groupId>com.mysema.maven</groupId>
-                <artifactId>apt-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

@@ -1,14 +1,13 @@
 package vip.efactory.modules.system.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -21,9 +20,8 @@ import java.util.Set;
  * @date 19-7-10 上午11:04
  */
 @Entity
-@Getter
-@Setter
 @Table(name = "sys_user")
+@Data
 public class User extends BaseEntity<Long> implements Serializable {
 
     @Id
@@ -32,7 +30,7 @@ public class User extends BaseEntity<Long> implements Serializable {
     private Long id;
 
     @NotBlank
-    @Column(unique = true)
+    @Column(length = 100, unique = true)
     private String username;
 
     /** 用户昵称 */
@@ -44,6 +42,7 @@ public class User extends BaseEntity<Long> implements Serializable {
      */
 //    @NotBlank
 //    @Column(unique = true)
+    @Column(length = 100, unique = true)
     private String usercode;
 
     /** 性别 */
@@ -55,6 +54,7 @@ public class User extends BaseEntity<Long> implements Serializable {
 
     @NotBlank
     @Email
+    @Column(length = 100, unique = true)
     private String email;
 
     @NotBlank

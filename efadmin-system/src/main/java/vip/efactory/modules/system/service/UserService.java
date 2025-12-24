@@ -1,17 +1,19 @@
 package vip.efactory.modules.system.service;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.ejpa.base.service.IBaseService;
 import vip.efactory.modules.system.domain.User;
 import vip.efactory.modules.system.service.dto.UserDto;
 import vip.efactory.modules.system.service.dto.UserQueryCriteria;
 
-import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
-
+@Service
 public interface UserService extends IBaseService<User, Long> {
 
     /**

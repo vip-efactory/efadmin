@@ -5,6 +5,7 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +22,7 @@ import vip.efactory.service.PictureService;
 import vip.efactory.service.dto.PictureQueryCriteria;
 import vip.efactory.utils.*;
 
-import javax.servlet.http.HttpServletResponse;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.*;

@@ -2,13 +2,14 @@ package vip.efactory.domain;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
 
-import javax.persistence.*;
+
 import java.io.Serializable;
 
 /**

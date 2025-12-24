@@ -2,8 +2,10 @@ package vip.efactory.modules.system.rest;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpServletResponse;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -18,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import vip.efactory.aop.log.Log;
 import vip.efactory.common.base.utils.R;
 import vip.efactory.common.base.valid.Update;
@@ -30,7 +30,7 @@ import vip.efactory.modules.system.domain.Dict;
 import vip.efactory.modules.system.service.DictService;
 import vip.efactory.modules.system.service.dto.DictQueryCriteria;
 
-@Api(tags = "系统：字典管理")
+@Tag(name = "系统：字典管理") // 替换@Api为@Tag
 @RestController
 @RequestMapping("/api/dict")
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
@@ -40,7 +40,7 @@ public class DictController extends BaseController<Dict, DictService, Long> {
 
 
     @Log("导出字典数据")
-    @ApiOperation("导出字典数据")
+    @Operation(summary = "导出字典数据") // 替换@ApiOperation
     @GetMapping(value = "/download")
     @PreAuthorize("@p.check('dict:list')")
     public void download(HttpServletResponse response, DictQueryCriteria criteria) throws IOException {
@@ -48,7 +48,7 @@ public class DictController extends BaseController<Dict, DictService, Long> {
     }
 
     @Log("查询字典")
-    @ApiOperation("查询字典")
+    @Operation(summary = "查询字典") // 替换@ApiOperation
     @GetMapping(value = "/all")
     @PreAuthorize("@p.check('dict:list')")
     public R all(){
@@ -56,7 +56,7 @@ public class DictController extends BaseController<Dict, DictService, Long> {
     }
 
     @Log("查询字典")
-    @ApiOperation("查询字典")
+    @Operation(summary = "查询字典") // 替换@ApiOperation
     @GetMapping("/page")
     @PreAuthorize("@p.check('dict:list')")
     public R getDicts(DictQueryCriteria resources, Pageable pageable){
@@ -71,7 +71,7 @@ public class DictController extends BaseController<Dict, DictService, Long> {
      * @return R
      */
     @Log("分页高级查询Dict")
-    @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
+    @Operation(summary = "多条件组合查询,返回分页数据", description = "默认每页25条记录,id字段降序") // 替换value和notes
     @PostMapping("/page")
     @PreAuthorize("@p.check('dict:list')")
     public R advancedQuery(@RequestBody Dict entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
@@ -79,7 +79,7 @@ public class DictController extends BaseController<Dict, DictService, Long> {
     }
 
     @Log("新增字典")
-    @ApiOperation("新增字典")
+    @Operation(summary = "新增字典") // 替换@ApiOperation
     @PostMapping
     @PreAuthorize("@p.check('dict:add')")
     public R create(@Validated @RequestBody Dict resources){
@@ -90,7 +90,7 @@ public class DictController extends BaseController<Dict, DictService, Long> {
     }
 
     @Log("修改字典")
-    @ApiOperation("修改字典")
+    @Operation(summary = "修改字典") // 替换@ApiOperation
     @PutMapping
     @PreAuthorize("@p.check('dict:edit')")
     public R update(@Validated(Update.class) @RequestBody Dict resources){
@@ -99,10 +99,10 @@ public class DictController extends BaseController<Dict, DictService, Long> {
     }
 
     @Log("删除字典")
-    @ApiOperation("删除字典")
+    @Operation(summary = "删除字典") // 替换@ApiOperation
     @DeleteMapping(value = "/{id}")
     @PreAuthorize("@p.check('dict:del')")
-    public R delete(@PathVariable Long id){
+    public R delete(@Parameter(name = "id", description = "字典ID", required = true) @PathVariable Long id){
         entityService.delete(id);
         return R.ok();
     }

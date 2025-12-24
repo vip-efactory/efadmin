@@ -23,9 +23,8 @@ public class TheadFactoryName implements ThreadFactory {
     }
 
     private TheadFactoryName(String name){
-        SecurityManager s = System.getSecurityManager();
-        group = (s != null) ? s.getThreadGroup() :
-                Thread.currentThread().getThreadGroup();
+        // 获取当前线程的线程组，而不是使用SecurityManager
+        group = Thread.currentThread().getThreadGroup();
         //此时namePrefix就是 name + 第几个用这个工厂创建线程池的
         this.namePrefix = name +
                 POOL_NUMBER.getAndIncrement();

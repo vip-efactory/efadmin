@@ -1,10 +1,12 @@
 package vip.efactory.domain;
 
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
-import javax.persistence.*;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -12,6 +14,7 @@ import java.io.Serializable;
 /**
  * 七牛云对象存储配置类
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @Table(name = "sys_qiniu_config")

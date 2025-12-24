@@ -2,16 +2,19 @@ package vip.efactory.modules.monitor.domain;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
-import javax.persistence.*;
+
 import java.io.Serializable;
 
 /**
 * @author Zhang houying
 * @date 2019-11-03
 */
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @Table(name="sys_monitor_server")

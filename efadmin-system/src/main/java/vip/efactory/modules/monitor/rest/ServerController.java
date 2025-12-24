@@ -1,7 +1,7 @@
 package vip.efactory.modules.monitor.rest;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,7 +22,7 @@ import java.util.Set;
  * @author dusuanyun
  */
 @AllArgsConstructor
-@Api(tags = "服务监控管理")
+@Tag(name = "服务监控管理") // 替换@Api为@Tag
 @RestController
 @RequestMapping("/api/server")
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
@@ -30,7 +30,7 @@ public class ServerController extends BaseController<Server, ServerService, Inte
 
     @GetMapping("/page")
     @Log("查询服务监控")
-    @ApiOperation("查询服务监控")
+    @Operation(summary = "查询服务监控") // 替换@ApiOperation
     @PreAuthorize("@p.check('server:list')")
     public R getServers(ServerQueryCriteria criteria, Pageable pageable) {
         return R.ok(entityService.queryAll(criteria, pageable));
@@ -44,7 +44,7 @@ public class ServerController extends BaseController<Server, ServerService, Inte
      * @return R
      */
     @Log("分页高级查询服务监控")
-    @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
+    @Operation(summary = "多条件组合查询,返回分页数据", description = "默认每页25条记录,id字段降序") // 替换value和notes
     @PostMapping("/page")
     @PreAuthorize("@p.check('server:list')")
     public R advancedQuery(@RequestBody Server entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
@@ -53,7 +53,7 @@ public class ServerController extends BaseController<Server, ServerService, Inte
 
     @PostMapping
     @Log("新增服务监控")
-    @ApiOperation("新增服务监控")
+    @Operation(summary = "新增服务监控") // 替换@ApiOperation
     @PreAuthorize("@p.check('server:add')")
     public R create(@Validated @RequestBody Server resources) {
         return R.ok(entityService.create(resources));
@@ -61,7 +61,7 @@ public class ServerController extends BaseController<Server, ServerService, Inte
 
     @PutMapping
     @Log("修改服务监控")
-    @ApiOperation("修改服务监控")
+    @Operation(summary = "修改服务监控") // 替换@ApiOperation
     @PreAuthorize("@p.check('server:edit')")
     public R update(@Validated @RequestBody Server resources) {
         entityService.update2(resources);
@@ -70,7 +70,7 @@ public class ServerController extends BaseController<Server, ServerService, Inte
 
     @DeleteMapping
     @Log("删除服务监控")
-    @ApiOperation("删除服务监控")
+    @Operation(summary = "删除服务监控") // 替换@ApiOperation
     @PreAuthorize("@p.check('server:del')")
     public R delete(@RequestBody Set<Integer> ids) {
         entityService.delete(ids);

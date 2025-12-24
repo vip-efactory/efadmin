@@ -1,12 +1,15 @@
 package vip.efactory.modules.quartz.domain;
 
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
-import javax.persistence.*;
+
 import javax.validation.constraints.NotNull;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @Table(name = "sys_quartz_log")

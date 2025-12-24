@@ -3,8 +3,9 @@ package vip.efactory.modules.quartz.rest;
 import java.io.IOException;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpServletResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -19,20 +20,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import vip.efactory.aop.log.Log;
 import vip.efactory.common.base.utils.R;
 import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.controller.BaseController;
-
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.modules.quartz.domain.QuartzJob;
 import vip.efactory.modules.quartz.service.QuartzJobService;
 import vip.efactory.modules.quartz.service.dto.JobQueryCriteria;
 
 @RestController
-@Api(tags = "系统:定时任务管理")
+@Tag(name = "系统:定时任务管理") // 替换@Api为@Tag
 @RequestMapping("/api/jobs")
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class QuartzJobController extends BaseController<QuartzJob, QuartzJobService, Long> {
@@ -40,7 +38,7 @@ public class QuartzJobController extends BaseController<QuartzJob, QuartzJobServ
     private static final String ENTITY_NAME = "quartzJob";
 
     @Log("查询定时任务")
-    @ApiOperation("查询定时任务")
+    @Operation(summary = "查询定时任务") // 替换@ApiOperation为@Operation
     @GetMapping("/page")
     @PreAuthorize("@p.check('timing:list')")
     public R getJobs(JobQueryCriteria criteria, Pageable pageable) {
@@ -55,7 +53,7 @@ public class QuartzJobController extends BaseController<QuartzJob, QuartzJobServ
      * @return R
      */
     @Log("分页高级查询定时任务")
-    @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
+    @Operation(summary = "多条件组合查询,返回分页数据", description = "默认每页25条记录,id字段降序") // 替换value和notes为summary和description
     @PostMapping("/page")
     @PreAuthorize("@p.check('timing:list')")
     public R advancedQuery(@RequestBody QuartzJob entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
@@ -63,7 +61,7 @@ public class QuartzJobController extends BaseController<QuartzJob, QuartzJobServ
     }
 
     @Log("导出任务数据")
-    @ApiOperation("导出任务数据")
+    @Operation(summary = "导出任务数据")
     @GetMapping(value = "/download")
     @PreAuthorize("@p.check('timing:list')")
     public void download(HttpServletResponse response, JobQueryCriteria criteria) throws IOException {
@@ -71,14 +69,14 @@ public class QuartzJobController extends BaseController<QuartzJob, QuartzJobServ
     }
 
     @Log("导出日志数据")
-    @ApiOperation("导出日志数据")
+    @Operation(summary = "导出日志数据")
     @GetMapping(value = "/logs/download")
     @PreAuthorize("@p.check('timing:list')")
     public void downloadLog(HttpServletResponse response, JobQueryCriteria criteria) throws IOException {
         entityService.downloadLog(entityService.queryAllLog(criteria), response);
     }
 
-    @ApiOperation("查询任务执行日志")
+    @Operation(summary = "查询任务执行日志")
     @GetMapping(value = "/logs")
     @PreAuthorize("@p.check('timing:list')")
     public R getJobLogs(JobQueryCriteria criteria, Pageable pageable) {
@@ -86,7 +84,7 @@ public class QuartzJobController extends BaseController<QuartzJob, QuartzJobServ
     }
 
     @Log("新增定时任务")
-    @ApiOperation("新增定时任务")
+    @Operation(summary = "新增定时任务")
     @PostMapping
     @PreAuthorize("@p.check('timing:add')")
     public R create(@Validated @RequestBody QuartzJob resources) {
@@ -97,7 +95,7 @@ public class QuartzJobController extends BaseController<QuartzJob, QuartzJobServ
     }
 
     @Log("修改定时任务")
-    @ApiOperation("修改定时任务")
+    @Operation(summary = "修改定时任务")
     @PutMapping
     @PreAuthorize("@p.check('timing:edit')")
     public R update(@Validated(Update.class) @RequestBody QuartzJob resources) {
@@ -106,7 +104,7 @@ public class QuartzJobController extends BaseController<QuartzJob, QuartzJobServ
     }
 
     @Log("更改定时任务状态")
-    @ApiOperation("更改定时任务状态")
+    @Operation(summary = "更改定时任务状态")
     @PutMapping(value = "/{id}")
     @PreAuthorize("@p.check('timing:edit')")
     public R updateIsPause(@PathVariable Long id) {
@@ -115,7 +113,7 @@ public class QuartzJobController extends BaseController<QuartzJob, QuartzJobServ
     }
 
     @Log("执行定时任务")
-    @ApiOperation("执行定时任务")
+    @Operation(summary = "执行定时任务")
     @PutMapping(value = "/exec/{id}")
     @PreAuthorize("@p.check('timing:edit')")
     public R execution(@PathVariable Long id) {
@@ -124,7 +122,7 @@ public class QuartzJobController extends BaseController<QuartzJob, QuartzJobServ
     }
 
     @Log("删除定时任务")
-    @ApiOperation("删除定时任务")
+    @Operation(summary = "删除定时任务")
     @DeleteMapping
     @PreAuthorize("@p.check('timing:del')")
     public R delete(@RequestBody Set<Long> ids) {

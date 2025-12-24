@@ -4,9 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -21,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import vip.efactory.aop.log.Log;
 import vip.efactory.common.base.utils.R;
@@ -36,7 +35,7 @@ import vip.efactory.modules.mnt.util.SqlUtils;
 import vip.efactory.utils.FileUtil;
 
 @AllArgsConstructor
-@Api(tags = "数据库管理")
+@Tag(name = "数据库管理") // 替换@Api为@Tag
 @RestController
 @RequestMapping("/api/database")
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
@@ -44,7 +43,7 @@ public class DatabaseController extends BaseController<Database, DatabaseService
     private static String fileSavePath = System.getProperty("java.io.tmpdir");
 
     @Log("导出数据库数据")
-    @ApiOperation("导出数据库数据")
+    @Operation(summary = "导出数据库数据") // 替换@ApiOperation
     @GetMapping(value = "/download")
     @PreAuthorize("@p.check('database:list')")
     public void download(HttpServletResponse response, DatabaseQueryCriteria criteria) throws IOException {
@@ -52,7 +51,7 @@ public class DatabaseController extends BaseController<Database, DatabaseService
     }
 
     @Log("查询数据库")
-    @ApiOperation(value = "查询数据库")
+    @Operation(summary = "查询数据库") // 替换@ApiOperation(value = "...")
     @GetMapping("/page")
     @PreAuthorize("@p.check('database:list')")
     public R getDatabases(DatabaseQueryCriteria criteria, Pageable pageable) {
@@ -67,7 +66,7 @@ public class DatabaseController extends BaseController<Database, DatabaseService
      * @return R
      */
     @Log("分页高级查询数据库")
-    @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
+    @Operation(summary = "多条件组合查询,返回分页数据", description = "默认每页25条记录,id字段降序") // 替换@ApiOperation(value + notes)
     @PostMapping("/page")
     @PreAuthorize("@p.check('database:list')")
     public R advancedQuery(@RequestBody Database entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
@@ -75,7 +74,7 @@ public class DatabaseController extends BaseController<Database, DatabaseService
     }
 
     @Log("新增数据库")
-    @ApiOperation(value = "新增数据库")
+    @Operation(summary = "新增数据库") // 替换@ApiOperation(value = "...")
     @PostMapping
     @PreAuthorize("@p.check('database:add')")
     public R create(@Validated @RequestBody Database resources) {
@@ -83,7 +82,7 @@ public class DatabaseController extends BaseController<Database, DatabaseService
     }
 
     @Log("修改数据库")
-    @ApiOperation(value = "修改数据库")
+    @Operation(summary = "修改数据库") // 替换@ApiOperation(value = "...")
     @PutMapping
     @PreAuthorize("@p.check('database:edit')")
     public R update(@Validated @RequestBody Database resources) {
@@ -92,7 +91,7 @@ public class DatabaseController extends BaseController<Database, DatabaseService
     }
 
     @Log("删除数据库")
-    @ApiOperation(value = "删除数据库")
+    @Operation(summary = "删除数据库") // 替换@ApiOperation(value = "...")
     @DeleteMapping
     @PreAuthorize("@p.check('database:del')")
     public R delete(@RequestBody Set<String> ids) {
@@ -101,7 +100,7 @@ public class DatabaseController extends BaseController<Database, DatabaseService
     }
 
     @Log("测试数据库链接")
-    @ApiOperation(value = "测试数据库链接")
+    @Operation(summary = "测试数据库链接") // 替换@ApiOperation(value = "...")
     @PostMapping("/testConnect")
     @PreAuthorize("@p.check('database:testConnect')")
     public R testConnect(@Validated @RequestBody Database resources) {
@@ -109,7 +108,7 @@ public class DatabaseController extends BaseController<Database, DatabaseService
     }
 
     @Log("执行SQL脚本")
-    @ApiOperation(value = "执行SQL脚本")
+    @Operation(summary = "执行SQL脚本") // 替换@ApiOperation(value = "...")
     @PostMapping(value = "/upload")
     @PreAuthorize("@p.check('database:add')")
     public R upload(@RequestBody MultipartFile file, HttpServletRequest request) throws Exception {

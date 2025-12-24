@@ -1,7 +1,8 @@
 package vip.efactory.modules.system.rest;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +19,6 @@ import vip.efactory.modules.system.service.dto.DeptDto;
 import vip.efactory.modules.system.service.dto.DeptQueryCriteria;
 import vip.efactory.utils.ThrowableUtil;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -30,7 +30,7 @@ import static cn.hutool.core.collection.CollUtil.sort;
 
 @AllArgsConstructor
 @RestController
-@Api(tags = "系统：部门管理")
+@Tag(name = "系统：部门管理") // 替换@Api为@Tag
 @RequestMapping("/api/dept")
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class DeptController extends BaseController<Dept, DeptService, Long> {
@@ -39,7 +39,7 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
     private final DataScope dataScope;
 
     @Log("导出部门数据")
-    @ApiOperation("导出部门数据")
+    @Operation(summary = "导出部门数据") // 替换@ApiOperation
     @GetMapping(value = "/download")
     @PreAuthorize("@p.check('dept:list')")
     public void download(HttpServletResponse response, DeptQueryCriteria criteria) throws IOException {
@@ -47,7 +47,7 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
     }
 
     @Log("查询部门")
-    @ApiOperation("查询部门")
+    @Operation(summary = "查询部门") // 替换@ApiOperation
     @GetMapping("/all")
     @PreAuthorize("@p.check('user:list','dept:list')")
     public R getDepts(DeptQueryCriteria criteria) {
@@ -67,7 +67,7 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
      */
     @Override
     @Log("高级查询部门")
-    @ApiOperation(value = "多条件组合查询")
+    @Operation(summary = "多条件组合查询") // 替换@ApiOperation(value = "...")
     @PostMapping("/all")
     @PreAuthorize("@p.check('user:list','dept:list')")
     public R advancedQuery(@RequestBody Dept entity) {
@@ -76,7 +76,7 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
     }
 
     @Log("新增部门")
-    @ApiOperation("新增部门")
+    @Operation(summary = "新增部门") // 替换@ApiOperation
     @PostMapping
     @PreAuthorize("@p.check('dept:add')")
     public R create(@Validated @RequestBody Dept resources) {
@@ -87,7 +87,7 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
     }
 
     @Log("修改部门")
-    @ApiOperation("修改部门")
+    @Operation(summary = "修改部门") // 替换@ApiOperation
     @PutMapping
     @PreAuthorize("@p.check('dept:edit')")
     public R update(@Validated(Update.class) @RequestBody Dept resources) {
@@ -96,7 +96,7 @@ public class DeptController extends BaseController<Dept, DeptService, Long> {
     }
 
     @Log("删除部门")
-    @ApiOperation("删除部门")
+    @Operation(summary = "删除部门") // 替换@ApiOperation
     @DeleteMapping
     @PreAuthorize("@p.check('dept:del')")
     public R delete(@RequestBody Set<Long> ids) {

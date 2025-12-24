@@ -99,7 +99,7 @@ public class RedisConfig extends CachingConfigurerSupport {
      * @return JedisConnectionFactory
      */
     @Bean
-    public JedisConnectionFactory jedisConnectionFactory() {
+    public XRedisConnectionFactory jedisConnectionFactory() {
         XRedisConnectionFactory redisConnectionFactory = null;
         String clusterEnable = env.getProperty("spring.redis.cluster.enable");
         // 有三种模式：Standalone、Sentinel and Cluster,此处不区分这么细

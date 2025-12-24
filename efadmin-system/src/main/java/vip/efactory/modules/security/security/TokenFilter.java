@@ -1,68 +1,75 @@
 package vip.efactory.modules.security.security;
 
-import java.io.IOException;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-
+import io.jsonwebtoken.ExpiredJwtException;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean;
-
-import io.jsonwebtoken.ExpiredJwtException;
-import lombok.extern.slf4j.Slf4j;
-import vip.efactory.common.base.utils.SpringContextHolder;
+import org.springframework.web.filter.OncePerRequestFilter;
 import vip.efactory.modules.security.config.SecurityProperties;
-import vip.efactory.modules.security.security.vo.OnlineUser;
 import vip.efactory.modules.security.service.OnlineUserService;
+import vip.efactory.modules.security.security.vo.OnlineUser;
 
-/**
- * @author /
- */
+import java.io.IOException;
+
 @Slf4j
-public class TokenFilter extends GenericFilterBean {
+public class TokenFilter extends OncePerRequestFilter {
 
-   private final TokenProvider tokenProvider;
+    private final TokenProvider tokenProvider;
+    private final SecurityProperties securityProperties;
+    private final OnlineUserService onlineUserService;
 
-   TokenFilter(TokenProvider tokenProvider) {
-      this.tokenProvider = tokenProvider;
-   }
+    public TokenFilter(TokenProvider tokenProvider,
+                       SecurityProperties securityProperties,
+                       OnlineUserService onlineUserService) {
+        this.tokenProvider = tokenProvider;
+        this.securityProperties = securityProperties;
+        this.onlineUserService = onlineUserService;
+    }
 
-   @Override
-   public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-      throws IOException, ServletException {
-      HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-      String token = resolveToken(httpServletRequest);
-      String requestRri = httpServletRequest.getRequestURI();
-      // 验证 token 是否存在
-      OnlineUser onlineUser = null;
-      try {
-         SecurityProperties properties = SpringContextHolder.getBean(SecurityProperties.class);
-         OnlineUserService onlineUserService = SpringContextHolder.getBean(OnlineUserService.class);
-         onlineUser = onlineUserService.getOne(properties.getOnlineKey() + token);
-      } catch (ExpiredJwtException e) {
-         log.error(e.getMessage());
-      }
-      if (onlineUser != null && StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
-         Authentication authentication = tokenProvider.getAuthentication(token);
-         SecurityContextHolder.getContext().setAuthentication(authentication);
-         log.debug("set Authentication to security context for '{}', uri: {}", authentication.getName(), requestRri);
-      } else {
-         log.debug("no valid JWT token found, uri: {}", requestRri);
-      }
-      filterChain.doFilter(servletRequest, servletResponse);
-   }
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
+        // 解析Token
+        String token = resolveToken(request);
+        String requestUri = request.getRequestURI();
 
-   private String resolveToken(HttpServletRequest request) {
-      SecurityProperties properties = SpringContextHolder.getBean(SecurityProperties.class);
-      String bearerToken = request.getHeader(properties.getHeader());
-      if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(properties.getTokenStartWith())) {
-         return bearerToken.substring(7);
-      }
-      return null;
-   }
+        OnlineUser onlineUser = null;
+        try {
+            // 查询在线用户
+            if (StringUtils.hasText(token)) {
+                onlineUser = onlineUserService.getOne(securityProperties.getOnlineKey() + token);
+            }
+        } catch (ExpiredJwtException e) {
+            log.error("Token已过期: {}", e.getMessage());
+        }
+
+        // 验证Token有效性并设置认证信息
+        if (onlineUser != null && StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
+            Authentication authentication = tokenProvider.getAuthentication(token);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            log.debug("用户 [{}] 认证成功，访问URI: {}", authentication.getName(), requestUri);
+        } else {
+            log.debug("无效Token或未登录，访问URI: {}", requestUri);
+        }
+
+        filterChain.doFilter(request, response);
+    }
+
+    /**
+     * 从请求头解析Token
+     */
+    private String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader(securityProperties.getHeader());
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(securityProperties.getTokenStartWith())) {
+            // 截取Token前缀后的部分
+            return bearerToken.substring(securityProperties.getTokenStartWith().length()).trim();
+        }
+        return null;
+    }
 }

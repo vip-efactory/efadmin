@@ -1,6 +1,7 @@
 package vip.efactory.aspect;
 
 import com.google.common.collect.ImmutableList;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -17,7 +18,7 @@ import vip.efactory.exception.BadRequestException;
 import vip.efactory.utils.RequestHolder;
 import vip.efactory.utils.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
+
 import java.lang.reflect.Method;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;

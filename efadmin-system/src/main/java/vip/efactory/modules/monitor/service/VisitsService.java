@@ -1,10 +1,11 @@
 package vip.efactory.modules.monitor.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.scheduling.annotation.Async;
 import vip.efactory.ejpa.base.service.IBaseService;
 import vip.efactory.modules.monitor.domain.Visits;
 
-import javax.servlet.http.HttpServletRequest;
+
 
 public interface VisitsService extends IBaseService<Visits, Long> {
 

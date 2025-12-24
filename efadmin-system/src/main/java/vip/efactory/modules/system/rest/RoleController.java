@@ -1,8 +1,10 @@
 package vip.efactory.modules.system.rest;
 
 import cn.hutool.core.lang.Dict;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -25,7 +27,6 @@ import vip.efactory.modules.system.service.dto.UserDto;
 import vip.efactory.utils.SecurityUtils;
 import vip.efactory.utils.ThrowableUtil;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -33,7 +34,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-@Api(tags = "系统：角色管理")
+@Tag(name = "系统：角色管理") // 替换@Api为@Tag
 @RestController
 @RequestMapping("/api/roles")
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
@@ -42,22 +43,22 @@ public class RoleController extends BaseController<Role, RoleService, Long> {
 
     private final UserService userService;
 
-    @ApiOperation("获取单个role")
+    @Operation(summary = "获取单个role") // 替换@ApiOperation
     @GetMapping(value = "/{id}")
     @PreAuthorize("@p.check('roles:list')")
-    public R getRoles(@PathVariable Long id) {
+    public R getRoles(@Parameter(name = "id", description = "角色ID", required = true) @PathVariable Long id) {
         return R.ok(entityService.findById(id));
     }
 
     @Log("导出角色数据")
-    @ApiOperation("导出角色数据")
+    @Operation(summary = "导出角色数据") // 替换@ApiOperation
     @GetMapping(value = "/download")
     @PreAuthorize("@p.check('role:list')")
     public void download(HttpServletResponse response, RoleQueryCriteria criteria) throws IOException {
         entityService.download(entityService.queryAll(criteria), response);
     }
 
-    @ApiOperation("返回全部的角色")
+    @Operation(summary = "返回全部的角色") // 替换@ApiOperation
     @GetMapping(value = "/all")
     @PreAuthorize("@p.check('roles:list','user:add','user:edit')")
     public R getAll(
@@ -66,7 +67,7 @@ public class RoleController extends BaseController<Role, RoleService, Long> {
     }
 
     @Log("查询角色")
-    @ApiOperation("查询角色")
+    @Operation(summary = "查询角色") // 替换@ApiOperation
     @GetMapping("/page")
     @PreAuthorize("@p.check('roles:list')")
     public R getRoles(RoleQueryCriteria criteria, Pageable pageable) {
@@ -81,22 +82,22 @@ public class RoleController extends BaseController<Role, RoleService, Long> {
      * @return R
      */
     @Log("分页高级查询Role")
-    @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
+    @Operation(summary = "多条件组合查询,返回分页数据", description = "默认每页25条记录,id字段降序") // 替换value和notes
     @PostMapping("/page")
     @PreAuthorize("@p.check('roles:list')")
     public R advancedQuery(@RequestBody Role entity,
-            @PageableDefault(value = 25, sort = { "id" }, direction = Sort.Direction.DESC) Pageable page) {
+                           @PageableDefault(value = 25, sort = { "id" }, direction = Sort.Direction.DESC) Pageable page) {
         return super.advancedQueryByPage(page, entity);
     }
 
-    @ApiOperation("获取用户级别")
+    @Operation(summary = "获取用户级别") // 替换@ApiOperation
     @GetMapping(value = "/level")
     public R getLevel() {
         return R.ok(Dict.create().set("level", getLevels(null)));
     }
 
     @Log("新增角色")
-    @ApiOperation("新增角色")
+    @Operation(summary = "新增角色") // 替换@ApiOperation
     @PostMapping
     @PreAuthorize("@p.check('roles:add')")
     public R create(@Validated @RequestBody Role resources) {
@@ -108,7 +109,7 @@ public class RoleController extends BaseController<Role, RoleService, Long> {
     }
 
     @Log("修改角色")
-    @ApiOperation("修改角色")
+    @Operation(summary = "修改角色") // 替换@ApiOperation
     @PutMapping
     @PreAuthorize("@p.check('roles:edit')")
     public R update(@Validated(Update.class) @RequestBody Role resources) {
@@ -118,7 +119,7 @@ public class RoleController extends BaseController<Role, RoleService, Long> {
     }
 
     @Log("修改角色菜单")
-    @ApiOperation("修改角色菜单")
+    @Operation(summary = "修改角色菜单") // 替换@ApiOperation
     @PutMapping(value = "/menu")
     @PreAuthorize("@p.check('roles:edit')")
     public R updateMenu(@RequestBody Role resources) {
@@ -129,7 +130,7 @@ public class RoleController extends BaseController<Role, RoleService, Long> {
     }
 
     @Log("删除角色")
-    @ApiOperation("删除角色")
+    @Operation(summary = "删除角色") // 替换@ApiOperation
     @DeleteMapping
     @PreAuthorize("@p.check('roles:del')")
     public R delete(@RequestBody Set<Long> ids) {

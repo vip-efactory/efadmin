@@ -22,4 +22,17 @@ public class LogQueryCriteria {
     @Query(type = Query.Type.BETWEEN)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private List<LocalDateTime> createTime;
+
+    // 手动添加setter（覆盖Lombok生成的方法，确保编译器能识别）
+    public void setLogType(String logType) {
+        this.logType = logType;
+    }
+    // 手动添加getter（覆盖Lombok生成的方法，确保编译器能识别）
+    public String getLogType() {
+        return logType;
+        }
+
+    public void setBlurry(String blurry) {
+        this.blurry = blurry;
+    }
 }

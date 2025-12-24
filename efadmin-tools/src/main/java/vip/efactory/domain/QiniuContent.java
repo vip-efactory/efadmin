@@ -1,15 +1,18 @@
 package vip.efactory.domain;
 
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
-import javax.persistence.*;
+
 import javax.validation.constraints.NotNull;
 
 /**
  * 上传成功后，存储结果
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @Table(name = "sys_qiniu_content")

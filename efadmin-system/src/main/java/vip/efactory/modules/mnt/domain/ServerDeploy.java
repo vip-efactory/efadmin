@@ -2,13 +2,16 @@ package vip.efactory.modules.mnt.domain;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
-import javax.persistence.*;
+
 import java.io.Serializable;
 
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @Table(name="sys_mnt_server")

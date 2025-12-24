@@ -5,8 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vip.efactory.annotation.AnonymousAccess;
@@ -16,8 +18,16 @@ import vip.efactory.annotation.AnonymousAccess;
  */
 @EnableAsync
 @EnableJpaAuditing
+@EnableMethodSecurity
 @RestController
 @SpringBootApplication
+@ComponentScan(basePackages = {
+        "vip.efactory.config",    // 原有配置类
+        "vip.efactory.modules",   // 业务组件（UserService 所在包）
+        "vip.efactory.service",
+        "vip.efactory.utils",     // RedisUtils 所在包
+        "vip.efactory.rest"       // 扫描LogController所在的包
+})
 public class AppRun {
 
     public static void main(String[] args) {

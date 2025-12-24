@@ -1,12 +1,13 @@
 package vip.efactory.domain;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 import vip.efactory.utils.GenUtil;
 
 
-import javax.persistence.*;
+
 
 /**
  * 列的数据信息

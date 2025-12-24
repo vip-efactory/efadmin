@@ -1,7 +1,8 @@
 package vip.efactory.modules.mnt.rest;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,19 +17,18 @@ import vip.efactory.modules.mnt.domain.App;
 import vip.efactory.modules.mnt.service.AppService;
 import vip.efactory.modules.mnt.service.dto.AppQueryCriteria;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
 @AllArgsConstructor
-@Api(tags = "应用管理")
+@Tag(name = "应用管理") // 替换@Api为@Tag
 @RestController
 @RequestMapping("/api/app")
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class AppController extends BaseController<App, AppService, Long> {
 
     @Log("导出应用数据")
-    @ApiOperation("导出应用数据")
+    @Operation(summary = "导出应用数据") // 替换@ApiOperation
     @GetMapping(value = "/download")
     @PreAuthorize("@p.check('app:list')")
     public void download(HttpServletResponse response, AppQueryCriteria criteria) throws IOException {
@@ -36,7 +36,7 @@ public class AppController extends BaseController<App, AppService, Long> {
     }
 
     @Log("查询应用")
-    @ApiOperation(value = "查询应用")
+    @Operation(summary = "查询应用") // 替换@ApiOperation(value = "...")
     @GetMapping("/page")
     @PreAuthorize("@p.check('app:list')")
     public R getApps(AppQueryCriteria criteria, Pageable pageable) {
@@ -51,7 +51,7 @@ public class AppController extends BaseController<App, AppService, Long> {
      * @return R
      */
     @Log("分页高级查询应用管理")
-    @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
+    @Operation(summary = "多条件组合查询,返回分页数据", description = "默认每页25条记录,id字段降序") // 替换value和notes
     @PostMapping("/page")
     @PreAuthorize("@p.check('app:list')")
     public R advancedQuery(@RequestBody App entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
@@ -59,7 +59,7 @@ public class AppController extends BaseController<App, AppService, Long> {
     }
 
     @Log("新增应用")
-    @ApiOperation(value = "新增应用")
+    @Operation(summary = "新增应用") // 替换@ApiOperation(value = "...")
     @PostMapping
     @PreAuthorize("@p.check('app:add')")
     public R create(@Validated @RequestBody App resources) {
@@ -67,7 +67,7 @@ public class AppController extends BaseController<App, AppService, Long> {
     }
 
     @Log("修改应用")
-    @ApiOperation(value = "修改应用")
+    @Operation(summary = "修改应用") // 替换@ApiOperation(value = "...")
     @PutMapping
     @PreAuthorize("@p.check('app:edit')")
     public R update(@Validated @RequestBody App resources) {
@@ -76,7 +76,7 @@ public class AppController extends BaseController<App, AppService, Long> {
     }
 
     @Log("删除应用")
-    @ApiOperation(value = "删除应用")
+    @Operation(summary = "删除应用") // 替换@ApiOperation(value = "...")
     @DeleteMapping
     @PreAuthorize("@p.check('app:del')")
     public R delete(@RequestBody Set<Long> ids) {

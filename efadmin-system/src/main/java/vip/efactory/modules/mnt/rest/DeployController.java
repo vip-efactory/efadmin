@@ -7,11 +7,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.jcraft.jsch.JSchException;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -27,8 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import vip.efactory.aop.log.Log;
 import vip.efactory.common.base.utils.R;
@@ -45,7 +43,7 @@ import static cn.hutool.core.io.FileUtil.del;
  * @author dusuanyun
  */
 @AllArgsConstructor
-@Api(tags = "部署管理")
+@Tag(name = "部署管理") // 替换@Api为@Tag
 @RestController
 @RequestMapping("/api/deploy")
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
@@ -54,7 +52,7 @@ public class DeployController extends BaseController<Deploy, DeployService, Long
     private static String fileSavePath = System.getProperty("java.io.tmpdir");
 
     @Log("导出部署数据")
-    @ApiOperation("导出部署数据")
+    @Operation(summary = "导出部署数据") // 替换@ApiOperation
     @GetMapping(value = "/download")
     @PreAuthorize("@p.check('database:list')")
     public void download(HttpServletResponse response, DeployQueryCriteria criteria) throws IOException {
@@ -62,30 +60,30 @@ public class DeployController extends BaseController<Deploy, DeployService, Long
     }
 
     @Log("查询部署")
-    @ApiOperation(value = "查询部署")
+    @Operation(summary = "查询部署") // 替换@ApiOperation(value = "...")
     @GetMapping("/page")
     @PreAuthorize("@p.check('deploy:list')")
     public R getDeploys(DeployQueryCriteria criteria, Pageable pageable) {
         return R.ok(entityService.queryAll(criteria, pageable));
     }
 
-	/**
-	 * Description: 高级查询
-	 *
-	 * @param entity 含有高级查询条件
-	 * @param page   分页参数对象
-	 * @return R
-	 */
-	@Log("分页高级查询部署")
-	@ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
-	@PostMapping("/page")
-	@PreAuthorize("@p.check('deploy:list')")
-	public R advancedQuery(@RequestBody Deploy entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
-		return super.advancedQueryByPage(page, entity);
-	}
+    /**
+     * Description: 高级查询
+     *
+     * @param entity 含有高级查询条件
+     * @param page   分页参数对象
+     * @return R
+     */
+    @Log("分页高级查询部署")
+    @Operation(summary = "多条件组合查询,返回分页数据", description = "默认每页25条记录,id字段降序") // 替换value和notes
+    @PostMapping("/page")
+    @PreAuthorize("@p.check('deploy:list')")
+    public R advancedQuery(@RequestBody Deploy entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
+        return super.advancedQueryByPage(page, entity);
+    }
 
     @Log("新增部署")
-    @ApiOperation(value = "新增部署")
+    @Operation(summary = "新增部署") // 替换@ApiOperation(value = "...")
     @PostMapping
     @PreAuthorize("@p.check('deploy:add')")
     public R create(@Validated @RequestBody Deploy resources) {
@@ -93,7 +91,7 @@ public class DeployController extends BaseController<Deploy, DeployService, Long
     }
 
     @Log("修改部署")
-    @ApiOperation(value = "修改部署")
+    @Operation(summary = "修改部署") // 替换@ApiOperation(value = "...")
     @PutMapping
     @PreAuthorize("@p.check('deploy:edit')")
     public R update(@Validated @RequestBody Deploy resources) {
@@ -102,7 +100,7 @@ public class DeployController extends BaseController<Deploy, DeployService, Long
     }
 
     @Log("删除部署")
-    @ApiOperation(value = "删除部署")
+    @Operation(summary = "删除部署") // 替换@ApiOperation(value = "...")
     @DeleteMapping
     @PreAuthorize("@p.check('deploy:del')")
     public R delete(@RequestBody Set<Long> ids) {
@@ -111,7 +109,7 @@ public class DeployController extends BaseController<Deploy, DeployService, Long
     }
 
     @Log("上传文件部署")
-    @ApiOperation(value = "上传文件部署")
+    @Operation(summary = "上传文件部署") // 替换@ApiOperation(value = "...")
     @PostMapping(value = "/upload")
     @PreAuthorize("@p.check('deploy:edit')")
     public R upload(@RequestBody MultipartFile file, HttpServletRequest request) throws Exception {
@@ -135,7 +133,7 @@ public class DeployController extends BaseController<Deploy, DeployService, Long
     }
 
     @Log("系统还原")
-    @ApiOperation(value = "系统还原")
+    @Operation(summary = "系统还原") // 替换@ApiOperation(value = "...")
     @PostMapping(value = "/serverReduction")
     @PreAuthorize("@p.check('deploy:edit')")
     public R serverReduction(@Validated @RequestBody DeployHistory resources) {
@@ -149,7 +147,7 @@ public class DeployController extends BaseController<Deploy, DeployService, Long
     }
 
     @Log("服务运行状态")
-    @ApiOperation(value = "服务运行状态")
+    @Operation(summary = "服务运行状态") // 替换@ApiOperation(value = "...")
     @PostMapping(value = "/serverStatus")
     @PreAuthorize("@p.check('deploy:edit')")
     public R serverStatus(@Validated @RequestBody Deploy resources) {
@@ -163,7 +161,7 @@ public class DeployController extends BaseController<Deploy, DeployService, Long
     }
 
     @Log("启动服务")
-    @ApiOperation(value = "启动服务")
+    @Operation(summary = "启动服务") // 替换@ApiOperation(value = "...")
     @PostMapping(value = "/startServer")
     @PreAuthorize("@p.check('deploy:edit')")
     public R startServer(@Validated @RequestBody Deploy resources) {
@@ -178,7 +176,7 @@ public class DeployController extends BaseController<Deploy, DeployService, Long
     }
 
     @Log("停止服务")
-    @ApiOperation(value = "停止服务")
+    @Operation(summary = "停止服务") // 替换@ApiOperation(value = "...")
     @PostMapping(value = "/stopServer")
     @PreAuthorize("@p.check('deploy:edit')")
     public R stopServer(@Validated @RequestBody Deploy resources) {

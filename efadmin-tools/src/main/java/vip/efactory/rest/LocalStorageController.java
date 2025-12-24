@@ -2,6 +2,7 @@ package vip.efactory.rest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,9 +17,11 @@ import vip.efactory.domain.LocalStorage;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.service.LocalStorageService;
 import vip.efactory.service.dto.LocalStorageQueryCriteria;
+import vip.efactory.utils.SecurityUtils;
 
-import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
+import java.util.Set;
 
 @AllArgsConstructor
 @Api(tags = "工具：本地存储管理")
@@ -72,11 +75,22 @@ public class LocalStorageController extends BaseController<LocalStorage, LocalSt
         return R.ok();  // 原HttpStatus.NO_CONTENT
     }
 
-    @Log("多选删除")
-    @DeleteMapping
-    @ApiOperation("多选删除")
-    public R deleteAll(@RequestBody Long[] ids) {
-        entityService.deleteAll(ids);
-        return R.ok();
+    @Log("使用Ids删除LocalStorage")
+    @DeleteMapping(value = {"/", ""}) // 对齐路径配置，兼容前端请求
+    @ApiOperation("依据Ids来删除LocalStorage对应的记录")
+    @PreAuthorize("@p.check('storage:del')")
+    public R deleteByIds(@RequestBody Set<Long> ids) {
+        try {
+            if (ids == null || ids.isEmpty()) {
+                return R.error("删除失败：ID集合不能为空");
+            }
+            // 循环调用单条删除，复用单删逻辑
+            for (Long id : ids) {
+                entityService.delete(id); // 调用单删方法（需在Service新增）
+            }
+            return R.ok("删除成功");
+        } catch (Exception e) {
+            return R.error("删除失败：" + e.getMessage());
+        }
     }
 }

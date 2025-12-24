@@ -1,15 +1,18 @@
 package vip.efactory.config.tenant;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import vip.efactory.ejpa.tenant.database.TenantDataSourceProvider;
 import vip.efactory.modules.tenant.domain.Tenant;
 import vip.efactory.modules.tenant.service.ITenantService;
 
-import javax.annotation.PostConstruct;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -20,7 +23,9 @@ import java.util.List;
 @AllArgsConstructor
 @Component
 @Slf4j
+@DependsOn("dataSource")
 public class DataSourceBeanPostProcessor {
+    @Resource
     private DruidDataSource druidDataSource;  //自动配置创建的druid数据源
     private ITenantService tenantService;
 
@@ -32,21 +37,41 @@ public class DataSourceBeanPostProcessor {
         // 初始化所有租户的数据源
         if (!CollectionUtils.isEmpty(tenantList)) {
             tenantList.forEach(tenant -> {
+                // 替换原克隆代码块
                 try {
-                    DruidDataSource newDataSource = druidDataSource.cloneDruidDataSource();  // 克隆已有的数据源进行修改
-                    // 设定新的数据源的重要参数
+                    // 手动创建Druid数据源，避免克隆不完整
+                    DruidDataSource newDataSource = new DruidDataSource();
+
+                    // 1. 基础连接配置（从租户表读取，兜底默认值）
+                    String driverClassName = tenant.getDriverClassName() != null && !tenant.getDriverClassName().isEmpty()
+                            ? tenant.getDriverClassName()
+                            : druidDataSource.getDriverClassName(); // 兜底默认驱动
+
+                    newDataSource.setDriverClassName(driverClassName);
+                    newDataSource.setUrl(tenant.getJdbcUrl());
                     newDataSource.setUsername(tenant.getDbUsername());
                     newDataSource.setPassword(tenant.getDbPassword());
-                    newDataSource.setUrl(tenant.getJdbcUrl());
-                    newDataSource.setDriverClassName(tenant.getDriverClassName());  // 其实也可以默认
-                    newDataSource.init(); // 初始化数据源
-                    TenantDataSourceProvider.addDataSource(tenant.getId().toString(), newDataSource);  // 放入数据源集合中
+
+                    // 2. 连接池配置（复制默认数据源的参数，避免缺失）
+                    newDataSource.setInitialSize(druidDataSource.getInitialSize());
+                    newDataSource.setMaxActive(druidDataSource.getMaxActive());
+                    newDataSource.setMinIdle(druidDataSource.getMinIdle());
+                    newDataSource.setMaxWait(druidDataSource.getMaxWait());
+                    newDataSource.setValidationQuery("SELECT 1"); // 显式指定校验SQL（MySQL通用）
+                    newDataSource.setTestWhileIdle(true); // 空闲时校验连接
+                    newDataSource.setTestOnBorrow(false); // 借用时不校验（提升性能）
+
+                    // 3. 初始化数据源
+                    newDataSource.init();
+
+                    // 4. 放入租户数据源容器
+                    TenantDataSourceProvider.addDataSource(tenant.getId().toString(), newDataSource);
                     log.info("租户{}的数据源初始化完成！", tenant.getId());
-                    // throw new SQLException("测试抛异常");
+
                 } catch (SQLException throwables) {
+                    // 异常处理逻辑不变
                     log.error("租户{}的数据源初始化失败！异常内容:{}", tenant.getId(), throwables.getMessage());
                     throwables.printStackTrace();
-                    // 致命错误，继续运行可能导致数据错乱，退出系统
                     log.error("多租户模式下项目启动遇到了数据源初始化错误，为数据安全考虑，系统即将退出！");
                     System.exit(1);
                 }

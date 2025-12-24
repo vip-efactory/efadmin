@@ -23,33 +23,31 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.6</version>
+        <version>3.5.5</version>
         <relativePath/>
     </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
-        <spring-boot.version>2.5.6</spring-boot.version>
-        <ejpa.starter.version>4.2.0</ejpa.starter.version>
+        <java.version>21</java.version>
+        <spring-boot.version>3.5.5</spring-boot.version>
+        <ejpa.starter.version>4.3.0</ejpa.starter.version>
         <querydsl.version>5.0.0</querydsl.version>
         <jedis.version>3.6.3</jedis.version>
         <log4jdbc.version>1.16</log4jdbc.version>
         <log4j2.version>2.15.0</log4j2.version>
-        <swagger.version>2.9.2</swagger.version>
-        <fastjson.version>1.2.78</fastjson.version>
-        <gson.version>2.8.6</gson.version>
-        <druid.version>1.2.8</druid.version>
-        <commons-pool2.version>2.10.0</commons-pool2.version>
-        <mapstruct.version>1.3.1.Final</mapstruct.version>
-        <lombok.version>1.18.12</lombok.version>
-        <poi.version>5.0.0</poi.version>
+
+        <fastjson.version>1.2.83</fastjson.version> <!-- 支持JDK21 -->
+        <gson.version>2.10.1</gson.version> <!-- 支持JDK21 -->
+        <druid.version>1.2.20</druid.version> <!-- 兼容JDK21 -->
+        <commons-pool2.version>2.11.1</commons-pool2.version> <!-- 升级池化依赖 -->
+        <mapstruct.version>1.5.5.Final</mapstruct.version> <!-- 兼容JDK21 -->
+        <lombok.version>1.18.30</lombok.version> <!-- 支持JDK21 -->
+        <poi.version>5.2.5</poi.version> <!-- 兼容JDK21 -->
     </properties>
 
-
     <dependencies>
-
         <!-- 引入自己分装的ejpa模块 -->
         <dependency>
             <groupId>vip.efactory</groupId>
@@ -57,10 +55,10 @@
             <version>${ejpa.starter.version}</version>
             <type>pom</type>
             <exclusions>
-               <exclusion>
-                   <groupId>vip.efactory</groupId>
-                   <artifactId>common-i18n</artifactId>
-               </exclusion>
+                <exclusion>
+                    <groupId>vip.efactory</groupId>
+                    <artifactId>common-i18n</artifactId>
+                </exclusion>
                 <exclusion>
                     <groupId>com.spring4all</groupId>
                     <artifactId>swagger-spring-boot-starter</artifactId>
@@ -90,7 +88,7 @@
         <dependency>
             <groupId>vip.efactory</groupId>
             <artifactId>common-i18n</artifactId>
-            <version>1.3.0</version>
+            <version>1.3.1</version>
         </dependency>
 
         <dependency>
@@ -138,42 +136,19 @@
             <version>${log4jdbc.version}</version>
         </dependency>
 
-        <!-- RESTful APIs swagger2 -->
+        <!-- SpringDoc OpenAPI（替代Swagger） -->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${swagger.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.swagger</groupId>
-                    <artifactId>swagger-annotations</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.swagger</groupId>
-                    <artifactId>swagger-models</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.8.0</version>
         </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${swagger.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>1.5.21</version>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-models</artifactId>
-            <version>1.5.21</version>
-        </dependency>
+
 
         <!--Mysql依赖包-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.31</version>  <!-- 添加 MySQL 版本号 -->
             <scope>runtime</scope>
         </dependency>
         <!-- druid数据源驱动 -->
@@ -223,7 +198,7 @@
         <!--mapStruct依赖-->
         <dependency>
             <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-jdk8</artifactId>
+            <artifactId>mapstruct</artifactId> <!-- JDK11+推荐 -->
             <version>${mapstruct.version}</version>
         </dependency>
         <dependency>
@@ -248,6 +223,12 @@
             <version>1.21</version>
         </dependency>
 
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>3.2.0</version> <!-- 确保使用 Jakarta 版本 -->
+        </dependency>
+
     </dependencies>
 
     <!-- 管理可被子模块继承的依赖 -->
@@ -265,12 +246,14 @@
                 <groupId>com.querydsl</groupId>
                 <artifactId>querydsl-apt</artifactId>
                 <version>${querydsl.version}</version>
+                <classifier>jakarta</classifier>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>com.querydsl</groupId>
                 <artifactId>querydsl-jpa</artifactId>
                 <version>${querydsl.version}</version>
+                <classifier>jakarta</classifier>
             </dependency>
             <dependency>
                 <!-- QueryDSL依赖 -->
@@ -283,11 +266,12 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <optional>true</optional>
+                <version>${lombok.version}</version> <!-- 统一子模块Lombok版本 -->
             </dependency>
             <!--mapStruct依赖-->
             <dependency>
                 <groupId>org.mapstruct</groupId>
-                <artifactId>mapstruct-jdk8</artifactId>
+                <artifactId>mapstruct</artifactId>
                 <version>${mapstruct.version}</version>
             </dependency>
             <dependency>
@@ -297,7 +281,6 @@
                 <scope>provided</scope>
             </dependency>
         </dependencies>
-
     </dependencyManagement>
 
     <build>
@@ -314,38 +297,12 @@
         <!-- 管理可被子模块继承的插件 -->
         <pluginManagement>
             <plugins>
-                <!-- JPAAnnotationProcessor查找使用javax.persistence.Entity注释进行注释的域类型，并为其生成查询类型。 -->
-                <!-- 如果您在域类型中使用Hibernate注释，则应改用APT处理器 com.querydsl.apt.hibernate.HibernateAnnotationProcessor 。 -->
-                <plugin>
-                    <groupId>com.mysema.maven</groupId>
-                    <artifactId>apt-maven-plugin</artifactId>
-                    <version>1.1.3</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>process</goal>
-                            </goals>
-                            <configuration>
-                                <outputDirectory>target/generated-sources/java</outputDirectory>
-                                <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
+
+
+
             </plugins>
         </pluginManagement>
     </build>
-
-<!--    <repositories>-->
-<!--        <repository>-->
-<!--            <id>public</id>-->
-<!--            <name>aliyun nexus</name>-->
-<!--            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>-->
-<!--            <releases>-->
-<!--                <enabled>true</enabled>-->
-<!--            </releases>-->
-<!--        </repository>-->
-<!--    </repositories>-->
 
     <pluginRepositories>
         <pluginRepository>

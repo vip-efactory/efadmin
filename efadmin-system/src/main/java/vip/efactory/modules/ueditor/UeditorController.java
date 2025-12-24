@@ -2,6 +2,8 @@ package vip.efactory.modules.ueditor;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baidu.ueditor.ActionEnter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,8 +18,7 @@ import vip.efactory.ejpa.tenant.identifier.TenantHolder;
 import vip.efactory.exception.BadRequestException;
 import vip.efactory.utils.FileUtil;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;

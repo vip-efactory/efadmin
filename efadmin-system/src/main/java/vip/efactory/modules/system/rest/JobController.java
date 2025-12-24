@@ -1,7 +1,8 @@
 package vip.efactory.modules.system.rest;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,12 +21,11 @@ import vip.efactory.modules.system.service.JobService;
 import vip.efactory.modules.system.service.dto.JobQueryCriteria;
 import vip.efactory.utils.ThrowableUtil;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
 @AllArgsConstructor
-@Api(tags = "系统：岗位管理")
+@Tag(name = "系统：岗位管理") // 替换@Api为@Tag
 @RestController
 @RequestMapping("/api/job")
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
@@ -36,7 +36,7 @@ public class JobController extends BaseController<Job, JobService, Long> {
 
 
     @Log("导出岗位数据")
-    @ApiOperation("导出岗位数据")
+    @Operation(summary = "导出岗位数据") // 替换@ApiOperation
     @GetMapping(value = "/download")
     @PreAuthorize("@p.check('job:list')")
     public void download(HttpServletResponse response, JobQueryCriteria criteria) throws IOException {
@@ -44,7 +44,7 @@ public class JobController extends BaseController<Job, JobService, Long> {
     }
 
     @Log("查询岗位")
-    @ApiOperation("查询岗位")
+    @Operation(summary = "查询岗位") // 替换@ApiOperation
     @GetMapping("/page")
     @PreAuthorize("@p.check('job:list','user:list')")
     public R getJobs(JobQueryCriteria criteria, Pageable pageable) {
@@ -61,7 +61,7 @@ public class JobController extends BaseController<Job, JobService, Long> {
      * @return R
      */
     @Log("分页高级查询岗位")
-    @ApiOperation(value = "多条件组合查询,返回分页数据", notes = "默认每页25条记录,id字段降序")
+    @Operation(summary = "多条件组合查询,返回分页数据", description = "默认每页25条记录,id字段降序") // 替换value和notes
     @PostMapping("/page")
     @PreAuthorize("@p.check('job:list','user:list')")
     public R advancedQuery(@RequestBody Job entity, @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
@@ -69,7 +69,7 @@ public class JobController extends BaseController<Job, JobService, Long> {
     }
 
     @Log("新增岗位")
-    @ApiOperation("新增岗位")
+    @Operation(summary = "新增岗位") // 替换@ApiOperation
     @PostMapping
     @PreAuthorize("@p.check('job:add')")
     public R create(@Validated @RequestBody Job resources) {
@@ -80,7 +80,7 @@ public class JobController extends BaseController<Job, JobService, Long> {
     }
 
     @Log("修改岗位")
-    @ApiOperation("修改岗位")
+    @Operation(summary = "修改岗位") // 替换@ApiOperation
     @PutMapping
     @PreAuthorize("@p.check('job:edit')")
     public R update(@Validated(Update.class) @RequestBody Job resources) {
@@ -89,7 +89,7 @@ public class JobController extends BaseController<Job, JobService, Long> {
     }
 
     @Log("删除岗位")
-    @ApiOperation("删除岗位")
+    @Operation(summary = "删除岗位") // 替换@ApiOperation
     @DeleteMapping
     @PreAuthorize("@p.check('job:del')")
     public R delete(@RequestBody Set<Long> ids) {

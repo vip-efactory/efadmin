@@ -2,11 +2,13 @@ package vip.efactory.modules.tenant.domain;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
-import javax.persistence.*;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -16,6 +18,7 @@ import javax.validation.constraints.NotNull;
  * @author vip-efactory
  * @date 2020-04-11
  */
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @Table(name = "sys_tenant")

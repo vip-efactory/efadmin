@@ -1,6 +1,7 @@
 package vip.efactory.service;
 
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 import vip.efactory.domain.LocalStorage;
@@ -8,7 +9,7 @@ import vip.efactory.ejpa.base.service.IBaseService;
 import vip.efactory.service.dto.LocalStorageDto;
 import vip.efactory.service.dto.LocalStorageQueryCriteria;
 
-import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -54,6 +55,12 @@ public interface LocalStorageService extends IBaseService<LocalStorage, Long> {
      * @param resources 文件信息
      */
     void update2(LocalStorage resources);
+
+    /**
+     * 新增：单条删除（复用给批量删除）
+     * @param id 文件ID
+     */
+    void delete(Long id);
 
     /**
      * 多选删除

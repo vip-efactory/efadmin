@@ -7,9 +7,9 @@ import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 import vip.efactory.utils.StringUtils;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
@@ -25,7 +25,7 @@ public class Menu extends BaseEntity<Long> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "id {property.not.allow.empty}", groups = Update.class)  // 意味着，updateById更新时id不允许为空
+    @NotNull(message = "id {property.not.allow.empty}", groups = Update.class)
     private Long id;
 
     @NotBlank
@@ -84,6 +84,11 @@ public class Menu extends BaseEntity<Long> implements Serializable {
 //    @NotBlank
     private String localeKey;
 
+    // ========== 仅新增这2行（核心！解决getLabel()报错） ==========
+    @Transient // 不映射数据库，仅内存存储中文，无需改表结构
+    private String label; // 存储国际化后的中文（如“系统管理”）
+    // ===========================================================
+
     public String getLocaleKey() {
         // 如果值为空检查是否存在权限值
         return isNotBlank(localeKey) ? localeKey : (isNotBlank(permission) ? permission : "");
@@ -100,6 +105,7 @@ public class Menu extends BaseEntity<Long> implements Serializable {
         Menu menu = (Menu) o;
         return Objects.equals(id, menu.id);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);

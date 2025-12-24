@@ -1,15 +1,15 @@
 package vip.efactory.modules.system.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.entity.BaseEntity;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.Set;
 
@@ -46,7 +46,7 @@ public class Dept extends BaseEntity<Long> {
      * 排序，显示时的先后位置
      */
     @NotNull(message = "排序值不能为空")
-    @ApiModelProperty(value = "排序值")
+    @Schema(description = "排序值") // 替换@ApiModelProperty为@Schema
     private Integer sort;
 
     @JsonIgnore
