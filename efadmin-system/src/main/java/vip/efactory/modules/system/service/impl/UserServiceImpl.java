@@ -38,7 +38,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Service
 @CacheConfig(cacheNames = "user")
-@Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
+@Transactional(propagation = Propagation.REQUIRED, readOnly = true, rollbackFor = Exception.class)
 public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository> implements UserService {
 
     private final UserMapper userMapper;
@@ -58,6 +58,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
     @Cacheable
     public Object queryAll(UserQueryCriteria criteria, Pageable pageable) {
         Page<User> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
+        // 新增：遍历用户，主动加载roles（最小改动核心）
+        page.getContent().forEach(user -> {
+            if (user.getRoles() != null) {
+                user.getRoles().size(); // 触发懒加载，加载角色数据
+            }
+        });
         return new EPage(page.map(userMapper::toDto));
     }
 
@@ -65,6 +71,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
     @Cacheable
     public List<UserDto> queryAll(UserQueryCriteria criteria) {
         List<User> users = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder));
+        // 新增：遍历用户，主动加载roles
+        users.forEach(user -> {
+            if (user.getRoles() != null) {
+                user.getRoles().size(); // 触发懒加载
+            }
+        });
         return userMapper.toDto(users);
     }
 

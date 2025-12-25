@@ -35,7 +35,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Service
 @CacheConfig(cacheNames = "role")
-@Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
+@Transactional(propagation = Propagation.REQUIRED, readOnly = true, rollbackFor = Exception.class)
 public class RoleServiceImpl extends BaseServiceImpl<Role, Long, RoleRepository> implements RoleService {
 
     private final RoleMapper roleMapper;
@@ -56,13 +56,24 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, Long, RoleRepository>
     @Override
     @Cacheable
     public List<RoleDto> queryAll(RoleQueryCriteria criteria) {
-        return roleMapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        List<Role> roles = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder));
+
+        // 新增↓↓↓ 主动加载menus
+        roles.forEach(role -> {
+            if (role.getMenus() != null) role.getMenus().size();
+        });
+
+        return roleMapper.toDto(roles);
     }
 
     @Override
     @Cacheable
     public Object queryAll(RoleQueryCriteria criteria, Pageable pageable) {
         Page<Role> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+        // 新增↓↓↓ 主动加载menus
+        page.getContent().forEach(role -> {
+            if (role.getMenus() != null) role.getMenus().size();
+        });
         return new EPage(page.map(roleMapper::toDto));
     }
 

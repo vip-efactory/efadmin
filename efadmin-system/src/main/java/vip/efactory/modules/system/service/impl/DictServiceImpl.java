@@ -35,7 +35,7 @@ import static cn.hutool.core.collection.CollUtil.isNotEmpty;
 
 @Service
 @CacheConfig(cacheNames = "dict")
-@Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
+@Transactional(propagation = Propagation.REQUIRED, readOnly = true, rollbackFor = Exception.class)
 public class DictServiceImpl extends BaseServiceImpl<Dict, Long, DictRepository> implements DictService {
 
     private final DictMapper dictMapper;
@@ -48,6 +48,14 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, Long, DictRepository>
     @Cacheable
     public Object queryAll(DictQueryCriteria dict, Pageable pageable){
         Page<Dict> page = br.findAll((root, query, cb) -> QueryHelp.getPredicate(root, dict, cb), pageable);
+
+        // 新增↓↓↓ 主动加载dictDetails（解决懒加载）
+        page.getContent().forEach(dictItem -> {
+            if (dictItem.getDictDetails() != null) {
+                dictItem.getDictDetails().size(); // 触发懒加载
+            }
+        });
+
         return new EPage(page.map(dictMapper::toDto));
     }
 
@@ -55,9 +63,16 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, Long, DictRepository>
     @Cacheable
     public List<DictDto> queryAll(DictQueryCriteria dict) {
         List<Dict> list = br.findAll((root, query, cb) -> QueryHelp.getPredicate(root, dict, cb));
+
+        // 新增↓↓↓ 主动加载dictDetails
+        list.forEach(dictItem -> {
+            if (dictItem.getDictDetails() != null) {
+                dictItem.getDictDetails().size();
+            }
+        });
+
         return dictMapper.toDto(list);
     }
-
     @Override
     @Cacheable(key = "#p0")
     public DictDto findDtoById(Long id) {

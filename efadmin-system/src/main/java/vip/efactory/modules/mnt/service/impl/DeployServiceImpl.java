@@ -45,7 +45,7 @@ import java.util.*;
 
 @Slf4j
 @Service
-@Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
+@Transactional(propagation = Propagation.REQUIRED, readOnly = true, rollbackFor = Exception.class)
 @CacheConfig(cacheNames = "deploy")
 public class DeployServiceImpl extends BaseServiceImpl<Deploy, Long, DeployRepository> implements DeployService {
 
@@ -71,13 +71,28 @@ public class DeployServiceImpl extends BaseServiceImpl<Deploy, Long, DeployRepos
     @Cacheable
     public Object queryAll(DeployQueryCriteria criteria, Pageable pageable) {
         Page<Deploy> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
+
+        // 新增↓↓↓ 主动加载懒加载字段（app/deploys）
+        page.getContent().forEach(deploy -> {
+            if (deploy.getApp() != null) deploy.getApp().getId(); // 加载app
+            if (deploy.getDeploys() != null) deploy.getDeploys().size(); // 加载deploys/servers
+        });
+
         return new EPage(page.map(deployMapper::toDto));
     }
 
     @Override
     @Cacheable
     public List<DeployDto> queryAll(DeployQueryCriteria criteria) {
-        return deployMapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
+        List<Deploy> list = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder));
+
+        // 新增↓↓↓ 主动加载懒加载字段
+        list.forEach(deploy -> {
+            if (deploy.getApp() != null) deploy.getApp().getId();
+            if (deploy.getDeploys() != null) deploy.getDeploys().size();
+        });
+
+        return deployMapper.toDto(list);
     }
 
     @Override
