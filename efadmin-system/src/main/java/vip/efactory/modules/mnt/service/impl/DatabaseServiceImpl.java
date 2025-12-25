@@ -47,7 +47,23 @@ public class DatabaseServiceImpl extends BaseServiceImpl<Database, String, Datab
     @Override
     @Cacheable
     public Object queryAll(DatabaseQueryCriteria criteria, Pageable pageable) {
-        Page<Database> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
+        Page<Database> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> {
+            // 基础条件：走注解 @Query 生成
+            var base = QueryHelp.getPredicate(root, criteria, criteriaBuilder);
+
+            // 追加 blurry 多字段模糊
+            if (criteria != null && criteria.getBlurry() != null && !criteria.getBlurry().isEmpty()) {
+                String like = "%" + criteria.getBlurry().trim() + "%";
+                // 按实体字段名补充需要参与模糊的列
+                var pName = criteriaBuilder.like(root.get("name"), like);
+                var pUrl  = criteriaBuilder.like(root.get("jdbcUrl"), like);
+
+                var blurryOr = criteriaBuilder.or(pName, pUrl);
+                return base != null ? criteriaBuilder.and(base, blurryOr) : blurryOr;
+            }
+            return base;
+        }, pageable);
+
         return new EPage(page.map(databaseMapper::toDto));
     }
 

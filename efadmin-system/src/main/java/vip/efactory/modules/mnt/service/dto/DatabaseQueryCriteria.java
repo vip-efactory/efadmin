@@ -13,7 +13,7 @@ import java.util.List;
 */
 @Data
 public class DatabaseQueryCriteria{
-
+    private String blurry;
 	/**
 	 * 模糊
 	 */
