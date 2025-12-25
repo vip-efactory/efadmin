@@ -36,7 +36,7 @@ public class DeployHistoryController extends BaseController<DeployHistory, Deplo
 
     @Log("查询部署历史")
     @Operation(summary = "查询部署历史") // 替换@ApiOperation(value = "...")
-    @GetMapping("/page")
+    @GetMapping
     @PreAuthorize("@p.check('deployHistory:list')")
     public R getDeployHistorys(DeployHistoryQueryCriteria criteria, Pageable pageable) {
         return R.ok(entityService.queryAll(criteria, pageable));
