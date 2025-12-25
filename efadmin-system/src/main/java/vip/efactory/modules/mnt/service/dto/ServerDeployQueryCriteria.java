@@ -18,7 +18,7 @@ public class ServerDeployQueryCriteria {
      * 模糊
      */
     @Query(blurry = "name,ip,account")
-    private String blurry;
+    private String id;
 
     @Query(type = Query.Type.BETWEEN)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
