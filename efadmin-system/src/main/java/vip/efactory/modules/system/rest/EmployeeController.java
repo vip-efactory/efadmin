@@ -20,7 +20,6 @@ import vip.efactory.modules.mnt.websocket.SocketMsg;
 import vip.efactory.modules.mnt.websocket.WebSocketServer;
 import vip.efactory.modules.system.domain.Employee;
 import vip.efactory.modules.system.service.EmployeeService;
-
 import java.util.Set;
 
 /**
@@ -37,14 +36,78 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
     /**
      * 分页查询
      */
-    @Override
     @Log("分页查询Employee")
     @Operation(summary = "获取分页数据", description = "默认每页25条记录,id字段降序")
     @GetMapping("/page")
     @PreAuthorize("@p.check('employee:list')")
-    public R getByPage(@PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
+    public R getByPage(@RequestParam(value = "type", required = false) String type,
+                       @RequestParam(value = "value", required = false) String value,
+                       @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page,
+                       vip.efactory.modules.system.service.dto.EmployeeQueryCriteria criteria) {
         try {
-            return super.getByPage(page);
+            // 确保 criteria 不为 null
+            if (criteria == null) {
+                criteria = new vip.efactory.modules.system.service.dto.EmployeeQueryCriteria();
+            }
+
+            // 预处理 value
+            String processedValue = (value != null ? value.trim() : null);
+            boolean hasAssigned = false;
+
+            // 将(type,value)映射到 criteria
+            if (type != null && processedValue != null && !processedValue.isEmpty()) {
+                switch (type) {
+                    case "name":    criteria.setName(processedValue); hasAssigned = true; break;
+                    case "code":    criteria.setCode(processedValue); hasAssigned = true; break;
+                    case "phone":   criteria.setPhone(processedValue); hasAssigned = true; break;
+                    case "email":   criteria.setEmail(processedValue); hasAssigned = true; break;
+                    case "address": criteria.setAddress(processedValue); hasAssigned = true; break;
+                    case "id":
+                        try { criteria.setId(Long.parseLong(processedValue)); hasAssigned = true; }
+                        catch (NumberFormatException e) { log.warn("Employee查询 id 转换失败，value:{}", processedValue, e); }
+                        break;
+                    case "status":
+                        try { criteria.setStatus(Integer.parseInt(processedValue)); hasAssigned = true; }
+                        catch (NumberFormatException e) { log.warn("Employee查询 status 转换失败，value:{}", processedValue, e); }
+                        break;
+                    case "deptId":
+                        try { criteria.setDeptId(Long.parseLong(processedValue)); hasAssigned = true; }
+                        catch (NumberFormatException e) { log.warn("Employee查询 deptId 转换失败，value:{}", processedValue, e); }
+                        break;
+                    case "jobId":
+                        try { criteria.setJobId(Long.parseLong(processedValue)); hasAssigned = true; }
+                        catch (NumberFormatException e) { log.warn("Employee查询 jobId 转换失败，value:{}", processedValue, e); }
+                        break;
+                    default:
+                        // 未识别字段 → 回退为多字段模糊
+                        criteria.setBlurry(processedValue);
+                        hasAssigned = true;
+                }
+            } else if (processedValue != null && !processedValue.isEmpty()) {
+                // 只有 value → 多字段模糊
+                criteria.setBlurry(processedValue);
+                hasAssigned = true;
+            }
+
+            // 清理空串（避免构造空条件）
+            if (criteria.getName() != null && criteria.getName().isEmpty()) criteria.setName(null);
+            if (criteria.getCode() != null && criteria.getCode().isEmpty()) criteria.setCode(null);
+            if (criteria.getPhone() != null && criteria.getPhone().isEmpty()) criteria.setPhone(null);
+            if (criteria.getEmail() != null && criteria.getEmail().isEmpty()) criteria.setEmail(null);
+            if (criteria.getAddress() != null && criteria.getAddress().isEmpty()) criteria.setAddress(null);
+            if (criteria.getRemark() != null && criteria.getRemark().isEmpty()) criteria.setRemark(null);
+            if (criteria.getCreatorNum() != null && criteria.getCreatorNum().isEmpty()) criteria.setCreatorNum(null);
+            if (criteria.getUpdaterNum() != null && criteria.getUpdaterNum().isEmpty()) criteria.setUpdaterNum(null);
+
+            // 判断是否为空条件：既没有通过(type,value)赋值，也没有 criteria 内其他字段
+            boolean criteriaEmpty = !hasAssigned && criteria.getName() == null && criteria.getCode() == null && criteria.getPhone() == null && criteria.getEmail() == null && criteria.getAddress() == null && criteria.getRemark() == null && criteria.getCreatorNum() == null && criteria.getUpdaterNum() == null && criteria.getId() == null && criteria.getStatus() == null && criteria.getDeptId() == null && criteria.getJobId() == null && (criteria.getBlurry() == null || criteria.getBlurry().isEmpty()) && (criteria.getCreateTime() == null || criteria.getCreateTime() == null);
+            if (criteriaEmpty) {
+                // 完全无条件：回退到通用分页，保证返回结构与原来一致，页面显示不出错
+                return super.getByPage(page);
+            }
+
+            // 有条件：走条件查询，返回结构仍然是分页包装
+            return R.ok(entityService.queryAll(criteria, page));
         } catch (Exception e) {
             log.error("分页查询Employee失败", e);
             return R.error("分页查询失败：" + e.getMessage());

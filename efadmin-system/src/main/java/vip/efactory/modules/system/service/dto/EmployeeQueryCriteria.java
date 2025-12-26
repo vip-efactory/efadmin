@@ -14,7 +14,10 @@ import java.time.LocalDateTime;
 @Data
 public class EmployeeQueryCriteria {
 
-    // 精确
+    // 多字段模糊（默认搜这些字段）
+    @Query(blurry = "name,code,phone,email,address")
+    private String blurry;
+
     @Query
     private Long id;
 
