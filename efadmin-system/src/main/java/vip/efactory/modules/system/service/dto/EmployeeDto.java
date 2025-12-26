@@ -52,6 +52,12 @@ public class EmployeeDto implements Serializable {
     // 职位id
     private Long jobId;
 
+    // 部门名称
+    private String deptName;
+
+    // 职位名称
+    private String jobName;
+
     // 备注
     private String remark;
 
@@ -68,4 +74,30 @@ public class EmployeeDto implements Serializable {
 
     // 更新人
     private String updaterNum;
+
+    // 最小内部类，用于序列化 dept/job 嵌套对象
+    public static class SimplePair implements Serializable {
+        private final Long id;
+        private final String name;
+        public SimplePair(Long id, String name) { this.id = id; this.name = name; }
+        public Long getId() { return id; }
+        public String getName() { return name; }
+    }
+
+    // 计算属性：序列化为嵌套的 dept 对象
+    public SimplePair getDept() {
+        // 若两者都为空则不输出嵌套对象
+        if (this.deptId == null && (this.deptName == null || this.deptName.isEmpty())) {
+            return null;
+        }
+        return new SimplePair(this.deptId, this.deptName);
+    }
+
+    // 计算属性：序列化为嵌套的 job 对象
+    public SimplePair getJob() {
+        if (this.jobId == null && (this.jobName == null || this.jobName.isEmpty())) {
+            return null;
+        }
+        return new SimplePair(this.jobId, this.jobName);
+    }
 }
