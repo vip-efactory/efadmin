@@ -65,4 +65,11 @@ public class DeployHistoryController extends BaseController<DeployHistory, Deplo
         entityService.delete(ids);
         return R.ok();
     }
+
+    @GetMapping("/page")
+    @PreAuthorize("@p.check('deployHistory:list')")
+    public R pageByGet(DeployHistoryQueryCriteria criteria,
+                       @PageableDefault(value = 25, sort = {"id"}, direction = Sort.Direction.DESC) Pageable page) {
+        return R.ok(entityService.queryAll(criteria, page));
+    }
 }
