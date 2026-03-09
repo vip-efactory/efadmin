@@ -26,6 +26,22 @@ spring:
       min-idle: 5
       max-active: 20
       max-wait: 60000
+
+      # ========== Druid 监控页面配置 ==========
+      stat-view-servlet:
+        enabled: true  # 开启 Druid 监控页面
+        url-pattern: /druid/*  # Druid 监控页面的访问路径
+        login-username: root  # Druid 登录用户名（前端要和这个一致）
+        login-password: 123456  # Druid 登录密码（前端要和这个一致）
+        allow: 127.0.0.1,localhost  # 允许访问的 IP（前端 8014 端口属于 localhost，允许）
+        deny:  # 禁止访问的 IP（空表示无）
+        reset-enable: false  # 关闭重置功能（安全）
+      # ========== Druid 监控过滤配置 ==========
+      web-stat-filter:
+        enabled: true  # 开启 Web 监控过滤
+        url-pattern: /*  # 监控所有请求
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"  # 排除静态资源和 Druid 自身路径
+
   jpa:
     hibernate:
       ddl-auto: none  # 核心修正：关闭表结构校验（替代原validate）
