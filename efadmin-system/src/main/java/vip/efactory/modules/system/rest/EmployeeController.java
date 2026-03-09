@@ -20,6 +20,7 @@ import vip.efactory.modules.mnt.websocket.SocketMsg;
 import vip.efactory.modules.mnt.websocket.WebSocketServer;
 import vip.efactory.modules.system.domain.Employee;
 import vip.efactory.modules.system.service.EmployeeService;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -209,7 +210,14 @@ public class EmployeeController extends BaseController<Employee, EmployeeService
         } catch (EntityExistException e) {
             log.error("修改Employee失败, 重复数据:{}", e.getMessage());
             return R.error("修改失败：" + e.getMessage());
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
+            Throwable rc = org.springframework.core.NestedExceptionUtils.getRootCause(e);
+            if (rc instanceof jakarta.validation.ConstraintViolationException cvEx) {
+                String msg = cvEx.getConstraintViolations().stream().map(v->v.getMessage()).findFirst().orElse("生日属性值只允许为过去的日期时间");
+                log.error("修改Employee失败, ID:{}, 原因：{}", entity.getId(), msg);
+                return R.error(1020400, "属性检查未通过").setData(Map.of("birthday", msg));
+            }
             log.error("修改Employee失败, ID:{}", entity.getId(), e);
             return R.error("修改失败：" + e.getMessage());
         }
