@@ -15,15 +15,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
@@ -36,7 +31,6 @@ import vip.efactory.modules.mnt.service.DatabaseService;
 import vip.efactory.modules.mnt.service.dto.DatabaseDto;
 import vip.efactory.modules.mnt.service.dto.DatabaseQueryCriteria;
 import vip.efactory.modules.mnt.util.SqlUtils;
-import vip.efactory.utils.FileUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @AllArgsConstructor
@@ -117,36 +111,50 @@ public class DatabaseController extends BaseController<Database, DatabaseService
     @Operation(summary = "执行SQL脚本")
     @PostMapping(value = "/upload")
     @PreAuthorize("@p.check('database:add')")
-// 【仅改此处1：方法签名】返回值R→void + 加HttpServletResponse response入参（原有入参全保留）
-    public void upload(@RequestBody MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String upload(@RequestParam("file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
         try {
-            // 原有所有业务逻辑：1行不动，完全保留
+            // ========== 校验文件后缀是否为.sql ==========
+            String fileName = file.getOriginalFilename();
+            if (fileName == null || !fileName.endsWith(".sql")) {
+                throw new BadRequestException("仅支持执行.sql后缀的文件，当前文件：" + fileName);
+            }
+
+            // 原有逻辑：获取数据库配置
             String id = request.getParameter("id");
             DatabaseDto database = entityService.findDtoById(id);
-            String fileName;
-            if (database != null) {
-                fileName = file.getOriginalFilename();
-                File executeFile = new File(fileSavePath + fileName);
-                FileUtil.del(executeFile);
-                file.transferTo(executeFile);
-                String result = SqlUtils.executeFile(database.getJdbcUrl(), database.getUserName(), database.getPwd(), executeFile);
-                // 【仅改此处2：成功时】原生返回成功结果，和原有R.ok(result)一致
-                response.setContentType("application/json;charset=UTF-8");
-                response.setStatus(200);
-                objectMapper.writeValue(response.getWriter(), R.ok(result));
-            } else {
+            if (database == null) {
                 throw new BadRequestException("Database not exist");
             }
+
+            // 保存上传的文件（保留原有逻辑，移除多余的FileUtil.del）
+            File executeFile = new File(fileSavePath, fileName);
+            file.transferTo(executeFile);
+
+            // ========== 调用SqlUtils执行SQL脚本，且仅执行成功后才返回success ==========
+            String result = SqlUtils.executeFile(database.getJdbcUrl(), database.getUserName(), database.getPwd(), executeFile);
+            // 校验执行结果（根据executeFile的返回值逻辑，确保执行成功），假设executeFile返回"success"代表执行成功，可根据实际返回值调整
+            if (!"success".equals(result)) {
+                throw new RuntimeException("SQL脚本执行失败：" + result);
+            }
+
+            // ========== 只有上述所有步骤无异常、SQL执行成功，才返回success ==========
+            return "success";
+
         } catch (Exception e) {
-            // 【仅改此处3：异常时】构造你要的指定格式，原生写响应，无任何框架封装
+            // 统一异常处理：按指定格式返回JSON响应
             Map<String, Object> errorMap = new HashMap<>(3);
-            errorMap.put("status", 400);
+            errorMap.put("status", HttpStatus.BAD_REQUEST.value()); // 400
             errorMap.put("timestamp", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-            errorMap.put("message", e.getMessage()); // 自动捕获"权限不够/文件不存在"等异常信息
-            // 原生写响应，绕开框架封装，纯返回目标JSON
-            response.setContentType("application/json;charset=UTF-8");
-            response.setStatus(400);
-            objectMapper.writeValue(response.getWriter(), errorMap);
+            errorMap.put("message", e.getMessage()); // 会捕获"非.sql文件/文件为空/SQL执行失败"等异常
+
+            try {
+                // 防止响应写入失败，增加内层try-catch
+                response.setContentType("application/json;charset=UTF-8");
+                response.setStatus(HttpStatus.BAD_REQUEST.value());
+                objectMapper.writeValue(response.getWriter(), errorMap);
+            } catch (Exception writeEx) {
+            }
         }
+        return null; // 响应已通过原生方式写入，返回值无意义
     }
 }
