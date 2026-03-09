@@ -30,6 +30,10 @@ import vip.efactory.domain.QiniuContent;
 import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.service.QiNiuService;
 import vip.efactory.service.dto.QiniuQueryCriteria;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * 发送邮件
@@ -40,6 +44,9 @@ import vip.efactory.service.dto.QiniuQueryCriteria;
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class QiniuController extends BaseController<QiniuConfig, QiNiuService, Long> {
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @GetMapping(value = "/config")
     public R get() {
         return R.ok(entityService.find());
@@ -48,10 +55,31 @@ public class QiniuController extends BaseController<QiniuConfig, QiNiuService, L
     @Log("配置七牛云存储")
     @ApiOperation("配置七牛云存储")
     @PutMapping(value = "/config")
-    public R emailConfig(@Validated @RequestBody QiniuConfig qiniuConfig) {
-        entityService.update(qiniuConfig);
-        entityService.update(qiniuConfig.getType());
-        return R.ok();
+// 【仅改此处1：方法签名】返回值R→void + 加HttpServletResponse response入参
+    public void emailConfig(@Validated @RequestBody QiniuConfig qiniuConfig, HttpServletResponse response) {
+        try {
+            // 原有所有业务逻辑：1行不动，完全保留
+            entityService.update(qiniuConfig);
+            entityService.update(qiniuConfig.getType());
+            // 【仅改此处2：成功时】原生返回原有R.ok()格式，和之前一致
+            response.setContentType("application/json;charset=UTF-8");
+            response.setStatus(200);
+            objectMapper.writeValue(response.getWriter(), R.ok());
+        } catch (Exception e) {
+            // 【仅改此处3：异常时】构造你要的指定格式，原生写响应
+            Map<String, Object> errorMap = new HashMap<>(3);
+            errorMap.put("status", 400);
+            errorMap.put("timestamp", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            errorMap.put("message", e.getMessage() != null ? e.getMessage() : "外链域名必须以http://或者https://开头"); // 固定返回你要的提示
+            // 原生写响应，绕开框架封装，纯返回目标JSON
+            try {
+                response.setContentType("application/json;charset=UTF-8");
+                response.setStatus(400);
+                objectMapper.writeValue(response.getWriter(), errorMap);
+            } catch (Exception ex) {
+                ex.printStackTrace(); // 兜底日志，不影响核心逻辑
+            }
+        }
     }
 
     @Log("导出数据")
@@ -97,9 +125,30 @@ public class QiniuController extends BaseController<QiniuConfig, QiNiuService, L
     @Log("同步七牛云数据")
     @ApiOperation("同步七牛云数据")
     @PostMapping(value = "/synchronize")
-    public R synchronize() {
-        entityService.synchronize(entityService.find());
-        return R.ok();
+// 【仅改此处1：方法签名】返回值R→void + 加HttpServletResponse response入参
+    public void synchronize(HttpServletResponse response) {
+        try {
+            // 原有所有业务逻辑：1行不动，完全保留
+            entityService.synchronize(entityService.find());
+            // 【仅改此处2：成功时】原生返回原有R.ok()格式，和之前一致
+            response.setContentType("application/json;charset=UTF-8");
+            response.setStatus(200);
+            objectMapper.writeValue(response.getWriter(), R.ok());
+        } catch (Exception e) {
+            // 【仅改此处3：异常时】构造你要的指定格式，原生写响应
+            Map<String, Object> errorMap = new HashMap<>(3);
+            errorMap.put("status", 400);
+            errorMap.put("timestamp", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            errorMap.put("message", e.getMessage() != null ? e.getMessage() : "请先添加相应配置，再操作"); // 兼容自定义提示
+            // 原生写响应，绕开框架封装，纯返回目标JSON
+            try {
+                response.setContentType("application/json;charset=UTF-8");
+                response.setStatus(400);
+                objectMapper.writeValue(response.getWriter(), errorMap);
+            } catch (Exception ex) {
+                ex.printStackTrace(); // 兜底日志，不影响核心逻辑
+            }
+        }
     }
 
     @Log("下载文件")
