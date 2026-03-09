@@ -1,9 +1,9 @@
 package vip.efactory.modules.system.rest;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 import jakarta.servlet.http.HttpServletResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,6 +25,7 @@ import vip.efactory.common.base.valid.Update;
 import vip.efactory.ejpa.base.controller.BaseController;
 
 import vip.efactory.exception.BadRequestException;
+import vip.efactory.exception.EntityExistException;
 import vip.efactory.modules.system.domain.Menu;
 import vip.efactory.modules.system.service.MenuService;
 import vip.efactory.modules.system.service.RoleService;
@@ -33,6 +34,7 @@ import vip.efactory.modules.system.service.dto.MenuDto;
 import vip.efactory.modules.system.service.dto.MenuQueryCriteria;
 import vip.efactory.modules.system.service.dto.UserDto;
 import vip.efactory.utils.SecurityUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @AllArgsConstructor
 @Tag(name = "系统：菜单管理") // 替换@Api为@Tag
@@ -44,6 +46,7 @@ public class MenuController extends BaseController<Menu, MenuService, Long> {
 
     private final UserService userService;
     private final RoleService roleService;
+    private final ObjectMapper objectMapper;
 
     @Log("导出菜单数据")
     @Operation(summary = "导出菜单数据") // 替换@ApiOperation
@@ -95,23 +98,49 @@ public class MenuController extends BaseController<Menu, MenuService, Long> {
     }
 
     @Log("新增菜单")
-    @Operation(summary = "新增菜单") // 替换@ApiOperation
+    @Operation(summary = "新增菜单")
     @PostMapping
     @PreAuthorize("@p.check('menu:add')")
-    public R create(@Validated @RequestBody Menu resources) {
+    public void create(@Validated @RequestBody Menu resources, HttpServletResponse response) throws IOException {
         if (resources.getId() != null) {
             throw new BadRequestException("A new " + ENTITY_NAME + " cannot already have an ID");
         }
-        return R.ok(entityService.create(resources));
+        try {
+            entityService.create(resources);
+            response.setStatus(200);
+        } catch (BadRequestException | EntityExistException e) {
+            Map<String, Object> errorMap = new HashMap<>(3);
+            errorMap.put("status", 400);
+            errorMap.put("timestamp", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            errorMap.put("message", e.getMessage());
+            response.setContentType("application/json;charset=UTF-8");
+            response.setStatus(400);
+            objectMapper.writeValue(response.getWriter(), errorMap);
+        }
     }
 
     @Log("修改菜单")
-    @Operation(summary = "修改菜单") // 替换@ApiOperation
+    @Operation(summary = "修改菜单")
     @PutMapping
     @PreAuthorize("@p.check('menu:edit')")
-    public R update(@Validated(Update.class) @RequestBody Menu resources) {
-        entityService.update2(resources);
-        return R.ok();
+// 用上面改后的方法签名
+    public void update(@Validated(Update.class) @RequestBody Menu resources, HttpServletResponse response) throws IOException {
+        try {
+            entityService.update2(resources);
+            // 成功时仅做这1行：设置200状态码，无任何返回内容（极简）
+            response.setStatus(200);
+        } catch (BadRequestException | EntityExistException e) {
+            // 你原有的errorMap构造逻辑：1行不动，完全保留
+            Map<String, Object> errorMap = new HashMap<>(3);
+            errorMap.put("status", 400);
+            errorMap.put("timestamp", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            errorMap.put("message", e.getMessage());
+
+            // 仅加这3行：原生写响应，绕开框架封装（无任何多余代码）
+            response.setContentType("application/json;charset=UTF-8");
+            response.setStatus(400);
+            objectMapper.writeValue(response.getWriter(), errorMap);
+        }
     }
 
     @Log("删除菜单")
