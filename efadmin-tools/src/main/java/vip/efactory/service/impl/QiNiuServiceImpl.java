@@ -10,6 +10,7 @@ import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.storage.model.FileInfo;
 import com.qiniu.util.Auth;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -68,15 +69,30 @@ public class QiNiuServiceImpl extends BaseServiceImpl<QiniuConfig, Long, QiNiuCo
     }
 
     @Override
+// 先清空缓存，避免缓存旧数据
+    @CacheEvict(cacheNames = "qiNiuConfig", key = "'1'")
     @CachePut(cacheNames = "qiNiuConfig", key = "'1'")
     @Transactional(rollbackFor = Exception.class)
     public QiniuConfig update(QiniuConfig qiniuConfig) {
+        // 原有host校验逻辑：保留不动
         String http = "http://", https = "https://";
         if (!(qiniuConfig.getHost().toLowerCase().startsWith(http)||qiniuConfig.getHost().toLowerCase().startsWith(https))) {
             throw new BadRequestException("外链域名必须以http://或者https://开头");
         }
-        qiniuConfig.setId(1L);
-        return br.save(qiniuConfig);
+
+        // ========== 核心改动：适配自增id，去掉手动设id ==========
+        // 1. 查询表中是否有七牛配置记录（因为是单条配置，查所有取第一条）
+        List<QiniuConfig> configList = br.findAll();
+        QiniuConfig existingConfig = configList.isEmpty() ? null : configList.get(0);
+
+        if (existingConfig != null) {
+            // 有旧记录：复制新属性（排除id，让id保持自增的原值）
+            BeanUtils.copyProperties(qiniuConfig, existingConfig, "id");
+            return br.saveAndFlush(existingConfig); // 更新旧记录
+        } else {
+            // 无旧记录：新增（不手动设id，让数据库自增生成）
+            return br.saveAndFlush(qiniuConfig);
+        }
     }
 
     @Override
@@ -111,7 +127,7 @@ public class QiNiuServiceImpl extends BaseServiceImpl<QiniuConfig, Long, QiNiuCo
             qiniuContent.setSize(FileUtil.getSize(Integer.parseInt(file.getSize()+"")));
             return qiniuContentRepository.save(qiniuContent);
         } catch (Exception e) {
-           throw new BadRequestException(e.getMessage());
+            throw new BadRequestException(e.getMessage());
         }
     }
 
