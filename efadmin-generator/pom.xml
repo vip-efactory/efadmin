@@ -19,7 +19,7 @@
 
         <!-- 引入ejpa模块 -->
         <dependency>
-            <groupId>vip.efactory</groupId>
+            <groupId>io.github.zliyuhub</groupId>
             <artifactId>ejpa-spring-boot-starter</artifactId>
             <version>${ejpa.starter.version}</version>
             <type>pom</type>

@@ -50,7 +50,7 @@
     <dependencies>
         <!-- 引入自己分装的ejpa模块 -->
         <dependency>
-            <groupId>vip.efactory</groupId>
+            <groupId>io.github.zliyuhub</groupId>
             <artifactId>ejpa-spring-boot-starter</artifactId>
             <version>${ejpa.starter.version}</version>
             <type>pom</type>
@@ -86,7 +86,7 @@
 
         <!-- 引入国际化的依赖 -->
         <dependency>
-            <groupId>vip.efactory</groupId>
+            <groupId>io.github.zliyuhub</groupId>
             <artifactId>common-i18n</artifactId>
             <version>1.3.1</version>
         </dependency>
@@ -236,7 +236,7 @@
         <dependencies>
             <!-- 引入自己分装的ejpa模块 -->
             <dependency>
-                <groupId>vip.efactory</groupId>
+                <groupId>io.github.zliyuhub</groupId>
                 <artifactId>ejpa-spring-boot-starter</artifactId>
                 <version>${ejpa.starter.version}</version>
                 <type>pom</type>
