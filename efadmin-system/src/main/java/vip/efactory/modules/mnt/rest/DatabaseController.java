@@ -2,6 +2,10 @@ package vip.efactory.modules.mnt.rest;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,6 +37,7 @@ import vip.efactory.modules.mnt.service.dto.DatabaseDto;
 import vip.efactory.modules.mnt.service.dto.DatabaseQueryCriteria;
 import vip.efactory.modules.mnt.util.SqlUtils;
 import vip.efactory.utils.FileUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @AllArgsConstructor
 @Tag(name = "数据库管理") // 替换@Api为@Tag
@@ -41,6 +46,7 @@ import vip.efactory.utils.FileUtil;
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class DatabaseController extends BaseController<Database, DatabaseService, String> {
     private static String fileSavePath = System.getProperty("java.io.tmpdir");
+    private final ObjectMapper objectMapper;
 
     @Log("导出数据库数据")
     @Operation(summary = "导出数据库数据") // 替换@ApiOperation
@@ -108,22 +114,39 @@ public class DatabaseController extends BaseController<Database, DatabaseService
     }
 
     @Log("执行SQL脚本")
-    @Operation(summary = "执行SQL脚本") // 替换@ApiOperation(value = "...")
+    @Operation(summary = "执行SQL脚本")
     @PostMapping(value = "/upload")
     @PreAuthorize("@p.check('database:add')")
-    public R upload(@RequestBody MultipartFile file, HttpServletRequest request) throws Exception {
-        String id = request.getParameter("id");
-        DatabaseDto database = entityService.findDtoById(id);
-        String fileName;
-        if (database != null) {
-            fileName = file.getOriginalFilename();
-            File executeFile = new File(fileSavePath + fileName);
-            FileUtil.del(executeFile);
-            file.transferTo(executeFile);
-            String result = SqlUtils.executeFile(database.getJdbcUrl(), database.getUserName(), database.getPwd(), executeFile);
-            return R.ok(result);
-        } else {
-            throw new BadRequestException("Database not exist");
+// 【仅改此处1：方法签名】返回值R→void + 加HttpServletResponse response入参（原有入参全保留）
+    public void upload(@RequestBody MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        try {
+            // 原有所有业务逻辑：1行不动，完全保留
+            String id = request.getParameter("id");
+            DatabaseDto database = entityService.findDtoById(id);
+            String fileName;
+            if (database != null) {
+                fileName = file.getOriginalFilename();
+                File executeFile = new File(fileSavePath + fileName);
+                FileUtil.del(executeFile);
+                file.transferTo(executeFile);
+                String result = SqlUtils.executeFile(database.getJdbcUrl(), database.getUserName(), database.getPwd(), executeFile);
+                // 【仅改此处2：成功时】原生返回成功结果，和原有R.ok(result)一致
+                response.setContentType("application/json;charset=UTF-8");
+                response.setStatus(200);
+                objectMapper.writeValue(response.getWriter(), R.ok(result));
+            } else {
+                throw new BadRequestException("Database not exist");
+            }
+        } catch (Exception e) {
+            // 【仅改此处3：异常时】构造你要的指定格式，原生写响应，无任何框架封装
+            Map<String, Object> errorMap = new HashMap<>(3);
+            errorMap.put("status", 400);
+            errorMap.put("timestamp", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            errorMap.put("message", e.getMessage()); // 自动捕获"权限不够/文件不存在"等异常信息
+            // 原生写响应，绕开框架封装，纯返回目标JSON
+            response.setContentType("application/json;charset=UTF-8");
+            response.setStatus(400);
+            objectMapper.writeValue(response.getWriter(), errorMap);
         }
     }
 }
