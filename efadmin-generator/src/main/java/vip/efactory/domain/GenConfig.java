@@ -33,11 +33,9 @@ public class GenConfig extends BaseEntity<Long> {
     private Long id;
 
     @NotBlank
-    @Column(length = 100)
     private String tableName;
 
     /** 接口名称 **/
-    @Column(name = "api_alias", length = 100)
     private String apiAlias;
 
     /**

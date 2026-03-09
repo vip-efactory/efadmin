@@ -23,7 +23,7 @@ public class Visits extends BaseEntity<Long> {
     @NotNull(message = "id {property.not.allow.empty}", groups = Update.class)  // 意味着，updateById更新时id不允许为空
     private Long id;
 
-    @Column(length = 50, unique = true)
+    @Column(unique = true)
     private String date;
 
     @Column(name = "pv_counts")

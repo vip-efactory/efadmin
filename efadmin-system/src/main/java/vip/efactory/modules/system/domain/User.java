@@ -30,7 +30,7 @@ public class User extends BaseEntity<Long> implements Serializable {
     private Long id;
 
     @NotBlank
-    @Column(length = 100, unique = true)
+    @Column(unique = true)
     private String username;
 
     /** 用户昵称 */
@@ -42,7 +42,6 @@ public class User extends BaseEntity<Long> implements Serializable {
      */
 //    @NotBlank
 //    @Column(unique = true)
-    @Column(length = 100, unique = true)
     private String usercode;
 
     /** 性别 */
@@ -54,7 +53,6 @@ public class User extends BaseEntity<Long> implements Serializable {
 
     @NotBlank
     @Email
-    @Column(length = 100, unique = true)
     private String email;
 
     @NotBlank
