@@ -106,7 +106,8 @@ public class TenantController extends BaseController<Tenant, ITenantService, Lon
     @Operation(summary = "保存记录", description = "保存来自json格式对象") // 替换@ApiOperation
     @PreAuthorize("@p.check('tenant:add')")
     public R save(@Parameter(name = "entity", description = "Json格式", required = true) @RequestBody Tenant entity) {
-        return super.save(entity);
+        entityService.save(entity);
+        return R.ok();
     }
 
     /**
@@ -121,7 +122,8 @@ public class TenantController extends BaseController<Tenant, ITenantService, Lon
     @Operation(summary = "依据id来更新对应的记录", description = "依据id来更新对应的记录,属性值为空则不更新数据表中已有的数据") // 替换@ApiOperation
     @PreAuthorize("@p.check('tenant:edit')")
     public R updateById(@Parameter(name = "entity", description = "Json格式", required = true) @RequestBody Tenant entity) {
-        return super.updateById(entity);
+        entityService.update(entity);
+        return R.ok();
     }
 
     /**
