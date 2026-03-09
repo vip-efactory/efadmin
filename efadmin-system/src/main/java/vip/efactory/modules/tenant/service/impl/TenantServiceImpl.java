@@ -49,12 +49,12 @@ public class TenantServiceImpl extends BaseServiceImpl<Tenant, Long, TenantRepos
         Page<Tenant> page = br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
         return page.map(tenantMapper::toDto);
     }
-//
-//    @Override
-//    //@Cacheable
-//    public List<TenantDto> queryAll(TenantQueryCriteria criteria){
-//        return tenantMapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
-//    }
+
+    @Override
+    //@Cacheable
+    public List<TenantDto> queryAll(TenantQueryCriteria criteria){
+        return tenantMapper.toDto(br.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+    }
 //
 //    @Override
 //    //@Cacheable(key = "#p0")
@@ -166,7 +166,7 @@ public class TenantServiceImpl extends BaseServiceImpl<Tenant, Long, TenantRepos
             map.put("DB密码", tenant.getDbPassword());
             map.put("驱动类名", tenant.getDriverClassName());
             map.put("JDBC链接", tenant.getJdbcUrl());
-            map.put("租户状态,-1禁用；0正常等", tenant.getStatus());
+            map.put("租户状态,0禁用；1启用", tenant.getStatus());
             map.put("备注", tenant.getRemark());
             map.put("创建时间", tenant.getCreateTime().toString());
             map.put("创建人", tenant.getCreatorNum());

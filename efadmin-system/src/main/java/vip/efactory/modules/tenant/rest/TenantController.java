@@ -1,5 +1,6 @@
 package vip.efactory.modules.tenant.rest;
 
+import jakarta.servlet.http.HttpServletResponse;
 import vip.efactory.aop.log.Log;
 import vip.efactory.common.base.page.EPage;
 import vip.efactory.common.base.utils.R;
@@ -17,6 +18,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 
+import java.io.IOException;
+
 /**
  * 系统租户 控制器层
  * @author vip-efactory
@@ -27,6 +30,15 @@ import io.swagger.v3.oas.annotations.Parameter;
 @RequestMapping("api/tenant")
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class TenantController extends BaseController<Tenant, ITenantService, Long> {
+
+    @Log("导出租户数据")
+    @Operation(summary = "导出租户数据")
+    @GetMapping(value = "/download")
+    @PreAuthorize("@p.check('tenant:list')")
+    public void download(HttpServletResponse response, TenantQueryCriteria criteria) throws IOException {
+        // 调用服务层方法，查询所有符合条件的租户数据并导出
+        entityService.download(entityService.queryAll(criteria), response);
+    }
 
     /**
      * Description: 默认的分页与排序,默认id降序
