@@ -38,6 +38,9 @@ import vip.efactory.modules.mnt.service.dto.DeployQueryCriteria;
 import vip.efactory.utils.FileUtil;
 
 import static cn.hutool.core.io.FileUtil.del;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author dusuanyun
@@ -50,6 +53,7 @@ import static cn.hutool.core.io.FileUtil.del;
 @Slf4j
 public class DeployController extends BaseController<Deploy, DeployService, Long> {
     private static String fileSavePath = System.getProperty("java.io.tmpdir");
+    private final ObjectMapper objectMapper;
 
     @Log("导出部署数据")
     @Operation(summary = "导出部署数据") // 替换@ApiOperation
@@ -109,27 +113,44 @@ public class DeployController extends BaseController<Deploy, DeployService, Long
     }
 
     @Log("上传文件部署")
-    @Operation(summary = "上传文件部署") // 替换@ApiOperation(value = "...")
+    @Operation(summary = "上传文件部署")
     @PostMapping(value = "/upload")
     @PreAuthorize("@p.check('deploy:edit')")
-    public R upload(@RequestBody MultipartFile file, HttpServletRequest request) throws Exception {
-        Long id = Long.valueOf(request.getParameter("id"));
-        String fileName = "";
-        if (file != null) {
-            fileName = file.getOriginalFilename();
-            File deployFile = new File(fileSavePath + fileName);
-            del(deployFile);
-            file.transferTo(deployFile);
-            //文件下一步要根据文件名字来
-            entityService.deploy(fileSavePath + fileName, id);
-        } else {
-            log.warn("没有找到相对应的文件");
+// 【仅改此处1：方法签名】返回值R→void + 加HttpServletResponse response入参（原有入参全保留）
+    public void upload(@RequestBody MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        try {
+            // 原有所有业务逻辑：1行不动，完全保留
+            Long id = Long.valueOf(request.getParameter("id"));
+            String fileName = "";
+            if (file != null) {
+                fileName = file.getOriginalFilename();
+                File deployFile = new File(fileSavePath + fileName);
+                del(deployFile);
+                file.transferTo(deployFile);
+                //文件下一步要根据文件名字来
+                entityService.deploy(fileSavePath + fileName, id);
+            } else {
+                log.warn("没有找到相对应的文件");
+            }
+            log.info("文件上传的原名称为:" + Objects.requireNonNull(file).getOriginalFilename());
+            Map<String, Object> map = new HashMap<>(2);
+            map.put("errno", 0);
+            map.put("id", fileName);
+            // 【仅改此处2：成功时】原生返回原有R.ok(map)格式，和之前一致
+            response.setContentType("application/json;charset=UTF-8");
+            response.setStatus(200);
+            objectMapper.writeValue(response.getWriter(), R.ok(map));
+        } catch (Exception e) {
+            // 【仅改此处3：异常时】构造你要的指定格式，原生写响应，无任何框架封装
+            Map<String, Object> errorMap = new HashMap<>(3);
+            errorMap.put("status", 400);
+            errorMap.put("timestamp", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            errorMap.put("message", e.getMessage()); // 自动捕获"权限不够/文件不存在"等异常信息
+            // 原生写响应，绕开框架封装，纯返回目标JSON
+            response.setContentType("application/json;charset=UTF-8");
+            response.setStatus(400);
+            objectMapper.writeValue(response.getWriter(), errorMap);
         }
-        log.info("文件上传的原名称为:" + Objects.requireNonNull(file).getOriginalFilename());
-        Map<String, Object> map = new HashMap<>(2);
-        map.put("errno", 0);
-        map.put("id", fileName);
-        return R.ok(map);
     }
 
     @Log("系统还原")
