@@ -1,5 +1,6 @@
 package vip.efactory.rest;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import vip.efactory.service.EmailService;
 /**
  * 发送邮件
  */
+@Slf4j
 @RestController
 @RequestMapping("api/email")
 @Api(tags = "工具：邮件管理")
@@ -42,8 +44,13 @@ public class EmailController extends BaseController<EmailConfig, EmailService, L
     @Log("发送邮件")
     @PostMapping
     @ApiOperation("发送邮件")
-    public R send(@Validated @RequestBody EmailVo emailVo) throws Exception {
-        entityService.send(emailVo,entityService.find());
-        return R.ok();
+    public R send(@Validated @RequestBody EmailVo emailVo) {
+        try {
+            entityService.send(emailVo, entityService.find());
+            return R.ok("邮件发送成功，请查收");
+        } catch (Exception e) {
+            log.error("邮件发送失败，收件人：{}", emailVo.getTos(), e);
+            return R.error(e.getMessage()); // 友好返回错误信息
+        }
     }
 }
