@@ -26,12 +26,21 @@ import vip.efactory.ejpa.base.controller.BaseController;
 import vip.efactory.service.PictureService;
 import vip.efactory.service.dto.PictureQueryCriteria;
 import vip.efactory.utils.SecurityUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/pictures")
 @Api(tags = "工具：免费图床管理")
 @SuppressWarnings("rawtypes")   // 压制原生类型的警告
 public class PictureController extends BaseController<Picture, PictureService, Long> {
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Log("查询图片")
     @PreAuthorize("@p.check('pictures:list')")
@@ -68,10 +77,32 @@ public class PictureController extends BaseController<Picture, PictureService, L
     @PreAuthorize("@p.check('pictures:add')")
     @PostMapping
     @ApiOperation("上传图片")
-    public R upload(@RequestParam MultipartFile file){
-        String userName = SecurityUtils.getUsername();
-        Picture picture = entityService.upload(file,userName);
-        return R.ok(picture);
+// 【仅改此处1：方法签名】返回值R→void + 加HttpServletResponse response入参（原有入参全保留）
+    public void upload(@RequestParam MultipartFile file, HttpServletResponse response) {
+        try {
+            // 原有所有业务逻辑：1行不动，完全保留
+            String userName = SecurityUtils.getUsername();
+            Picture picture = entityService.upload(file, userName);
+            // 【仅改此处2：成功时】原生返回原有R.ok(picture)格式，和之前一致
+            response.setContentType("application/json;charset=UTF-8");
+            response.setStatus(200);
+            objectMapper.writeValue(response.getWriter(), R.ok(picture));
+        } catch (Exception e) {
+            // 【仅改此处3：异常时】构造你要的指定格式，原生写响应，无任何框架封装
+            Map<String, Object> errorMap = new HashMap<>(3);
+            errorMap.put("status", 400);
+            errorMap.put("timestamp", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            errorMap.put("message", e.getMessage()); // 自动捕获"格式错误/上传失败"等异常信息
+            // 原生写响应，绕开框架封装，纯返回目标JSON
+            try {
+                response.setContentType("application/json;charset=UTF-8");
+                response.setStatus(400);
+                objectMapper.writeValue(response.getWriter(), errorMap);
+            } catch (Exception ex) {
+                // 兜底日志，不影响核心逻辑
+                ex.printStackTrace();
+            }
+        }
     }
 
     @Log("同步图床数据")
